@@ -5,13 +5,13 @@ import json
 import smtplib
 import requests
 import urllib3
+import httpx
 import xml.etree.ElementTree as ET
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -20,8 +20,10 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 load_dotenv()
 
+from supabase import create_client, Client, ClientOptions
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 
 is_supabase_configurado = (
     SUPABASE_URL and SUPABASE_KEY and
@@ -32,7 +34,8 @@ is_supabase_configurado = (
 supabase: Client = None
 if is_supabase_configurado:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        options = ClientOptions(httpx_client=httpx.Client(verify=False))
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
@@ -56,7 +59,6 @@ FEEDS_RSS = [
 ]
 
 def criar_sessao_http() -> requests.Session:
-    """Cria uma sessão HTTP com suporte a retentativas automáticas."""
     session = requests.Session()
     retries = Retry(total=3, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
     adapter = HTTPAdapter(max_retries=retries)
@@ -65,7 +67,6 @@ def criar_sessao_http() -> requests.Session:
     return session
 
 def sanitizar_json_llm(raw_text: str) -> dict:
-    """Extrai e sanitiza JSON retornado pelo modelo de linguagem (LLM), mesmo que envolvido por markdown."""
     if not raw_text:
         return {}
     cleaned = raw_text.strip()
@@ -84,7 +85,6 @@ def sanitizar_json_llm(raw_text: str) -> dict:
         return {}
 
 def extrair_noticias_rss(feed_info: dict) -> list:
-    """Extrai com segurança as notícias de um feed RSS, tratando erros de XML ou HTTP."""
     noticias = []
     url = feed_info["url"]
     portal_nome = feed_info["portal"]
@@ -112,14 +112,13 @@ def extrair_noticias_rss(feed_info: dict) -> list:
                     "portal": portal_nome
                 })
     except ET.ParseError:
-        print(f"[AVISO] O feed '{portal_nome}' não retornou XML válido (possível bloqueio/HTML).")
+        print(f"[AVISO] O feed '{portal_nome}' não retornou XML válido.")
     except Exception as e:
         print(f"[ERRO] Falha ao ler o feed '{portal_nome}': {e}")
         
     return noticias
 
 def analisar_noticia_com_openrouter(titulo: str, descricao: str) -> dict:
-    """Envia a notícia para a API do OpenRouter para classificação de sentimento e geração de resumo de crise."""
     if not OPENROUTER_API_KEY or OPENROUTER_API_KEY == "your-openrouter-api-key":
         return {"sentimento": "[NEUTRA]", "resumo": "Análise automática desativada (sem API Key)."}
 
@@ -164,10 +163,9 @@ def analisar_noticia_com_openrouter(titulo: str, descricao: str) -> dict:
         return {"sentimento": "[NEUTRA]", "resumo": "Erro no processamento de IA."}
 
 def enviar_email_alerta_crise(titulo: str, link: str, portal: str, resumo: str):
-    """Envia um e-mail formatado em HTML via SMTP caso uma notícia seja classificada como [ALERTA DE CRISE]."""
     emails_raw = os.getenv("EMAILS_DESTINATARIOS")
     if not emails_raw or not emails_raw.strip():
-        print("[ERRO] A variável 'EMAILS_DESTINATARIOS' não está configurada no .env. E-mail de crise abortado.")
+        print("[ERRO] A variável 'EMAILS_DESTINATARIOS' não está configurada no .env.")
         return
 
     recipients = [e.strip() for e in emails_raw.split(",") if re.match(r"[^@]+@[^@]+\.[^@]+", e.strip())]
@@ -178,7 +176,7 @@ def enviar_email_alerta_crise(titulo: str, link: str, portal: str, resumo: str):
     smtp_user = os.getenv("SMTP_USER")
     smtp_password = os.getenv("SMTP_PASSWORD")
     if not smtp_user or not smtp_password or smtp_user == "seu_email@gmail.com":
-        print("[AVISO] Credenciais SMTP ausentes ou inválidas no .env. E-mail não enviado.")
+        print("[AVISO] Credenciais SMTP ausentes ou inválidas no .env.")
         return
 
     smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
@@ -254,7 +252,7 @@ def salvar_noticia_supabase(noticia: dict, analise: dict):
         supabase.table("clipping_noticias").insert(dados).execute()
         print(f"[OK] Notícia registrada no Supabase.")
     except Exception as e:
-        print(f"[AVISO] Erro ao salvar notícia no Supabase (possível duplicata): {e}")
+        print(f"[AVISO] Erro ao salvar notícia no Supabase: {e}")
 
 def executar_monitoramento():
     print("=" * 60)

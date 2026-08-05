@@ -2,8 +2,8 @@ import os
 import sys
 import datetime
 import urllib3
+import httpx
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -12,8 +12,10 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 load_dotenv()
 
+from supabase import create_client, Client, ClientOptions
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 
 is_supabase_configurado = (
     SUPABASE_URL and SUPABASE_KEY and
@@ -24,7 +26,8 @@ is_supabase_configurado = (
 supabase: Client = None
 if is_supabase_configurado:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        options = ClientOptions(httpx_client=httpx.Client(verify=False))
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
@@ -69,13 +72,11 @@ def exportar_contatos_vcf():
             if not phone:
                 continue
 
-            # Formata número para código internacional +55 se necessário
             if not phone.startswith("+"):
                 if not phone.startswith("55"):
                     phone = "55" + phone
                 phone = "+" + phone
 
-            # Entrada em formato vCard 3.0 padronizado
             vcard_entry = f"""BEGIN:VCARD
 VERSION:3.0
 FN:[Wilder GO] {nome} - {cidade}

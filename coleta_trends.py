@@ -4,8 +4,8 @@ import time
 import datetime
 import requests
 import urllib3
+import httpx
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -14,8 +14,10 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 load_dotenv()
 
+from supabase import create_client, Client, ClientOptions
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 
 is_supabase_configurado = (
     SUPABASE_URL and SUPABASE_KEY and
@@ -26,7 +28,8 @@ is_supabase_configurado = (
 supabase: Client = None
 if is_supabase_configurado:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        options = ClientOptions(httpx_client=httpx.Client(verify=False))
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 

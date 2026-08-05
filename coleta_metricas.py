@@ -4,10 +4,10 @@ import re
 import datetime
 import requests
 import urllib3
+import httpx
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -16,8 +16,10 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 load_dotenv()
 
+from supabase import create_client, Client, ClientOptions
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 META_ACCESS_TOKEN = os.getenv("META_ACCESS_TOKEN")
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID")
 APIFY_API_TOKEN = os.getenv("APIFY_API_TOKEN")
@@ -31,12 +33,12 @@ is_supabase_configurado = (
 supabase: Client = None
 if is_supabase_configurado:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        options = ClientOptions(httpx_client=httpx.Client(verify=False))
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
 def criar_sessao_http() -> requests.Session:
-    """Cria uma sessão HTTP resiliente com retentativas automáticas."""
     session = requests.Session()
     retries = Retry(total=3, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
     adapter = HTTPAdapter(max_retries=retries)
@@ -45,7 +47,6 @@ def criar_sessao_http() -> requests.Session:
     return session
 
 def obter_todas_cidades_goias() -> list:
-    """Busca as 246 cidades de Goiás do Supabase ou via API oficial do IBGE."""
     if supabase:
         try:
             res = supabase.table("municipios_goias").select("nome, eleitores_tse").execute()
@@ -70,7 +71,6 @@ def obter_todas_cidades_goias() -> list:
     return [{"nome": "Goiânia", "eleitores_tse": 1030000}, {"nome": "Aparecida de Goiânia", "eleitores_tse": 345000}]
 
 def coletar_facebook_insights_proprios(page_id: str, access_token: str) -> dict:
-    """Coleta dados da Meta Graph API para a página do Facebook do candidato."""
     dados_fb = {"facebook_curtidas_total": 58400, "facebook_alcance_diario": 12500}
     if not access_token or access_token == "your-meta-access-token":
         return dados_fb
@@ -79,7 +79,6 @@ def coletar_facebook_insights_proprios(page_id: str, access_token: str) -> dict:
     session = criar_sessao_http()
     headers = {"User-Agent": "Mozilla/5.0"}
 
-    # 1. Curtidas da Página
     url_details = f"https://graph.facebook.com/v20.0/{target_page}"
     params_details = {"fields": "fan_count,followers_count,name", "access_token": access_token}
 
@@ -93,7 +92,6 @@ def coletar_facebook_insights_proprios(page_id: str, access_token: str) -> dict:
     except Exception as e:
         print(f"[AVISO] Falha na Meta API (details): {e}")
 
-    # 2. Alcance Diário
     url_insights = f"https://graph.facebook.com/v20.0/{target_page}/insights"
     params_insights = {"metric": "page_impressions_unique,page_posts_impressions_unique", "period": "day", "access_token": access_token}
 
@@ -115,7 +113,6 @@ def coletar_facebook_insights_proprios(page_id: str, access_token: str) -> dict:
     return dados_fb
 
 def coletar_dados_proprios():
-    """Coleta e calcula as métricas próprias para as 246 cidades de Goiás."""
     print("\n" + "=" * 60)
     print("[INIT] COLETA DE DADOS PROPRIOS (META & FACEBOOK & TIKTOK)")
     print("=" * 60)
@@ -166,7 +163,6 @@ def coletar_dados_proprios():
         except Exception as e:
             print(f"[ERRO] Erro ao salvar em 'metricas_wilder': {e}")
 
-    # Criativos
     criativos_amostra = [
         {"post_id": "meta_post_101", "midia_url": "https://instagram.com/p/C123456789_post1", "curtidas": 3450, "compartilhamentos": 420, "engajamento": 6.85, "data_post": datetime.datetime.now(datetime.timezone.utc).isoformat()},
         {"post_id": "meta_post_102", "midia_url": "https://instagram.com/p/C987654321_post2", "curtidas": 5120, "compartilhamentos": 890, "engajamento": 9.40, "data_post": datetime.datetime.now(datetime.timezone.utc).isoformat()}
@@ -180,7 +176,6 @@ def coletar_dados_proprios():
             print(f"[AVISO] Erro ao salvar criativos: {e}")
 
 def converter_texto_para_numero(val_str: str) -> int:
-    """Converte valores como '185 mil', '2,4 mi', '185K' ou '185.000' em números inteiros."""
     clean = val_str.lower().replace(".", "").replace(",", ".").strip()
     if "mil" in clean or "k" in clean:
         clean = re.sub(r'[^\d\.]', '', clean)
@@ -192,7 +187,6 @@ def converter_texto_para_numero(val_str: str) -> int:
     return int(clean) if clean else 0
 
 def raspagem_seguidores_facebook_publico(fb_username: str, fallback_valor: int = 95000) -> int:
-    """Realiza a raspagem resiliente da contagem de seguidores públicos do Facebook."""
     url = f"https://www.facebook.com/{fb_username}"
     session = criar_sessao_http()
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0"}
@@ -219,7 +213,6 @@ def raspagem_seguidores_facebook_publico(fb_username: str, fallback_valor: int =
     return fallback_valor
 
 def coletar_concorrentes():
-    """Coleta seguidores e engajamento dos concorrentes via Apify / Scraping."""
     print("\n" + "=" * 60)
     print("[INIT] MONITORAMENTO DE CONCORRENTES (APIFY & FACEBOOK)")
     print("=" * 60)
@@ -235,7 +228,6 @@ def coletar_concorrentes():
 
     if not target_usernames:
         print("⚠️ [ALERTA VPS] Variáveis 'CONCORRENTE_1' e 'CONCORRENTE_2' ausentes ou vazias.")
-        print("[INFO] Pulando monitoramento de concorrentes com segurança.")
         return
 
     hoje = datetime.date.today().isoformat()

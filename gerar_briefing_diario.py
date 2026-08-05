@@ -5,13 +5,13 @@ import json
 import datetime
 import requests
 import urllib3
+import httpx
 import smtplib
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -20,8 +20,10 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 load_dotenv()
 
+from supabase import create_client, Client, ClientOptions
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL_NAME = "google/gemini-2.5-flash"
@@ -35,7 +37,8 @@ is_supabase_configurado = (
 supabase: Client = None
 if is_supabase_configurado:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        options = ClientOptions(httpx_client=httpx.Client(verify=False))
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 

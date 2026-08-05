@@ -4,9 +4,9 @@ import json
 import re
 import requests
 import urllib3
+import httpx
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-from supabase import create_client, Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -15,8 +15,10 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 load_dotenv()
 
+from supabase import create_client, Client, ClientOptions
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 VERIFY_TOKEN = os.getenv("INSTAGRAM_VERIFY_TOKEN", "wilder_eleitoral_2026")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
@@ -29,11 +31,11 @@ is_supabase_configurado = (
 supabase: Client = None
 if is_supabase_configurado:
     try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        options = ClientOptions(httpx_client=httpx.Client(verify=False))
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# Carrega o catálogo de propostas e palavras-chave da campanha
 PROPOSTAS_PATH = os.path.join(os.path.dirname(__file__), "propostas_wilder.json")
 PROPOSTAS_CATALOGO = {}
 if os.path.exists(PROPOSTAS_PATH):
@@ -47,16 +49,11 @@ if os.path.exists(PROPOSTAS_PATH):
 app = Flask(__name__)
 
 def identificar_proposta_por_texto(texto_comentario_ou_dm: str) -> dict:
-    """
-    Compara o texto do comentário ou DM do eleitor com o catálogo de palavras-chave.
-    Usa IA Gemini 2.5 como fallback inteligente para interpretar mensagens aleatórias ou fora de ordem.
-    """
     if not texto_comentario_ou_dm:
         return PROPOSTAS_CATALOGO.get("EDUCACAO")
 
     texto_clean = texto_comentario_ou_dm.lower().strip()
 
-    # 1. Busca por palavras-chave diretas no catálogo
     for tema, info in PROPOSTAS_CATALOGO.items():
         palavras = info.get("palavras_chave", [])
         for kw in palavras:
@@ -64,7 +61,6 @@ def identificar_proposta_por_texto(texto_comentario_ou_dm: str) -> dict:
                 print(f"[MATCH PALAVRA-CHAVE] Tema '{tema}' identificado para '{kw}'.")
                 return info
 
-    # 2. Fallback com IA (OpenRouter Gemini 2.5) para classificar intenção de textos aleatórios
     if OPENROUTER_API_KEY and OPENROUTER_API_KEY != "your-openrouter-api-key":
         try:
             url_ai = "https://openrouter.ai/api/v1/chat/completions"
@@ -99,16 +95,8 @@ def verificar_webhook():
 
 @app.route("/webhook", methods=["POST"])
 def receber_interacao_instagram():
-    """
-    Recebe comentários e DMs do Instagram com suporte a:
-    - Protocolo de Handover Humano (se um assessor respondeu no aplicativo, o bot pausa).
-    - Interpretação inteligente por IA para textos aleatórios fora de ordem.
-    """
     data = request.json or {}
     
-    # -------------------------------------------------------------------
-    # PROTOCOLO DE HANDOVER HUMANO: Se a mensagem veio da própria página (assessor), ignora para evitar conflito.
-    # -------------------------------------------------------------------
     is_echo = data.get("is_echo", False)
     sender_id = data.get("sender_id", "")
     page_id = os.getenv("FACEBOOK_PAGE_ID", "")
@@ -123,14 +111,12 @@ def receber_interacao_instagram():
         whatsapp = data.get("whatsapp", "")
         cidade = data.get("cidade", "Goiânia")
 
-        # Identifica a proposta correspondente (por palavra-chave ou por IA)
         proposta_matched = identificar_proposta_por_texto(texto_recebido)
         mensagem_resposta_dm = proposta_matched.get("mensagem_dm") if proposta_matched else "Obrigado pelo seu contato com a campanha de Wilder Morais!"
         tema_identificado = proposta_matched.get("titulo", "Geral") if proposta_matched else "Geral"
 
         print(f"📩 Resposta de DM Selecionada: {mensagem_resposta_dm[:60]}...")
 
-        # Grava os dados no Supabase CRM
         if supabase:
             eleitor_dados = {
                 "nome": nome,
