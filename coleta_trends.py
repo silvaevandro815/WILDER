@@ -30,15 +30,10 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# Lista de termos e candidatos monitorados no Google Trends Goiás
 TERMOS_CANDIDATOS = ["Wilder Morais", "Daniel Vilela", "Marconi Perillo"]
 TERMOS_PAUTAS = ["agronegócio goiás", "segurança goiás", "saúde goiás", "emprego goiás"]
 
 def coletar_google_trends_goias():
-    """
-    Coleta o volume de buscas e interesse do Google Trends no estado de Goiás (geo='BR-GO')
-    para os candidatos e principais pautas políticas. Salva na tabela 'google_trends_goias'.
-    """
     print("\n" + "=" * 60)
     print("📈 INICIANDO MONITORAMENTO DO GOOGLE TRENDS (ESTADO DE GOIÁS - BR-GO)")
     print("=" * 60)
@@ -46,18 +41,15 @@ def coletar_google_trends_goias():
     registros_trends = []
     agora = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-    # Tenta utilizar a biblioteca pytrends
     try:
         from pytrends.request import TrendReq
         pytrend = TrendReq(hl='pt-BR', tz=180, timeout=(10, 25))
-        
         print("[INFO] Consultando interesse de busca no estado de Goiás (BR-GO)...")
         
-        # 1. Interesse relativo entre Candidatos
         pytrend.build_payload(TERMOS_CANDIDATOS, cat=0, timeframe='now 7-d', geo='BR-GO', gprop='')
         df_interest = pytrend.interest_over_time()
         
-        if not df_interest.empty:
+        if df_interest is not None and not df_interest.empty:
             for termo in TERMOS_CANDIDATOS:
                 if termo in df_interest.columns:
                     val = int(df_interest[termo].iloc[-1])
@@ -70,12 +62,11 @@ def coletar_google_trends_goias():
                     })
                     print(f"   ✔ Termo '{termo}': Índice de interesse = {val}/100")
         
-        # 2. Pautas Políticas em alta em Goiás
         time.sleep(2)
         pytrend.build_payload(TERMOS_PAUTAS[:4], cat=0, timeframe='now 7-d', geo='BR-GO', gprop='')
         df_pautas = pytrend.interest_over_time()
         
-        if not df_pautas.empty:
+        if df_pautas is not None and not df_pautas.empty:
             for pauta in TERMOS_PAUTAS[:4]:
                 if pauta in df_pautas.columns:
                     val = int(df_pautas[pauta].iloc[-1])
@@ -89,9 +80,8 @@ def coletar_google_trends_goias():
                     print(f"   ✔ Pauta '{pauta}': Índice de interesse = {val}/100")
 
     except Exception as e:
-        print(f"[AVISO] Falha ou limite de requisições na API do Google Trends: {e}.")
+        print(f"[AVISO] Google Trends API (limite de IP ou módulo): {e}.")
 
-    # Fallback estruturado de referência se o Google Trends bloquear por limite de IP
     if not registros_trends:
         print("[INFO] Gerando dados de tendência de referência para Goiás...")
         registros_trends = [
@@ -106,8 +96,8 @@ def coletar_google_trends_goias():
 
     if supabase:
         try:
-            res = supabase.table("google_trends_goias").insert(registros_trends).execute()
-            print(f"[OK] Supabase: {len(res.data)} registros salvos em 'google_trends_goias'!")
+            supabase.table("google_trends_goias").insert(registros_trends).execute()
+            print(f"[OK] Supabase: {len(registros_trends)} registros salvos em 'google_trends_goias'!")
         except Exception as e:
             print(f"[ERRO] Erro ao salvar em 'google_trends_goias': {e}")
     else:
