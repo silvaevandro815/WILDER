@@ -3,12 +3,18 @@ import sys
 import json
 import smtplib
 import requests
+import urllib3
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 from supabase import create_client, Client
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
 # Carrega as variáveis do arquivo .env
 load_dotenv()
@@ -17,11 +23,18 @@ load_dotenv()
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
-if not SUPABASE_URL or not SUPABASE_KEY:
-    print("[ERRO] SUPABASE_URL e SUPABASE_KEY devem estar configurados no arquivo .env")
-    sys.exit(1)
+is_supabase_configurado = (
+    SUPABASE_URL and SUPABASE_KEY and
+    "your-supabase" not in SUPABASE_URL and
+    "your-supabase" not in SUPABASE_KEY
+)
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase: Client = None
+if is_supabase_configurado:
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
 # Configurações do OpenRouter API
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
@@ -55,7 +68,7 @@ def extrair_noticias_rss(feed_info: dict) -> list:
     }
     
     try:
-        response = requests.get(url, headers=headers, timeout=12)
+        response = requests.get(url, headers=headers, timeout=12, verify=False)
         response.raise_for_status()
         
         root = ET.fromstring(response.content)
@@ -84,7 +97,7 @@ def analisar_noticia_com_openrouter(titulo: str, descricao: str) -> dict:
     Envia a notícia para a API do OpenRouter (google/gemini-2.5-flash) para classificar o sentimento
     e gerar um resumo de 2 linhas caso seja classificado como ALERTA DE CRISE.
     """
-    if not OPENROUTER_API_KEY:
+    if not OPENROUTER_API_KEY or OPENROUTER_API_KEY == "your-openrouter-api-key":
         print("[AVISO] OPENROUTER_API_KEY não informada no .env. Classificação padrão definida como [NEUTRA].")
         return {"sentimento": "[NEUTRA]", "resumo": "Análise automática desativada (sem API key)."}
 
@@ -120,7 +133,7 @@ def analisar_noticia_com_openrouter(titulo: str, descricao: str) -> dict:
     }
 
     try:
-        res = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=15)
+        res = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=15, verify=False)
         res.raise_for_status()
         data = res.json()
         
@@ -137,19 +150,33 @@ def analisar_noticia_com_openrouter(titulo: str, descricao: str) -> dict:
         return {"sentimento": "[NEUTRA]", "resumo": "Erro no processamento da IA."}
 
 def enviar_email_alerta_crise(titulo: str, link: str, portal: str, resumo: str):
-    """Envia um e-mail formatado em HTML via SMTP quando uma notícia é identificada como ALERTA DE CRISE."""
+    """
+    Envia um e-mail formatado em HTML via SMTP quando uma notícia é identificada como ALERTA DE CRISE.
+    Lê os e-mails dos destinatários a partir da variável de ambiente EMAILS_DESTINATARIOS.
+    """
     smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
     smtp_port = int(os.getenv("SMTP_PORT", "587"))
     smtp_user = os.getenv("SMTP_USER")
     smtp_password = os.getenv("SMTP_PASSWORD")
     email_from = os.getenv("EMAIL_FROM", smtp_user)
     
-    # Destinatários do comitê (separados por vírgula no .env)
-    recipients_raw = os.getenv("ALERT_EMAIL_RECIPIENTS", "")
-    recipients = [r.strip() for r in recipients_raw.split(",") if r.strip()]
+    # Lê a variável de ambiente EMAILS_DESTINATARIOS
+    emails_raw = os.getenv("EMAILS_DESTINATARIOS")
 
-    if not smtp_user or not smtp_password or not recipients:
-        print("[AVISO] Configurações de SMTP ou destinatários não preenchidos no .env. E-mail de alerta não enviado.")
+    # Tratamento de erro caso a variável não seja encontrada ou esteja vazia
+    if not emails_raw or not emails_raw.strip():
+        print("[ERRO] A variável de ambiente 'EMAILS_DESTINATARIOS' não foi configurada ou está vazia. E-mail de alerta não enviado.")
+        return
+
+    # Separa os e-mails por vírgula e remove espaços extras
+    recipients = [email.strip() for email in emails_raw.split(",") if email.strip()]
+
+    if not recipients:
+        print("[ERRO] Nenhum e-mail válido foi encontrado na variável 'EMAILS_DESTINATARIOS'. E-mail de alerta não enviado.")
+        return
+
+    if not smtp_user or not smtp_password or smtp_user == "seu_email@gmail.com":
+        print("[AVISO] Configurações de SMTP (SMTP_USER/SMTP_PASSWORD) não preenchidas no .env. E-mail de alerta não enviado.")
         return
 
     msg = MIMEMultipart("alternative")
@@ -230,6 +257,8 @@ def enviar_email_alerta_crise(titulo: str, link: str, portal: str, resumo: str):
 
 def noticia_ja_processada(link: str) -> bool:
     """Verifica no Supabase se a notícia com este link já foi registrada anteriormente."""
+    if not supabase:
+        return False
     try:
         response = supabase.table("clipping_noticias").select("id").eq("link", link).execute()
         return len(response.data) > 0
@@ -239,6 +268,9 @@ def noticia_ja_processada(link: str) -> bool:
 
 def salvar_noticia_supabase(noticia: dict, analise: dict):
     """Salva a notícia processada e sua análise na tabela 'clipping_noticias' do Supabase."""
+    if not supabase:
+        print("[INFO] Supabase não configurado. Notícia processada mas não persistida no banco.")
+        return
     try:
         dados = {
             "titulo": noticia["titulo"],
