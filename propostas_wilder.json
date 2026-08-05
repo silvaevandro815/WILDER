@@ -1,0 +1,32 @@
+{
+  "AGRO": {
+    "palavras_chave": ["agro", "agronegocio", "campo", "produtor", "safra"],
+    "titulo": "Plano de Desenvolvimento do Agronegócio e Infraestrutura Rural",
+    "mensagem_dm": "Olá! Que ótimo ver seu interesse no agronegócio de Goiás! 🌾\n\nWilder Morais, como senador e engenheiro, tem como prioridade:\n1. Asfaltamento e manutenção das estradas vicinais para o escoamento da safra.\n2. Incentivo fiscal e crédito desburocratizado para o pequeno e médio produtor.\n3. Conectividade e internet de alta velocidade no campo.\n\nQual o seu nome e cidade para te enviarmos as propostas detalhadas da sua região?",
+    "link_proposta": "https://wildermorais.com.br/propostas/agro"
+  },
+  "EDUCACAO": {
+    "palavras_chave": ["livros", "educacao", "escola", "professor", "estudante", "ensino"],
+    "titulo": "Projeto 'Senador dos Livros' e Valorização da Educação",
+    "mensagem_dm": "Olá! Obrigado por apoiar a transformação da educação em Goiás! 📚\n\nComo 'Senador dos Livros', Wilder Morais defende:\n1. Distribuição de acervos literários e modernização das bibliotecas públicas.\n2. Ampliação das escolas técnicas e profissionalizantes para jovens.\n3. Valorização dos professores e infraestrutura de ponta nas salas de aula.\n\nQual o seu nome e cidade para te conectarmos às nossas pautas regionais?",
+    "link_proposta": "https://wildermorais.com.br/propostas/educacao"
+  },
+  "ENTORNO": {
+    "palavras_chave": ["entorno", "luziania", "aguaslindas", "valparaiso", "formosa", "novogama"],
+    "titulo": "Plano de Integração e Desenvolvimento do Entorno do DF",
+    "mensagem_dm": "Olá! O Entorno do DF é prioridade absoluta na nossa gestão! 🚌🏥\n\nPropostas de Wilder Morais para a região:\n1. Criação da Autoridade Metropolitana de Transporte (passagem justa e ônibus novos).\n2. Construção de Hospitais Regionais de alta complexidade.\n3. Parceria direta com o DF para segurança pública integrada.\n\nQual o seu nome e cidade no Entorno?",
+    "link_proposta": "https://wildermorais.com.br/propostas/entorno"
+  },
+  "SAUDE": {
+    "palavras_chave": ["saude", "hospital", "medico", "exame", "cirurgia"],
+    "titulo": "Programa Saúde Perto de Você",
+    "mensagem_dm": "Olá! A saúde do povo de Goiás precisa de gestão eficiente e humanizada! 🏥\n\nPropostas de Wilder Morais para a Saúde:\n1. Zera Fila: Mutirões de consultas, exames e cirurgias eletivas nas 246 cidades.\n2. Regionalização da saúde: Policlínicas equipadas no interior.\n3. Digitalização do prontuário para atendimento rápido.\n\nQual o seu nome e cidade para acompanharmos essa pauta juntos?",
+    "link_proposta": "https://wildermorais.com.br/propostas/saude"
+  },
+  "GOIANIA": {
+    "palavras_chave": ["goiania", "capital", "aparecida", "trindade", "canedo"],
+    "titulo": "Projeto de Modernização da Região Metropolitana de Goiânia",
+    "mensagem_dm": "Olá! Goiânia e região metropolitana merecem uma gestão moderna e eficiente! 🏙️\n\nPropostas de Wilder Morais:\n1. Fortalecimento da segurança pública com tecnologia e inteligência artificial.\n2. Apoio ao comércio local e geração de empregos para a juventude.\n3. Investimento em mobilidade urbana no Eixo Anhanguera e corredores.\n\nQual o seu nome e bairro em Goiânia?",
+    "link_proposta": "https://wildermorais.com.br/propostas/goiania"
+  }
+}
