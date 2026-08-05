@@ -2,3 +2,4 @@ supabase
 requests
 pydantic
 python-dotenv
+pytrends
