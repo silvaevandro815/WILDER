@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  inteligencia-eleitoral:
+    build: .
+    container_name: inteligencia_eleitoral_app
+    restart: always
+    env_file:
+      - .env
