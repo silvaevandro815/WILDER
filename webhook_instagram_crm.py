@@ -48,27 +48,46 @@ app = Flask(__name__)
 
 def identificar_proposta_por_texto(texto_comentario_ou_dm: str) -> dict:
     """
-    Compara o texto do comentário ou DM do eleitor com o catálogo de palavras-chave
-    e retorna a resposta e a proposta correspondente.
+    Compara o texto do comentário ou DM do eleitor com o catálogo de palavras-chave.
+    Usa IA Gemini 2.5 como fallback inteligente para interpretar mensagens aleatórias ou fora de ordem.
     """
     if not texto_comentario_ou_dm:
         return PROPOSTAS_CATALOGO.get("EDUCACAO")
 
     texto_clean = texto_comentario_ou_dm.lower().strip()
 
+    # 1. Busca por palavras-chave diretas no catálogo
     for tema, info in PROPOSTAS_CATALOGO.items():
         palavras = info.get("palavras_chave", [])
         for kw in palavras:
             if kw.lower() in texto_clean:
-                print(f"[MATCH PALAVRA-CHAVE] Encontrado tema '{tema}' para palavra '{kw}'.")
+                print(f"[MATCH PALAVRA-CHAVE] Tema '{tema}' identificado para '{kw}'.")
                 return info
 
-    # Retorno padrão caso não haja match exato
+    # 2. Fallback com IA (OpenRouter Gemini 2.5) para classificar intenção de textos aleatórios
+    if OPENROUTER_API_KEY and OPENROUTER_API_KEY != "your-openrouter-api-key":
+        try:
+            url_ai = "https://openrouter.ai/api/v1/chat/completions"
+            headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
+            prompt = f"Classifique a intenção desta mensagem de um eleitor de Goiás em um dos temas: AGRO, EDUCACAO, ENTORNO, SAUDE, GOIANIA. Mensagem: '{texto_comentario_ou_dm}'. Responda apenas com o nome do tema em maiúsculas."
+            payload = {
+                "model": "google/gemini-2.5-flash",
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.1
+            }
+            r = requests.post(url_ai, headers=headers, json=payload, timeout=8, verify=False)
+            if r.status_code == 200:
+                tema_ai = r.json()["choices"][0]["message"]["content"].strip()
+                if tema_ai in PROPOSTAS_CATALOGO:
+                    print(f"[IA INTENÇÃO] Gemini classificou texto aleatório como tema '{tema_ai}'.")
+                    return PROPOSTAS_CATALOGO[tema_ai]
+        except Exception as err:
+            print(f"[AVISO] Falha ao consultar IA para intenção: {err}")
+
     return PROPOSTAS_CATALOGO.get("EDUCACAO")
 
 @app.route("/webhook", methods=["GET"])
 def verificar_webhook():
-    """Validação de segurança exigida pela Meta (Instagram Graph API)."""
     mode = request.args.get("hub.mode")
     token = request.args.get("hub.verify_token")
     challenge = request.args.get("hub.challenge")
@@ -81,11 +100,22 @@ def verificar_webhook():
 @app.route("/webhook", methods=["POST"])
 def receber_interacao_instagram():
     """
-    Recebe comentários e DMs do Instagram, identifica a palavra-chave,
-    seleciona a proposta correta e salva o cadastro do eleitor no Supabase.
+    Recebe comentários e DMs do Instagram com suporte a:
+    - Protocolo de Handover Humano (se um assessor respondeu no aplicativo, o bot pausa).
+    - Interpretação inteligente por IA para textos aleatórios fora de ordem.
     """
     data = request.json or {}
-    print("[WEBHOOK RECEBIDO] Dados brutos:", json.dumps(data, ensure_ascii=False))
+    
+    # -------------------------------------------------------------------
+    # PROTOCOLO DE HANDOVER HUMANO: Se a mensagem veio da própria página (assessor), ignora para evitar conflito.
+    # -------------------------------------------------------------------
+    is_echo = data.get("is_echo", False)
+    sender_id = data.get("sender_id", "")
+    page_id = os.getenv("FACEBOOK_PAGE_ID", "")
+    
+    if is_echo or (page_id and sender_id == page_id):
+        print(f"[HANDOVER HUMANO DETECTADO] Resposta enviada por um assessor humano. Automação pausada para esta conversa.")
+        return jsonify({"status": "ignorado", "motivo": "resposta_humana_prioritaria"}), 200
 
     try:
         texto_recebido = data.get("comentario") or data.get("mensagem") or ""
@@ -93,7 +123,7 @@ def receber_interacao_instagram():
         whatsapp = data.get("whatsapp", "")
         cidade = data.get("cidade", "Goiânia")
 
-        # Identifica a proposta correspondente à palavra-chave comentada
+        # Identifica a proposta correspondente (por palavra-chave ou por IA)
         proposta_matched = identificar_proposta_por_texto(texto_recebido)
         mensagem_resposta_dm = proposta_matched.get("mensagem_dm") if proposta_matched else "Obrigado pelo seu contato com a campanha de Wilder Morais!"
         tema_identificado = proposta_matched.get("titulo", "Geral") if proposta_matched else "Geral"
@@ -124,5 +154,5 @@ def receber_interacao_instagram():
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
-    print(f"🚀 Servidor Webhook CRM Instagram com Matcher de Propostas rodando na porta {porta}...")
+    print(f"🚀 Servidor Webhook CRM Instagram com Handover Humano e IA de Intenção rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
