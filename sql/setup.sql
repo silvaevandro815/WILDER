@@ -16,7 +16,9 @@ CREATE TABLE IF NOT EXISTS metricas_wilder (
     impressoes INTEGER DEFAULT 0,
     investimento NUMERIC(10, 2) DEFAULT 0.00,
     cliques INTEGER DEFAULT 0,
-    cidade TEXT
+    cidade TEXT,
+    facebook_curtidas_total INTEGER DEFAULT 0,
+    facebook_alcance_diario INTEGER DEFAULT 0
 );
 
 -- 3. Tabela de Performance de Criativos
@@ -36,7 +38,8 @@ CREATE TABLE IF NOT EXISTS concorrentes_historico (
     data DATE NOT NULL,
     candidato_nome TEXT NOT NULL,
     seguidores INTEGER DEFAULT 0,
-    taxa_engajamento NUMERIC(5, 2) DEFAULT 0.00
+    taxa_engajamento NUMERIC(5, 2) DEFAULT 0.00,
+    facebook_seguidores INTEGER DEFAULT 0
 );
 
 -- 5. Tabela de Clipping de Notícias
@@ -49,3 +52,10 @@ CREATE TABLE IF NOT EXISTS clipping_noticias (
     sentimento TEXT,
     resumo TEXT
 );
+
+-- ===================================================================
+-- COMANDOS DE ALTER TABLE (Execute estes comandos no Supabase se as tabelas já foram criadas)
+-- ===================================================================
+ALTER TABLE metricas_wilder ADD COLUMN IF NOT EXISTS facebook_curtidas_total INTEGER DEFAULT 0;
+ALTER TABLE metricas_wilder ADD COLUMN IF NOT EXISTS facebook_alcance_diario INTEGER DEFAULT 0;
+ALTER TABLE concorrentes_historico ADD COLUMN IF NOT EXISTS facebook_seguidores INTEGER DEFAULT 0;
