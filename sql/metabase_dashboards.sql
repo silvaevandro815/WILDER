@@ -87,3 +87,17 @@ SELECT
     ideias_roteiros
 FROM briefings_diarios
 ORDER BY data DESC;
+
+
+-- -------------------------------------------------------------------
+-- DASHBOARD 7: Performance do Canal do YouTube (@WilderMoraisGoias)
+-- -------------------------------------------------------------------
+SELECT 
+    data,
+    inscritos,
+    visualizacoes_totais,
+    videos_totais,
+    visualizacoes_diarias,
+    engajamento_medio
+FROM youtube_performance
+ORDER BY data DESC;
