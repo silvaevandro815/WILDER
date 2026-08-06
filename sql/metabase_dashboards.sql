@@ -101,3 +101,18 @@ SELECT
     engajamento_medio
 FROM youtube_performance
 ORDER BY data DESC;
+
+
+-- -------------------------------------------------------------------
+-- DASHBOARD 8: Radar de Social Listening & Reclamações Populares por Cidade
+-- -------------------------------------------------------------------
+SELECT 
+    created_at AS data,
+    cidade,
+    pauta_chave,
+    reclamacao_texto,
+    fonte,
+    impacto_politico,
+    oportunidade_criativo
+FROM reclamacoes_cidadaos
+ORDER BY created_at DESC;

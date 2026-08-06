@@ -16,6 +16,7 @@ SHELL=/bin/sh
 0 0 * * * root cd /app && /usr/local/bin/python /app/coleta_metricas.py >> /var/log/cron.log 2>&1
 0 6,18 * * * root cd /app && /usr/local/bin/python /app/coleta_trends.py >> /var/log/cron.log 2>&1
 0 12 * * * root cd /app && /usr/local/bin/python /app/coleta_youtube.py >> /var/log/cron.log 2>&1
+0 8,16 * * * root cd /app && /usr/local/bin/python /app/monitor_reclamacoes_goias.py >> /var/log/cron.log 2>&1
 30 7 * * * root cd /app && /usr/local/bin/python /app/gerar_briefing_diario.py >> /var/log/cron.log 2>&1
 EOF
 
@@ -24,11 +25,12 @@ chmod 0644 /etc/cron.d/eleitoral-cron
 crontab /etc/cron.d/eleitoral-cron
 
 echo "[CRON] Serviço configurado com sucesso e verificado:"
-echo " 🕒 monitor_crises.py        -> a cada 15 minutos (*/15 * * * *)"
-echo " 🕒 coleta_metricas.py      -> diariamente à 00:00 (0 0 * * *)"
-echo " 🕒 coleta_trends.py        -> 2x ao dia às 06:00 e 18:00 (0 6,18 * * *)"
-echo " 🕒 coleta_youtube.py       -> diariamente às 12:00 (0 12 * * *)"
-echo " 🕒 gerar_briefing_diario.py -> diariamente às 07:30 (30 7 * * *)"
+echo " 🕒 monitor_crises.py            -> a cada 15 minutos (*/15 * * * *)"
+echo " 🕒 coleta_metricas.py          -> diariamente à 00:00 (0 0 * * *)"
+echo " 🕒 coleta_trends.py            -> 2x ao dia às 06:00 e 18:00 (0 6,18 * * *)"
+echo " 🕒 coleta_youtube.py           -> diariamente às 12:00 (0 12 * * *)"
+echo " 🕒 monitor_reclamacoes_goias.py -> 2x ao dia às 08:00 e 16:00 (0 8,16 * * *)"
+echo " 🕒 gerar_briefing_diario.py     -> diariamente às 07:30 (30 7 * * *)"
 echo "============================================================"
 
 # Inicia o serviço do Cron no container
