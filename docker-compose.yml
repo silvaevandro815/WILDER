@@ -8,22 +8,12 @@ services:
     env_file:
       - .env
 
-  webhook-instagram:
+  servidor-web-unificado:
     build: .
-    container_name: instagram_webhook_app
-    command: python /app/webhook_instagram_crm.py
+    container_name: servidor_web_unificado_app
+    command: python /app/server_web_unificado.py
     restart: always
     ports:
       - "5000:5000"
-    env_file:
-      - .env
-
-  chat-metabase:
-    build: .
-    container_name: metabase_chat_app
-    command: python /app/painel_chat_ia.py
-    restart: always
-    ports:
-      - "5001:5001"
     env_file:
       - .env
