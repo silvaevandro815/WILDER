@@ -18,6 +18,7 @@ SHELL=/bin/sh
 0 12 * * * root cd /app && /usr/local/bin/python /app/coleta_youtube.py >> /var/log/cron.log 2>&1
 0 8,16 * * * root cd /app && /usr/local/bin/python /app/monitor_reclamacoes_goias.py >> /var/log/cron.log 2>&1
 30 7 * * * root cd /app && /usr/local/bin/python /app/gerar_briefing_diario.py >> /var/log/cron.log 2>&1
+0 7 * * * root cd /app && /usr/local/bin/python /app/gerar_relatorio_pdf_360.py >> /var/log/cron.log 2>&1
 EOF
 
 # Aplica as permissões estritas exigidas pelo cron do Linux
@@ -31,6 +32,7 @@ echo " 🕒 coleta_trends.py            -> 2x ao dia às 06:00 e 18:00 (0 6,18 *
 echo " 🕒 coleta_youtube.py           -> diariamente às 12:00 (0 12 * * *)"
 echo " 🕒 monitor_reclamacoes_goias.py -> 2x ao dia às 08:00 e 16:00 (0 8,16 * * *)"
 echo " 🕒 gerar_briefing_diario.py     -> diariamente às 07:30 (30 7 * * *)"
+echo " 🕒 gerar_relatorio_pdf_360.py   -> diariamente às 07:00 (0 7 * * *)"
 echo "============================================================"
 
 # Inicia o serviço do Cron no container
