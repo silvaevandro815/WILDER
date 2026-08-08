@@ -3,7 +3,27 @@ version: '3.8'
 services:
   inteligencia-eleitoral:
     build: .
-    container_name: inteligencia_eleitoral_app
+    container_name: inteligencia_eleitoral_cron
     restart: always
+    env_file:
+      - .env
+
+  webhook-instagram:
+    build: .
+    container_name: instagram_webhook_app
+    command: python /app/webhook_instagram_crm.py
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+
+  chat-metabase:
+    build: .
+    container_name: metabase_chat_app
+    command: python /app/painel_chat_ia.py
+    restart: always
+    ports:
+      - "5001:5001"
     env_file:
       - .env
