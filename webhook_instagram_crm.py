@@ -51,38 +51,64 @@ if os.path.exists(PROPOSTAS_PATH):
 
 app = Flask(__name__)
 
-def gerar_resposta_persona_wilder(texto_eleitor: str, tipo_interacao: str = "DM") -> dict:
+# ===================================================================
+# SYSTEM PROMPT MESTRE DE ALTA PERFORMANCE - WILDER MORAIS 2026
+# ===================================================================
+SYSTEM_PROMPT_WILDER_MESTRE = """
+Você é o próprio WILDER MORAIS, engenheiro civil de 3 continentes, ex-Senador dos Livros, empresário de sucesso e pré-candidato ao Governo de Goiás em 2026 pelo PL.
+
+SUA PERSONA E TOM DE VOZ:
+- Autêntico, prático, acolhedor, tom de conversa do interior de Goiás, sem linguagem empolada de político de carreira.
+- Fala como quem constrói e entrega resultados de verdade.
+
+OBJETIVO DA INTERAÇÃO (MÁXIMA EFICIÊNCIA & OBJETIVIDADE):
+- NÃO ESTENDA A CONVERSA. Seja direto, conciso (máximo 2 a 3 frases curtas) e focado.
+- IDENTIFICAÇÃO DE GÊNERO: Identifique se o interlocutor é HOMEM ou MULHER pelo nome ou texto para ajustar os pronomes ("meu amigo" ou "minha amiga").
+- CAPTURA DE DADOS: Identifique a Cidade, o Nome e a Dor/Ideia principal mencionada.
+- ENCERRAMENTO OBRIGATÓRIO: Encerre a conversa com uma promessa firme e reconfortante: reafirmando que como governador você vai **resolver e cuidar de Goiás da forma que precisa ser**.
+
+PLANO DE GOVERNO DE REFERÊNCIA DE WILDER MORAIS:
+1. AGRONEGÓCIO & INFRAESTRUTURA: Estradas vicinais asfaltadas para o escoamento da safra, crédito desburocratizado e internet no campo.
+2. EDUCAÇÃO (SENADOR DOS LIVROS): Escolas técnicas profissionalizantes, valorização de professores e acervos literários.
+3. SAÚDE (SAÚDE PERTO DE VOCÊ): Programa Zera Fila de cirurgias e exames nas 246 cidades, policlínicas regionais e prontuário digital.
+4. ENTORNO DO DF & SEGURANÇA: Autoridade Metropolitana de Transporte, combate ao crime com inteligência e apoio às famílias.
+
+REGRAS DE RESPOSTA (FORMATO JSON ESTRITO):
+Responda ESTRITAMENTE em formato JSON com as seguintes chaves:
+{
+  "genero_detectado": "HOMEM" ou "MULHER",
+  "cidade_detectada": "Nome da Cidade ou Goiás",
+  "pauta_ou_reclamacao": "Resumo da dor/ideia em 3 palavras",
+  "sentimento": "POSITIVO", "CRITICA" ou "DUVIDA",
+  "resposta_dm": "Texto curto da DM (máx 3 frases), terminando com a promessa de resolver e cuidar de Goiás da forma que precisa ser."
+}
+"""
+
+def processar_mensagem_wilder_ia(nome_eleitor: str, texto_eleitor: str, tipo_interacao: str = "DM") -> dict:
     """
-    Gera uma resposta ultra-humana e autêntica personificando o próprio Wilder Morais.
-    Distingue comentários e DMs POSITIVOS (agradecimento + convite) e NEGATIVOS/CRÍTICAS (respeito + escuta de engenheiro).
+    Processa a mensagem do eleitor com o System Prompt Mestre de Wilder Morais.
+    Detecta gênero, cidade, dor/reclamação e gera a resposta direta e objetiva.
     """
     if not OPENROUTER_API_KEY or OPENROUTER_API_KEY == "your-openrouter-api-key":
         return {
+            "genero_detectado": "HOMEM",
+            "cidade_detectada": "Goiânia",
+            "pauta_ou_reclamacao": "Apoio Geral",
             "sentimento": "POSITIVO",
-            "resposta_texto": "Muito obrigado pelo apoio e pelo carinho! Como engenheiro e senador, estou trabalhando por um Goiás mais forte. De qual cidade você é?"
+            "resposta_dm": f"Muito obrigado pelo carinho, meu amigo {nome_eleitor}! Como engenheiro e senador, estou pronto para resolver e cuidar de Goiás da forma que precisa ser."
         }
 
-    prompt_system = (
-        "Você é o próprio Wilder Morais, empresário, engenheiro e pré-candidato ao Governo de Goiás em 2026.\n"
-        "Responda a esta mensagem no Instagram mantendo seu tom de voz autêntico: simples, acolhedor, goiano, prático (visão de engenheiro que constrói de verdade) e focado em resultados.\n\n"
-        "REGRAS DE PERSONA:\n"
-        "1. Se a mensagem for POSITIVA ou APOIO: Agradeça com carinho verdadeiro, trate como 'meu amigo/minha amiga' e pergunte de qual cidade de Goiás ele é.\n"
-        "2. Se for uma CRÍTICA OU RECLAMAÇÃO: Nunca seja reativo. Valide a dor da pessoa, mostre que entende a indignação e explique que como engenheiro você defende gestão séria. Pergunte qual o principal problema da região dele.\n"
-        "3. Responda em no máximo 2 ou 3 frases curtas, ideais para Direct do Instagram.\n"
-        "Responda estritamente em JSON com as chaves: 'sentimento' (POSITIVO, NEGATIVO, DUVIDA), 'resposta_texto'."
-    )
-
-    prompt_user = f"Tipo de Interação: {tipo_interacao}\nMensagem do Eleitor: '{texto_eleitor}'"
+    prompt_user = f"Nome do Eleitor: {nome_eleitor}\nTipo de Interação: {tipo_interacao}\nMensagem/Comentário: '{texto_eleitor}'"
 
     headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
     payload = {
         "model": MODEL_NAME,
         "messages": [
-            {"role": "system", "content": prompt_system},
+            {"role": "system", "content": SYSTEM_PROMPT_WILDER_MESTRE},
             {"role": "user", "content": prompt_user}
         ],
         "response_format": {"type": "json_object"},
-        "temperature": 0.3
+        "temperature": 0.2
     }
 
     try:
@@ -91,23 +117,23 @@ def gerar_resposta_persona_wilder(texto_eleitor: str, tipo_interacao: str = "DM"
         res_json = r.json()
         raw_content = res_json["choices"][0]["message"]["content"]
         
-        # Sanitiza JSON
         match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', raw_content.strip(), re.DOTALL)
         cleaned = match.group(1) if match else raw_content[raw_content.find("{"):raw_content.rfind("}")+1]
         return json.loads(cleaned)
     except Exception as e:
-        print(f"[AVISO] Falha na IA Persona Wilder: {e}")
+        print(f"[AVISO] Falha no System Prompt Mestre Wilder IA: {e}")
         return {
+            "genero_detectado": "HOMEM",
+            "cidade_detectada": "Goiás",
+            "pauta_ou_reclamacao": "Contato Geral",
             "sentimento": "POSITIVO",
-            "resposta_texto": "Muito obrigado pelo seu carinho e mensagem! Goiás tem um futuro brilhante pela frente. De qual cidade você está falando?"
+            "resposta_dm": f"Muito obrigado pela mensagem! Pode ter certeza de que estamos prontos para resolver e cuidar de Goiás da forma que precisa ser."
         }
 
 def enviar_resposta_meta_graph_api(recipient_id: str, texto_resposta: str):
-    """
-    Envia a resposta gerada pela IA diretamente para a DM do Instagram via Meta Graph API oficial.
-    """
+    """Envia a DM de resposta via Meta Graph API v20.0."""
     if not META_ACCESS_TOKEN or META_ACCESS_TOKEN == "your-meta-access-token":
-        print("[INFO SIMULAÇÃO] Token da Meta ausente. Resposta gerada:", texto_resposta)
+        print("[INFO SIMULAÇÃO] Token da Meta ausente. DM gerada:", texto_resposta)
         return
 
     url = f"https://graph.facebook.com/v20.0/me/messages?access_token={META_ACCESS_TOKEN}"
@@ -121,7 +147,7 @@ def enviar_resposta_meta_graph_api(recipient_id: str, texto_resposta: str):
         if res.status_code in [200, 201]:
             print(f"[META GRAPH API] DM enviada com sucesso para ID {recipient_id}!")
         else:
-            print(f"[AVISO META] Resposta da API: {res.status_code} - {res.text}")
+            print(f"[AVISO META] Status API: {res.status_code} - {res.text}")
     except Exception as err:
         print(f"[ERRO META API] Falha ao enviar DM via Meta: {err}")
 
@@ -151,36 +177,54 @@ def receber_interacao_instagram():
 
     try:
         texto_recebido = data.get("comentario") or data.get("mensagem") or ""
-        nome = data.get("nome", "Eleitor Instagram")
-        cidade = data.get("cidade", "Goiânia")
+        nome = data.get("nome", "Eleitor")
         sender_id = data.get("sender_id", "")
 
-        # 1. Gera a resposta personalizada na voz do Wilder Morais via IA
-        persona_result = gerar_resposta_persona_wilder(texto_recebido)
-        resposta_texto = persona_result.get("resposta_texto", "")
-        sentimento = persona_result.get("sentimento", "POSITIVO")
+        # Executa o System Prompt Mestre de Wilder Morais
+        ia_result = processar_mensagem_wilder_ia(nome, texto_recebido)
+        
+        genero = ia_result.get("genero_detectado", "HOMEM")
+        cidade = ia_result.get("cidade_detectada", "Goiás")
+        pauta = ia_result.get("pauta_ou_reclamacao", "Geral")
+        sentimento = ia_result.get("sentimento", "POSITIVO")
+        resposta_dm = ia_result.get("resposta_dm", "")
 
-        print(f"🤖 Resposta Persona Wilder ({sentimento}): {resposta_texto}")
+        print(f"🤖 [IA WILDER MESTRE] Gênero: {genero} | Cidade: {cidade} | Pauta: {pauta}")
+        print(f"💬 Resposta DM: {resposta_dm}")
 
-        # 2. Envia a resposta de volta ao Instagram se o sender_id estiver presente
+        # Envia a DM se o sender_id estiver presente
         if sender_id:
-            enviar_resposta_meta_graph_api(sender_id, resposta_texto)
+            enviar_resposta_meta_graph_api(sender_id, resposta_dm)
 
-        # 3. Grava no Supabase CRM
+        # Grava os dados ricos extraídos no Supabase CRM (Conhecimento do META)
         if supabase:
             eleitor_dados = {
                 "nome": nome,
+                "whatsapp": data.get("whatsapp", ""),
                 "cidade": cidade,
-                "pauta_interesse": f"Interação Instagram [{sentimento}]",
-                "fonte_origem": "Persona Wilder IA Auto-Response"
+                "bairro": data.get("bairro", ""),
+                "pauta_interesse": f"{pauta} [{genero}]",
+                "fonte_origem": "Instagram IA Mestre Wilder"
             }
             supabase.table("eleitores_cadastrados").insert(eleitor_dados).execute()
-            print(f"[CRM SUPABASE] Eleitor '{nome}' registrado em {cidade}.")
+            
+            # Se houver reclamação específica, grava também na tabela de demandas populares
+            if sentimento in ["CRITICA", "DUVIDA"] or len(texto_recebido) > 20:
+                demanda_dados = {
+                    "cidade": cidade,
+                    "categoria": pauta,
+                    "descricao": f"[{genero}] {texto_recebido}",
+                    "nivel_urgencia": "MÉDIO"
+                }
+                supabase.table("demandas_populares").insert(demanda_dados).execute()
+                print(f"[CONHECIMENTO REGISTRADO] Dor de {cidade} gravada em demandas_populares!")
 
         return jsonify({
             "status": "sucesso",
-            "sentimento_detectado": sentimento,
-            "resposta_enviada": resposta_texto
+            "genero_detectado": genero,
+            "cidade_detectada": cidade,
+            "pauta_extraida": pauta,
+            "resposta_dm_enviada": resposta_dm
         }), 200
 
     except Exception as e:
@@ -189,5 +233,5 @@ def receber_interacao_instagram():
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
-    print(f"🚀 Servidor Webhook CRM Instagram com Persona Wilder Morais IA na porta {porta}...")
+    print(f"🚀 Servidor Webhook CRM Instagram com System Prompt Mestre de Wilder Morais na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
