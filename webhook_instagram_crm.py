@@ -22,6 +22,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
 VERIFY_TOKEN = os.getenv("INSTAGRAM_VERIFY_TOKEN", "wilder_eleitoral_2026")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 META_ACCESS_TOKEN = os.getenv("META_ACCESS_TOKEN")
+FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL_NAME = "google/gemini-2.5-flash"
 
@@ -38,16 +39,6 @@ if is_supabase_configurado:
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
-
-PROPOSTAS_PATH = os.path.join(os.path.dirname(__file__), "propostas_wilder.json")
-PROPOSTAS_CATALOGO = {}
-if os.path.exists(PROPOSTAS_PATH):
-    try:
-        with open(PROPOSTAS_PATH, "r", encoding="utf-8") as f:
-            PROPOSTAS_CATALOGO = json.load(f)
-            print(f"[OK] Catálogo de Propostas carregado ({len(PROPOSTAS_CATALOGO)} temas configurados).")
-    except Exception as e:
-        print(f"[AVISO] Erro ao carregar propostas_wilder.json: {e}")
 
 app = Flask(__name__)
 
@@ -80,15 +71,11 @@ Responda ESTRITAMENTE em formato JSON com as seguintes chaves:
   "cidade_detectada": "Nome da Cidade ou Goiás",
   "pauta_ou_reclamacao": "Resumo da dor/ideia em 3 palavras",
   "sentimento": "POSITIVO", "CRITICA" ou "DUVIDA",
-  "resposta_dm": "Texto curto da DM (máx 3 frases), terminando com a promessa de resolver e cuidar de Goiás da forma que precisa ser."
+  "resposta_dm": "Texto curto da resposta (máx 3 frases), terminando com a promessa de resolver e cuidar de Goiás da forma que precisa ser."
 }
 """
 
 def processar_mensagem_wilder_ia(nome_eleitor: str, texto_eleitor: str, tipo_interacao: str = "DM") -> dict:
-    """
-    Processa a mensagem do eleitor com o System Prompt Mestre de Wilder Morais.
-    Detecta gênero, cidade, dor/reclamação e gera a resposta direta e objetiva.
-    """
     if not OPENROUTER_API_KEY or OPENROUTER_API_KEY == "your-openrouter-api-key":
         return {
             "genero_detectado": "HOMEM",
@@ -130,10 +117,10 @@ def processar_mensagem_wilder_ia(nome_eleitor: str, texto_eleitor: str, tipo_int
             "resposta_dm": f"Muito obrigado pela mensagem! Pode ter certeza de que estamos prontos para resolver e cuidar de Goiás da forma que precisa ser."
         }
 
-def enviar_resposta_meta_graph_api(recipient_id: str, texto_resposta: str):
-    """Envia a DM de resposta via Meta Graph API v20.0."""
+def enviar_resposta_dm_meta(recipient_id: str, texto_resposta: str):
+    """Envia mensagem direta (DM) no Instagram via Meta Graph API v20.0."""
     if not META_ACCESS_TOKEN or META_ACCESS_TOKEN == "your-meta-access-token":
-        print("[INFO SIMULAÇÃO] Token da Meta ausente. DM gerada:", texto_resposta)
+        print("[INFO SIMULAÇÃO] Token Meta ausente. DM que seria enviada:", texto_resposta)
         return
 
     url = f"https://graph.facebook.com/v20.0/me/messages?access_token={META_ACCESS_TOKEN}"
@@ -145,14 +132,33 @@ def enviar_resposta_meta_graph_api(recipient_id: str, texto_resposta: str):
     try:
         res = requests.post(url, json=payload, timeout=10, verify=False)
         if res.status_code in [200, 201]:
-            print(f"[META GRAPH API] DM enviada com sucesso para ID {recipient_id}!")
+            print(f"[META DM SUCESSO] DM enviada para o usuário ID {recipient_id}!")
         else:
-            print(f"[AVISO META] Status API: {res.status_code} - {res.text}")
+            print(f"[AVISO META DM] Status: {res.status_code} - Detalhe: {res.text}")
     except Exception as err:
-        print(f"[ERRO META API] Falha ao enviar DM via Meta: {err}")
+        print(f"[ERRO META DM] Falha na requisição Meta: {err}")
+
+def responder_comentario_meta(comment_id: str, texto_resposta: str):
+    """Responde publicamente a um COMENTÁRIO no post/Reel via Meta Graph API v20.0."""
+    if not META_ACCESS_TOKEN or META_ACCESS_TOKEN == "your-meta-access-token":
+        print("[INFO SIMULAÇÃO] Token Meta ausente. Resposta ao Comentário que seria enviada:", texto_resposta)
+        return
+
+    url = f"https://graph.facebook.com/v20.0/{comment_id}/replies?access_token={META_ACCESS_TOKEN}"
+    payload = {"message": texto_resposta}
+    
+    try:
+        res = requests.post(url, json=payload, timeout=10, verify=False)
+        if res.status_code in [200, 201]:
+            print(f"[META COMENTÁRIO SUCESSO] Resposta pública enviada para o comentário ID {comment_id}!")
+        else:
+            print(f"[AVISO META COMENTÁRIO] Status: {res.status_code} - Detalhe: {res.text}")
+    except Exception as err:
+        print(f"[ERRO META COMENTÁRIO] Falha na requisição Meta: {err}")
 
 @app.route("/webhook", methods=["GET"])
 def verificar_webhook():
+    """Validação de segurança oficial da Meta."""
     mode = request.args.get("hub.mode")
     token = request.args.get("hub.verify_token")
     challenge = request.args.get("hub.challenge")
@@ -164,74 +170,78 @@ def verificar_webhook():
 
 @app.route("/webhook", methods=["POST"])
 def receber_interacao_instagram():
+    """
+    Recebe eventos em tempo real da Meta para DMs e Comentários do Instagram.
+    Suporta formato padronizado e o payload oficial Webhook da Meta (entry -> messaging / changes).
+    """
     data = request.json or {}
-    print("[WEBHOOK RECEBIDO] Dados brutos:", json.dumps(data, ensure_ascii=False))
-    
-    is_echo = data.get("is_echo", False)
-    sender_id = data.get("sender_id", "")
-    page_id = os.getenv("FACEBOOK_PAGE_ID", "")
-    
-    if is_echo or (page_id and sender_id == page_id):
-        print(f"[HANDOVER HUMANO DETECTADO] Resposta enviada por um assessor humano. Automação pausada.")
-        return jsonify({"status": "ignorado", "motivo": "resposta_humana_prioritaria"}), 200
+    print("[WEBHOOK RECEBIDO] Payload bruto:", json.dumps(data, ensure_ascii=False))
 
-    try:
-        texto_recebido = data.get("comentario") or data.get("mensagem") or ""
-        nome = data.get("nome", "Eleitor")
-        sender_id = data.get("sender_id", "")
+    # 1. PARSER DO PAYLOAD OFICIAL DA META (DMs e Comentários)
+    entries = data.get("entry", [])
+    if entries and isinstance(entries, list):
+        for entry in entries:
+            # A) Eventos de Mensagens Diretas (DMs)
+            messaging_list = entry.get("messaging", [])
+            for messaging in messaging_list:
+                sender_id = messaging.get("sender", {}).get("id")
+                message_obj = messaging.get("message", {})
+                is_echo = message_obj.get("is_echo", False)
+                texto = message_obj.get("text", "")
 
-        # Executa o System Prompt Mestre de Wilder Morais
-        ia_result = processar_mensagem_wilder_ia(nome, texto_recebido)
-        
-        genero = ia_result.get("genero_detectado", "HOMEM")
-        cidade = ia_result.get("cidade_detectada", "Goiás")
-        pauta = ia_result.get("pauta_ou_reclamacao", "Geral")
-        sentimento = ia_result.get("sentimento", "POSITIVO")
-        resposta_dm = ia_result.get("resposta_dm", "")
+                if is_echo or (FACEBOOK_PAGE_ID and sender_id == FACEBOOK_PAGE_ID):
+                    print("[HANDOVER HUMANO] Mensagem enviada por assessor. Bot pausado.")
+                    continue
 
-        print(f"🤖 [IA WILDER MESTRE] Gênero: {genero} | Cidade: {cidade} | Pauta: {pauta}")
-        print(f"💬 Resposta DM: {resposta_dm}")
+                if sender_id and texto:
+                    ia_result = processar_mensagem_wilder_ia("Eleitor Instagram", texto, "DM")
+                    resposta_texto = ia_result.get("resposta_dm", "")
+                    enviar_resposta_dm_meta(sender_id, resposta_texto)
 
-        # Envia a DM se o sender_id estiver presente
-        if sender_id:
-            enviar_resposta_meta_graph_api(sender_id, resposta_dm)
+            # B) Eventos de Comentários em Publicações/Reels
+            changes_list = entry.get("changes", [])
+            for change in changes_list:
+                value = change.get("value", {})
+                comment_id = value.get("comment_id")
+                texto_comentario = value.get("text", "")
+                from_obj = value.get("from", {})
+                user_name = from_obj.get("username", "Eleitor Instagram")
 
-        # Grava os dados ricos extraídos no Supabase CRM (Conhecimento do META)
+                if comment_id and texto_comentario:
+                    ia_result = processar_mensagem_wilder_ia(user_name, texto_comentario, "COMENTARIO")
+                    resposta_texto = ia_result.get("resposta_dm", "")
+                    responder_comentario_meta(comment_id, resposta_texto)
+
+    # 2. PARSER DE TESTE / REQUISIÇÃO DIRETA PADRONIZADA
+    texto_recebido = data.get("comentario") or data.get("mensagem") or ""
+    sender_id_direto = data.get("sender_id", "")
+    comment_id_direto = data.get("comment_id", "")
+    nome_direto = data.get("nome", "Eleitor")
+
+    if texto_recebido and (sender_id_direto or comment_id_direto):
+        ia_result = processar_mensagem_wilder_ia(nome_direto, texto_recebido)
+        resposta_texto = ia_result.get("resposta_dm", "")
+
+        if sender_id_direto:
+            enviar_resposta_dm_meta(sender_id_direto, resposta_texto)
+        if comment_id_direto:
+            responder_comentario_meta(comment_id_direto, resposta_texto)
+
+        # Grava no Supabase CRM
         if supabase:
-            eleitor_dados = {
-                "nome": nome,
-                "whatsapp": data.get("whatsapp", ""),
-                "cidade": cidade,
-                "bairro": data.get("bairro", ""),
-                "pauta_interesse": f"{pauta} [{genero}]",
-                "fonte_origem": "Instagram IA Mestre Wilder"
-            }
-            supabase.table("eleitores_cadastrados").insert(eleitor_dados).execute()
-            
-            # Se houver reclamação específica, grava também na tabela de demandas populares
-            if sentimento in ["CRITICA", "DUVIDA"] or len(texto_recebido) > 20:
-                demanda_dados = {
-                    "cidade": cidade,
-                    "categoria": pauta,
-                    "descricao": f"[{genero}] {texto_recebido}",
-                    "nivel_urgencia": "MÉDIO"
-                }
-                supabase.table("demandas_populares").insert(demanda_dados).execute()
-                print(f"[CONHECIMENTO REGISTRADO] Dor de {cidade} gravada em demandas_populares!")
+            try:
+                supabase.table("eleitores_cadastrados").insert({
+                    "nome": nome_direto,
+                    "cidade": ia_result.get("cidade_detectada", "Goiás"),
+                    "pauta_interesse": f"{ia_result.get('pauta_ou_reclamacao', 'Geral')} [{ia_result.get('genero_detectado', 'HOMEM')}]",
+                    "fonte_origem": "Instagram IA Mestre Wilder"
+                }).execute()
+            except Exception as e:
+                print(f"[AVISO] Erro ao gravar no Supabase: {e}")
 
-        return jsonify({
-            "status": "sucesso",
-            "genero_detectado": genero,
-            "cidade_detectada": cidade,
-            "pauta_extraida": pauta,
-            "resposta_dm_enviada": resposta_dm
-        }), 200
-
-    except Exception as e:
-        print(f"[ERRO WEBHOOK] Falha ao processar interação: {e}")
-        return jsonify({"status": "erro", "detalhe": str(e)}), 500
+    return jsonify({"status": "sucesso", "mensagem": "Webhook processado"}), 200
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
-    print(f"🚀 Servidor Webhook CRM Instagram com System Prompt Mestre de Wilder Morais na porta {porta}...")
+    print(f"🚀 Servidor Webhook CRM Instagram com Resposta Automática a DMs e Comentários rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
