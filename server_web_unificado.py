@@ -16,7 +16,23 @@ if hasattr(sys.stdout, 'reconfigure'):
 load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
-from busca_drive_ia import HTML_BUSCA_DRIVE, buscar_midias
+
+try:
+    from busca_drive_ia import HTML_BUSCA_DRIVE, buscar_midias
+except Exception as e:
+    print(f"[AVISO IMPORTAÇÃO BUSCA DRIVE] Usando fallback para busca drive: {e}")
+    HTML_BUSCA_DRIVE = """
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head><meta charset="UTF-8"><title>Busca Visual Drive IA — Wilder Morais</title></head>
+    <body style="background:#0f172a;color:#fff;font-family:sans-serif;padding:40px;text-align:center;">
+        <h1>🔍 Busca Visual de Mídias por IA (Wilder Morais 2026)</h1>
+        <p>Sistema pronto. Aguardando sincronização de credenciais de serviço do Google Cloud.</p>
+    </body>
+    </html>
+    """
+    def buscar_midias(q=""):
+        return []
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
