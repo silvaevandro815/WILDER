@@ -1,17 +1,9 @@
 version: '3.8'
 
 services:
-  inteligencia-eleitoral:
+  wilder-app:
     build: .
-    container_name: inteligencia_eleitoral_cron
-    restart: always
-    env_file:
-      - .env
-
-  servidor-web-unificado:
-    build: .
-    container_name: servidor_web_unificado_app
-    command: python /app/server_web_unificado.py
+    container_name: wilder_eleitoral_app
     restart: always
     ports:
       - "5000:5000"

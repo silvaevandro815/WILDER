@@ -7,6 +7,10 @@ echo "============================================================"
 # Cria o arquivo de log para o cron
 touch /var/log/cron.log
 
+# Inicia o Servidor Web Unificado (Chatbot, Webhook & Busca Drive IA) na porta 5000 em segundo plano
+python /app/server_web_unificado.py >> /var/log/cron.log 2>&1 &
+echo "[SERVIDORE WEB] Servidor Unificado iniciado na porta 5000."
+
 # Configura a tabela CRON do Linux com PATH explícito
 cat <<EOF > /etc/cron.d/eleitoral-cron
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
