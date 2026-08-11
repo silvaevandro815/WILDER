@@ -1,5 +1,9 @@
+flask
+gunicorn
 supabase
 requests
 pydantic
 python-dotenv
 pytrends
+httpx
+urllib3
