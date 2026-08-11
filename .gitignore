@@ -1,7 +1,14 @@
+# Arquivos de ambiente e chaves privadas de segurança
 .env
+service_account.json
+service_account.json.json
+*.json.json
+
+# Cache do Python
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
-.vscode/
-.idea/
+
+# Logs
+*.log
+/var/log/
