@@ -6,7 +6,6 @@ services:
     container_name: wilder_eleitoral_app
     restart: always
     ports:
-      - "80:80"
       - "5000:5000"
     env_file:
       - .env

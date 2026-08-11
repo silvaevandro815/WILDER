@@ -216,6 +216,6 @@ def receber_interacao_instagram():
     return jsonify({"status": "sucesso"}), 200
 
 if __name__ == "__main__":
-    porta = int(os.getenv("PORT", 80))
+    porta = int(os.getenv("PORT", 5000))
     print(f"🚀 Servidor Unificado (Chat, Webhook & Busca Drive IA) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
