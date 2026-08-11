@@ -163,7 +163,6 @@ def chat_home():
 
 @app.route("/busca_drive", methods=["GET"])
 def busca_drive_home():
-    """Interface de Pesquisa Inteligente no Google Drive do Wilder."""
     return render_template_string(HTML_BUSCA_DRIVE)
 
 @app.route("/api/busca_midia", methods=["GET"])
@@ -217,6 +216,6 @@ def receber_interacao_instagram():
     return jsonify({"status": "sucesso"}), 200
 
 if __name__ == "__main__":
-    porta = int(os.getenv("PORT", 5000))
+    porta = int(os.getenv("PORT", 80))
     print(f"🚀 Servidor Unificado (Chat, Webhook & Busca Drive IA) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)

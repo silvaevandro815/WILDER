@@ -19,7 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia o código-fonte do projeto
 COPY . .
 
-# Expõe a porta 5000 para o Traefik / Coolify
+# Expõe a porta 80 nativa exigida pelo Traefik / Coolify
+EXPOSE 80
 EXPOSE 5000
 
 # Ajusta quebras de linha Unix e permissões de execução no entrypoint.sh
