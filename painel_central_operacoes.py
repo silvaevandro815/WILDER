@@ -14,6 +14,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
+from verificar_saldo_openrouter import checar_saldo_openrouter
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
@@ -35,7 +36,6 @@ if is_supabase_configurado:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
 def verificar_saude_sistema():
-    """Realiza a checagem geral de saúde de todos os componentes da infraestrutura."""
     print("=" * 60)
     print("🛡️ CHECAGEM GERAL DE SAÚDE DO SISTEMA (INTEGRIDADE 360°)")
     print("=" * 60)
@@ -51,11 +51,12 @@ def verificar_saude_sistema():
     else:
         print("✖ Supabase PostgreSQL: Não configurado no .env")
 
-    # 2. OpenRouter AI (Gemini 2.5)
-    if OPENROUTER_API_KEY and OPENROUTER_API_KEY != "your-openrouter-api-key":
-        print("✔ OpenRouter IA (Gemini 2.5): CHAVE CONFIGURADA")
-    else:
-        print("⚠ OpenRouter IA: Chave pendente no .env")
+    # 2. OpenRouter IA & Saldo de Tokens
+    saldo_info = checar_saldo_openrouter()
+    if saldo_info["status"] == "OK":
+        print(f"✔ OpenRouter IA (Gemini 2.5): SALDO OK | Uso: ${saldo_info['uso_dolares']:.4f} USD")
+    elif saldo_info["status"] == "ESGOTADO":
+        print(f"🚨 OpenRouter IA: CRÉDITOS ESGOTADOS! Adicione saldo em https://openrouter.ai/settings/keys")
 
     # 3. Meta Graph API (Instagram / Facebook)
     if META_ACCESS_TOKEN and META_ACCESS_TOKEN != "your-meta-access-token":
@@ -66,9 +67,7 @@ def verificar_saude_sistema():
     print("=" * 60)
 
 def obter_resumo_executivo():
-    """Gera um resumo executivo em tempo real de todas as tabelas da campanha."""
     print("\n📊 RESUMO EXECUTIVO DE DADOS DA CAMPANHA DE WILDER MORAIS:")
-    
     if not supabase:
         print("[INFO] Conecte ao Supabase para visualizar estatísticas ao vivo.")
         return
@@ -83,7 +82,8 @@ def obter_resumo_executivo():
         ("eleitores_cadastrados", "Eleitores no CRM"),
         ("demandas_populares", "Demandas Populares Registradas"),
         ("youtube_performance", "Métricas do YouTube"),
-        ("reclamacoes_cidadaos", "Radar de Reclamações Sociais")
+        ("reclamacoes_cidadaos", "Radar de Reclamações Sociais"),
+        ("midia_drive_indexada", "Mídias do Drive Indexadas por IA")
     ]
 
     for tab, desc in tabelas:
