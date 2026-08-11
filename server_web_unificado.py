@@ -16,6 +16,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
+from busca_drive_ia import HTML_BUSCA_DRIVE, buscar_midias
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
@@ -42,7 +43,6 @@ if is_supabase_configurado:
 
 app = Flask(__name__)
 
-# Template HTML do Chatbot Inteligente para Embutir no Metabase
 HTML_CHAT_WIDGET = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -159,8 +159,18 @@ def processar_mensagem_wilder_ia(nome_eleitor: str, texto_eleitor: str, tipo_int
 @app.route("/", methods=["GET"])
 @app.route("/chat", methods=["GET"])
 def chat_home():
-    """Interface do Chatbot de IA (sem número de porta, limpo e direto)."""
     return render_template_string(HTML_CHAT_WIDGET)
+
+@app.route("/busca_drive", methods=["GET"])
+def busca_drive_home():
+    """Interface de Pesquisa Inteligente no Google Drive do Wilder."""
+    return render_template_string(HTML_BUSCA_DRIVE)
+
+@app.route("/api/busca_midia", methods=["GET"])
+def api_busca_midia():
+    q = request.args.get("q", "")
+    resultados = buscar_midias(q)
+    return jsonify({"status": "sucesso", "query": q, "total": len(resultados), "resultados": resultados}), 200
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
@@ -208,5 +218,5 @@ def receber_interacao_instagram():
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
-    print(f"🚀 Servidor Unificado (Chat & Webhook) rodando na porta {porta}...")
+    print(f"🚀 Servidor Unificado (Chat, Webhook & Busca Drive IA) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
