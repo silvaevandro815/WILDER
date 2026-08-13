@@ -27,7 +27,7 @@ except Exception as e:
     <head><meta charset="UTF-8"><title>Busca Visual Drive IA — Wilder Morais</title></head>
     <body style="background:#0f172a;color:#fff;font-family:sans-serif;padding:40px;text-align:center;">
         <h1>🔍 Busca Visual de Mídias por IA (Wilder Morais 2026)</h1>
-        <p>Sistema pronto. Aguardando sincronização de credenciais de serviço do Google Cloud.</p>
+        <p>Sistema pronto. Aguardando permissão de leitor no Google Drive.</p>
     </body>
     </html>
     """
@@ -232,6 +232,6 @@ def receber_interacao_instagram():
     return jsonify({"status": "sucesso"}), 200
 
 if __name__ == "__main__":
-    porta = int(os.getenv("PORT", 5000))
+    porta = int(os.getenv("PORT", 80))
     print(f"🚀 Servidor Unificado (Chat, Webhook & Busca Drive IA) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
