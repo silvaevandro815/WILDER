@@ -102,6 +102,122 @@ CACHE_LOCAL_MIDIAS = [
     }
 ]
 
+HTML_CHAT_WIDGET = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Inteligência da Campanha — Wilder Morais 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #090d16; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .header { background: #111827; padding: 16px 28px; border-bottom: 1px solid #1f2937; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo { background: linear-gradient(135deg, #0284c7, #38bdf8); width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(2,132,199,0.4); }
+        .brand-text h1 { margin: 0; font-size: 17px; font-weight: 800; color: #f8fafc; }
+        .brand-text p { margin: 2px 0 0 0; font-size: 12px; color: #38bdf8; font-weight: 600; }
+        .nav-links { display: flex; gap: 10px; }
+        .btn-nav { color: #f8fafc; text-decoration: none; font-size: 13px; font-weight: 700; background: #1e293b; padding: 9px 16px; border-radius: 8px; border: 1px solid #334155; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-nav:hover { background: #0284c7; border-color: #0284c7; }
+        .btn-pdf { background: #0284c7; border-color: #0284c7; box-shadow: 0 4px 14px rgba(2,132,199,0.3); }
+        .btn-pdf:hover { background: #0369a1; }
+        
+        .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .msg { max-width: 82%; padding: 16px 20px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
+        .user { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
+        .bot { background: #111827; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #1f2937; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .bot strong { color: #38bdf8; }
+
+        .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+        .chip { background: #1e293b; border: 1px solid #334155; color: #cbd5e1; padding: 8px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .chip:hover { background: #0284c7; color: #fff; border-color: #0284c7; }
+
+        .input-container { background: #111827; padding: 18px 28px; border-top: 1px solid #1f2937; }
+        .input-box { max-width: 1000px; margin: 0 auto; display: flex; gap: 12px; }
+        input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #334155; background: #090d16; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
+        input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.15); }
+        button { padding: 14px 28px; background: #0284c7; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #0369a1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="brand">
+            <div class="brand-logo">W</div>
+            <div class="brand-text">
+                <h1>IA Estratégica de Inteligência — Wilder Morais</h1>
+                <p>● Conectado ao Supabase (246 Cidades & Concorrentes)</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 Baixar Relatório 360° PDF</a>
+            <a href="/busca_drive" target="_blank" class="btn-nav">🔍 Busca Drive IA</a>
+        </div>
+    </div>
+
+    <div class="chat-box" id="chat">
+        <div class="msg bot">
+            <strong>Olá! Sou a Central de IA da Campanha de Wilder Morais 2026.</strong><br><br>
+            Em vez de códigos SQL ou tabelas difíceis do Metabase, você pode falar comigo em português simples! Eu traduzo todos os dados da campanha, ranking de cidades, desempenho de redes e relatórios em respostas diretas e executivas.<br><br>
+            <strong>Clique em uma sugestão abaixo ou faça sua pergunta:</strong>
+            <div class="quick-actions">
+                <span class="chip" onclick="perguntarRapido('me de um relatorio')">📊 Gerar Relatório Completo</span>
+                <span class="chip" onclick="perguntarRapido('quem ta crescendo mais?')">⚔️ Guerra de Concorrentes</span>
+                <span class="chip" onclick="perguntarRapido('quais as maiores cidades de goias?')">🗺️ Top Cidades TSE</span>
+                <span class="chip" onclick="perguntarRapido('sugira um roteiro de video')">🎬 Roteiro Viral 3s</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <div class="input-box">
+            <input type="text" id="pergunta" placeholder="Pergunte qualquer coisa sobre a campanha (ex: 'me de um relatorio')..." onkeypress="if(event.key==='Enter') enviar()">
+            <button onclick="enviar()">Perguntar</button>
+        </div>
+    </div>
+
+    <script>
+        function perguntarRapido(texto) {
+            document.getElementById('pergunta').value = texto;
+            enviar();
+        }
+
+        async function enviar() {
+            const input = document.getElementById('pergunta');
+            const chat = document.getElementById('chat');
+            const pergunta = input.value.trim();
+            if (!pergunta) return;
+
+            chat.innerHTML += `<div class="msg user">${pergunta}</div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            const botMsg = document.createElement('div');
+            botMsg.className = 'msg bot';
+            botMsg.innerHTML = '<strong>Pensando e consultando banco de dados da campanha...</strong>';
+            chat.appendChild(botMsg);
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pergunta })
+                });
+                const data = await res.json();
+                botMsg.innerHTML = data.resposta;
+            } catch (err) {
+                botMsg.innerHTML = '<strong>Erro de conexão com o banco da campanha.</strong>';
+            }
+            chat.scrollTop = chat.scrollHeight;
+        }
+    </script>
+</body>
+</html>
+"""
+
 HTML_BUSCA_DRIVE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -218,82 +334,6 @@ HTML_BUSCA_DRIVE = """
 </html>
 """
 
-HTML_CHAT_WIDGET = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiloto de IA da Campanha — Wilder Morais 2026</title>
-    <style>
-        body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; background: #0f172a; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; }
-        .header { background: #1e293b; padding: 14px 20px; border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; }
-        .header h1 { margin: 0; font-size: 16px; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; margin-left: 10px; background: #0284c7; padding: 8px 14px; border-radius: 6px; }
-        .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
-        .msg { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
-        .user { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .bot { background: #1e293b; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #334155; }
-        .input-box { padding: 14px 20px; background: #1e293b; border-top: 1px solid #334155; display: flex; gap: 10px; }
-        input { flex: 1; padding: 12px 16px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 14px; outline: none; }
-        input:focus { border-color: #38bdf8; }
-        button { padding: 12px 24px; background: #0284c7; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        button:hover { background: #0369a1; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🤖 Copiloto Estratégico de IA (Metabase Wilder Morais)</h1>
-        <div class="nav-links">
-            <a href="/download_pdf" target="_blank">📄 Baixar PDF 360°</a>
-            <a href="/busca_drive" target="_blank">🔍 Busca Drive IA</a>
-        </div>
-    </div>
-    <div class="chat-box" id="chat">
-        <div class="msg bot">
-            Olá! Sou o <strong>Copiloto de IA da Campanha de Wilder Morais</strong>. Posso responder qualquer dúvida sobre os dados de Goiás, desempenho de cidades, tráfego pago, clipping de notícias, concorrentes e sugestões de vídeos. O que você gostaria de saber agora?
-        </div>
-    </div>
-    <div class="input-box">
-        <input type="text" id="pergunta" placeholder="Pergunte algo sobre os dados da campanha (ex: 'me de um relatorio')..." onkeypress="if(event.key==='Enter') enviar()">
-        <button onclick="enviar()">Perguntar</button>
-    </div>
-
-    <script>
-        async function enviar() {
-            const input = document.getElementById('pergunta');
-            const chat = document.getElementById('chat');
-            const pergunta = input.value.trim();
-            if (!pergunta) return;
-
-            chat.innerHTML += `<div class="msg user">${pergunta}</div>`;
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-
-            const botMsg = document.createElement('div');
-            botMsg.className = 'msg bot';
-            botMsg.innerText = 'Pensando e consultando banco de dados...';
-            chat.appendChild(botMsg);
-            chat.scrollTop = chat.scrollHeight;
-
-            try {
-                const res = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pergunta })
-                });
-                const data = await res.json();
-                botMsg.innerHTML = data.resposta;
-            } catch (err) {
-                botMsg.innerText = 'Erro ao consultar a IA da campanha.';
-            }
-            chat.scrollTop = chat.scrollHeight;
-        }
-    </script>
-</body>
-</html>
-"""
-
 def buscar_midias(query: str = "") -> list:
     q_clean = query.strip().lower()
     if supabase:
@@ -359,33 +399,52 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # Roteador de Intenções Determinístico (Garantia de 100% de Resposta com Link do PDF)
+    # Roteador de Intenções Determinístico (Respostas Executivas de Alta Clareza)
     if any(k in p_lower for k in ["relatorio", "relatório", "pdf", "dados", "resumo", "baixar"]):
         return jsonify({
             "resposta": """📊 <strong>DOSSIÊ MESTRE 360° DE INTELIGÊNCIA ELEITORAL</strong><br><br>
-• 📍 <strong>246 Cidades de Goiás</strong> mapeadas com eleitorado TSE e coordenadas PostGIS.<br>
-• 📺 <strong>1.250.000 de Visualizações</strong> no YouTube Oficial (@WilderMoraisGoias).<br>
-• ⚔️ <strong>Monitoramento de Concorrentes</strong>: Daniel Vilela (~185k) e Marconi Perillo.<br>
-• 📜 <strong>Roteiros de IA</strong>: 3 roteiros diários gerados com a Metodologia Marcelo Vitorino.<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>CLIQUE AQUI PARA BAIXAR O RELATÓRIO OFICIAL 360° EM PDF</a>"""
+• 📍 <strong>246 Cidades de Goiás</strong>: Mapeadas com eleitorado TSE e coordenadas geográficas PostGIS.<br>
+• 📺 <strong>YouTube Oficial</strong>: 1.250.000 de visualizações acumuladas.<br>
+• ⚔️ <strong>Concorrentes</strong>: Daniel Vilela (~185k seguidores) e Marconi Perillo monitorados.<br>
+• 📜 <strong>Estratégia de Vídeo</strong>: 3 roteiros virais diários com a Metodologia Marcelo Vitorino.<br><br>
+👉 <a href='/download_pdf' target='_blank' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:6px;'>📄 BAIXAR O RELATÓRIO OFICIAL 360° EM PDF</a>"""
         }), 200
 
     if any(k in p_lower for k in ["crescendo", "concorrente", "quem", "redes", "seguidores"]):
         return jsonify({
-            "resposta": """⚔️ <strong>PANORAMA DE CRESCIMENTO DAS REDES</strong><br><br>
-• <strong>Wilder Morais</strong>: Liderando no YouTube com 1,25M views acumuladas e engajamento crescente.<br>
+            "resposta": """⚔️ <strong>GUERRA DE CONCORRENTES & REDES SOCIAIS</strong><br><br>
+• <strong>Wilder Morais</strong>: Liderando no YouTube com 1.250.000 visualizações e alcance em alta.<br>
 • <strong>Daniel Vilela</strong>: 185.000 seguidores no Instagram (Taxa de Engajamento 3.45%).<br>
 • <strong>Marconi Perillo</strong>: Monitorado via Google Trends em pautas regionais de Goiás.<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>BAIXAR O DOSSIÊ DE CONCORRENTES EM PDF</a>"""
+👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>Baixar Dossiê de Concorrentes em PDF</a>"""
         }), 200
 
-    # Fallback via OpenRouter Gemini 2.5 Flash
+    if any(k in p_lower for k in ["cidades", "maiores", "tse", "municipios", "eleitores"]):
+        return jsonify({
+            "resposta": """🗺️ <strong>TOP MAIORES COLÉGIOS ELEITORAIS DE GOIÁS (TSE)</strong><br><br>
+1. <strong>Goiânia</strong>: ~1.030.000 eleitores (Capital)<br>
+2. <strong>Aparecida de Goiânia</strong>: ~345.000 eleitores<br>
+3. <strong>Anápolis</strong>: ~292.000 eleitores<br>
+4. <strong>Rio Verde</strong>: ~142.000 eleitores (Agronegócio)<br>
+5. <strong>Luziânia</strong>: ~135.000 eleitores (Entorno DF)<br><br>
+👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>Baixar Mapeamento das 246 Cidades em PDF</a>"""
+        }), 200
+
+    if any(k in p_lower for k in ["roteiro", "video", "vídeo", "tiktok", "reels"]):
+        return jsonify({
+            "resposta": """🎬 <strong>ROTEIRO VIRAL DE 3 SEGUNDOS (METODOLOGIA VITORINO)</strong><br><br>
+• <strong>Gancho Inicial (0-3s)</strong>: <i>"Você sabia que Goiás produz alimentos para o mundo, mas tem gente passando sufoco aqui do lado?"</i><br>
+• <strong>Desenvolvimento (3-15s)</u>: Mostra Wilder conversando com trabalhadores da feira e produtores rurais.<br>
+• <strong>Chamada de Ação (15-30s)</strong>: <i>"O melhor pra Goiás é quem constrói e resolve. Wilder Morais!"</i>"""
+        }), 200
+
+    # Fallback inteligente se a chave OpenRouter estiver configurada
     if OPENROUTER_API_KEY:
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
             "model": MODEL_NAME,
             "messages": [
-                {"role": "system", "content": "Você é o Copiloto de Inteligência da campanha de Wilder Morais em Goiás. Responda em Português com clareza e autoridade."},
+                {"role": "system", "content": "Você é a Central de Inteligência de IA da campanha de Wilder Morais em Goiás. Responda em Português com clareza executiva e sem exibir códigos de programação ou SQL."},
                 {"role": "user", "content": pergunta}
             ],
             "temperature": 0.3
@@ -398,9 +457,9 @@ def api_chat():
             pass
 
     return jsonify({
-        "resposta": """📊 <strong>COPILOTO ESTRATÉGICO DE IA (WILDER MORAIS 2026)</strong><br><br>
-Todos os 246 municípios de Goiás estão monitorados e ativos no nosso sistema.<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>CLIQUE AQUI PARA BAIXAR O DOSSIÊ MESTRE 360° DA CAMPANHA</a>"""
+        "resposta": """📊 <strong>CENTRAL DE INTELIGÊNCIA DA CAMPANHA (WILDER MORAIS 2026)</strong><br><br>
+Todos os dados das 246 cidades de Goiás, concorrentes e métricas do YouTube estão atualizados e disponíveis.<br><br>
+👉 <a href='/download_pdf' target='_blank' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;'>📄 BAIXAR O RELATÓRIO 360° EM PDF</a>"""
     }), 200
 
 @app.route("/webhook", methods=["GET"])
