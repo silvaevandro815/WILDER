@@ -1,0 +1,266 @@
+2026-Aug-13 18:32:38.070004 Docker 29.5.2 with BuildKit and Buildx detected on deployment server (localhost).
+2026-Aug-13 18:32:38.089805 Starting deployment of wilder to localhost.
+2026-Aug-13 18:32:38.524545 Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.14
+2026-Aug-13 18:32:38.741358 [DEBUG] [CMD]: docker stop --time=30 kgv06e3z7wuyls8y7wz7hff5
+2026-Aug-13 18:32:38.741358 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Aug-13 18:32:38.748185 [DEBUG] Error response from daemon: No such container: kgv06e3z7wuyls8y7wz7hff5
+2026-Aug-13 18:32:39.125340 [DEBUG] [CMD]: docker run -d --network 'coolify' --name kgv06e3z7wuyls8y7wz7hff5  --rm -v /root/.docker/buildx:/root/.docker/buildx -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.14
+2026-Aug-13 18:32:39.125340 [DEBUG] 50a0a53191e89e41db4399c39657ef42a661d914f3830d12350e6d32c5afa3f9
+2026-Aug-13 18:32:40.542361 [DEBUG] [CMD]: docker exec kgv06e3z7wuyls8y7wz7hff5 bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote '\''https://github.com/silvaevandro815/WILDER'\'' '\''refs/heads/main'\'''
+2026-Aug-13 18:<REDACTED>@\(.*\):#https://\1/#g" '\''/artifacts/kgv06e3z7wuyls8y7wz7hff5'\''/.gitmodules || true && git -c http.version=HTTP/1.1 submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git -c http.version=HTTP/1.1 submodule update --init --recursive --depth=1; fi && cd '\''/artifacts/kgv06e3z7wuyls8y7wz7hff5'\'' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git -c http.version=HTTP/1.1 lfs pull'
+2026-Aug-13 18:<REDACTED>@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 18:33:07.288956 [DEBUG] #6 resolve docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36 0.1s done
+2026-Aug-13 18:33:07.288956 [DEBUG] #6 DONE 0.4s
+2026-Aug-13 18:33:07.288956 [DEBUG] 
+2026-Aug-13 18:33:07.288956 [DEBUG] #5 [internal] load build context
+2026-Aug-13 18:33:07.678112 [DEBUG] #5 ...
+2026-Aug-13 18:33:07.678112 [DEBUG] 
+2026-Aug-13 18:33:07.678112 [DEBUG] #7 [2/5] WORKDIR /app
+2026-Aug-13 18:33:07.678112 [DEBUG] #7 DONE 0.4s
+2026-Aug-13 18:33:07.678112 [DEBUG] 
+2026-Aug-13 18:33:07.678112 [DEBUG] #5 [internal] load build context
+2026-Aug-13 18:33:07.678112 [DEBUG] #5 transferring context: 74.13MB 0.7s done
+2026-Aug-13 18:33:07.859951 [DEBUG] #5 DONE 0.8s
+2026-Aug-13 18:33:07.859951 [DEBUG] 
+2026-Aug-13 18:33:07.859951 [DEBUG] #8 [3/5] COPY requirements.txt .
+2026-Aug-13 18:33:07.878093 [DEBUG] #8 DONE 0.2s
+2026-Aug-13 18:33:08.037264 [DEBUG] #9 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+2026-Aug-13 18:33:11.870273 [DEBUG] #9 3.984 Collecting flask (from -r requirements.txt (line 1))
+2026-Aug-13 18:33:11.997604 [DEBUG] #9 4.023   Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+2026-Aug-13 18:33:11.997604 [DEBUG] #9 4.051 Collecting gunicorn (from -r requirements.txt (line 2))
+2026-Aug-13 18:33:11.997604 [DEBUG] #9 4.057   Downloading gunicorn-26.0.0-py3-none-any.whl.metadata (5.4 kB)
+2026-Aug-13 18:33:11.997604 [DEBUG] #9 4.112 Collecting supabase (from -r requirements.txt (line 3))
+2026-Aug-13 18:33:12.209586 [DEBUG] #9 4.119   Downloading supabase-2.31.0-py3-none-any.whl.metadata (4.7 kB)
+2026-Aug-13 18:33:12.209586 [DEBUG] #9 4.169 Collecting requests (from -r requirements.txt (line 4))
+2026-Aug-13 18:33:12.209586 [DEBUG] #9 4.173   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-Aug-13 18:33:12.209586 [DEBUG] #9 4.325 Collecting pydantic (from -r requirements.txt (line 5))
+2026-Aug-13 18:33:12.319267 [DEBUG] #9 4.329   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-Aug-13 18:33:12.319267 [DEBUG] #9 4.372 Collecting python-dotenv (from -r requirements.txt (line 6))
+2026-Aug-13 18:33:12.319267 [DEBUG] #9 4.378   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+2026-Aug-13 18:33:12.319267 [DEBUG] #9 4.396 Collecting pytrends (from -r requirements.txt (line 7))
+2026-Aug-13 18:33:12.319267 [DEBUG] #9 4.403   Downloading pytrends-4.9.2-py3-none-any.whl.metadata (13 kB)
+2026-Aug-13 18:33:12.319267 [DEBUG] #9 4.433 Collecting httpx (from -r requirements.txt (line 8))
+2026-Aug-13 18:33:12.459126 [DEBUG] #9 4.438   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-Aug-13 18:33:12.459126 [DEBUG] #9 4.479 Collecting urllib3 (from -r requirements.txt (line 9))
+2026-Aug-13 18:33:12.459126 [DEBUG] #9 4.483   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-Aug-13 18:33:12.459126 [DEBUG] #9 4.574 Collecting google-api-python-client (from -r requirements.txt (line 10))
+2026-Aug-13 18:33:12.566176 [DEBUG] #9 4.578   Downloading google_api_python_client-2.198.0-py3-none-any.whl.metadata (7.0 kB)
+2026-Aug-13 18:33:12.566176 [DEBUG] #9 4.631 Collecting google-auth (from -r requirements.txt (line 11))
+2026-Aug-13 18:33:12.566176 [DEBUG] #9 4.634   Downloading google_auth-2.56.3-py3-none-any.whl.metadata (6.0 kB)
+2026-Aug-13 18:33:12.566176 [DEBUG] #9 4.670 Collecting google-auth-httplib2 (from -r requirements.txt (line 12))
+2026-Aug-13 18:33:12.566176 [DEBUG] #9 4.676   Downloading google_auth_httplib2-0.4.1-py3-none-any.whl.metadata (3.0 kB)
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.697 Collecting google-auth-oauthlib (from -r requirements.txt (line 13))
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.701   Downloading google_auth_oauthlib-1.4.0-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.713 Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.716   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.740 Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.747   Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.760 Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.763   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-Aug-13 18:33:12.668897 [DEBUG] #9 4.783 Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 18:33:12.799088 [DEBUG] #9 4.787   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-Aug-13 18:33:12.799088 [DEBUG] #9 4.910 Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 18:33:12.899629 [DEBUG] #9 4.915   Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-Aug-13 18:33:12.899629 [DEBUG] #9 4.952 Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 18:33:12.899629 [DEBUG] #9 4.958   Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+2026-Aug-13 18:33:12.899629 [DEBUG] #9 4.984 Collecting packaging (from gunicorn->-r requirements.txt (line 2))
+2026-Aug-13 18:33:12.899629 [DEBUG] #9 4.990   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-Aug-13 18:33:12.899629 [DEBUG] #9 5.014 Collecting realtime==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.006999 [DEBUG] #9 5.022   Downloading realtime-2.31.0-py3-none-any.whl.metadata (7.0 kB)
+2026-Aug-13 18:33:13.006999 [DEBUG] #9 5.046 Collecting supabase-functions==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.006999 [DEBUG] #9 5.055   Downloading supabase_functions-2.31.0-py3-none-any.whl.metadata (2.4 kB)
+2026-Aug-13 18:33:13.006999 [DEBUG] #9 5.086 Collecting storage3==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.006999 [DEBUG] #9 5.093   Downloading storage3-2.31.0-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 18:33:13.006999 [DEBUG] #9 5.121 Collecting supabase-auth==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.210239 [DEBUG] #9 5.130   Downloading supabase_auth-2.31.0-py3-none-any.whl.metadata (6.4 kB)
+2026-Aug-13 18:33:13.210239 [DEBUG] #9 5.165 Collecting postgrest==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.210239 [DEBUG] #9 5.172   Downloading postgrest-2.31.0-py3-none-any.whl.metadata (3.4 kB)
+2026-Aug-13 18:33:13.480164 [DEBUG] #9 5.594 Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.583663 [DEBUG] #9 5.600   Downloading yarl-1.24.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (103 kB)
+2026-Aug-13 18:33:13.583663 [DEBUG] #9 5.625 Collecting deprecation>=2.1.0 (from postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.583663 [DEBUG] #9 5.628   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-Aug-13 18:33:13.583663 [DEBUG] #9 5.698 Collecting typing-extensions>=4.14.0 (from realtime==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.737755 [DEBUG] #9 5.702   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Aug-13 18:33:13.816702 [DEBUG] #9 5.928 Collecting websockets<16,>=11 (from realtime==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.922963 [DEBUG] #9 5.934   Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-Aug-13 18:33:13.922963 [DEBUG] #9 6.010 Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:13.922963 [DEBUG] #9 6.015   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-Aug-13 18:33:13.922963 [DEBUG] #9 6.037 Collecting strenum>=0.4.15 (from supabase-functions==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:14.081848 [DEBUG] #9 6.042   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-Aug-13 18:33:14.180243 [DEBUG] #9 6.295 Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 18:33:14.281720 [DEBUG] #9 6.301   Downloading charset_normalizer-3.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (44 kB)
+2026-Aug-13 18:33:14.281720 [DEBUG] #9 6.327 Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 18:33:14.281720 [DEBUG] #9 6.334   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-Aug-13 18:33:14.281720 [DEBUG] #9 6.390 Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 18:33:14.281720 [DEBUG] #9 6.396   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-Aug-13 18:33:14.467404 [DEBUG] #9 6.423 Collecting annotated-types>=0.6.0 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 18:33:14.467404 [DEBUG] #9 6.429   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+2026-Aug-13 18:33:15.518974 [DEBUG] #9 7.633 Collecting pydantic-core==2.46.4 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 18:33:15.702063 [DEBUG] #9 7.637   Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-Aug-13 18:33:15.702063 [DEBUG] #9 7.660 Collecting typing-inspection>=0.4.2 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 18:33:15.702063 [DEBUG] #9 7.664   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 18:33:15.758005 [DEBUG] #9 7.872 Collecting pandas>=0.25 (from pytrends->-r requirements.txt (line 7))
+2026-Aug-13 18:33:15.915189 [DEBUG] #9 7.878   Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-Aug-13 18:33:16.252141 [DEBUG] #9 8.366 Collecting lxml (from pytrends->-r requirements.txt (line 7))
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.372   Downloading lxml-6.1.1-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.5 kB)
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.398 Collecting anyio (from httpx->-r requirements.txt (line 8))
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.401   Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.434 Collecting httpcore==1.* (from httpx->-r requirements.txt (line 8))
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.438   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.455 Collecting h11>=0.16 (from httpcore==1.*->httpx->-r requirements.txt (line 8))
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.458   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-Aug-13 18:33:16.365125 [DEBUG] #9 8.479 Collecting httplib2<1.0.0,>=0.19.0 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:16.523222 [DEBUG] #9 8.483   Downloading httplib2-0.32.0-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 18:33:16.562375 [DEBUG] #9 8.675 Collecting google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:16.776414 [DEBUG] #9 8.681   Downloading google_api_core-2.34.0-py3-none-any.whl.metadata (2.9 kB)
+2026-Aug-13 18:33:16.776414 [DEBUG] #9 8.694 Collecting uritemplate<5,>=3.0.1 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:16.776414 [DEBUG] #9 8.701   Downloading uritemplate-4.2.0-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 18:33:16.776414 [DEBUG] #9 8.735 Collecting pyasn1-modules>=0.2.1 (from google-auth->-r requirements.txt (line 11))
+2026-Aug-13 18:33:16.776414 [DEBUG] #9 8.739   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+2026-Aug-13 18:33:16.977417 [DEBUG] #9 9.089 Collecting cryptography>=38.0.3 (from google-auth->-r requirements.txt (line 11))
+2026-Aug-13 18:33:17.129824 [DEBUG] #9 9.097   Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-Aug-13 18:33:17.129824 [DEBUG] #9 9.243 Collecting requests-oauthlib>=0.7.0 (from google-auth-oauthlib->-r requirements.txt (line 13))
+2026-Aug-13 18:33:17.287284 [DEBUG] #9 9.249   Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl.metadata (11 kB)
+2026-Aug-13 18:33:17.385890 [DEBUG] #9 9.500 Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 18:33:17.578408 [DEBUG] #9 9.509   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-Aug-13 18:33:17.578408 [DEBUG] #9 9.539 Collecting googleapis-common-protos<2.0.0,>=1.69.2 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:17.578408 [DEBUG] #9 9.543   Downloading googleapis_common_protos-1.75.1-py3-none-any.whl.metadata (8.5 kB)
+2026-Aug-13 18:33:17.694742 [DEBUG] #9 9.809 Collecting protobuf<8.0.0,>=6.33.5 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:17.838525 [DEBUG] #9 9.814   Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-Aug-13 18:33:17.838525 [DEBUG] #9 9.864 Collecting proto-plus<2.0.0,>=1.26.1 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:17.838525 [DEBUG] #9 9.868   Downloading proto_plus-1.28.3-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 18:33:17.838525 [DEBUG] #9 9.953 Collecting pyparsing<4,>=3.1 (from httplib2<1.0.0,>=0.19.0->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 18:33:17.995188 [DEBUG] #9 9.957   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-Aug-13 18:33:18.195015 [DEBUG] #9 10.31 Collecting numpy>=1.26.0 (from pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 18:33:18.313992 [DEBUG] #9 10.31   Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-Aug-13 18:33:18.313992 [DEBUG] #9 10.33 Collecting python-dateutil>=2.8.2 (from pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 18:33:18.313992 [DEBUG] #9 10.35   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-Aug-13 18:33:18.313992 [DEBUG] #9 10.40 Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 18:33:18.313992 [DEBUG] #9 10.41   Downloading pyasn1-0.6.4-py3-none-any.whl.metadata (8.4 kB)
+2026-Aug-13 18:33:18.313992 [DEBUG] #9 10.43 Collecting oauthlib>=3.0.0 (from requests-oauthlib>=0.7.0->google-auth-oauthlib->-r requirements.txt (line 13))
+2026-Aug-13 18:33:18.481593 [DEBUG] #9 10.43   Downloading oauthlib-3.3.1-py3-none-any.whl.metadata (7.9 kB)
+2026-Aug-13 18:33:18.847316 [DEBUG] #9 10.96 Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:18.958100 [DEBUG] #9 10.97   Downloading multidict-6.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-Aug-13 18:33:18.958100 [DEBUG] #9 11.07 Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:19.116498 [DEBUG] #9 11.08   Downloading propcache-0.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-Aug-13 18:33:19.116498 [DEBUG] #9 11.12 Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 18:33:19.116498 [DEBUG] #9 11.12   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-Aug-13 18:33:19.116498 [DEBUG] #9 11.15 Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:19.116498 [DEBUG] #9 11.16   Downloading h2-4.4.1-py3-none-any.whl.metadata (3.8 kB)
+2026-Aug-13 18:33:19.116498 [DEBUG] #9 11.23 Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.24   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.26 Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.27   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.28 Collecting hpack<5,>=4.2 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.28   Downloading hpack-4.2.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.30 Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.31 Downloading gunicorn-26.0.0-py3-none-any.whl (212 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.31 Downloading supabase-2.31.0-py3-none-any.whl (16 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.32 Downloading postgrest-2.31.0-py3-none-any.whl (23 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.32 Downloading realtime-2.31.0-py3-none-any.whl (22 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.33 Downloading storage3-2.31.0-py3-none-any.whl (28 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.33 Downloading supabase_auth-2.31.0-py3-none-any.whl (48 kB)
+2026-Aug-13 18:33:19.222404 [DEBUG] #9 11.33 Downloading supabase_functions-2.31.0-py3-none-any.whl (8.8 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.34 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.35 Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.36 Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.39    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 91.5 MB/s eta 0:00:00
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.40 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.41 Downloading pytrends-4.9.2-py3-none-any.whl (15 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.41 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.42 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.42 Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.43 Downloading google_api_python_client-2.198.0-py3-none-any.whl (15.6 MB)
+2026-Aug-13 18:33:19.453251 [DEBUG] #9 11.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.6/15.6 MB 120.5 MB/s eta 0:00:00
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.57 Downloading google_auth-2.56.3-py3-none-any.whl (259 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.58 Downloading google_auth_httplib2-0.4.1-py3-none-any.whl (9.5 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.59 Downloading google_auth_oauthlib-1.4.0-py3-none-any.whl (19 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.59 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.59 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.60 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.61 Downloading charset_normalizer-3.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (247 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.61 Downloading click-8.4.2-py3-none-any.whl (119 kB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.62 Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-Aug-13 18:33:19.557783 [DEBUG] #9 11.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 105.6 MB/s eta 0:00:00
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.67 Downloading google_api_core-2.34.0-py3-none-any.whl (180 kB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.68 Downloading httplib2-0.32.0-py3-none-any.whl (93 kB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.68 Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.69 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.70 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.70 Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.71 Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.0 MB)
+2026-Aug-13 18:33:19.691548 [DEBUG] #9 11.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.0/11.0 MB 122.1 MB/s eta 0:00:00
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.81 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.82 Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl (24 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.82 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.83 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.83 Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.84 Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.85 Downloading yarl-1.24.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (109 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.85 Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.86 Downloading lxml-6.1.1-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+2026-Aug-13 18:33:19.794007 [DEBUG] #9 11.91    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 124.6 MB/s eta 0:00:00
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.92 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.92 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.93 Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.93 Downloading googleapis_common_protos-1.75.1-py3-none-any.whl (300 kB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.94 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.94 Downloading multidict-6.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (256 kB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 11.95 Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-Aug-13 18:33:19.983090 [DEBUG] #9 12.09    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 122.0 MB/s eta 0:00:00
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.10 Downloading oauthlib-3.3.1-py3-none-any.whl (160 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.11 Downloading propcache-0.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (61 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.12 Downloading proto_plus-1.28.3-py3-none-any.whl (50 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.13 Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.14 Downloading pyasn1-0.6.4-py3-none-any.whl (84 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.16 Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.16 Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.17 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.18 Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.19 Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-Aug-13 18:33:20.083694 [DEBUG] #9 12.19 Downloading h2-4.4.1-py3-none-any.whl (62 kB)
+2026-Aug-13 18:33:20.101865 [DEBUG] 
+2026-Aug-13 18:33:20.260118 [DEBUG] #9 12.20 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-Aug-13 18:33:20.260118 [DEBUG] #9 12.21 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-Aug-13 18:33:20.260118 [DEBUG] #9 12.22 Downloading hpack-4.2.0-py3-none-any.whl (34 kB)
+2026-Aug-13 18:33:20.260118 [DEBUG] #9 12.22 Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-Aug-13 18:33:20.553600 [DEBUG] #9 12.67 Installing collected packages: strenum, websockets, urllib3, uritemplate, typing-extensions, six, python-dotenv, pyparsing, pyjwt, pycparser, pyasn1, protobuf, propcache, packaging, oauthlib, numpy, multidict, markupsafe, lxml, itsdangerous, idna, hyperframe, hpack, h11, click, charset_normalizer, certifi, blinker, annotated-types, yarl, werkzeug, typing-inspection, requests, python-dateutil, pydantic-core, pyasn1-modules, proto-plus, jinja2, httplib2, httpcore, h2, gunicorn, googleapis-common-protos, deprecation, cffi, anyio, requests-oauthlib, pydantic, pandas, httpx, flask, cryptography, realtime, pytrends, google-auth, supabase-functions, supabase-auth, storage3, postgrest, google-auth-oauthlib, google-auth-httplib2, google-api-core, supabase, google-api-python-client
+2026-Aug-13 18:33:39.725263 [DEBUG] #9 31.84 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2026-Aug-13 18:33:39.725263 [DEBUG] #9 31.84 Successfully installed annotated-types-0.8.0 anyio-4.14.2 blinker-1.9.0 certifi-2026.7.22 cffi-2.1.1 charset_normalizer-3.5.0 click-8.4.2 cryptography-50.0.0 deprecation-2.1.0 flask-3.1.3 google-api-core-2.34.0 google-api-python-client-2.198.0 google-auth-2.56.3 google-auth-httplib2-0.4.1 google-auth-oauthlib-1.4.0 googleapis-common-protos-1.75.1 gunicorn-26.0.0 h11-0.16.0 h2-4.4.1 hpack-4.2.0 httpcore-1.0.9 httplib2-0.32.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 lxml-6.1.1 markupsafe-3.0.3 multidict-6.7.1 numpy-2.5.2 oauthlib-3.3.1 packaging-26.3 pandas-3.0.5 postgrest-2.31.0 propcache-0.5.2 proto-plus-1.28.3 protobuf-7.35.1 pyasn1-0.6.4 pyasn1-modules-0.4.2 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pyjwt-2.13.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 python-dotenv-1.2.2 pytrends-4.9.2 realtime-2.31.0 requests-2.34.2 requests-oauthlib-2.0.0 six-1.17.0 storage3-2.31.0 strenum-0.4.15 supabase-2.31.0 supabase-auth-2.31.0 supabase-functions-2.31.0 typing-extensions-4.16.0 typing-inspection-0.4.4 uritemplate-4.2.0 urllib3-2.7.0 websockets-15.0.1 werkzeug-3.1.8 yarl-1.24.5
+2026-Aug-13 18:33:39.961018 [DEBUG] #9 31.92
+2026-Aug-13 18:33:39.961018 [DEBUG] #9 31.92 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+2026-Aug-13 18:33:39.961018 [DEBUG] #9 31.92 [notice] To update, run: pip install --upgrade pip
+2026-Aug-13 18:33:41.387134 [DEBUG] #9 DONE 33.5s
+2026-Aug-13 18:33:41.548551 [DEBUG] #10 [5/5] COPY . .
+2026-Aug-13 18:33:41.900194 [DEBUG] #10 DONE 0.5s
+2026-Aug-13 18:33:42.064141 [DEBUG] #11 exporting to image
+2026-Aug-13 18:33:42.064141 [DEBUG] #11 exporting layers
+2026-Aug-13 18:34:00.395377 [DEBUG] #11 exporting layers 18.5s done
+2026-Aug-13 18:34:00.395377 [DEBUG] #11 exporting manifest sha256:da9e7f87b87fcb72acec066d851d5cd91f04a58d613f2810328d13f922ba83ba
+2026-Aug-13 18:34:00.523039 [DEBUG] #11 exporting manifest sha256:da9e7f87b87fcb72acec066d851d5cd91f04a58d613f2810328d13f922ba83ba 0.1s done
+2026-Aug-13 18:34:00.523039 [DEBUG] #11 exporting config sha256:6f1b944d877dcd919bffeef29e1f5104f1a25b4d7f9d252ed4631921657f325f
+2026-Aug-13 18:34:00.635294 [DEBUG] #11 exporting config sha256:6f1b944d877dcd919bffeef29e1f5104f1a25b4d7f9d252ed4631921657f325f 0.1s done
+2026-Aug-13 18:34:00.744752 [DEBUG] #11 exporting attestation manifest sha256:b64fc6c563777286d87c56adda80ac7181f5a3c38ac3f3f6ce5cad9280a5a408
+2026-Aug-13 18:34:00.900485 [DEBUG] #11 exporting attestation manifest sha256:b64fc6c563777286d87c56adda80ac7181f5a3c38ac3f3f6ce5cad9280a5a408 0.2s done
+2026-Aug-13 18:34:00.900485 [DEBUG] #11 exporting manifest list sha256:4b23bc612e21c67ddcc9a7a5ee090c8a2611b64f7ebb0faeb6249a8e240f85b8
+2026-Aug-13 18:34:01.149288 [DEBUG] #11 exporting manifest list sha256:4b23bc612e21c67ddcc9a7a5ee090c8a2611b64f7ebb0faeb6249a8e240f85b8 0.1s done
+2026-Aug-13 18:34:01.149288 [DEBUG] #11 naming to docker.io/library/ttib16slj5t6hzjwu1jycvfw_wilder-app:7740cf288194bf41679e7aac431209ea54dd5be0 0.0s done
+2026-Aug-13 18:34:01.149288 [DEBUG] #11 unpacking to docker.io/library/ttib16slj5t6hzjwu1jycvfw_wilder-app:7740cf288194bf41679e7aac431209ea54dd5be0
+2026-Aug-13 18:34:14.825916 [DEBUG] #11 unpacking to docker.io/library/ttib16slj5t6hzjwu1jycvfw_wilder-app:7740cf288194bf41679e7aac431209ea54dd5be0 13.8s done
+2026-Aug-13 18:34:15.013657 [DEBUG] #11 DONE 33.0s
+2026-Aug-13 18:34:15.060880 [DEBUG] #12 resolving provenance for metadata file
+2026-Aug-13 18:34:15.131206 [DEBUG] #12 DONE 0.0s
+2026-Aug-13 18:34:15.148642 [DEBUG] wilder-app  Built
+2026-Aug-13 18:34:15.320854 [DEBUG] Creating .env file with runtime variables for container.
+2026-Aug-13 18:34:15.826843 Removing old containers.
+2026-Aug-13 18:34:16.000292 Starting new application.
+2026-Aug-13 18:34:16.749511 [DEBUG] [CMD]: docker exec kgv06e3z7wuyls8y7wz7hff5 bash -c 'COOLIFY_BRANCH='\''main'\'' COOLIFY_RESOURCE_UUID=ttib16slj5t6hzjwu1jycvfw  docker compose --env-file /artifacts/kgv06e3z7wuyls8y7wz7hff5/.env --project-name ttib16slj5t6hzjwu1jycvfw --project-directory /artifacts/kgv06e3z7wuyls8y7wz7hff5 -f /artifacts/kgv06e3z7wuyls8y7wz7hff5/docker-compose.yml up -d'
+2026-Aug-13 18:34:17.388290 Container wilder-app-ttib16slj5t6hzjwu1jycvfw-183301108405  Creating
+2026-Aug-13 18:34:18.713034 Container wilder-app-ttib16slj5t6hzjwu1jycvfw-183301108405  Created
+2026-Aug-13 18:34:18.725908 Container wilder-app-ttib16slj5t6hzjwu1jycvfw-183301108405  Starting
+2026-Aug-13 18:34:19.014707 Container wilder-app-ttib16slj5t6hzjwu1jycvfw-183301108405  Started
+2026-Aug-13 18:34:19.618167 New container started.
+2026-Aug-13 18:34:20.333269 Gracefully shutting down build container: kgv06e3z7wuyls8y7wz7hff5
+2026-Aug-13 18:34:20.751686 [DEBUG] [CMD]: docker stop --time=30 kgv06e3z7wuyls8y7wz7hff5
+2026-Aug-13 18:34:20.751686 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Aug-13 18:34:21.527992 [DEBUG] kgv06e3z7wuyls8y7wz7hff5

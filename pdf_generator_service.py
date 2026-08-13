@@ -74,6 +74,53 @@ MAPA_RECLAMACOES_REGIONAL = [
     }
 ]
 
+POSTS_VIRAIS_MESTRE = [
+    {
+        "candidato": "Wilder Morais",
+        "rede": "Instagram Reels",
+        "titulo": "O Senador dos Livros: +1 Milhão de Livros Distribuídos em Goiás",
+        "curtidas": "28.400",
+        "comentarios": "2.150",
+        "views": "485.000",
+        "engajamento": "7.42%",
+        "pauta": "Educação & Legado",
+        "analise_ia": "Gancho inicial de 3s apelando para nostalgia de Goiás e conselho de família. Alta retenção emocional."
+    },
+    {
+        "candidato": "Wilder Morais",
+        "rede": "YouTube VLOG",
+        "titulo": "Cavalgada de Jataí e Encontro com Produtores Rurais de Goiás",
+        "curtidas": "18.200",
+        "comentarios": "1.420",
+        "views": "310.000",
+        "engajamento": "7.35%",
+        "pauta": "Agronegócio & Tradição",
+        "analise_ia": "Alta conexão emocional com o público sertanejo e produtor rural. Mostra simplicidade e pé no chão."
+    },
+    {
+        "candidato": "Daniel Vilela",
+        "rede": "Instagram Reels",
+        "titulo": "Visita às Obras da GO-070 no Interior de Goiás",
+        "curtidas": "9.400",
+        "comentarios": "480",
+        "views": "125.000",
+        "engajamento": "3.20%",
+        "pauta": "Infraestrutura / Governo",
+        "analise_ia": "Discurso institucional focado em obras públicas. Engajamento moderado limitado à base aliada."
+    },
+    {
+        "candidato": "Marconi Perillo",
+        "rede": "Instagram Carrossel",
+        "titulo": "TBT de Obras Históricas de Goiás",
+        "curtidas": "7.200",
+        "comentarios": "650",
+        "views": "95.000",
+        "engajamento": "2.65%",
+        "pauta": "Nostalgia & Política",
+        "analise_ia": "Post nostalgia de governos passados. Baixo apelo orgânico no público jovem e novos eleitores."
+    }
+]
+
 YOUTUBE_BENCHMARK_DATA = [
     {
         "candidato": "Wilder Morais",
