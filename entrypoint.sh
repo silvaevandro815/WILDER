@@ -1,17 +1,13 @@
 #!/bin/sh
 
 echo "============================================================"
-echo "🚀 INICIANDO CONTAINER - INTELIGÊNCIA ELEITORAL (COOLIFY)"
+echo "🚀 INICIANDO CONTAINER - INTELIGÊNCIA ELEITORAL (GUNICORN)"
 echo "============================================================"
 
 # Cria o arquivo de log para o cron
 touch /var/log/cron.log
 
-# Inicia o Servidor Web Unificado (Chatbot, Webhook & Busca Drive IA) na porta 5000 em segundo plano
-python /app/server_web_unificado.py >> /var/log/cron.log 2>&1 &
-echo "[SERVIDORES WEB] Servidor Unificado iniciado na porta 5000."
-
-# Configura a tabela CRON do Linux com PATH explícito
+# Configura a tabela CRON do Linux
 cat <<EOF > /etc/cron.d/eleitoral-cron
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 SHELL=/bin/sh
@@ -25,22 +21,11 @@ SHELL=/bin/sh
 0 7 * * * root cd /app && /usr/local/bin/python /app/gerar_relatorio_pdf_360.py >> /var/log/cron.log 2>&1
 EOF
 
-# Aplica as permissões estritas exigidas pelo cron do Linux
 chmod 0644 /etc/cron.d/eleitoral-cron
 crontab /etc/cron.d/eleitoral-cron
 
-echo "[CRON] Serviço configurado com sucesso e verificado:"
-echo " 🕒 monitor_crises.py            -> a cada 15 minutos (*/15 * * * *)"
-echo " 🕒 coleta_metricas.py          -> diariamente à 00:00 (0 0 * * *)"
-echo " 🕒 coleta_trends.py            -> 2x ao dia às 06:00 e 18:00 (0 6,18 * * *)"
-echo " 🕒 coleta_youtube.py           -> diariamente às 12:00 (0 12 * * *)"
-echo " 🕒 monitor_reclamacoes_goias.py -> 2x ao dia às 08:00 e 16:00 (0 8,16 * * *)"
-echo " 🕒 gerar_briefing_diario.py     -> diariamente às 07:30 (30 7 * * *)"
-echo " 🕒 gerar_relatorio_pdf_360.py   -> diariamente às 07:00 (0 7 * * *)"
-echo "============================================================"
-
-# Inicia o serviço do Cron no container
+# Inicia o serviço de tarefas em segundo plano (cron)
 cron
 
-# Transmite o arquivo de log para a saída padrão (stdout) para exibição no Coolify
-exec tail -f /var/log/cron.log
+echo "[GUNICORN] Servidor Unificado rodando na porta 5000 com 3 trabalhadores industriais..."
+exec gunicorn --workers 3 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - server_web_unificado:app
