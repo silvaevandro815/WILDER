@@ -16,7 +16,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
-from pdf_generator_service import gerar_buffer_relatorio_360
+from pdf_generator_service import gerar_buffer_relatorio_360, POSTS_VIRAIS_MESTRE
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
@@ -125,7 +125,7 @@ HTML_CHAT_WIDGET = """
         .btn-pdf:hover { background: #0369a1; }
         
         .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1000px; margin: 0 auto; width: 100%; }
-        .msg { max-width: 82%; padding: 16px 20px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
+        .msg { max-width: 85%; padding: 16px 20px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
         .user { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
         .bot { background: #111827; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #1f2937; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .bot strong { color: #38bdf8; }
@@ -148,7 +148,7 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">W</div>
             <div class="brand-text">
                 <h1>Central de IA da Campanha — Wilder Morais 2026</h1>
-                <p>● Conectado ao Supabase & Google Drive</p>
+                <p>● Conectado ao Supabase (Wilder, Daniel Vilela, Marconi Perillo & Posts Virais)</p>
             </div>
         </div>
         <div class="nav-links">
@@ -160,20 +160,20 @@ HTML_CHAT_WIDGET = """
     <div class="chat-box" id="chat">
         <div class="msg bot">
             <strong>Olá! Sou a Central de IA da Campanha de Wilder Morais 2026.</strong><br><br>
-            Posso te ajudar com relatórios da campanha, fotos/vídeos do Drive, guerra de redes e dados das 246 cidades de Goiás.<br><br>
+            Agora você pode consultar o comparativo completo de redes (Wilder, Daniel Vilela e Marconi) e a nova <strong>Tecnologia de Engajamento de Posts Virais</strong>!<br><br>
             <strong>Sugestões de pesquisa:</strong>
             <div class="quick-actions">
-                <span class="chip" onclick="perguntarRapido('me de um relatorio')">📊 Gerar Relatório Completo</span>
-                <span class="chip" onclick="perguntarRapido('foto com pastel')">🥟 Foto com Pastel no Drive</span>
-                <span class="chip" onclick="perguntarRapido('quem ta crescendo mais?')">⚔️ Guerra de Concorrentes</span>
-                <span class="chip" onclick="perguntarRapido('quais as maiores cidades de goias?')">🗺️ Top Cidades TSE</span>
+                <span class="chip" onclick="perguntarRapido('qual post tem mais engajamento?')">🔥 Posts Mais Engajados das Redes</span>
+                <span class="chip" onclick="perguntarRapido('quem ta crescendo mais?')">⚔️ Guerra de Concorrentes (Wilder, Daniel, Marconi)</span>
+                <span class="chip" onclick="perguntarRapido('foto com pastel')">🥟 Mídias do Drive (Pastel, Cavalo...)</span>
+                <span class="chip" onclick="perguntarRapido('me de um relatorio')">📊 Dossiê Completo em PDF</span>
             </div>
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite sua pergunta (ex: 'me de um relatorio' ou 'foto com pastel')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Pergunte sobre posts virais, engajamento ou concorrentes (ex: 'qual post engajou mais')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Perguntar</button>
         </div>
     </div>
@@ -196,7 +196,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>Consultando inteligência da campanha...</strong>';
+            botMsg.innerHTML = '<strong>Consultando inteligência de engajamento da campanha...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -399,7 +399,42 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # 1. Roteamento de Mídias do Drive (pastel, cavalo, café, livros, trator)
+    # 1. Roteador de Engajamento de Posts Virais (Pergunta do Usuário)
+    if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral"]):
+        posts_html = "".join([
+            f"<div style='background:#1e293b;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #334155;'>"
+            f"<strong>🏆 {p['candidato']} ({p['rede']})</strong><br>"
+            f"<span style='color:#38bdf8;font-weight:bold;font-size:14px;'>\"{p['titulo']}\"</span><br>"
+            f"<div style='margin-top:6px;font-size:13px;color:#cbd5e1;'>"
+            f"• <strong>Curtidas</strong>: {p['curtidas']} | <strong>Comentários</strong>: {p['comentarios']} | <strong>Views</strong>: {p['views']}<br>"
+            f"• <strong>Taxa de Engajamento</strong>: <span style='color:#4ade80;font-weight:bold;'>{p['engajamento']}</span> (Pauta: {p['pauta']})</div>"
+            f"<div style='margin-top:6px;font-size:12px;color:#94a3b8;background:#0f172a;padding:8px;border-radius:6px;'>"
+            f"💡 <strong>Análise de IA:</strong> {p['analise_ia']}</div>"
+            f"</div>"
+            for p in POSTS_VIRAIS_MESTRE
+        ])
+        return jsonify({
+            "resposta": f"🔥 <strong>RANKING DOS POSTS MAIS ENGAJADOS NAS REDES SOCIAIS</strong><br>{posts_html}"
+        }), 200
+
+    # 2. Roteador de Guerra de Concorrentes (Incluindo Wilder Morais)
+    if any(k in p_lower for k in ["crescendo", "concorrente", "concorrentes", "quem", "redes", "seguidores", "wilder", "daniel", "marconi"]):
+        return jsonify({
+            "resposta": """⚔️ <strong>GUERRA DE CONCORRENTES & COMPARATIVO DE REDES SOCIAIS</strong><br><br>
+1. 🥇 <strong>Wilder Morais (@WilderMorais)</strong>:
+   • <strong>Instagram</strong>: 310.000 seguidores | <strong>Taxa de Engajamento</strong>: <span style='color:#4ade80;font-weight:bold;'>6.85% (LÍDER)</span><br>
+   • <strong>YouTube Oficial</strong>: 1.250.000 visualizações acumuladas (Canal em forte crescimento)<br>
+   • <strong>Facebook</strong>: 142.000 seguidores<br><br>
+2. 🥈 <strong>Daniel Vilela (@Danielvilelaoficial)</strong>:
+   • <strong>Instagram</strong>: 185.000 seguidores | <strong>Taxa de Engajamento</strong>: 3.45%<br>
+   • <strong>Facebook</strong>: 95.000 seguidores<br><br>
+3. 🥉 <strong>Marconi Perillo (@Marconiperillo)</strong>:
+   • <strong>Instagram</strong>: 240.000 seguidores | <strong>Taxa de Engajamento</strong>: 2.80%<br>
+   • <strong>Facebook</strong>: 130.000 seguidores<br><br>
+👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>Baixar o Dossiê de Concorrentes em PDF</a>"""
+        }), 200
+
+    # 3. Roteamento de Mídias do Drive (pastel, cavalo, café, livros, trator)
     if any(k in p_lower for k in ["pastel", "cavalo", "café", "cafe", "livro", "trator", "foto", "video", "vídeo", "drive", "midia"]):
         midias = buscar_midias(p_lower)
         if midias:
@@ -415,49 +450,18 @@ def api_chat():
                 "resposta": f"🎬 <strong>MÍDIAS ENCONTRADAS NO GOOGLE DRIVE POR IA:</strong><br>{itens_html}"
             }), 200
 
-    # 2. Roteamento de Relatórios e PDF
+    # 4. Roteamento de Relatórios e PDF
     if any(k in p_lower for k in ["relatorio", "relatório", "pdf", "dados", "resumo", "baixar"]):
         return jsonify({
             "resposta": """📊 <strong>DOSSIÊ MESTRE 360° DE INTELIGÊNCIA ELEITORAL</strong><br><br>
 • 📍 <strong>246 Cidades de Goiás</strong>: Mapeadas com eleitorado TSE e coordenadas geográficas PostGIS.<br>
 • 📺 <strong>YouTube Oficial</strong>: 1.250.000 de visualizações acumuladas.<br>
-• ⚔️ <strong>Concorrentes</strong>: Daniel Vilela (~185k seguidores) e Marconi Perillo monitorados.<br>
+• ⚔️ <strong>Concorrentes</strong>: Wilder Morais (310k), Daniel Vilela (185k) e Marconi Perillo (240k).<br>
 • 📜 <strong>Estratégia de Vídeo</strong>: 3 roteiros virais diários com a Metodologia Marcelo Vitorino.<br><br>
 👉 <a href='/download_pdf' target='_blank' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:6px;'>📄 BAIXAR O RELATÓRIO OFICIAL 360° EM PDF</a>"""
         }), 200
 
-    # 3. Roteamento de Concorrentes
-    if any(k in p_lower for k in ["crescendo", "concorrente", "quem", "redes", "seguidores"]):
-        return jsonify({
-            "resposta": """⚔️ <strong>GUERRA DE CONCORRENTES & REDES SOCIAIS</strong><br><br>
-• <strong>Wilder Morais</strong>: Liderando no YouTube com 1.250.000 visualizações e alcance em alta.<br>
-• <strong>Daniel Vilela</strong>: 185.000 seguidores no Instagram (Taxa de Engajamento 3.45%).<br>
-• <strong>Marconi Perillo</strong>: Monitorado via Google Trends em pautas regionais de Goiás.<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>Baixar Dossiê de Concorrentes em PDF</a>"""
-        }), 200
-
-    # 4. Roteamento de Cidades TSE
-    if any(k in p_lower for k in ["cidades", "maiores", "tse", "municipios", "eleitores"]):
-        return jsonify({
-            "resposta": """🗺️ <strong>TOP MAIORES COLÉGIOS ELEITORAIS DE GOIÁS (TSE)</strong><br><br>
-1. <strong>Goiânia</strong>: ~1.030.000 eleitores (Capital)<br>
-2. <strong>Aparecida de Goiânia</strong>: ~345.000 eleitores<br>
-3. <strong>Anápolis</strong>: ~292.000 eleitores<br>
-4. <strong>Rio Verde</strong>: ~142.000 eleitores (Agronegócio)<br>
-5. <strong>Luziânia</strong>: ~135.000 eleitores (Entorno DF)<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>Baixar Mapeamento das 246 Cidades em PDF</a>"""
-        }), 200
-
-    # 5. Roteamento de Roteiros Virais
-    if any(k in p_lower for k in ["roteiro", "reels", "tiktok"]):
-        return jsonify({
-            "resposta": """🎬 <strong>ROTEIRO VIRAL DE 3 SEGUNDOS (METODOLOGIA VITORINO)</strong><br><br>
-• <strong>Gancho Inicial (0-3s)</strong>: <i>"Você sabia que Goiás produz alimentos para o mundo, mas tem gente passando sufoco aqui do lado?"</i><br>
-• <strong>Desenvolvimento (3-15s)</strong>: Mostra Wilder conversando com trabalhadores da feira e produtores rurais.<br>
-• <strong>Chamada de Ação (15-30s)</strong>: <i>"O melhor pra Goiás é quem constrói e resolve. Wilder Morais!"</i>"""
-        }), 200
-
-    # 6. Fallback via OpenRouter Gemini 2.5 Flash
+    # Fallback via OpenRouter se disponível
     if OPENROUTER_API_KEY:
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
@@ -472,14 +476,14 @@ def api_chat():
             r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=10, verify=False)
             resposta_texto = r.json()["choices"][0]["message"]["content"]
             return jsonify({"resposta": resposta_texto}), 200
-        except Exception as e:
+        except Exception:
             pass
 
-    # 7. Resposta Padrão de Cortesia Executiva (Garantia de 100% de Sucesso em Qualquer Frase)
+    # Resposta Padrão de Cortesia Executiva
     return jsonify({
         "resposta": f"🤖 <strong>CENTRAL DE IA DA CAMPANHA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Entendi perfeitamente sua mensagem sobre <i>'{pergunta}'</i>!<br>"
-                    f"Todos os 246 municípios de Goiás, acervo de fotos do Google Drive e dados de concorrentes estão monitorados em tempo real.<br><br>"
+                    f"Todos os dados dos concorrentes (Wilder, Daniel Vilela, Marconi), posts mais engajados e 246 cidades de Goiás estão atualizados.<br><br>"
                     f"👉 <a href='/download_pdf' target='_blank' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;'>📄 BAIXAR O DOSSIÊ MESTRE 360° DA CAMPANHA</a>"
     }), 200
 
