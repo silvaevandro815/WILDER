@@ -1,0 +1,752 @@
+2026-Aug-13 15:24:46.226635 Docker 29.5.2 with BuildKit and Buildx detected on deployment server (localhost).
+2026-Aug-13 15:24:46.237911 Starting deployment of wilder to localhost.
+2026-Aug-13 15:24:46.740487 Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.14
+2026-Aug-13 15:24:46.904637 [DEBUG] [CMD]: docker stop --time=30 fqjbna5dccqf9n7r5mf1asxp
+2026-Aug-13 15:24:46.904637 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Aug-13 15:24:46.910561 [DEBUG] Error response from daemon: No such container: fqjbna5dccqf9n7r5mf1asxp
+2026-Aug-13 15:24:47.626238 [DEBUG] [CMD]: docker run -d --network 'coolify' --name fqjbna5dccqf9n7r5mf1asxp  --rm -v /root/.docker/buildx:/root/.docker/buildx -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.14
+2026-Aug-13 15:24:47.626238 [DEBUG] 05f93125b060dcd282f5986ae6fb8524937d89ee5d88d71224ce6ad98d697679
+2026-Aug-13 15:24:49.486758 [DEBUG] [CMD]: docker exec fqjbna5dccqf9n7r5mf1asxp bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote '\''https://github.com/silvaevandro815/WILDER'\'' '\''refs/heads/main'\'''
+2026-Aug-13 15:<REDACTED>@\(.*\):#https://\1/#g" '\''/artifacts/fqjbna5dccqf9n7r5mf1asxp'\''/.gitmodules || true && git -c http.version=HTTP/1.1 submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git -c http.version=HTTP/1.1 submodule update --init --recursive --depth=1; fi && cd '\''/artifacts/fqjbna5dccqf9n7r5mf1asxp'\'' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git -c http.version=HTTP/1.1 lfs pull'
+2026-Aug-13 15:<REDACTED>@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 15:25:17.093302 [DEBUG] #6 resolve docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 15:25:17.491307 [DEBUG] #6 resolve docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36 0.4s done
+2026-Aug-13 15:25:17.491307 [DEBUG] #6 DONE 0.5s
+2026-Aug-13 15:25:17.727213 [DEBUG] #6 [1/7] FROM docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 15:25:17.727213 [DEBUG] #6 CACHED
+2026-Aug-13 15:25:17.727213 [DEBUG] 
+2026-Aug-13 15:25:17.727213 [DEBUG] #5 [internal] load build context
+2026-Aug-13 15:25:21.210628 [DEBUG] #5 transferring context: 126.69MB 3.3s done
+2026-Aug-13 15:25:21.210628 [DEBUG] #5 DONE 3.5s
+2026-Aug-13 15:25:21.210628 [DEBUG] 
+2026-Aug-13 15:25:21.210628 [DEBUG] #7 [2/7] RUN apt-get update && apt-get install -y --no-install-recommends     cron     curl     && rm -rf /var/lib/apt/lists/*
+2026-Aug-13 15:25:21.210628 [DEBUG] #7 1.381 Hit:1 http://deb.debian.org/debian trixie InRelease
+2026-Aug-13 15:<REDACTED>@INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 28.)
+2026-Aug-13 15:25:26.528290 [DEBUG] #7 8.775 debconf: falling back to frontend: Teletype
+2026-Aug-13 15:25:26.528290 [DEBUG] #7 8.788 debconf: unable to initialize frontend: Teletype
+2026-Aug-13 15:25:26.528290 [DEBUG] #7 8.788 debconf: (This frontend requires a controlling tty.)
+2026-Aug-13 15:25:26.528290 [DEBUG] #7 8.788 debconf: falling back to frontend: Noninteractive
+2026-Aug-13 15:25:27.512909 [DEBUG] #7 9.927 Fetched 10.3 MB in 0s (28.4 MB/s)
+2026-Aug-13 15:25:27.709717 [DEBUG] #7 10.12 Selecting previously unselected package libsystemd-shared:amd64.
+2026-Aug-13 15:25:27.709717 [DEBUG] #7 10.12 (Reading database ...
+2026-Aug-13 15:25:27.950963 [DEBUG] (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+2026-Aug-13 15:25:27.950963 [DEBUG] #7 10.19 Preparing to unpack .../libsystemd-shared_257.13-1~deb13u1_amd64.deb ...
+2026-Aug-13 15:25:27.950963 [DEBUG] #7 10.22 Unpacking libsystemd-shared:amd64 (257.13-1~deb13u1) ...
+2026-Aug-13 15:25:28.330248 [DEBUG] #7 10.75 Selecting previously unselected package libapparmor1:amd64.
+2026-Aug-13 15:25:28.574653 [DEBUG] #7 10.75 Preparing to unpack .../libapparmor1_4.1.0-1_amd64.deb ...
+2026-Aug-13 15:25:28.574653 [DEBUG] #7 10.83 Unpacking libapparmor1:amd64 (4.1.0-1) ...
+2026-Aug-13 15:25:28.648558 [DEBUG] #7 11.06 Setting up libsystemd-shared:amd64 (257.13-1~deb13u1) ...
+2026-Aug-13 15:25:29.170240 [DEBUG] #7 11.58 Selecting previously unselected package systemd.
+2026-Aug-13 15:25:29.170240 [DEBUG] #7 11.58 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%
+2026-Aug-13 15:25:29.393975 [DEBUG] (Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5658 files and directories currently installed.)
+2026-Aug-13 15:25:29.393975 [DEBUG] #7 11.59 Preparing to unpack .../systemd_257.13-1~deb13u1_amd64.deb ...
+2026-Aug-13 15:25:29.393975 [DEBUG] #7 11.66 Unpacking systemd (257.13-1~deb13u1) ...
+2026-Aug-13 15:25:30.008807 [DEBUG] #7 12.42 Selecting previously unselected package cron-daemon-common.
+2026-Aug-13 15:25:30.201557 [DEBUG] #7 12.43 Preparing to unpack .../cron-daemon-common_3.0pl1-197_all.deb ...
+2026-Aug-13 15:25:30.201557 [DEBUG] #7 12.47 Unpacking cron-daemon-common (3.0pl1-197) ...
+2026-Aug-13 15:25:30.222684 [DEBUG] #7 12.63 Selecting previously unselected package sensible-utils.
+2026-Aug-13 15:25:30.400329 [DEBUG] #7 12.64 Preparing to unpack .../sensible-utils_0.0.25_all.deb ...
+2026-Aug-13 15:25:30.400329 [DEBUG] #7 12.66 Unpacking sensible-utils (0.0.25) ...
+2026-Aug-13 15:25:30.530157 [DEBUG] #7 12.94 Setting up libapparmor1:amd64 (4.1.0-1) ...
+2026-Aug-13 15:25:30.756584 [DEBUG] #7 13.02 Setting up systemd (257.13-1~deb13u1) ...
+2026-Aug-13 15:25:30.786736 [DEBUG] #7 13.17 Created symlink '/etc/systemd/system/getty.target.wants/<REDACTED>' → '/usr/lib/systemd/system/getty@.service'.
+2026-Aug-13 15:25:30.875502 [DEBUG] #7 13.19 Created symlink '/etc/systemd/system/multi-user.target.wants/remote-fs.target' → '/usr/lib/systemd/system/remote-fs.target'.
+2026-Aug-13 15:25:30.875502 [DEBUG] #7 13.21 Created symlink '/etc/systemd/system/sysinit.target.wants/systemd-pstore.service' → '/usr/lib/systemd/system/systemd-pstore.service'.
+2026-Aug-13 15:25:30.875502 [DEBUG] #7 13.22 Initializing machine ID from random generator.
+2026-Aug-13 15:25:30.875502 [DEBUG] #7 13.29 Creating group 'systemd-journal' with GID 999.
+2026-Aug-13 15:25:30.875502 [DEBUG] #7 13.29 Creating group 'systemd-network' with GID 998.
+2026-Aug-13 15:25:30.875502 [DEBUG] #7 13.29 Creating user 'systemd-network' (systemd Network Management) with UID 998 and GID 998.
+2026-Aug-13 15:25:31.052578 [DEBUG] #7 13.37 /usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", ignoring.
+2026-Aug-13 15:25:31.052578 [DEBUG] #7 13.47 Setting up cron-daemon-common (3.0pl1-197) ...
+2026-Aug-13 15:25:31.302460 [DEBUG] #7 13.57 Creating group 'crontab' with GID 997.
+2026-Aug-13 15:25:31.316340 [DEBUG] #7 13.73 Selecting previously unselected package cron.
+2026-Aug-13 15:25:31.316340 [DEBUG] #7 13.73 (Reading database ...
+2026-Aug-13 15:25:31.505554 [DEBUG] (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6644 files and directories currently installed.)
+2026-Aug-13 15:25:31.505554 [DEBUG] #7 13.74 Preparing to unpack .../00-cron_3.0pl1-197_amd64.deb ...
+2026-Aug-13 15:25:31.505554 [DEBUG] #7 13.77 Unpacking cron (3.0pl1-197) ...
+2026-Aug-13 15:25:31.528661 [DEBUG] #7 13.94 Selecting previously unselected package libbrotli1:amd64.
+2026-Aug-13 15:25:31.716643 [DEBUG] #7 13.94 Preparing to unpack .../01-libbrotli1_1.1.0-2+b7_amd64.deb ...
+2026-Aug-13 15:25:31.716643 [DEBUG] #7 13.98 Unpacking libbrotli1:amd64 (1.1.0-2+b7) ...
+2026-Aug-13 15:25:31.741833 [DEBUG] #7 14.16 Selecting previously unselected package libkrb5support0:amd64.
+2026-Aug-13 15:25:31.922752 [DEBUG] #7 14.16 Preparing to unpack .../02-libkrb5support0_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:31.922752 [DEBUG] #7 14.18 Unpacking libkrb5support0:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:31.944077 [DEBUG] #7 14.36 Selecting previously unselected package libcom-err2:amd64.
+2026-Aug-13 15:25:32.118338 [DEBUG] #7 14.36 Preparing to unpack .../03-libcom-err2_1.47.2-3+b11_amd64.deb ...
+2026-Aug-13 15:25:32.118338 [DEBUG] #7 14.38 Unpacking libcom-err2:amd64 (1.47.2-3+b11) ...
+2026-Aug-13 15:25:32.171383 [DEBUG] #7 14.58 Selecting previously unselected package libk5crypto3:amd64.
+2026-Aug-13 15:25:32.360329 [DEBUG] #7 14.59 Preparing to unpack .../04-libk5crypto3_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:32.360329 [DEBUG] #7 14.61 Unpacking libk5crypto3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:32.360329 [DEBUG] #7 14.76 Selecting previously unselected package libkeyutils1:amd64.
+2026-Aug-13 15:25:32.514389 [DEBUG] #7 14.78 Preparing to unpack .../05-libkeyutils1_1.6.3-6_amd64.deb ...
+2026-Aug-13 15:25:32.514389 [DEBUG] #7 14.81 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+2026-Aug-13 15:25:32.514389 [DEBUG] #7 14.93 Selecting previously unselected package libkrb5-3:amd64.
+2026-Aug-13 15:25:32.705533 [DEBUG] #7 14.93 Preparing to unpack .../06-libkrb5-3_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:32.705533 [DEBUG] #7 14.96 Unpacking libkrb5-3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:32.755649 [DEBUG] #7 15.17 Selecting previously unselected package libgssapi-krb5-2:amd64.
+2026-Aug-13 15:25:32.908216 [DEBUG] #7 15.17 Preparing to unpack .../07-libgssapi-krb5-2_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:32.908216 [DEBUG] #7 15.18 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:32.908216 [DEBUG] #7 15.32 Selecting previously unselected package libunistring5:amd64.
+2026-Aug-13 15:25:33.089306 [DEBUG] #7 15.33 Preparing to unpack .../08-libunistring5_1.3-2_amd64.deb ...
+2026-Aug-13 15:25:33.089306 [DEBUG] #7 15.35 Unpacking libunistring5:amd64 (1.3-2) ...
+2026-Aug-13 15:25:33.102267 [DEBUG] #7 15.50 Selecting previously unselected package libidn2-0:amd64.
+2026-Aug-13 15:25:33.194147 [DEBUG] #7 15.51 Preparing to unpack .../09-libidn2-0_2.3.8-2_amd64.deb ...
+2026-Aug-13 15:25:33.194147 [DEBUG] #7 15.52 Unpacking libidn2-0:amd64 (2.3.8-2) ...
+2026-Aug-13 15:25:33.194147 [DEBUG] #7 15.61 Selecting previously unselected package libsasl2-modules-db:amd64.
+2026-Aug-13 15:25:33.328439 [DEBUG] #7 15.61 Preparing to unpack .../10-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+2026-Aug-13 15:25:33.328439 [DEBUG] #7 15.63 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:25:33.328439 [DEBUG] #7 15.74 Selecting previously unselected package libsasl2-2:amd64.
+2026-Aug-13 15:25:33.430664 [DEBUG] #7 15.75 Preparing to unpack .../11-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+2026-Aug-13 15:25:33.430664 [DEBUG] #7 15.76 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:25:33.430664 [DEBUG] #7 15.85 Selecting previously unselected package libldap2:amd64.
+2026-Aug-13 15:25:33.552563 [DEBUG] #7 15.85 Preparing to unpack .../12-libldap2_2.6.10+dfsg-1_amd64.deb ...
+2026-Aug-13 15:25:33.552563 [DEBUG] #7 15.86 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+2026-Aug-13 15:25:33.552563 [DEBUG] #7 15.97 Selecting previously unselected package libnghttp2-14:amd64.
+2026-Aug-13 15:25:33.669691 [DEBUG] #7 15.97 Preparing to unpack .../13-libnghttp2-14_1.64.0-1.1+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:33.669691 [DEBUG] #7 15.98 Unpacking libnghttp2-14:amd64 (1.64.0-1.1+deb13u1) ...
+2026-Aug-13 15:25:33.669691 [DEBUG] #7 16.06 Selecting previously unselected package libnghttp3-9:amd64.
+2026-Aug-13 15:25:33.669691 [DEBUG] #7 16.07 Preparing to unpack .../14-libnghttp3-9_1.8.0-1_amd64.deb ...
+2026-Aug-13 15:25:33.669691 [DEBUG] #7 16.08 Unpacking libnghttp3-9:amd64 (1.8.0-1) ...
+2026-Aug-13 15:25:33.778372 [DEBUG] #7 16.17 Selecting previously unselected package libpsl5t64:amd64.
+2026-Aug-13 15:25:33.778372 [DEBUG] #7 16.18 Preparing to unpack .../15-libpsl5t64_0.21.2-1.1+b1_amd64.deb ...
+2026-Aug-13 15:25:33.778372 [DEBUG] #7 16.19 Unpacking libpsl5t64:amd64 (0.21.2-1.1+b1) ...
+2026-Aug-13 15:25:33.981352 [DEBUG] #7 16.28 Selecting previously unselected package libp11-kit0:amd64.
+2026-Aug-13 15:25:33.981352 [DEBUG] #7 16.28 Preparing to unpack .../16-libp11-kit0_0.25.5-3_amd64.deb ...
+2026-Aug-13 15:25:33.981352 [DEBUG] #7 16.29 Unpacking libp11-kit0:amd64 (0.25.5-3) ...
+2026-Aug-13 15:25:33.981352 [DEBUG] #7 16.40 Selecting previously unselected package libtasn1-6:amd64.
+2026-Aug-13 15:25:34.118289 [DEBUG] #7 16.40 Preparing to unpack .../17-libtasn1-6_4.20.0-2+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:34.118289 [DEBUG] #7 16.42 Unpacking libtasn1-6:amd64 (4.20.0-2+deb13u1) ...
+2026-Aug-13 15:25:34.118289 [DEBUG] #7 16.53 Selecting previously unselected package libgnutls30t64:amd64.
+2026-Aug-13 15:25:34.291818 [DEBUG] #7 16.53 Preparing to unpack .../18-libgnutls30t64_3.8.9-3+deb13u4_amd64.deb ...
+2026-Aug-13 15:25:34.291818 [DEBUG] #7 16.55 Unpacking libgnutls30t64:amd64 (3.8.9-3+deb13u4) ...
+2026-Aug-13 15:25:34.355873 [DEBUG] #7 16.77 Selecting previously unselected package librtmp1:amd64.
+2026-Aug-13 15:25:34.532418 [DEBUG] #7 16.77 Preparing to unpack .../19-librtmp1_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb ...
+2026-Aug-13 15:25:34.532418 [DEBUG] #7 16.80 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+2026-Aug-13 15:25:34.532418 [DEBUG] #7 16.94 Selecting previously unselected package libssh2-1t64:amd64.
+2026-Aug-13 15:25:34.701593 [DEBUG] #7 16.95 Preparing to unpack .../20-libssh2-1t64_1.11.1-1+deb13u1_amd64.deb ...
+2026-Aug-13 15:25:34.701593 [DEBUG] #7 16.96 Unpacking libssh2-1t64:amd64 (1.11.1-1+deb13u1) ...
+2026-Aug-13 15:25:34.740163 [DEBUG] #7 17.15 Selecting previously unselected package libcurl4t64:amd64.
+2026-Aug-13 15:25:34.874292 [DEBUG] #7 17.16 Preparing to unpack .../21-libcurl4t64_8.14.1-2+deb13u4_amd64.deb ...
+2026-Aug-13 15:25:34.874292 [DEBUG] #7 17.17 Unpacking libcurl4t64:amd64 (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:25:34.874292 [DEBUG] #7 17.28 Selecting previously unselected package curl.
+2026-Aug-13 15:25:35.045428 [DEBUG] #7 17.29 Preparing to unpack .../22-curl_8.14.1-2+deb13u4_amd64.deb ...
+2026-Aug-13 15:25:35.045428 [DEBUG] #7 17.31 Unpacking curl (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:25:35.065604 [DEBUG] #7 17.48 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+2026-Aug-13 15:25:35.180300 [DEBUG] #7 17.59 Setting up libbrotli1:amd64 (1.1.0-2+b7) ...
+2026-Aug-13 15:25:35.314248 [DEBUG] #7 17.64 Setting up libnghttp2-14:amd64 (1.64.0-1.1+deb13u1) ...
+2026-Aug-13 15:25:35.314248 [DEBUG] #7 17.67 Setting up libcom-err2:amd64 (1.47.2-3+b11) ...
+2026-Aug-13 15:25:35.314248 [DEBUG] #7 17.73 Setting up libkrb5support0:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:35.431368 [DEBUG] #7 17.77 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:25:35.431368 [DEBUG] #7 17.80 Setting up libp11-kit0:amd64 (0.25.5-3) ...
+2026-Aug-13 15:25:35.431368 [DEBUG] #7 17.85 Setting up libunistring5:amd64 (1.3-2) ...
+2026-Aug-13 15:25:35.557597 [DEBUG] #7 17.91 Setting up libk5crypto3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:35.557597 [DEBUG] #7 17.97 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:25:35.699126 [DEBUG] #7 18.02 Setting up libnghttp3-9:amd64 (1.8.0-1) ...
+2026-Aug-13 15:25:35.699126 [DEBUG] #7 18.07 Setting up sensible-utils (0.0.25) ...
+2026-Aug-13 15:25:35.699126 [DEBUG] #7 18.11 Setting up libtasn1-6:amd64 (4.20.0-2+deb13u1) ...
+2026-Aug-13 15:25:35.833147 [DEBUG] #7 18.16 Setting up libkrb5-3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:35.833147 [DEBUG] #7 18.21 Setting up libssh2-1t64:amd64 (1.11.1-1+deb13u1) ...
+2026-Aug-13 15:25:35.833147 [DEBUG] #7 18.24 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+2026-Aug-13 15:25:36.029870 [DEBUG] #7 18.29 Setting up cron (3.0pl1-197) ...
+2026-Aug-13 15:25:36.125025 [DEBUG] #7 18.53 invoke-rc.d: could not determine current runlevel
+2026-Aug-13 15:25:36.290979 [DEBUG] #7 18.55 invoke-rc.d: policy-rc.d denied execution of start.
+2026-Aug-13 15:25:36.357896 [DEBUG] #7 18.77 Created symlink '/etc/systemd/system/multi-user.target.wants/cron.service' → '/usr/lib/systemd/system/cron.service'.
+2026-Aug-13 15:25:36.478968 [DEBUG] #7 18.80 Setting up libidn2-0:amd64 (2.3.8-2) ...
+2026-Aug-13 15:25:36.478968 [DEBUG] #7 18.83 Setting up libgssapi-krb5-2:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:25:36.478968 [DEBUG] #7 18.87 Setting up libgnutls30t64:amd64 (3.8.9-3+deb13u4) ...
+2026-Aug-13 15:25:36.478968 [DEBUG] #7 18.89 Setting up libpsl5t64:amd64 (0.21.2-1.1+b1) ...
+2026-Aug-13 15:25:36.584841 [DEBUG] #7 18.92 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+2026-Aug-13 15:25:36.584841 [DEBUG] #7 18.96 Setting up libcurl4t64:amd64 (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:25:36.584841 [DEBUG] #7 19.00 Setting up curl (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:25:36.776611 [DEBUG] #7 19.03 Processing triggers for libc-bin (2.41-12+deb13u3) ...
+2026-Aug-13 15:25:36.978720 [DEBUG] #7 DONE 19.4s
+2026-Aug-13 15:25:37.136097 [DEBUG] #8 [3/7] WORKDIR /app
+2026-Aug-13 15:25:37.228668 [DEBUG] #8 DONE 0.2s
+2026-Aug-13 15:25:37.394501 [DEBUG] #9 [4/7] COPY requirements.txt .
+2026-Aug-13 15:25:37.451501 [DEBUG] #9 DONE 0.2s
+2026-Aug-13 15:25:37.614744 [DEBUG] #10 [5/7] RUN pip install --no-cache-dir -r requirements.txt
+2026-Aug-13 15:25:41.518344 [DEBUG] #10 4.056 Collecting flask (from -r requirements.txt (line 1))
+2026-Aug-13 15:25:41.654764 [DEBUG] #10 4.095   Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+2026-Aug-13 15:25:41.654764 [DEBUG] #10 4.140 Collecting gunicorn (from -r requirements.txt (line 2))
+2026-Aug-13 15:25:41.654764 [DEBUG] #10 4.145   Downloading gunicorn-26.0.0-py3-none-any.whl.metadata (5.4 kB)
+2026-Aug-13 15:25:41.654764 [DEBUG] #10 4.193 Collecting supabase (from -r requirements.txt (line 3))
+2026-Aug-13 15:25:41.756181 [DEBUG] #10 4.198   Downloading supabase-2.31.0-py3-none-any.whl.metadata (4.7 kB)
+2026-Aug-13 15:25:41.756181 [DEBUG] #10 4.283 Collecting requests (from -r requirements.txt (line 4))
+2026-Aug-13 15:25:41.756181 [DEBUG] #10 4.290   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-Aug-13 15:25:41.925934 [DEBUG] #10 4.462 Collecting pydantic (from -r requirements.txt (line 5))
+2026-Aug-13 15:25:42.048195 [DEBUG] #10 4.465   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-Aug-13 15:25:42.048195 [DEBUG] #10 4.515 Collecting python-dotenv (from -r requirements.txt (line 6))
+2026-Aug-13 15:25:42.048195 [DEBUG] #10 4.520   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+2026-Aug-13 15:25:42.048195 [DEBUG] #10 4.541 Collecting pytrends (from -r requirements.txt (line 7))
+2026-Aug-13 15:25:42.048195 [DEBUG] #10 4.553   Downloading pytrends-4.9.2-py3-none-any.whl.metadata (13 kB)
+2026-Aug-13 15:25:42.048195 [DEBUG] #10 4.588 Collecting httpx (from -r requirements.txt (line 8))
+2026-Aug-13 15:25:42.175878 [DEBUG] #10 4.594   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-Aug-13 15:25:42.175878 [DEBUG] #10 4.624 Collecting urllib3 (from -r requirements.txt (line 9))
+2026-Aug-13 15:25:42.175878 [DEBUG] #10 4.629   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-Aug-13 15:25:42.175878 [DEBUG] #10 4.715 Collecting google-api-python-client (from -r requirements.txt (line 10))
+2026-Aug-13 15:25:42.284729 [DEBUG] #10 4.721   Downloading google_api_python_client-2.198.0-py3-none-any.whl.metadata (7.0 kB)
+2026-Aug-13 15:25:42.284729 [DEBUG] #10 4.774 Collecting google-auth (from -r requirements.txt (line 11))
+2026-Aug-13 15:25:42.284729 [DEBUG] #10 4.779   Downloading google_auth-2.56.3-py3-none-any.whl.metadata (6.0 kB)
+2026-Aug-13 15:25:42.284729 [DEBUG] #10 4.807 Collecting google-auth-httplib2 (from -r requirements.txt (line 12))
+2026-Aug-13 15:25:42.284729 [DEBUG] #10 4.810   Downloading google_auth_httplib2-0.4.1-py3-none-any.whl.metadata (3.0 kB)
+2026-Aug-13 15:25:42.284729 [DEBUG] #10 4.825 Collecting google-auth-oauthlib (from -r requirements.txt (line 13))
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.829   Downloading google_auth_oauthlib-1.4.0-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.842 Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.846   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.865 Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.870   Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.883 Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.887   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.903 Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.907   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-Aug-13 15:25:42.433662 [DEBUG] #10 4.973 Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:25:42.539146 [DEBUG] #10 4.978   Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-Aug-13 15:25:42.539146 [DEBUG] #10 5.015 Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:25:42.539146 [DEBUG] #10 5.022   Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+2026-Aug-13 15:25:42.539146 [DEBUG] #10 5.050 Collecting packaging (from gunicorn->-r requirements.txt (line 2))
+2026-Aug-13 15:25:42.539146 [DEBUG] #10 5.055   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-Aug-13 15:25:42.539146 [DEBUG] #10 5.079 Collecting realtime==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.085   Downloading realtime-2.31.0-py3-none-any.whl.metadata (7.0 kB)
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.107 Collecting supabase-functions==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.113   Downloading supabase_functions-2.31.0-py3-none-any.whl.metadata (2.4 kB)
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.133 Collecting storage3==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.138   Downloading storage3-2.31.0-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.158 Collecting supabase-auth==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.165   Downloading supabase_auth-2.31.0-py3-none-any.whl.metadata (6.4 kB)
+2026-Aug-13 15:25:42.651670 [DEBUG] #10 5.191 Collecting postgrest==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:42.810176 [DEBUG] #10 5.196   Downloading postgrest-2.31.0-py3-none-any.whl.metadata (3.4 kB)
+2026-Aug-13 15:25:43.095946 [DEBUG] #10 5.632 Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:43.206639 [DEBUG] #10 5.639   Downloading yarl-1.24.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (103 kB)
+2026-Aug-13 15:25:43.206639 [DEBUG] #10 5.666 Collecting deprecation>=2.1.0 (from postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:43.206639 [DEBUG] #10 5.670   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-Aug-13 15:25:43.206639 [DEBUG] #10 5.746 Collecting typing-extensions>=4.14.0 (from realtime==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:43.360175 [DEBUG] #10 5.751   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Aug-13 15:25:43.360175 [DEBUG] #10 5.898 Collecting websockets<16,>=11 (from realtime==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:43.605193 [DEBUG] #10 5.903   Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-Aug-13 15:25:43.605193 [DEBUG] #10 5.964 Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:43.605193 [DEBUG] #10 5.969   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-Aug-13 15:25:43.605193 [DEBUG] #10 5.986 Collecting strenum>=0.4.15 (from supabase-functions==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:43.605193 [DEBUG] #10 5.994   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-Aug-13 15:25:43.704074 [DEBUG] #10 6.243 Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.248   Downloading charset_normalizer-3.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (44 kB)
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.277 Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.282   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.319 Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.325   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.339 Collecting annotated-types>=0.6.0 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 15:25:43.807989 [DEBUG] #10 6.344   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+2026-Aug-13 15:25:45.111498 [DEBUG] #10 7.647 Collecting pydantic-core==2.46.4 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 15:25:45.301685 [DEBUG] #10 7.652   Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-Aug-13 15:25:45.301685 [DEBUG] #10 7.680 Collecting typing-inspection>=0.4.2 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 15:25:45.301685 [DEBUG] #10 7.685   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:25:45.424313 [DEBUG] #10 7.960 Collecting pandas>=0.25 (from pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:25:45.589665 [DEBUG] #10 7.974   Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-Aug-13 15:25:46.042485 [DEBUG] #10 8.580 Collecting lxml (from pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:25:46.169659 [DEBUG] #10 8.588   Downloading lxml-6.1.1-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.5 kB)
+2026-Aug-13 15:25:46.169659 [DEBUG] #10 8.659 Collecting anyio (from httpx->-r requirements.txt (line 8))
+2026-Aug-13 15:25:46.169659 [DEBUG] #10 8.663   Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+2026-Aug-13 15:25:46.169659 [DEBUG] #10 8.707 Collecting httpcore==1.* (from httpx->-r requirements.txt (line 8))
+2026-Aug-13 15:25:46.409287 [DEBUG] #10 8.713   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-Aug-13 15:25:46.409287 [DEBUG] #10 8.756 Collecting h11>=0.16 (from httpcore==1.*->httpx->-r requirements.txt (line 8))
+2026-Aug-13 15:25:46.409287 [DEBUG] #10 8.761   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-Aug-13 15:25:46.409287 [DEBUG] #10 8.786 Collecting httplib2<1.0.0,>=0.19.0 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:46.409287 [DEBUG] #10 8.796   Downloading httplib2-0.32.0-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 15:25:46.420919 [DEBUG] #10 8.954 Collecting google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:46.632663 [DEBUG] #10 8.959   Downloading google_api_core-2.34.0-py3-none-any.whl.metadata (2.9 kB)
+2026-Aug-13 15:25:46.632663 [DEBUG] #10 8.978 Collecting uritemplate<5,>=3.0.1 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:46.632663 [DEBUG] #10 8.987   Downloading uritemplate-4.2.0-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:25:46.632663 [DEBUG] #10 9.011 Collecting pyasn1-modules>=0.2.1 (from google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:25:46.632663 [DEBUG] #10 9.019   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+2026-Aug-13 15:25:47.070293 [DEBUG] #10 9.609 Collecting cryptography>=38.0.3 (from google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:25:47.233011 [DEBUG] #10 9.615   Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-Aug-13 15:25:47.272694 [DEBUG] #10 9.807 Collecting requests-oauthlib>=0.7.0 (from google-auth-oauthlib->-r requirements.txt (line 13))
+2026-Aug-13 15:25:47.430985 [DEBUG] #10 9.818   Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl.metadata (11 kB)
+2026-Aug-13 15:25:47.623563 [DEBUG] #10 10.16 Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:25:47.824212 [DEBUG] #10 10.17   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-Aug-13 15:25:47.824212 [DEBUG] #10 10.20 Collecting googleapis-common-protos<2.0.0,>=1.69.2 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:47.824212 [DEBUG] #10 10.21   Downloading googleapis_common_protos-1.75.1-py3-none-any.whl.metadata (8.5 kB)
+2026-Aug-13 15:25:48.109806 [DEBUG] #10 10.65 Collecting protobuf<8.0.0,>=6.33.5 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:48.267595 [DEBUG] #10 10.67   Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-Aug-13 15:25:48.267595 [DEBUG] #10 10.72 Collecting proto-plus<2.0.0,>=1.26.1 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:48.267595 [DEBUG] #10 10.73   Downloading proto_plus-1.28.3-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 15:25:48.267595 [DEBUG] #10 10.80 Collecting pyparsing<4,>=3.1 (from httplib2<1.0.0,>=0.19.0->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:25:48.428628 [DEBUG] #10 10.82   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-Aug-13 15:25:48.711205 [DEBUG] #10 11.25 Collecting numpy>=1.26.0 (from pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:25:48.817350 [DEBUG] #10 11.26   Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-Aug-13 15:25:48.817350 [DEBUG] #10 11.28 Collecting python-dateutil>=2.8.2 (from pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:25:48.817350 [DEBUG] #10 11.29   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-Aug-13 15:25:48.817350 [DEBUG] #10 11.32 Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:25:48.817350 [DEBUG] #10 11.33   Downloading pyasn1-0.6.4-py3-none-any.whl.metadata (8.4 kB)
+2026-Aug-13 15:25:48.817350 [DEBUG] #10 11.35 Collecting oauthlib>=3.0.0 (from requests-oauthlib>=0.7.0->google-auth-oauthlib->-r requirements.txt (line 13))
+2026-Aug-13 15:25:48.972191 [DEBUG] #10 11.36   Downloading oauthlib-3.3.1-py3-none-any.whl.metadata (7.9 kB)
+2026-Aug-13 15:25:49.330215 [DEBUG] #10 11.87 Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:49.463916 [DEBUG] #10 11.87   Downloading multidict-6.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-Aug-13 15:25:49.463916 [DEBUG] #10 11.95 Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:49.463916 [DEBUG] #10 11.96   Downloading propcache-0.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-Aug-13 15:25:49.463916 [DEBUG] #10 12.00 Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:25:49.620227 [DEBUG] #10 12.01   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-Aug-13 15:25:49.620227 [DEBUG] #10 12.06 Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:49.620227 [DEBUG] #10 12.06   Downloading h2-4.4.1-py3-none-any.whl.metadata (3.8 kB)
+2026-Aug-13 15:25:49.620227 [DEBUG] #10 12.16 Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.16   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.19 Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.19   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.21 Collecting hpack<5,>=4.2 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.22   Downloading hpack-4.2.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.24 Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.25 Downloading gunicorn-26.0.0-py3-none-any.whl (212 kB)
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.26 Downloading supabase-2.31.0-py3-none-any.whl (16 kB)
+2026-Aug-13 15:25:49.721393 [DEBUG] #10 12.26 Downloading postgrest-2.31.0-py3-none-any.whl (23 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.27 Downloading realtime-2.31.0-py3-none-any.whl (22 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.27 Downloading storage3-2.31.0-py3-none-any.whl (28 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.28 Downloading supabase_auth-2.31.0-py3-none-any.whl (48 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.28 Downloading supabase_functions-2.31.0-py3-none-any.whl (8.8 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.29 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.29 Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.32 Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.34    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 104.2 MB/s eta 0:00:00
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.35 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.36 Downloading pytrends-4.9.2-py3-none-any.whl (15 kB)
+2026-Aug-13 15:25:49.831703 [DEBUG] #10 12.37 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-Aug-13 15:25:50.030588 [DEBUG] #10 12.38 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-Aug-13 15:25:50.030588 [DEBUG] #10 12.39 Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-Aug-13 15:25:50.030588 [DEBUG] #10 12.41 Downloading google_api_python_client-2.198.0-py3-none-any.whl (15.6 MB)
+2026-Aug-13 15:25:50.050826 [DEBUG] #10 12.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.6/15.6 MB 99.7 MB/s eta 0:00:00
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.58 Downloading google_auth-2.56.3-py3-none-any.whl (259 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.59 Downloading google_auth_httplib2-0.4.1-py3-none-any.whl (9.5 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.60 Downloading google_auth_oauthlib-1.4.0-py3-none-any.whl (19 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.60 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.61 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.61 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.61 Downloading charset_normalizer-3.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (247 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.62 Downloading click-8.4.2-py3-none-any.whl (119 kB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.63 Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-Aug-13 15:25:50.137225 [DEBUG] #10 12.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 108.1 MB/s eta 0:00:00
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.68 Downloading google_api_core-2.34.0-py3-none-any.whl (180 kB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.69 Downloading httplib2-0.32.0-py3-none-any.whl (93 kB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.70 Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.70 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.71 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.72 Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.72 Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.0 MB)
+2026-Aug-13 15:25:50.297938 [DEBUG] #10 12.84    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.0/11.0 MB 100.3 MB/s eta 0:00:00
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.84 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.85 Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl (24 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.85 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.86 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.86 Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.87 Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.87 Downloading yarl-1.24.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (109 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.88 Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.89 Downloading lxml-6.1.1-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.94    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 124.7 MB/s eta 0:00:00
+2026-Aug-13 15:25:50.402372 [DEBUG] #10 12.94 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-Aug-13 15:25:50.596696 [DEBUG] #10 12.95 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+2026-Aug-13 15:25:50.596696 [DEBUG] #10 12.95 Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-Aug-13 15:25:50.596696 [DEBUG] #10 12.96 Downloading googleapis_common_protos-1.75.1-py3-none-any.whl (300 kB)
+2026-Aug-13 15:25:50.596696 [DEBUG] #10 12.96 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-Aug-13 15:25:50.596696 [DEBUG] #10 12.97 Downloading multidict-6.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (256 kB)
+2026-Aug-13 15:25:50.596696 [DEBUG] #10 12.98 Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-Aug-13 15:25:50.623548 [DEBUG] #10 13.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 109.4 MB/s eta 0:00:00
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.14 Downloading oauthlib-3.3.1-py3-none-any.whl (160 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.15 Downloading propcache-0.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (61 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.16 Downloading proto_plus-1.28.3-py3-none-any.whl (50 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.16 Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.18 Downloading pyasn1-0.6.4-py3-none-any.whl (84 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.19 Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.20 Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.22 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-Aug-13 15:25:50.713312 [DEBUG] #10 13.23 Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-Aug-13 15:25:50.917108 [DEBUG] #10 13.25 Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-Aug-13 15:25:50.917108 [DEBUG] #10 13.26 Downloading h2-4.4.1-py3-none-any.whl (62 kB)
+2026-Aug-13 15:25:50.917108 [DEBUG] #10 13.28 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-Aug-13 15:25:50.917108 [DEBUG] #10 13.29 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-Aug-13 15:25:50.917108 [DEBUG] #10 13.29 Downloading hpack-4.2.0-py3-none-any.whl (34 kB)
+2026-Aug-13 15:25:50.917108 [DEBUG] #10 13.30 Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-Aug-13 15:25:51.204542 [DEBUG] #10 13.74 Installing collected packages: strenum, websockets, urllib3, uritemplate, typing-extensions, six, python-dotenv, pyparsing, pyjwt, pycparser, pyasn1, protobuf, propcache, packaging, oauthlib, numpy, multidict, markupsafe, lxml, itsdangerous, idna, hyperframe, hpack, h11, click, charset_normalizer, certifi, blinker, annotated-types, yarl, werkzeug, typing-inspection, requests, python-dateutil, pydantic-core, pyasn1-modules, proto-plus, jinja2, httplib2, httpcore, h2, gunicorn, googleapis-common-protos, deprecation, cffi, anyio, requests-oauthlib, pydantic, pandas, httpx, flask, cryptography, realtime, pytrends, google-auth, supabase-functions, supabase-auth, storage3, postgrest, google-auth-oauthlib, google-auth-httplib2, google-api-core, supabase, google-api-python-client
+2026-Aug-13 15:26:15.011747 [DEBUG] #10 37.55 Successfully installed annotated-types-0.8.0 anyio-4.14.2 blinker-1.9.0 certifi-2026.7.22 cffi-2.1.1 charset_normalizer-3.5.0 click-8.4.2 cryptography-50.0.0 deprecation-2.1.0 flask-3.1.3 google-api-core-2.34.0 google-api-python-client-2.198.0 google-auth-2.56.3 google-auth-httplib2-0.4.1 google-auth-oauthlib-1.4.0 googleapis-common-protos-1.75.1 gunicorn-26.0.0 h11-0.16.0 h2-4.4.1 hpack-4.2.0 httpcore-1.0.9 httplib2-0.32.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 lxml-6.1.1 markupsafe-3.0.3 multidict-6.7.1 numpy-2.5.2 oauthlib-3.3.1 packaging-26.3 pandas-3.0.5 postgrest-2.31.0 propcache-0.5.2 proto-plus-1.28.3 protobuf-7.35.1 pyasn1-0.6.4 pyasn1-modules-0.4.2 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pyjwt-2.13.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 python-dotenv-1.2.2 pytrends-4.9.2 realtime-2.31.0 requests-2.34.2 requests-oauthlib-2.0.0 six-1.17.0 storage3-2.31.0 strenum-0.4.15 supabase-2.31.0 supabase-auth-2.31.0 supabase-functions-2.31.0 typing-extensions-4.16.0 typing-inspection-0.4.4 uritemplate-4.2.0 urllib3-2.7.0 websockets-15.0.1 werkzeug-3.1.8 yarl-1.24.5
+2026-Aug-13 15:26:15.154166 [DEBUG] #10 37.55 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2026-Aug-13 15:<REDACTED>@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 15:26:28.283024 #6 resolve docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 15:26:28.283024 #6 resolve docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36 0.4s done
+2026-Aug-13 15:26:28.283024 #6 DONE 0.5s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #6 [1/7] FROM docker.io/library/python:3.12-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+2026-Aug-13 15:26:28.283024 #6 CACHED
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #5 [internal] load build context
+2026-Aug-13 15:26:28.283024 #5 transferring context: 126.69MB 3.3s done
+2026-Aug-13 15:26:28.283024 #5 DONE 3.5s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #7 [2/7] RUN apt-get update && apt-get install -y --no-install-recommends     cron     curl     && rm -rf /var/lib/apt/lists/*
+2026-Aug-13 15:26:28.283024 #7 1.381 Hit:1 http://deb.debian.org/debian trixie InRelease
+2026-Aug-13 15:<REDACTED>@INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 28.)
+2026-Aug-13 15:26:28.283024 #7 8.775 debconf: falling back to frontend: Teletype
+2026-Aug-13 15:26:28.283024 #7 8.788 debconf: unable to initialize frontend: Teletype
+2026-Aug-13 15:26:28.283024 #7 8.788 debconf: (This frontend requires a controlling tty.)
+2026-Aug-13 15:26:28.283024 #7 8.788 debconf: falling back to frontend: Noninteractive
+2026-Aug-13 15:26:28.283024 #7 9.927 Fetched 10.3 MB in 0s (28.4 MB/s)
+2026-Aug-13 15:26:28.283024 #7 10.12 Selecting previously unselected package libsystemd-shared:amd64.
+2026-Aug-13 15:26:28.283024 #7 10.12 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5645 files and directories currently installed.)
+2026-Aug-13 15:26:28.283024 #7 10.19 Preparing to unpack .../libsystemd-shared_257.13-1~deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 10.22 Unpacking libsystemd-shared:amd64 (257.13-1~deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 10.75 Selecting previously unselected package libapparmor1:amd64.
+2026-Aug-13 15:26:28.283024 #7 10.75 Preparing to unpack .../libapparmor1_4.1.0-1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 10.83 Unpacking libapparmor1:amd64 (4.1.0-1) ...
+2026-Aug-13 15:26:28.283024 #7 11.06 Setting up libsystemd-shared:amd64 (257.13-1~deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 11.58 Selecting previously unselected package systemd.
+2026-Aug-13 15:26:28.283024 #7 11.58 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5658 files and directories currently installed.)
+2026-Aug-13 15:26:28.283024 #7 11.59 Preparing to unpack .../systemd_257.13-1~deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 11.66 Unpacking systemd (257.13-1~deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 12.42 Selecting previously unselected package cron-daemon-common.
+2026-Aug-13 15:26:28.283024 #7 12.43 Preparing to unpack .../cron-daemon-common_3.0pl1-197_all.deb ...
+2026-Aug-13 15:26:28.283024 #7 12.47 Unpacking cron-daemon-common (3.0pl1-197) ...
+2026-Aug-13 15:26:28.283024 #7 12.63 Selecting previously unselected package sensible-utils.
+2026-Aug-13 15:26:28.283024 #7 12.64 Preparing to unpack .../sensible-utils_0.0.25_all.deb ...
+2026-Aug-13 15:26:28.283024 #7 12.66 Unpacking sensible-utils (0.0.25) ...
+2026-Aug-13 15:26:28.283024 #7 12.94 Setting up libapparmor1:amd64 (4.1.0-1) ...
+2026-Aug-13 15:26:28.283024 #7 13.02 Setting up systemd (257.13-1~deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 13.17 Created symlink '/etc/systemd/system/getty.target.wants/<REDACTED>' → '/usr/lib/systemd/system/getty@.service'.
+2026-Aug-13 15:26:28.283024 #7 13.19 Created symlink '/etc/systemd/system/multi-user.target.wants/remote-fs.target' → '/usr/lib/systemd/system/remote-fs.target'.
+2026-Aug-13 15:26:28.283024 #7 13.21 Created symlink '/etc/systemd/system/sysinit.target.wants/systemd-pstore.service' → '/usr/lib/systemd/system/systemd-pstore.service'.
+2026-Aug-13 15:26:28.283024 #7 13.22 Initializing machine ID from random generator.
+2026-Aug-13 15:26:28.283024 #7 13.29 Creating group 'systemd-journal' with GID 999.
+2026-Aug-13 15:26:28.283024 #7 13.29 Creating group 'systemd-network' with GID 998.
+2026-Aug-13 15:26:28.283024 #7 13.29 Creating user 'systemd-network' (systemd Network Management) with UID 998 and GID 998.
+2026-Aug-13 15:26:28.283024 #7 13.37 /usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", ignoring.
+2026-Aug-13 15:26:28.283024 #7 13.47 Setting up cron-daemon-common (3.0pl1-197) ...
+2026-Aug-13 15:26:28.283024 #7 13.57 Creating group 'crontab' with GID 997.
+2026-Aug-13 15:26:28.283024 #7 13.73 Selecting previously unselected package cron.
+2026-Aug-13 15:26:28.283024 #7 13.73 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6644 files and directories currently installed.)
+2026-Aug-13 15:26:28.283024 #7 13.74 Preparing to unpack .../00-cron_3.0pl1-197_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 13.77 Unpacking cron (3.0pl1-197) ...
+2026-Aug-13 15:26:28.283024 #7 13.94 Selecting previously unselected package libbrotli1:amd64.
+2026-Aug-13 15:26:28.283024 #7 13.94 Preparing to unpack .../01-libbrotli1_1.1.0-2+b7_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 13.98 Unpacking libbrotli1:amd64 (1.1.0-2+b7) ...
+2026-Aug-13 15:26:28.283024 #7 14.16 Selecting previously unselected package libkrb5support0:amd64.
+2026-Aug-13 15:26:28.283024 #7 14.16 Preparing to unpack .../02-libkrb5support0_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 14.18 Unpacking libkrb5support0:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 14.36 Selecting previously unselected package libcom-err2:amd64.
+2026-Aug-13 15:26:28.283024 #7 14.36 Preparing to unpack .../03-libcom-err2_1.47.2-3+b11_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 14.38 Unpacking libcom-err2:amd64 (1.47.2-3+b11) ...
+2026-Aug-13 15:26:28.283024 #7 14.58 Selecting previously unselected package libk5crypto3:amd64.
+2026-Aug-13 15:26:28.283024 #7 14.59 Preparing to unpack .../04-libk5crypto3_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 14.61 Unpacking libk5crypto3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 14.76 Selecting previously unselected package libkeyutils1:amd64.
+2026-Aug-13 15:26:28.283024 #7 14.78 Preparing to unpack .../05-libkeyutils1_1.6.3-6_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 14.81 Unpacking libkeyutils1:amd64 (1.6.3-6) ...
+2026-Aug-13 15:26:28.283024 #7 14.93 Selecting previously unselected package libkrb5-3:amd64.
+2026-Aug-13 15:26:28.283024 #7 14.93 Preparing to unpack .../06-libkrb5-3_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 14.96 Unpacking libkrb5-3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 15.17 Selecting previously unselected package libgssapi-krb5-2:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.17 Preparing to unpack .../07-libgssapi-krb5-2_1.21.3-5+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.18 Unpacking libgssapi-krb5-2:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 15.32 Selecting previously unselected package libunistring5:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.33 Preparing to unpack .../08-libunistring5_1.3-2_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.35 Unpacking libunistring5:amd64 (1.3-2) ...
+2026-Aug-13 15:26:28.283024 #7 15.50 Selecting previously unselected package libidn2-0:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.51 Preparing to unpack .../09-libidn2-0_2.3.8-2_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.52 Unpacking libidn2-0:amd64 (2.3.8-2) ...
+2026-Aug-13 15:26:28.283024 #7 15.61 Selecting previously unselected package libsasl2-modules-db:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.61 Preparing to unpack .../10-libsasl2-modules-db_2.1.28+dfsg1-9_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.63 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:26:28.283024 #7 15.74 Selecting previously unselected package libsasl2-2:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.75 Preparing to unpack .../11-libsasl2-2_2.1.28+dfsg1-9_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.76 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:26:28.283024 #7 15.85 Selecting previously unselected package libldap2:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.85 Preparing to unpack .../12-libldap2_2.6.10+dfsg-1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.86 Unpacking libldap2:amd64 (2.6.10+dfsg-1) ...
+2026-Aug-13 15:26:28.283024 #7 15.97 Selecting previously unselected package libnghttp2-14:amd64.
+2026-Aug-13 15:26:28.283024 #7 15.97 Preparing to unpack .../13-libnghttp2-14_1.64.0-1.1+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 15.98 Unpacking libnghttp2-14:amd64 (1.64.0-1.1+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 16.06 Selecting previously unselected package libnghttp3-9:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.07 Preparing to unpack .../14-libnghttp3-9_1.8.0-1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.08 Unpacking libnghttp3-9:amd64 (1.8.0-1) ...
+2026-Aug-13 15:26:28.283024 #7 16.17 Selecting previously unselected package libpsl5t64:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.18 Preparing to unpack .../15-libpsl5t64_0.21.2-1.1+b1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.19 Unpacking libpsl5t64:amd64 (0.21.2-1.1+b1) ...
+2026-Aug-13 15:26:28.283024 #7 16.28 Selecting previously unselected package libp11-kit0:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.28 Preparing to unpack .../16-libp11-kit0_0.25.5-3_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.29 Unpacking libp11-kit0:amd64 (0.25.5-3) ...
+2026-Aug-13 15:26:28.283024 #7 16.40 Selecting previously unselected package libtasn1-6:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.40 Preparing to unpack .../17-libtasn1-6_4.20.0-2+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.42 Unpacking libtasn1-6:amd64 (4.20.0-2+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 16.53 Selecting previously unselected package libgnutls30t64:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.53 Preparing to unpack .../18-libgnutls30t64_3.8.9-3+deb13u4_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.55 Unpacking libgnutls30t64:amd64 (3.8.9-3+deb13u4) ...
+2026-Aug-13 15:26:28.283024 #7 16.77 Selecting previously unselected package librtmp1:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.77 Preparing to unpack .../19-librtmp1_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.80 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+2026-Aug-13 15:26:28.283024 #7 16.94 Selecting previously unselected package libssh2-1t64:amd64.
+2026-Aug-13 15:26:28.283024 #7 16.95 Preparing to unpack .../20-libssh2-1t64_1.11.1-1+deb13u1_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 16.96 Unpacking libssh2-1t64:amd64 (1.11.1-1+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 17.15 Selecting previously unselected package libcurl4t64:amd64.
+2026-Aug-13 15:26:28.283024 #7 17.16 Preparing to unpack .../21-libcurl4t64_8.14.1-2+deb13u4_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 17.17 Unpacking libcurl4t64:amd64 (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:26:28.283024 #7 17.28 Selecting previously unselected package curl.
+2026-Aug-13 15:26:28.283024 #7 17.29 Preparing to unpack .../22-curl_8.14.1-2+deb13u4_amd64.deb ...
+2026-Aug-13 15:26:28.283024 #7 17.31 Unpacking curl (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:26:28.283024 #7 17.48 Setting up libkeyutils1:amd64 (1.6.3-6) ...
+2026-Aug-13 15:26:28.283024 #7 17.59 Setting up libbrotli1:amd64 (1.1.0-2+b7) ...
+2026-Aug-13 15:26:28.283024 #7 17.64 Setting up libnghttp2-14:amd64 (1.64.0-1.1+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 17.67 Setting up libcom-err2:amd64 (1.47.2-3+b11) ...
+2026-Aug-13 15:26:28.283024 #7 17.73 Setting up libkrb5support0:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 17.77 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:26:28.283024 #7 17.80 Setting up libp11-kit0:amd64 (0.25.5-3) ...
+2026-Aug-13 15:26:28.283024 #7 17.85 Setting up libunistring5:amd64 (1.3-2) ...
+2026-Aug-13 15:26:28.283024 #7 17.91 Setting up libk5crypto3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 17.97 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-9) ...
+2026-Aug-13 15:26:28.283024 #7 18.02 Setting up libnghttp3-9:amd64 (1.8.0-1) ...
+2026-Aug-13 15:26:28.283024 #7 18.07 Setting up sensible-utils (0.0.25) ...
+2026-Aug-13 15:26:28.283024 #7 18.11 Setting up libtasn1-6:amd64 (4.20.0-2+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 18.16 Setting up libkrb5-3:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 18.21 Setting up libssh2-1t64:amd64 (1.11.1-1+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 18.24 Setting up libldap2:amd64 (2.6.10+dfsg-1) ...
+2026-Aug-13 15:26:28.283024 #7 18.29 Setting up cron (3.0pl1-197) ...
+2026-Aug-13 15:26:28.283024 #7 18.53 invoke-rc.d: could not determine current runlevel
+2026-Aug-13 15:26:28.283024 #7 18.55 invoke-rc.d: policy-rc.d denied execution of start.
+2026-Aug-13 15:26:28.283024 #7 18.77 Created symlink '/etc/systemd/system/multi-user.target.wants/cron.service' → '/usr/lib/systemd/system/cron.service'.
+2026-Aug-13 15:26:28.283024 #7 18.80 Setting up libidn2-0:amd64 (2.3.8-2) ...
+2026-Aug-13 15:26:28.283024 #7 18.83 Setting up libgssapi-krb5-2:amd64 (1.21.3-5+deb13u1) ...
+2026-Aug-13 15:26:28.283024 #7 18.87 Setting up libgnutls30t64:amd64 (3.8.9-3+deb13u4) ...
+2026-Aug-13 15:26:28.283024 #7 18.89 Setting up libpsl5t64:amd64 (0.21.2-1.1+b1) ...
+2026-Aug-13 15:26:28.283024 #7 18.92 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+2026-Aug-13 15:26:28.283024 #7 18.96 Setting up libcurl4t64:amd64 (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:26:28.283024 #7 19.00 Setting up curl (8.14.1-2+deb13u4) ...
+2026-Aug-13 15:26:28.283024 #7 19.03 Processing triggers for libc-bin (2.41-12+deb13u3) ...
+2026-Aug-13 15:26:28.283024 #7 DONE 19.4s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #8 [3/7] WORKDIR /app
+2026-Aug-13 15:26:28.283024 #8 DONE 0.2s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #9 [4/7] COPY requirements.txt .
+2026-Aug-13 15:26:28.283024 #9 DONE 0.2s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #10 [5/7] RUN pip install --no-cache-dir -r requirements.txt
+2026-Aug-13 15:26:28.283024 #10 4.056 Collecting flask (from -r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 4.095   Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+2026-Aug-13 15:26:28.283024 #10 4.140 Collecting gunicorn (from -r requirements.txt (line 2))
+2026-Aug-13 15:26:28.283024 #10 4.145   Downloading gunicorn-26.0.0-py3-none-any.whl.metadata (5.4 kB)
+2026-Aug-13 15:26:28.283024 #10 4.193 Collecting supabase (from -r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 4.198   Downloading supabase-2.31.0-py3-none-any.whl.metadata (4.7 kB)
+2026-Aug-13 15:26:28.283024 #10 4.283 Collecting requests (from -r requirements.txt (line 4))
+2026-Aug-13 15:26:28.283024 #10 4.290   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-Aug-13 15:26:28.283024 #10 4.462 Collecting pydantic (from -r requirements.txt (line 5))
+2026-Aug-13 15:26:28.283024 #10 4.465   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-Aug-13 15:26:28.283024 #10 4.515 Collecting python-dotenv (from -r requirements.txt (line 6))
+2026-Aug-13 15:26:28.283024 #10 4.520   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+2026-Aug-13 15:26:28.283024 #10 4.541 Collecting pytrends (from -r requirements.txt (line 7))
+2026-Aug-13 15:26:28.283024 #10 4.553   Downloading pytrends-4.9.2-py3-none-any.whl.metadata (13 kB)
+2026-Aug-13 15:26:28.283024 #10 4.588 Collecting httpx (from -r requirements.txt (line 8))
+2026-Aug-13 15:26:28.283024 #10 4.594   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-Aug-13 15:26:28.283024 #10 4.624 Collecting urllib3 (from -r requirements.txt (line 9))
+2026-Aug-13 15:26:28.283024 #10 4.629   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-Aug-13 15:26:28.283024 #10 4.715 Collecting google-api-python-client (from -r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 4.721   Downloading google_api_python_client-2.198.0-py3-none-any.whl.metadata (7.0 kB)
+2026-Aug-13 15:26:28.283024 #10 4.774 Collecting google-auth (from -r requirements.txt (line 11))
+2026-Aug-13 15:26:28.283024 #10 4.779   Downloading google_auth-2.56.3-py3-none-any.whl.metadata (6.0 kB)
+2026-Aug-13 15:26:28.283024 #10 4.807 Collecting google-auth-httplib2 (from -r requirements.txt (line 12))
+2026-Aug-13 15:26:28.283024 #10 4.810   Downloading google_auth_httplib2-0.4.1-py3-none-any.whl.metadata (3.0 kB)
+2026-Aug-13 15:26:28.283024 #10 4.825 Collecting google-auth-oauthlib (from -r requirements.txt (line 13))
+2026-Aug-13 15:26:28.283024 #10 4.829   Downloading google_auth_oauthlib-1.4.0-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:26:28.283024 #10 4.842 Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 4.846   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-Aug-13 15:26:28.283024 #10 4.865 Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 4.870   Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:26:28.283024 #10 4.883 Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 4.887   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-Aug-13 15:26:28.283024 #10 4.903 Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 4.907   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-Aug-13 15:26:28.283024 #10 4.973 Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 4.978   Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-Aug-13 15:26:28.283024 #10 5.015 Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+2026-Aug-13 15:26:28.283024 #10 5.022   Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+2026-Aug-13 15:26:28.283024 #10 5.050 Collecting packaging (from gunicorn->-r requirements.txt (line 2))
+2026-Aug-13 15:26:28.283024 #10 5.055   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-Aug-13 15:26:28.283024 #10 5.079 Collecting realtime==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.085   Downloading realtime-2.31.0-py3-none-any.whl.metadata (7.0 kB)
+2026-Aug-13 15:26:28.283024 #10 5.107 Collecting supabase-functions==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.113   Downloading supabase_functions-2.31.0-py3-none-any.whl.metadata (2.4 kB)
+2026-Aug-13 15:26:28.283024 #10 5.133 Collecting storage3==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.138   Downloading storage3-2.31.0-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 15:26:28.283024 #10 5.158 Collecting supabase-auth==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.165   Downloading supabase_auth-2.31.0-py3-none-any.whl.metadata (6.4 kB)
+2026-Aug-13 15:26:28.283024 #10 5.191 Collecting postgrest==2.31.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.196   Downloading postgrest-2.31.0-py3-none-any.whl.metadata (3.4 kB)
+2026-Aug-13 15:26:28.283024 #10 5.632 Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.639   Downloading yarl-1.24.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (103 kB)
+2026-Aug-13 15:26:28.283024 #10 5.666 Collecting deprecation>=2.1.0 (from postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.670   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-Aug-13 15:26:28.283024 #10 5.746 Collecting typing-extensions>=4.14.0 (from realtime==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.751   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Aug-13 15:26:28.283024 #10 5.898 Collecting websockets<16,>=11 (from realtime==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.903   Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-Aug-13 15:26:28.283024 #10 5.964 Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.969   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-Aug-13 15:26:28.283024 #10 5.986 Collecting strenum>=0.4.15 (from supabase-functions==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 5.994   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-Aug-13 15:26:28.283024 #10 6.243 Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 15:26:28.283024 #10 6.248   Downloading charset_normalizer-3.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (44 kB)
+2026-Aug-13 15:26:28.283024 #10 6.277 Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 15:26:28.283024 #10 6.282   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-Aug-13 15:26:28.283024 #10 6.319 Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 4))
+2026-Aug-13 15:26:28.283024 #10 6.325   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-Aug-13 15:26:28.283024 #10 6.339 Collecting annotated-types>=0.6.0 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 15:26:28.283024 #10 6.344   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+2026-Aug-13 15:26:28.283024 #10 7.647 Collecting pydantic-core==2.46.4 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 15:26:28.283024 #10 7.652   Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-Aug-13 15:26:28.283024 #10 7.680 Collecting typing-inspection>=0.4.2 (from pydantic->-r requirements.txt (line 5))
+2026-Aug-13 15:26:28.283024 #10 7.685   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:26:28.283024 #10 7.960 Collecting pandas>=0.25 (from pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:26:28.283024 #10 7.974   Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-Aug-13 15:26:28.283024 #10 8.580 Collecting lxml (from pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:26:28.283024 #10 8.588   Downloading lxml-6.1.1-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.5 kB)
+2026-Aug-13 15:26:28.283024 #10 8.659 Collecting anyio (from httpx->-r requirements.txt (line 8))
+2026-Aug-13 15:26:28.283024 #10 8.663   Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+2026-Aug-13 15:26:28.283024 #10 8.707 Collecting httpcore==1.* (from httpx->-r requirements.txt (line 8))
+2026-Aug-13 15:26:28.283024 #10 8.713   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-Aug-13 15:26:28.283024 #10 8.756 Collecting h11>=0.16 (from httpcore==1.*->httpx->-r requirements.txt (line 8))
+2026-Aug-13 15:26:28.283024 #10 8.761   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-Aug-13 15:26:28.283024 #10 8.786 Collecting httplib2<1.0.0,>=0.19.0 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 8.796   Downloading httplib2-0.32.0-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 15:26:28.283024 #10 8.954 Collecting google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 8.959   Downloading google_api_core-2.34.0-py3-none-any.whl.metadata (2.9 kB)
+2026-Aug-13 15:26:28.283024 #10 8.978 Collecting uritemplate<5,>=3.0.1 (from google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 8.987   Downloading uritemplate-4.2.0-py3-none-any.whl.metadata (2.6 kB)
+2026-Aug-13 15:26:28.283024 #10 9.011 Collecting pyasn1-modules>=0.2.1 (from google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:26:28.283024 #10 9.019   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+2026-Aug-13 15:26:28.283024 #10 9.609 Collecting cryptography>=38.0.3 (from google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:26:28.283024 #10 9.615   Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-Aug-13 15:26:28.283024 #10 9.807 Collecting requests-oauthlib>=0.7.0 (from google-auth-oauthlib->-r requirements.txt (line 13))
+2026-Aug-13 15:26:28.283024 #10 9.818   Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl.metadata (11 kB)
+2026-Aug-13 15:26:28.283024 #10 10.16 Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:26:28.283024 #10 10.17   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-Aug-13 15:26:28.283024 #10 10.20 Collecting googleapis-common-protos<2.0.0,>=1.69.2 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 10.21   Downloading googleapis_common_protos-1.75.1-py3-none-any.whl.metadata (8.5 kB)
+2026-Aug-13 15:26:28.283024 #10 10.65 Collecting protobuf<8.0.0,>=6.33.5 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 10.67   Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-Aug-13 15:26:28.283024 #10 10.72 Collecting proto-plus<2.0.0,>=1.26.1 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0,<3.0.0,>=1.31.5->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 10.73   Downloading proto_plus-1.28.3-py3-none-any.whl.metadata (2.2 kB)
+2026-Aug-13 15:26:28.283024 #10 10.80 Collecting pyparsing<4,>=3.1 (from httplib2<1.0.0,>=0.19.0->google-api-python-client->-r requirements.txt (line 10))
+2026-Aug-13 15:26:28.283024 #10 10.82   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-Aug-13 15:26:28.283024 #10 11.25 Collecting numpy>=1.26.0 (from pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:26:28.283024 #10 11.26   Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-Aug-13 15:26:28.283024 #10 11.28 Collecting python-dateutil>=2.8.2 (from pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:26:28.283024 #10 11.29   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-Aug-13 15:26:28.283024 #10 11.32 Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:26:28.283024 #10 11.33   Downloading pyasn1-0.6.4-py3-none-any.whl.metadata (8.4 kB)
+2026-Aug-13 15:26:28.283024 #10 11.35 Collecting oauthlib>=3.0.0 (from requests-oauthlib>=0.7.0->google-auth-oauthlib->-r requirements.txt (line 13))
+2026-Aug-13 15:26:28.283024 #10 11.36   Downloading oauthlib-3.3.1-py3-none-any.whl.metadata (7.9 kB)
+2026-Aug-13 15:26:28.283024 #10 11.87 Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 11.87   Downloading multidict-6.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-Aug-13 15:26:28.283024 #10 11.95 Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 11.96   Downloading propcache-0.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-Aug-13 15:26:28.283024 #10 12.00 Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth->-r requirements.txt (line 11))
+2026-Aug-13 15:26:28.283024 #10 12.01   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-Aug-13 15:26:28.283024 #10 12.06 Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 12.06   Downloading h2-4.4.1-py3-none-any.whl.metadata (3.8 kB)
+2026-Aug-13 15:26:28.283024 #10 12.16 Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas>=0.25->pytrends->-r requirements.txt (line 7))
+2026-Aug-13 15:26:28.283024 #10 12.16   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-Aug-13 15:26:28.283024 #10 12.19 Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 12.19   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-Aug-13 15:26:28.283024 #10 12.21 Collecting hpack<5,>=4.2 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.31.0->supabase->-r requirements.txt (line 3))
+2026-Aug-13 15:26:28.283024 #10 12.22   Downloading hpack-4.2.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Aug-13 15:26:28.283024 #10 12.24 Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+2026-Aug-13 15:26:28.283024 #10 12.25 Downloading gunicorn-26.0.0-py3-none-any.whl (212 kB)
+2026-Aug-13 15:26:28.283024 #10 12.26 Downloading supabase-2.31.0-py3-none-any.whl (16 kB)
+2026-Aug-13 15:26:28.283024 #10 12.26 Downloading postgrest-2.31.0-py3-none-any.whl (23 kB)
+2026-Aug-13 15:26:28.283024 #10 12.27 Downloading realtime-2.31.0-py3-none-any.whl (22 kB)
+2026-Aug-13 15:26:28.283024 #10 12.27 Downloading storage3-2.31.0-py3-none-any.whl (28 kB)
+2026-Aug-13 15:26:28.283024 #10 12.28 Downloading supabase_auth-2.31.0-py3-none-any.whl (48 kB)
+2026-Aug-13 15:26:28.283024 #10 12.28 Downloading supabase_functions-2.31.0-py3-none-any.whl (8.8 kB)
+2026-Aug-13 15:26:28.283024 #10 12.29 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-Aug-13 15:26:28.283024 #10 12.29 Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-Aug-13 15:26:28.283024 #10 12.32 Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-Aug-13 15:26:28.283024 #10 12.34    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 104.2 MB/s eta 0:00:00
+2026-Aug-13 15:26:28.283024 #10 12.35 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+2026-Aug-13 15:26:28.283024 #10 12.36 Downloading pytrends-4.9.2-py3-none-any.whl (15 kB)
+2026-Aug-13 15:26:28.283024 #10 12.37 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-Aug-13 15:26:28.283024 #10 12.38 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-Aug-13 15:26:28.283024 #10 12.39 Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-Aug-13 15:26:28.283024 #10 12.41 Downloading google_api_python_client-2.198.0-py3-none-any.whl (15.6 MB)
+2026-Aug-13 15:26:28.283024 #10 12.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.6/15.6 MB 99.7 MB/s eta 0:00:00
+2026-Aug-13 15:26:28.283024 #10 12.58 Downloading google_auth-2.56.3-py3-none-any.whl (259 kB)
+2026-Aug-13 15:26:28.283024 #10 12.59 Downloading google_auth_httplib2-0.4.1-py3-none-any.whl (9.5 kB)
+2026-Aug-13 15:26:28.283024 #10 12.60 Downloading google_auth_oauthlib-1.4.0-py3-none-any.whl (19 kB)
+2026-Aug-13 15:26:28.283024 #10 12.60 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+2026-Aug-13 15:26:28.283024 #10 12.61 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-Aug-13 15:26:28.283024 #10 12.61 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-Aug-13 15:26:28.283024 #10 12.61 Downloading charset_normalizer-3.5.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (247 kB)
+2026-Aug-13 15:26:28.283024 #10 12.62 Downloading click-8.4.2-py3-none-any.whl (119 kB)
+2026-Aug-13 15:26:28.283024 #10 12.63 Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-Aug-13 15:26:28.283024 #10 12.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 108.1 MB/s eta 0:00:00
+2026-Aug-13 15:26:28.283024 #10 12.68 Downloading google_api_core-2.34.0-py3-none-any.whl (180 kB)
+2026-Aug-13 15:26:28.283024 #10 12.69 Downloading httplib2-0.32.0-py3-none-any.whl (93 kB)
+2026-Aug-13 15:26:28.283024 #10 12.70 Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-Aug-13 15:26:28.283024 #10 12.70 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-Aug-13 15:26:28.283024 #10 12.71 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-Aug-13 15:26:28.283024 #10 12.72 Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-Aug-13 15:26:28.283024 #10 12.72 Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.0 MB)
+2026-Aug-13 15:26:28.283024 #10 12.84    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.0/11.0 MB 100.3 MB/s eta 0:00:00
+2026-Aug-13 15:26:28.283024 #10 12.84 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+2026-Aug-13 15:26:28.283024 #10 12.85 Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl (24 kB)
+2026-Aug-13 15:26:28.283024 #10 12.85 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-Aug-13 15:26:28.283024 #10 12.86 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+2026-Aug-13 15:26:28.283024 #10 12.86 Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
+2026-Aug-13 15:26:28.283024 #10 12.87 Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+2026-Aug-13 15:26:28.283024 #10 12.87 Downloading yarl-1.24.5-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (109 kB)
+2026-Aug-13 15:26:28.283024 #10 12.88 Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+2026-Aug-13 15:26:28.283024 #10 12.89 Downloading lxml-6.1.1-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+2026-Aug-13 15:26:28.283024 #10 12.94    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 124.7 MB/s eta 0:00:00
+2026-Aug-13 15:26:28.283024 #10 12.94 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-Aug-13 15:26:28.283024 #10 12.95 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+2026-Aug-13 15:26:28.283024 #10 12.95 Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-Aug-13 15:26:28.283024 #10 12.96 Downloading googleapis_common_protos-1.75.1-py3-none-any.whl (300 kB)
+2026-Aug-13 15:26:28.283024 #10 12.96 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-Aug-13 15:26:28.283024 #10 12.97 Downloading multidict-6.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (256 kB)
+2026-Aug-13 15:26:28.283024 #10 12.98 Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-Aug-13 15:26:28.283024 #10 13.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 109.4 MB/s eta 0:00:00
+2026-Aug-13 15:26:28.283024 #10 13.14 Downloading oauthlib-3.3.1-py3-none-any.whl (160 kB)
+2026-Aug-13 15:26:28.283024 #10 13.15 Downloading propcache-0.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (61 kB)
+2026-Aug-13 15:26:28.283024 #10 13.16 Downloading proto_plus-1.28.3-py3-none-any.whl (50 kB)
+2026-Aug-13 15:26:28.283024 #10 13.16 Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-Aug-13 15:26:28.283024 #10 13.18 Downloading pyasn1-0.6.4-py3-none-any.whl (84 kB)
+2026-Aug-13 15:26:28.283024 #10 13.19 Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-Aug-13 15:26:28.283024 #10 13.20 Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-Aug-13 15:26:28.283024 #10 13.22 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-Aug-13 15:26:28.283024 #10 13.23 Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-Aug-13 15:26:28.283024 #10 13.25 Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-Aug-13 15:26:28.283024 #10 13.26 Downloading h2-4.4.1-py3-none-any.whl (62 kB)
+2026-Aug-13 15:26:28.283024 #10 13.28 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-Aug-13 15:26:28.283024 #10 13.29 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-Aug-13 15:26:28.283024 #10 13.29 Downloading hpack-4.2.0-py3-none-any.whl (34 kB)
+2026-Aug-13 15:26:28.283024 #10 13.30 Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-Aug-13 15:26:28.283024 #10 13.74 Installing collected packages: strenum, websockets, urllib3, uritemplate, typing-extensions, six, python-dotenv, pyparsing, pyjwt, pycparser, pyasn1, protobuf, propcache, packaging, oauthlib, numpy, multidict, markupsafe, lxml, itsdangerous, idna, hyperframe, hpack, h11, click, charset_normalizer, certifi, blinker, annotated-types, yarl, werkzeug, typing-inspection, requests, python-dateutil, pydantic-core, pyasn1-modules, proto-plus, jinja2, httplib2, httpcore, h2, gunicorn, googleapis-common-protos, deprecation, cffi, anyio, requests-oauthlib, pydantic, pandas, httpx, flask, cryptography, realtime, pytrends, google-auth, supabase-functions, supabase-auth, storage3, postgrest, google-auth-oauthlib, google-auth-httplib2, google-api-core, supabase, google-api-python-client
+2026-Aug-13 15:26:28.283024 #10 37.55 Successfully installed annotated-types-0.8.0 anyio-4.14.2 blinker-1.9.0 certifi-2026.7.22 cffi-2.1.1 charset_normalizer-3.5.0 click-8.4.2 cryptography-50.0.0 deprecation-2.1.0 flask-3.1.3 google-api-core-2.34.0 google-api-python-client-2.198.0 google-auth-2.56.3 google-auth-httplib2-0.4.1 google-auth-oauthlib-1.4.0 googleapis-common-protos-1.75.1 gunicorn-26.0.0 h11-0.16.0 h2-4.4.1 hpack-4.2.0 httpcore-1.0.9 httplib2-0.32.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 lxml-6.1.1 markupsafe-3.0.3 multidict-6.7.1 numpy-2.5.2 oauthlib-3.3.1 packaging-26.3 pandas-3.0.5 postgrest-2.31.0 propcache-0.5.2 proto-plus-1.28.3 protobuf-7.35.1 pyasn1-0.6.4 pyasn1-modules-0.4.2 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pyjwt-2.13.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 python-dotenv-1.2.2 pytrends-4.9.2 realtime-2.31.0 requests-2.34.2 requests-oauthlib-2.0.0 six-1.17.0 storage3-2.31.0 strenum-0.4.15 supabase-2.31.0 supabase-auth-2.31.0 supabase-functions-2.31.0 typing-extensions-4.16.0 typing-inspection-0.4.4 uritemplate-4.2.0 urllib3-2.7.0 websockets-15.0.1 werkzeug-3.1.8 yarl-1.24.5
+2026-Aug-13 15:26:28.283024 #10 37.55 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2026-Aug-13 15:26:28.283024 #10 37.69
+2026-Aug-13 15:26:28.283024 #10 37.69 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+2026-Aug-13 15:26:28.283024 #10 37.69 [notice] To update, run: pip install --upgrade pip
+2026-Aug-13 15:26:28.283024 #10 DONE 40.0s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #11 [6/7] COPY . .
+2026-Aug-13 15:26:28.283024 #11 DONE 1.4s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #12 [7/7] RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod +x /app/entrypoint.sh
+2026-Aug-13 15:26:28.283024 #12 DONE 0.6s
+2026-Aug-13 15:26:28.283024 
+2026-Aug-13 15:26:28.283024 #13 exporting to image
+2026-Aug-13 15:26:28.283024 #13 exporting layers
+2026-Aug-13 15:26:28.305667 [DEBUG] Error type: App\Exceptions\DeploymentException
+2026-Aug-13 15:26:28.339344 [DEBUG] Error code: 0
+2026-Aug-13 15:26:28.379906 [DEBUG] Location: /var/www/html/app/Traits/ExecuteRemoteCommand.php:242
+2026-Aug-13 15:26:28.437290 [DEBUG] Stack trace (first 5 lines):
+2026-Aug-13 15:26:28.504746 [DEBUG] #0 /var/www/html/app/Traits/ExecuteRemoteCommand.php(106): App\Jobs\ApplicationDeploymentJob->executeCommandWithProcess()
+2026-Aug-13 15:26:28.563820 [DEBUG] #1 /var/www/html/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php(275): App\Jobs\ApplicationDeploymentJob->{closure:App\Traits\ExecuteRemoteCommand::execute_remote_command():72}()
+2026-Aug-13 15:26:28.614548 [DEBUG] #2 /var/www/html/app/Traits/ExecuteRemoteCommand.php(72): Illuminate\Support\Collection->each()
+2026-Aug-13 15:26:28.646428 [DEBUG] #3 /var/www/html/app/Jobs/ApplicationDeploymentJob.php(773): App\Jobs\ApplicationDeploymentJob->execute_remote_command()
+2026-Aug-13 15:26:28.686585 [DEBUG] #4 /var/www/html/app/Jobs/ApplicationDeploymentJob.php(497): App\Jobs\ApplicationDeploymentJob->deploy_docker_compose_buildpack()
+2026-Aug-13 15:26:28.737392 ========================================
+2026-Aug-13 15:26:29.416538 Gracefully shutting down build container: fqjbna5dccqf9n7r5mf1asxp
+2026-Aug-13 15:26:29.764403 [DEBUG] [CMD]: docker stop --time=30 fqjbna5dccqf9n7r5mf1asxp
+2026-Aug-13 15:26:29.764403 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Aug-13 15:26:30.238388 [DEBUG] fqjbna5dccqf9n7r5mf1asxp

@@ -1,8 +1,18 @@
+.git
+.gitignore
 .env
-__pycache__/
+.venv
+venv
+__pycache__
 *.pyc
 *.pyo
 *.pyd
-.git/
-.vscode/
-.idea/
+.pytest_cache
+*.psd
+*.jfif
+*.mp4
+*.zip
+*.tar
+*.gz
+erros do coolify
+CAMPANHA/fotos wilder
