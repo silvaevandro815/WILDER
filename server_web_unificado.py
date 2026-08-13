@@ -16,7 +16,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
-from pdf_generator_service import gerar_buffer_relatorio_360, POSTS_VIRAIS_MESTRE
+from pdf_generator_service import gerar_buffer_relatorio_360, POSTS_VIRAIS_MESTRE, YOUTUBE_BENCHMARK_DATA
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
@@ -102,44 +102,47 @@ CACHE_LOCAL_MIDIAS = [
     }
 ]
 
+# NOVO DESIGN VERDE E AMARELO DA CAMPANHA WILDER MORAIS
 HTML_CHAT_WIDGET = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de IA da Campanha — Wilder Morais 2026</title>
+    <title>Central de IA — Wilder Morais 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #090d16; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        .header { background: #111827; padding: 16px 28px; border-bottom: 1px solid #1f2937; display: flex; align-items: center; justify-content: space-between; }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .brand-logo { background: linear-gradient(135deg, #0284c7, #38bdf8); width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(2,132,199,0.4); }
-        .brand-text h1 { margin: 0; font-size: 17px; font-weight: 800; color: #f8fafc; }
-        .brand-text p { margin: 2px 0 0 0; font-size: 12px; color: #38bdf8; font-weight: 600; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #06140b; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        .header { background: linear-gradient(135deg, #0d2516, #16a34a); padding: 16px 28px; border-bottom: 2px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(22,163,74,0.3); }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-logo { background: linear-gradient(135deg, #eab308, #f59e0b); width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: #06140b; box-shadow: 0 4px 14px rgba(234,179,8,0.5); }
+        .brand-text h1 { margin: 0; font-size: 18px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .brand-text p { margin: 2px 0 0 0; font-size: 12px; color: #fef08a; font-weight: 700; }
+        
         .nav-links { display: flex; gap: 10px; }
-        .btn-nav { color: #f8fafc; text-decoration: none; font-size: 13px; font-weight: 700; background: #1e293b; padding: 9px 16px; border-radius: 8px; border: 1px solid #334155; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
-        .btn-nav:hover { background: #0284c7; border-color: #0284c7; }
-        .btn-pdf { background: #0284c7; border-color: #0284c7; box-shadow: 0 4px 14px rgba(2,132,199,0.3); }
-        .btn-pdf:hover { background: #0369a1; }
+        .btn-nav { color: #f8fafc; text-decoration: none; font-size: 13px; font-weight: 700; background: #122b1c; padding: 9px 16px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
+        .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; box-shadow: 0 4px 14px rgba(22,163,74,0.4); }
+        .btn-pdf:hover { background: #16a34a; }
         
         .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1000px; margin: 0 auto; width: 100%; }
         .msg { max-width: 85%; padding: 16px 20px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
-        .user { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
-        .bot { background: #111827; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #1f2937; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .bot strong { color: #38bdf8; }
+        .user { background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 12px rgba(22,163,74,0.3); border: 1px solid #22c55e; }
+        .bot { background: #0e2917; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #1a4628; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .bot strong { color: #86efac; }
 
         .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-        .chip { background: #1e293b; border: 1px solid #334155; color: #cbd5e1; padding: 8px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .chip:hover { background: #0284c7; color: #fff; border-color: #0284c7; }
+        .chip { background: #14351f; border: 1px solid #22c55e; color: #fef08a; padding: 8px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
 
-        .input-container { background: #111827; padding: 18px 28px; border-top: 1px solid #1f2937; }
+        .input-container { background: #0d2516; padding: 18px 28px; border-top: 2px solid #16a34a; }
         .input-box { max-width: 1000px; margin: 0 auto; display: flex; gap: 12px; }
-        input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #334155; background: #090d16; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
-        input:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.15); }
-        button { padding: 14px 28px; background: #0284c7; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #0369a1; }
+        input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #22c55e; background: #06140b; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
+        input:focus { border-color: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.2); }
+        button { padding: 14px 28px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; border: 1px solid #eab308; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(22,163,74,0.4); }
+        button:hover { background: #16a34a; color: #fff; }
     </style>
 </head>
 <body>
@@ -148,7 +151,7 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">W</div>
             <div class="brand-text">
                 <h1>Central de IA da Campanha — Wilder Morais 2026</h1>
-                <p>● Conectado ao Supabase (Wilder, Daniel Vilela, Marconi Perillo & Posts Virais)</p>
+                <p>● Identidade Verde & Amarelo (Inteligência de Redes & YouTube)</p>
             </div>
         </div>
         <div class="nav-links">
@@ -160,12 +163,12 @@ HTML_CHAT_WIDGET = """
     <div class="chat-box" id="chat">
         <div class="msg bot">
             <strong>Olá! Sou a Central de IA da Campanha de Wilder Morais 2026.</strong><br><br>
-            Agora você pode consultar o comparativo completo de redes (Wilder, Daniel Vilela e Marconi) e a nova <strong>Tecnologia de Engajamento de Posts Virais</strong>!<br><br>
-            <strong>Sugestões de pesquisa:</strong>
+            Você pode consultar a nova <strong>Inteligência de Canais e Vídeos do YouTube</strong> dos concorrentes (Wilder, Daniel Vilela e Marconi Perillo) e descobrir quais vídeos e pautas mais engajam o público de Goiás!<br><br>
+            <strong>Selecione uma pesquisa rápida abaixo:</strong>
             <div class="quick-actions">
-                <span class="chip" onclick="perguntarRapido('qual post tem mais engajamento?')">🔥 Posts Mais Engajados das Redes</span>
-                <span class="chip" onclick="perguntarRapido('quem ta crescendo mais?')">⚔️ Guerra de Concorrentes (Wilder, Daniel, Marconi)</span>
-                <span class="chip" onclick="perguntarRapido('foto com pastel')">🥟 Mídias do Drive (Pastel, Cavalo...)</span>
+                <span class="chip" onclick="perguntarRapido('benchmarking do youtube')">📺 YouTube: Vídeos Mais Vistos dos Concorrentes</span>
+                <span class="chip" onclick="perguntarRapido('qual post tem mais engajamento?')">🔥 Instagram: Posts Virais e Curtidas</span>
+                <span class="chip" onclick="perguntarRapido('quem ta crescendo mais?')">⚔️ Guerra de Concorrentes (Wilder #1)</span>
                 <span class="chip" onclick="perguntarRapido('me de um relatorio')">📊 Dossiê Completo em PDF</span>
             </div>
         </div>
@@ -173,7 +176,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Pergunte sobre posts virais, engajamento ou concorrentes (ex: 'qual post engajou mais')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Pergunte sobre YouTube, vídeos mais vistos ou engajamento de concorrentes..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Perguntar</button>
         </div>
     </div>
@@ -196,7 +199,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>Consultando inteligência de engajamento da campanha...</strong>';
+            botMsg.innerHTML = '<strong>Consultando inteligência de dados da campanha...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -228,34 +231,34 @@ HTML_BUSCA_DRIVE = """
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0b0f19; color: #f8fafc; margin: 0; padding: 0; min-height: 100vh; }
-        .navbar { background: #111827; padding: 18px 40px; border-bottom: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 20px; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
-        .logo span { color: #f8fafc; }
-        .nav-links a { color: #38bdf8; text-decoration: none; font-size: 13px; font-weight: bold; margin-left: 15px; background: #1e293b; padding: 8px 14px; border-radius: 8px; border: 1px solid #334155; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #06140b; color: #f8fafc; margin: 0; padding: 0; min-height: 100vh; }
+        .navbar { background: linear-gradient(135deg, #0d2516, #16a34a); padding: 18px 40px; border-bottom: 2px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: 800; color: #fef08a; display: flex; align-items: center; gap: 10px; }
+        .logo span { color: #ffffff; }
+        .nav-links a { color: #fef08a; text-decoration: none; font-size: 13px; font-weight: bold; margin-left: 15px; background: #122b1c; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; }
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         .search-hero { text-align: center; margin-bottom: 40px; }
-        .search-hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .search-hero p { color: #94a3b8; font-size: 16px; margin-bottom: 30px; }
-        .search-bar-box { display: flex; gap: 12px; background: #1e293b; padding: 8px 12px; border-radius: 14px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); }
+        .search-hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #86efac, #fef08a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .search-hero p { color: #a7f3d0; font-size: 16px; margin-bottom: 30px; }
+        .search-bar-box { display: flex; gap: 12px; background: #0e2917; padding: 8px 12px; border-radius: 14px; border: 1px solid #22c55e; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4); }
         .search-bar-box input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; padding: 10px 14px; }
-        .search-bar-box button { background: #0284c7; color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .search-bar-box button:hover { background: #0369a1; }
+        .search-bar-box button { background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; border: 1px solid #eab308; padding: 12px 28px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .search-bar-box button:hover { background: #16a34a; color: #fff; }
         .quick-tags { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
-        .tag-btn { background: #1e293b; border: 1px solid #334155; color: #cbd5e1; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
-        .tag-btn:hover { background: #0284c7; color: #fff; border-color: #0284c7; }
+        .tag-btn { background: #14351f; border: 1px solid #22c55e; color: #fef08a; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .tag-btn:hover { background: #16a34a; color: #fff; border-color: #eab308; }
         .grid-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 40px; }
-        .card { background: #111827; border: 1px solid #1f2937; border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
-        .card:hover { transform: translateY(-4px); border-color: #38bdf8; }
-        .card-img-box { position: relative; height: 180px; background: #1e293b; }
+        .card { background: #0e2917; border: 1px solid #1a4628; border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+        .card:hover { transform: translateY(-4px); border-color: #eab308; }
+        .card-img-box { position: relative; height: 180px; background: #14351f; }
         .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .badge-type { position: absolute; top: 12px; left: 12px; background: rgba(15, 23, 42, 0.85); color: #38bdf8; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; backdrop-filter: blur(4px); }
-        .badge-time { position: absolute; bottom: 12px; right: 12px; background: #0284c7; color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+        .badge-type { position: absolute; top: 12px; left: 12px; background: rgba(6, 20, 11, 0.85); color: #86efac; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; backdrop-filter: blur(4px); border: 1px solid #22c55e; }
+        .badge-time { position: absolute; bottom: 12px; right: 12px; background: #16a34a; color: #fef08a; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; border: 1px solid #eab308; }
         .card-body { padding: 20px; }
         .card-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .btn-drive { display: block; width: 100%; text-align: center; background: #1e293b; color: #38bdf8; border: 1px solid #334155; padding: 10px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: 0.2s; }
-        .btn-drive:hover { background: #0284c7; color: #fff; }
+        .card-desc { font-size: 13px; color: #a7f3d0; line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .btn-drive { display: block; width: 100%; text-align: center; background: #14351f; color: #86efac; border: 1px solid #22c55e; padding: 10px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: 0.2s; }
+        .btn-drive:hover { background: #16a34a; color: #fff; border-color: #eab308; }
     </style>
 </head>
 <body>
@@ -298,14 +301,14 @@ HTML_BUSCA_DRIVE = """
         async function buscar() {
             const query = document.getElementById('queryInput').value.trim();
             const grid = document.getElementById('resultsGrid');
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 40px;">Pesquisando acervo por Inteligência Artificial...</div>';
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #a7f3d0; padding: 40px;">Pesquisando acervo por Inteligência Artificial...</div>';
 
             try {
                 const res = await fetch(`/api/busca_midia?q=${encodeURIComponent(query)}`);
                 const data = await res.json();
                 
                 if (!data.resultados || data.resultados.length === 0) {
-                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 40px;">Nenhuma mídia encontrada para essa pesquisa. Tente outras palavras!</div>';
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #a7f3d0; padding: 40px;">Nenhuma mídia encontrada para essa pesquisa. Tente outras palavras!</div>';
                     return;
                 }
 
@@ -399,16 +402,35 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # 1. Roteador de Engajamento de Posts Virais (Pergunta do Usuário)
+    # 1. Roteador de YouTube e Vídeos de Concorrentes (Novo Recursos Solicitado)
+    if any(k in p_lower for k in ["youtube", "canal", "vilela", "marconi", "assunto", "interesse", "vídeo mais visto", "video mais visto"]):
+        yt_html = "".join([
+            f"<div style='background:#0e2917;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
+            f"<strong>📺 {y['candidato']} — {y['canal']}</strong><br>"
+            f"<span style='color:#fef08a;font-weight:bold;font-size:13px;'>Inscritos: {y['inscritos']} | Views Totais: {y['views_totais']}</span><br>"
+            f"<div style='margin-top:6px;font-size:13px;color:#e2e8f0;'>"
+            f"• <strong>Vídeo Top Performer</strong>: \"{y['top_video']}\"<br>"
+            f"• <strong>Métricas do Vídeo</strong>: <span style='color:#86efac;font-weight:bold;'>{y['top_video_views']}</span> ({y['top_video_likes']})<br>"
+            f"• 🎯 <strong>Assunto de Maior Interesse dos Seguidores</strong>: <span style='color:#fde047;'>{y['assunto_interesse']}</span></div>"
+            f"<div style='margin-top:6px;font-size:12px;color:#a7f3d0;background:#06140b;padding:8px;border-radius:6px;border:1px solid #16a34a;'>"
+            f"💡 <strong>Análise de Performance de IA:</strong> {y['analise_ia']}</div>"
+            f"</div>"
+            for y in YOUTUBE_BENCHMARK_DATA
+        ])
+        return jsonify({
+            "resposta": f"📺 <strong>BENCHMARKING DE CANAIS DE YOUTUBE DOS CONCORRENTES</strong><br>{yt_html}"
+        }), 200
+
+    # 2. Roteador de Engajamento de Posts Virais (Instagram / TikTok)
     if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral"]):
         posts_html = "".join([
-            f"<div style='background:#1e293b;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #334155;'>"
+            f"<div style='background:#0e2917;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
             f"<strong>🏆 {p['candidato']} ({p['rede']})</strong><br>"
-            f"<span style='color:#38bdf8;font-weight:bold;font-size:14px;'>\"{p['titulo']}\"</span><br>"
+            f"<span style='color:#fef08a;font-weight:bold;font-size:14px;'>\"{p['titulo']}\"</span><br>"
             f"<div style='margin-top:6px;font-size:13px;color:#cbd5e1;'>"
             f"• <strong>Curtidas</strong>: {p['curtidas']} | <strong>Comentários</strong>: {p['comentarios']} | <strong>Views</strong>: {p['views']}<br>"
             f"• <strong>Taxa de Engajamento</strong>: <span style='color:#4ade80;font-weight:bold;'>{p['engajamento']}</span> (Pauta: {p['pauta']})</div>"
-            f"<div style='margin-top:6px;font-size:12px;color:#94a3b8;background:#0f172a;padding:8px;border-radius:6px;'>"
+            f"<div style='margin-top:6px;font-size:12px;color:#a7f3d0;background:#06140b;padding:8px;border-radius:6px;border:1px solid #16a34a;'>"
             f"💡 <strong>Análise de IA:</strong> {p['analise_ia']}</div>"
             f"</div>"
             for p in POSTS_VIRAIS_MESTRE
@@ -417,8 +439,8 @@ def api_chat():
             "resposta": f"🔥 <strong>RANKING DOS POSTS MAIS ENGAJADOS NAS REDES SOCIAIS</strong><br>{posts_html}"
         }), 200
 
-    # 2. Roteador de Guerra de Concorrentes (Incluindo Wilder Morais)
-    if any(k in p_lower for k in ["crescendo", "concorrente", "concorrentes", "quem", "redes", "seguidores", "wilder", "daniel", "marconi"]):
+    # 3. Roteador de Guerra de Concorrentes (Com Wilder Morais)
+    if any(k in p_lower for k in ["crescendo", "concorrente", "concorrentes", "quem", "redes", "seguidores", "wilder"]):
         return jsonify({
             "resposta": """⚔️ <strong>GUERRA DE CONCORRENTES & COMPARATIVO DE REDES SOCIAIS</strong><br><br>
 1. 🥇 <strong>Wilder Morais (@WilderMorais)</strong>:
@@ -431,18 +453,18 @@ def api_chat():
 3. 🥉 <strong>Marconi Perillo (@Marconiperillo)</strong>:
    • <strong>Instagram</strong>: 240.000 seguidores | <strong>Taxa de Engajamento</strong>: 2.80%<br>
    • <strong>Facebook</strong>: 130.000 seguidores<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#38bdf8;font-weight:bold;text-decoration:underline;'>Baixar o Dossiê de Concorrentes em PDF</a>"""
+👉 <a href='/download_pdf' target='_blank' style='color:#fef08a;font-weight:bold;text-decoration:underline;'>Baixar o Dossiê de Concorrentes em PDF</a>"""
         }), 200
 
-    # 3. Roteamento de Mídias do Drive (pastel, cavalo, café, livros, trator)
+    # 4. Roteamento de Mídias do Drive (pastel, cavalo, café, livros, trator)
     if any(k in p_lower for k in ["pastel", "cavalo", "café", "cafe", "livro", "trator", "foto", "video", "vídeo", "drive", "midia"]):
         midias = buscar_midias(p_lower)
         if midias:
             itens_html = "".join([
-                f"<div style='background:#1e293b;padding:12px;border-radius:8px;margin-top:8px;border:1px solid #334155;'>"
+                f"<div style='background:#0e2917;padding:12px;border-radius:8px;margin-top:8px;border:1px solid #1a4628;'>"
                 f"<strong>🎬 {m['file_name']}</strong><br>"
-                f"<span style='font-size:12px;color:#94a3b8;'>{m['descricao_cena_ia']}</span><br>"
-                f"<a href='{m['drive_url']}' target='_blank' style='color:#38bdf8;font-weight:bold;font-size:12px;'>📁 Abrir arquivo no Google Drive</a>"
+                f"<span style='font-size:12px;color:#a7f3d0;'>{m['descricao_cena_ia']}</span><br>"
+                f"<a href='{m['drive_url']}' target='_blank' style='color:#fef08a;font-weight:bold;font-size:12px;'>📁 Abrir arquivo no Google Drive</a>"
                 f"</div>"
                 for m in midias[:3]
             ])
@@ -450,7 +472,7 @@ def api_chat():
                 "resposta": f"🎬 <strong>MÍDIAS ENCONTRADAS NO GOOGLE DRIVE POR IA:</strong><br>{itens_html}"
             }), 200
 
-    # 4. Roteamento de Relatórios e PDF
+    # 5. Roteamento de Relatórios e PDF
     if any(k in p_lower for k in ["relatorio", "relatório", "pdf", "dados", "resumo", "baixar"]):
         return jsonify({
             "resposta": """📊 <strong>DOSSIÊ MESTRE 360° DE INTELIGÊNCIA ELEITORAL</strong><br><br>
@@ -458,7 +480,7 @@ def api_chat():
 • 📺 <strong>YouTube Oficial</strong>: 1.250.000 de visualizações acumuladas.<br>
 • ⚔️ <strong>Concorrentes</strong>: Wilder Morais (310k), Daniel Vilela (185k) e Marconi Perillo (240k).<br>
 • 📜 <strong>Estratégia de Vídeo</strong>: 3 roteiros virais diários com a Metodologia Marcelo Vitorino.<br><br>
-👉 <a href='/download_pdf' target='_blank' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:6px;'>📄 BAIXAR O RELATÓRIO OFICIAL 360° EM PDF</a>"""
+👉 <a href='/download_pdf' target='_blank' style='background:linear-gradient(135deg, #15803d, #16a34a);color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:6px;border:1px solid #eab308;'>📄 BAIXAR O RELATÓRIO OFICIAL 360° EM PDF</a>"""
         }), 200
 
     # Fallback via OpenRouter se disponível
@@ -467,7 +489,7 @@ def api_chat():
         payload = {
             "model": MODEL_NAME,
             "messages": [
-                {"role": "system", "content": "Você é a Central de Inteligência de IA da campanha de Wilder Morais em Goiás. Responda em Português com clareza executiva e sem exibir códigos de programação ou SQL."},
+                {"role": "system", "content": "Você é a Central de Inteligência de IA da campanha de Wilder Morais em Goiás. Responda em Português com clareza executiva e tom patriota verde e amarelo."},
                 {"role": "user", "content": pergunta}
             ],
             "temperature": 0.3
@@ -481,10 +503,10 @@ def api_chat():
 
     # Resposta Padrão de Cortesia Executiva
     return jsonify({
-        "resposta": f"🤖 <strong>CENTRAL DE IA DA CAMPANHA (WILDER MORAIS 2026)</strong><br><br>"
+        "resposta": f"🔰 <strong>CENTRAL DE IA DA CAMPANHA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Entendi perfeitamente sua mensagem sobre <i>'{pergunta}'</i>!<br>"
-                    f"Todos os dados dos concorrentes (Wilder, Daniel Vilela, Marconi), posts mais engajados e 246 cidades de Goiás estão atualizados.<br><br>"
-                    f"👉 <a href='/download_pdf' target='_blank' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;'>📄 BAIXAR O DOSSIÊ MESTRE 360° DA CAMPANHA</a>"
+                    f"Todos os dados do YouTube dos concorrentes (Wilder, Daniel Vilela, Marconi), engajamento de vídeos e 246 cidades de Goiás estão monitorados.<br><br>"
+                    f"👉 <a href='/download_pdf' target='_blank' style='background:linear-gradient(135deg, #15803d, #16a34a);color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;border:1px solid #eab308;'>📄 BAIXAR O DOSSIÊ MESTRE 360° DA CAMPANHA</a>"
     }), 200
 
 @app.route("/webhook", methods=["GET"])
@@ -498,5 +520,5 @@ def verificar_webhook():
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
-    print(f"🚀 Servidor Unificado (Chat, Webhook, PDF Streaming & Busca Drive IA) rodando na porta {porta}...")
+    print(f"🚀 Servidor Unificado (Chat Verde e Amarelo, PDF & YouTube Intelligence) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
