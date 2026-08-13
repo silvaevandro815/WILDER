@@ -32,7 +32,45 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# Inteligência Local de Benchmarking de YouTube dos Concorrentes
+RADAR_NOTICIAS_ATAQUES = [
+    {
+        "veiculo": "O Popular / Política",
+        "manchete": "Oposição questiona movimentação pré-eleitoral de Wilder Morais no interior de Goiás",
+        "nivel_ameaca": "ALERTA MÉDIO 🟡",
+        "estrategia_defesa": "Neutralizar destacando o exercício legítimo de mandato de Senador e R$ 100M enviados em emendas para a saúde de Goiás."
+    },
+    {
+        "veiculo": "Diário da Manhã",
+        "manchete": "Rumores sobre repasses de emendas na saúde da capital",
+        "nivel_ameaca": "ALERTA VERMELHO 🔴",
+        "estrategia_defesa": "Publicar certidão oficial comprovando pagamento e fiscalização 100% aprovada pelo Tribunal de Contas."
+    }
+]
+
+MAPA_RECLAMACOES_REGIONAL = [
+    {
+        "regiao": "Metropolitana de Goiânia",
+        "percentual": "42%",
+        "pauta": "Saúde Pública (Filas no SUS)",
+        "video": "Mutirões de Saúde & Eficiência de Gestão (Perfil Engenheiro)",
+        "gancho": "Sabe por que a saúde de Goiás trava? Porque falta gestão de engenheiro!"
+    },
+    {
+        "regiao": "Entorno do DF (Luziânia, Valparaíso)",
+        "percentual": "28%",
+        "pauta": "Transporte Público Metropolitano & Asfalto",
+        "video": "Integração do Transporte & Obras de Infraestrutura",
+        "gancho": "O Entorno do DF não é quintal de ninguém. Merece transporte digno!"
+    },
+    {
+        "regiao": "Sudoeste Goiano (Rio Verde, Jataí)",
+        "percentual": "14%",
+        "pauta": "Logística de Escoamento Agrícola & Pontes",
+        "video": "Garantia de Logística para o Agro",
+        "gancho": "Quem produz o alimento do Brasil em Goiás não pode ficar atolado!"
+    }
+]
+
 YOUTUBE_BENCHMARK_DATA = [
     {
         "candidato": "Wilder Morais",
@@ -42,8 +80,8 @@ YOUTUBE_BENCHMARK_DATA = [
         "top_video": "O Brasil que Dá Certo: Trabalho e Educação em Goiás",
         "top_video_views": "485.000 views",
         "top_video_likes": "28.400 curtidas",
-        "assunto_interesse": "Educação (Senador dos Livros), Agronegócio & Geração de Empregos",
-        "analise_ia": "Vídeo de alta performance devido ao tom de otimismo e dados de obras reais. Gancho emocional forte nos primeiros 3s apelando para orgulho goiano."
+        "assunto_interesse": "Educação (Senador dos Livros), Agronegócio & Emprego",
+        "analise_ia": "Vídeo de alta performance devido ao tom de otimismo e dados de obras reais."
     },
     {
         "candidato": "Daniel Vilela",
@@ -53,81 +91,17 @@ YOUTUBE_BENCHMARK_DATA = [
         "top_video": "Infraestrutura e Obras de Asfalto no Interior de Goiás",
         "top_video_views": "125.000 views",
         "top_video_likes": "8.900 curtidas",
-        "assunto_interesse": "Obras Estaduais, Rodovias & Parcerias com Prefeitos",
-        "analise_ia": "Formato de minidocumentário institucional. Boa retenção no público político regional, mas pouca atratividade para eleitores jovens."
-    },
-    {
-        "candidato": "Marconi Perillo",
-        "canal": "Marconi Perillo Oficial (@MarconiPerillo)",
-        "inscritos": "38.200",
-        "views_totais": "610.000",
-        "top_video": "Memórias de Goiás: Os Programas Sociais do Passado",
-        "top_video_views": "95.000 views",
-        "top_video_likes": "6.200 curtidas",
-        "assunto_interesse": "Nostalgia Política, Histórico de Mandatos & Críticas ao Governo",
-        "analise_ia": "Conteúdo focado no legado de gestões passadas. Retenção média baixa devido a tom defensivo e saudosista."
-    }
-]
-
-POSTS_VIRAIS_MESTRE = [
-    {
-        "candidato": "Wilder Morais",
-        "rede": "Instagram Reels",
-        "titulo": "O Senador dos Livros: +1 Milhão de Livros Distribuídos em Goiás",
-        "curtidas": "28.400",
-        "comentarios": "2.150",
-        "views": "485.000",
-        "engajamento": "7.42%",
-        "pauta": "Educação & Legado",
-        "analise_ia": "Gancho inicial de 3s apelando para nostalgia de Goiás e conselho de família. Alta retenção emocional."
-    },
-    {
-        "candidato": "Wilder Morais",
-        "rede": "YouTube VLOG",
-        "titulo": "Cavalgada de Jataí e Encontro com Produtores Rurais de Goiás",
-        "curtidas": "18.200",
-        "comentarios": "1.420",
-        "views": "310.000",
-        "engajamento": "7.35%",
-        "pauta": "Agronegócio & Tradição",
-        "analise_ia": "Alta conexão emocional com o público sertanejo e produtor rural. Mostra simplicidade e pé no chão."
-    },
-    {
-        "candidato": "Daniel Vilela",
-        "rede": "Instagram Reels",
-        "titulo": "Visita às Obras da GO-070 no Interior de Goiás",
-        "curtidas": "9.400",
-        "comentarios": "480",
-        "views": "125.000",
-        "engajamento": "3.20%",
-        "pauta": "Infraestrutura / Governo",
-        "analise_ia": "Discurso institucional focado em obras públicas. Engajamento moderado limitado à base aliada."
-    },
-    {
-        "candidato": "Marconi Perillo",
-        "rede": "Instagram Carrossel",
-        "titulo": "TBT de Obras Históricas de Goiás",
-        "curtidas": "7.200",
-        "comentarios": "650",
-        "views": "95.000",
-        "engajamento": "2.65%",
-        "pauta": "Nostalgia & Política",
-        "analise_ia": "Post nostalgia de governos passados. Baixo apelo orgânico no público jovem e novos eleitores."
+        "assunto_interesse": "Obras Estaduais & Rodovias",
+        "analise_ia": "Formato institucional. Pouca atratividade com jovens."
     }
 ]
 
 def gerar_buffer_relatorio_360() -> io.BytesIO:
-    """
-    Gera o Dossiê Mestre 360° da Campanha de Wilder Morais em memória (BytesIO)
-    com o novo design verde e amarelo da campanha e inteligência de YouTube.
-    """
     hoje = datetime.date.today().strftime("%d/%m/%Y")
     agora_hora = datetime.datetime.now().strftime("%H:%M:%S")
 
     top_cidades = []
     concorrentes = []
-    youtube_stats = {}
-    briefings = []
 
     if supabase:
         try:
@@ -136,16 +110,8 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
 
             r_conc = supabase.table("concorrentes_historico").select("candidato_nome, seguidores, taxa_engajamento, facebook_seguidores").order("seguidores", desc=True).execute()
             concorrentes = r_conc.data if (r_conc and r_conc.data) else []
-
-            rb = supabase.table("briefings_diarios").select("resumo_cenario, ideias_roteiros").order("data", desc=True).limit(1).execute()
-            briefings = rb.data if (rb and rb.data) else []
-
-            ry = supabase.table("youtube_performance").select("inscritos, visualizacoes_totais").order("data", desc=True).limit(1).execute()
-            if ry and ry.data:
-                youtube_stats = ry.data[0]
-
-        except Exception as err:
-            print(f"[AVISO] Erro ao carregar Supabase para PDF: {err}")
+        except Exception:
+            pass
 
     if not concorrentes:
         concorrentes = [
@@ -158,25 +124,22 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Dossiê Mestre 360° — Wilder Morais 2026</title>
+    <title>Dossiê Mestre 360° — Sala de Guerra Wilder Morais</title>
     <style>
         @page {{ size: A4; margin: 15mm; }}
         body {{ font-family: 'Segoe UI', Helvetica, Arial, sans-serif; color: #0f172a; background: #ffffff; margin: 0; padding: 20px; line-height: 1.5; }}
-        .header {{ background: linear-gradient(135deg, #15803d, #16a34a, #eab308); color: #ffffff; padding: 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(22,163,74,0.3); }}
-        .header h1 {{ margin: 0; font-size: 22px; color: #ffffff; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }}
-        .header p {{ margin: 4px 0 0 0; color: #fef08a; font-size: 13px; font-weight: 600; }}
+        .header {{ background: linear-gradient(135deg, #0b2214, #15803d, #eab308); color: #ffffff; padding: 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }}
+        .header h1 {{ margin: 0; font-size: 22px; color: #ffffff; font-weight: 800; }}
+        .header p {{ margin: 4px 0 0 0; color: #fef08a; font-size: 13px; font-weight: 700; }}
         .grid-kpi {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }}
         .kpi-card {{ background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 10px; text-align: center; }}
-        .kpi-title {{ font-size: 11px; text-transform: uppercase; color: #166534; font-weight: 700; letter-spacing: 0.5px; }}
+        .kpi-title {{ font-size: 11px; text-transform: uppercase; color: #166534; font-weight: 700; }}
         .kpi-val {{ font-size: 22px; font-weight: 800; color: #15803d; margin-top: 4px; }}
-        .section-box {{ border: 1px solid #dcfce7; border-radius: 10px; padding: 20px; margin-bottom: 20px; background: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }}
+        .section-box {{ border: 1px solid #dcfce7; border-radius: 10px; padding: 20px; margin-bottom: 20px; background: #ffffff; }}
         .section-title {{ font-size: 15px; font-weight: 800; color: #14532d; border-left: 5px solid #eab308; padding-left: 10px; margin-bottom: 14px; text-transform: uppercase; }}
         table {{ width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }}
         th {{ background: #f0fdf4; padding: 10px 12px; color: #166534; text-align: left; font-weight: 700; border-bottom: 2px solid #86efac; }}
         td {{ padding: 10px 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }}
-        tr:nth-child(even) td {{ background: #f8fafc; }}
-        .badge-pos {{ background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; }}
-        .badge-wilder {{ background: #fef08a; color: #854d0e; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 11px; }}
         .footer {{ text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 12px; }}
     </style>
 </head>
@@ -184,61 +147,51 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
 
     <div class="header">
         <div>
-            <h1>🔰 DOSSIÊ MESTRE 360° DE INTELIGÊNCIA ELEITORAL</h1>
+            <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
             <p>Campanha Wilder Morais ao Governo de Goiás &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
-        <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">VERDE & AMARELO GOIÁS</div>
+        <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">INTELIGÊNCIA MILITAR</div>
     </div>
 
     <div class="grid-kpi">
         <div class="kpi-card"><div class="kpi-title">Cidades Mapeadas</div><div class="kpi-val">246</div></div>
-        <div class="kpi-card"><div class="kpi-title">YouTube Views</div><div class="kpi-val">{youtube_stats.get('visualizacoes_totais', 1250000):,}</div></div>
+        <div class="kpi-card"><div class="kpi-title">YouTube Views</div><div class="kpi-val">1.250.000</div></div>
         <div class="kpi-card"><div class="kpi-title">Engajamento Wilder</div><div class="kpi-val" style="color: #15803d;">6.85% (Líder)</div></div>
-        <div class="kpi-card"><div class="kpi-title">Status da Operação</div><div class="kpi-val" style="color: #15803d;">100% ATIVO</div></div>
+        <div class="kpi-card"><div class="kpi-title">Alerta Anti-Crise</div><div class="kpi-val" style="color: #15803d;">DEFESA ATIVA</div></div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title">🚨 RADAR ANTI-CRISE & MONITORAMENTO DE NOTÍCIAS</div>
+        <table>
+            <thead><tr><th>Veículo de Comunicação</th><th>Manchete / Notícia</th><th>Nível de Ameaça</th><th>Estratégia de Defesa de IA</th></tr></thead>
+            <tbody>
+                {''.join([f"<tr><td><strong>{n['veiculo']}</strong></td><td>\"{n['manchete']}\"</td><td><strong>{n['nivel_ameaca']}</strong></td><td style='font-size:11px;color:#475569;'>{n['estrategia_defesa']}</td></tr>" for n in RADAR_NOTICIAS_ATAQUES])}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title">🗺️ MAPA TÁTICO DE RECLAMAÇÕES DA POPULAÇÃO DE GOIÁS</div>
+        <table>
+            <thead><tr><th>Região de Goiás</th><th>Volume %</th><th>Pauta Principal</th><th>Tema de Vídeo Recomendado & Gancho 3s</th></tr></thead>
+            <tbody>
+                {''.join([f"<tr><td><strong>{m['regiao']}</strong></td><td><strong>{m['percentual']}</strong></td><td>{m['pauta']}</td><td style='font-size:11px;'><strong>{m['video']}</strong><br><span style='color:#0284c7;'>\"{m['gancho']}\"</span></td></tr>" for m in MAPA_RECLAMACOES_REGIONAL])}
+            </tbody>
+        </table>
     </div>
 
     <div class="section-box">
         <div class="section-title">📺 BENCHMARKING DE CANAIS DE YOUTUBE DOS CONCORRENTES</div>
         <table>
-            <thead><tr><th>Candidato & Canal</th><th>Inscritos / Views Totais</th><th>Vídeo Mais Visto (Top Performer)</th><th>Assunto de Maior Interesse</th><th>Análise de IA (Por que performou)</th></tr></thead>
+            <thead><tr><th>Candidato & Canal</th><th>Inscritos / Views</th><th>Vídeo Top Performer</th><th>Assunto de Maior Interesse</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{y['candidato']}</strong><br><span style='font-size:11px;color:#64748b;'>{y['canal']}</span></td><td>{y['inscritos']} inscritos<br><span style='font-size:11px;color:#15803d;font-weight:bold;'>{y['views_totais']}</span></td><td><strong>{y['top_video']}</strong><br><span style='font-size:11px;color:#854d0e;font-weight:bold;'>{y['top_video_views']} &bull; {y['top_video_likes']}</span></td><td style='font-size:11px;color:#166534;'><strong>{y['assunto_interesse']}</strong></td><td style='font-size:11px;color:#475569;'>{y['analise_ia']}</td></tr>" for y in YOUTUBE_BENCHMARK_DATA])}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">⚔️ GUERRA DE CONCORRENTES & REDES SOCIAIS</div>
-        <table>
-            <thead><tr><th>Candidato</th><th>Seguidores Instagram</th><th>Taxa Engajamento</th><th>Seguidores Facebook</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td><strong>{c['candidato_nome']}</strong> {'<span class=\"badge-wilder\">PRÉ-CANDIDATO</span>' if 'Wilder' in c['candidato_nome'] else ''}</td><td>{c['seguidores']:,}</td><td><span class='badge-pos'>{c['taxa_engajamento']}%</span></td><td>{c['facebook_seguidores']:,}</td></tr>" for c in concorrentes])}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">🏆 TECNOLOGIA DE ENGAJAMENTO: RANKING DE POSTS VIRAIS</div>
-        <table>
-            <thead><tr><th>Candidato & Rede</th><th>Título do Post / Tema</th><th>Curtidas / Views</th><th>Engajamento</th><th>Análise de IA</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td><strong>{p['candidato']}</strong><br><span style='font-size:11px;color:#64748b;'>{p['rede']}</span></td><td><strong>{p['titulo']}</strong><br><span style='font-size:11px;color:#15803d;font-weight:bold;'>{p['pauta']}</span></td><td>{p['curtidas']} curtidas<br><span style='font-size:11px;color:#64748b;'>{p['views']} views</span></td><td><span class='badge-pos'>{p['engajamento']}</span></td><td style='font-size:11px;color:#475569;'>{p['analise_ia']}</td></tr>" for p in POSTS_VIRAIS_MESTRE])}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">🗺️ TOP 10 MAIORES COLÉGIOS ELEITORAIS DE GOIÁS (TSE)</div>
-        <table>
-            <thead><tr><th>#</th><th>Cidade / Município</th><th>Eleitores TSE (Votos)</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td>{i+1}</td><td><strong>{c['nome']}</strong></td><td>{c['eleitores_tse']:,} eleitores</td></tr>" for i, c in enumerate(top_cidades)])}
+                {''.join([f"<tr><td><strong>{y['candidato']}</strong><br><span style='font-size:11px;color:#64748b;'>{y['canal']}</span></td><td>{y['inscritos']}<br><strong>{y['views_totais']}</strong></td><td><strong>{y['top_video']}</strong><br><span style='font-size:11px;color:#854d0e;'>{y['top_video_views']}</span></td><td style='font-size:11px;color:#166534;'>{y['assunto_interesse']}</td></tr>" for y in YOUTUBE_BENCHMARK_DATA])}
             </tbody>
         </table>
     </div>
 
     <div class="footer">
-        Relatório Gerado Automaticamente pelo Sistema de Inteligência Eleitoral de Wilder Morais &bull; 2026
+        Dossiê de Inteligência Militar Gerado Automaticamente &bull; Wilder Morais 2026
     </div>
 
 </body>
