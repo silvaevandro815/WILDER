@@ -70,6 +70,7 @@ HTML_CHAT_WIDGET = """
         body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; background: #0f172a; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; }
         .header { background: #1e293b; padding: 14px 20px; border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; }
         .header h1 { margin: 0; font-size: 16px; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+        .nav-links a { color: #38bdf8; text-decoration: none; font-size: 13px; font-weight: bold; margin-left: 15px; }
         .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
         .msg { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
         .user { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
@@ -84,7 +85,10 @@ HTML_CHAT_WIDGET = """
 <body>
     <div class="header">
         <h1>🤖 Copiloto Estratégico de IA (Metabase Wilder Morais)</h1>
-        <span style="font-size: 12px; color: #94a3b8;">Conectado ao Supabase</span>
+        <div class="nav-links">
+            <a href="/relatorio" target="_blank">📄 Baixar/Ver Relatório 360° PDF</a>
+            <a href="/busca_drive" target="_blank">🔍 Busca Visual Drive IA</a>
+        </div>
     </div>
     <div class="chat-box" id="chat">
         <div class="msg bot">
@@ -177,6 +181,20 @@ def processar_mensagem_wilder_ia(nome_eleitor: str, texto_eleitor: str, tipo_int
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET)
 
+@app.route("/relatorio", methods=["GET"])
+@app.route("/relatorio_pdf", methods=["GET"])
+def relatorio_completo_360():
+    try:
+        from gerar_relatorio_pdf_360 import gerar_relatorio_pdf_360_completo
+        gerar_relatorio_pdf_360_completo()
+        if os.path.exists("relatorio_mestre_360_campanha.html"):
+            with open("relatorio_mestre_360_campanha.html", "r", encoding="utf-8") as f:
+                html_code = f.read()
+            return html_code, 200, {'Content-Type': 'text/html; charset=utf-8'}
+    except Exception as e:
+        print(f"[ERRO RELATÓRIO] Falha ao gerar relatório HTML: {e}")
+    return "<h1>Erro ao gerar relatório de dados da campanha.</h1>", 500
+
 @app.route("/busca_drive", methods=["GET"])
 def busca_drive_home():
     return render_template_string(HTML_BUSCA_DRIVE)
@@ -233,5 +251,5 @@ def receber_interacao_instagram():
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 80))
-    print(f"🚀 Servidor Unificado (Chat, Webhook & Busca Drive IA) rodando na porta {porta}...")
+    print(f"🚀 Servidor Unificado (Chat, Webhook, Relatório & Busca Drive IA) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
