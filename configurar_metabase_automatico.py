@@ -28,24 +28,26 @@ def autenticar_metabase(url: str, user: str, password: str) -> str:
         print(f"✖ Falha na autenticação do Metabase: {e}")
         return None
 
-def obter_database_id(token: str, url: str) -> int:
-    """Obtém o ID da base de dados PostgreSQL conectada no Metabase."""
+def obter_database_id_postgres(token: str, url: str) -> int:
+    """Obtém o ID da base de dados PostgreSQL 'wilder' (ID 2)."""
     headers = {"X-Metabase-Session": token}
     endpoint = f"{url.rstrip('/')}/api/database"
     try:
         r = requests.get(endpoint, headers=headers, timeout=10, verify=False)
         r.raise_for_status()
         dbs = r.json()
-        if isinstance(dbs, list) and len(dbs) > 0:
-            db_id = dbs[0].get("id")
-            print(f"✔ Base de Dados Encontrada no Metabase ID: {db_id} ({dbs[0].get('name')})")
-            return db_id
+        if isinstance(dbs, list):
+            for db in dbs:
+                if isinstance(db, dict):
+                    if db.get("engine") == "postgres" or db.get("id") == 2 or "wilder" in str(db.get("name")).lower():
+                        print(f"✔ Base PostgreSQL Encontrada no Metabase ID: {db.get('id')} ({db.get('name')})")
+                        return db.get("id")
     except Exception as e:
-        print(f"[AVISO] Não foi possível consultar bases de dados: {e}")
-    return 1
+        print(f"[AVISO] Usando ID padrão 2 para banco PostgreSQL: {e}")
+    return 2
 
 def criar_card_sql(token: str, url: str, db_id: int, nome: str, sql: str, display: str = "table") -> int:
-    """Cria uma Pergunta/Card com consulta SQL no Metabase."""
+    """Cria uma Pergunta/Card com consulta SQL no Metabase conectada ao PostgreSQL."""
     headers = {"X-Metabase-Session": token, "Content-Type": "application/json"}
     endpoint = f"{url.rstrip('/')}/api/card"
     
@@ -63,24 +65,23 @@ def criar_card_sql(token: str, url: str, db_id: int, nome: str, sql: str, displa
         r = requests.post(endpoint, headers=headers, json=payload, timeout=10, verify=False)
         r.raise_for_status()
         card_id = r.json().get("id")
-        print(f"   • Card Criado: '{nome}' (ID: {card_id})")
+        print(f"   • Card Criado e Conectado ao PostgreSQL: '{nome}' (ID: {card_id})")
         return card_id
     except Exception as e:
         print(f"   ✖ Erro ao criar card '{nome}': {e}")
         return None
 
 def montar_dashboard_guerra_completo(token: str, url: str, user: str, password: str):
-    db_id = obter_database_id(token, url)
+    db_id = obter_database_id_postgres(token, url)
     headers = {"X-Metabase-Session": token, "Content-Type": "application/json"}
     
-    # 1. Cria ou reutiliza o Dashboard
     endpoint_dash = f"{url.rstrip('/')}/api/dashboard"
     payload_dash = {
         "name": "🏛️ SALA DE GUERRA — WILDER MORAIS 2026",
         "description": "Painel de Inteligência Eleitoral em Tempo Real (Cidades, Redes, Notícias e IA)",
         "parameters": []
     }
-    dash_id = 2
+    dash_id = 3
     try:
         r = requests.post(endpoint_dash, headers=headers, json=payload_dash, timeout=10, verify=False)
         if r.status_code == 200:
