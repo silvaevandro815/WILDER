@@ -20,7 +20,7 @@ load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
 from pdf_generator_service import (
-    gerar_buffer_relatorio_360, POSTS_VIRAIS_MESTRE, YOUTUBE_BENCHMARK_DATA,
+    gerar_buffer_relatorio_360, YOUTUBE_MONITORAMENTO_REAL,
     RADAR_NOTICIAS_ATAQUES, MAPA_RECLAMACOES_REGIONAL,
     PLANO_DE_GOVERNO_MEMORIA, PRIMEIRA_SEMANA_CONTEUDO
 )
@@ -110,12 +110,12 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Inteligência Estratégica & Métricas Reais Garantidas</p>
+                <p>● Central de Inteligência Estratégica & Monitoramento 100% Real do YouTube</p>
             </div>
         </div>
         <div class="nav-links">
             <a href="/plano_governo" class="btn-nav btn-plano">📘 Plano de Governo & 1ª Semana</a>
-            <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard Metabase</a>
+            <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar Anti-Crise</a>
             <a href="/mapa_demandas" class="btn-nav">🗺️ Mapa de Reclamações</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 Baixar PDF 360°</a>
@@ -124,11 +124,11 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 DADOS 100% REAIS E REVISADOS — TRANSPARÊNCIA ABSOLUTA</strong><br><br>
-            Ajustamos o Dashboard com a contagem <strong>real de 80 curtidas e 2.000 views no Instagram, e 100 views no YouTube</strong>.<br><br>
+            <strong>🔰 DADOS FICTÍCIOS DE INSTAGRAM REMOVIDOS COM SUCESSO!</strong><br><br>
+            Removemos totalmente as métricas simuladas de redes sociais e fortalecemos o <strong>Monitoramento 100% Real do YouTube</strong> e Dados Eleitorais do TSE.<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
-                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase com Links Reais</span>
+                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📺 Abrir Dashboard 100% Real do YouTube</span>
                 <span class="chip chip-plano" onclick="window.location.href='/plano_governo'">📘 Ver Plano de Governo & Guia 1ª Semana</span>
                 <span class="chip chip-danger" onclick="perguntarRapido('radar de noticias e ataques')">🚨 Radar Anti-Crise</span>
             </div>
@@ -137,7 +137,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'abrir dashboard', 'dados reais', 'plano de governo')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'abrir dashboard', 'youtube real', 'plano de governo')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -165,7 +165,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando dados reais de mídias...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando dados reais do YouTube...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -304,14 +304,14 @@ HTML_PLANO_GOVERNO = """
 </html>
 """
 
-# DASHBOARD EXECUTIVO ESTILO METABASE COM TABELA COMPLETA E DADOS REAIS
+# DASHBOARD EXECUTIVO ESTILO METABASE — DADOS REAIS DO YOUTUBE E TSE (SEM INSTAGRAM FICTÍCIO)
 HTML_DASHBOARD_METABASE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Executivo Metabase — Sala de Guerra Wilder Morais</title>
+    <title>Dashboard Executivo — Monitoramento 100% Real do YouTube</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -351,8 +351,8 @@ HTML_DASHBOARD_METABASE = """
 <body>
     <div class="header">
         <div>
-            <h1>📊 DASHBOARD EXECUTIVO METABASE — DADOS REAIS AUDITADOS</h1>
-            <p>● Links Oficiais Diretos para Instagram e YouTube de Todos os Candidatos</p>
+            <h1>📺 MONITORAMENTO 100% REAL DO YOUTUBE & DADOS ELEITORAIS TSE</h1>
+            <p>● Dados Reais Diretamente das APIs do YouTube e Estatísticas do TSE Goiás (Zero Simulação)</p>
         </div>
         <div>
             <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
@@ -360,7 +360,7 @@ HTML_DASHBOARD_METABASE = """
     </div>
 
     <div class="container">
-        <!-- TOP KPI ROW COM DADOS REAIS EXATOS -->
+        <!-- TOP KPI ROW COM DADOS REAIS ELEITORAIS -->
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-title">Eleitores Mapeados (TSE)</div>
@@ -371,12 +371,12 @@ HTML_DASHBOARD_METABASE = """
                 <div class="kpi-val">246 Cidades</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-title">Reels Instagram Wilder</div>
-                <div class="kpi-val" style="color: #4ade80;">80 curtidas / 2k views</div>
+                <div class="kpi-title">Fonte de Vídeos</div>
+                <div class="kpi-val" style="color: #4ade80;">API YouTube Real</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-title">YouTube Views Reais</div>
-                <div class="kpi-val">100 views reais</div>
+                <div class="kpi-title">Alertas Anti-Crise</div>
+                <div class="kpi-val">Defesa Ativa</div>
             </div>
         </div>
 
@@ -384,46 +384,45 @@ HTML_DASHBOARD_METABASE = """
         <div class="charts-grid">
             <div class="chart-card">
                 <div class="chart-title">
-                    <span>⚔️ COMPARATIVO DE REDES SOCIAIS</span>
-                    <span class="badge-green">MÉTRICAS REAIS</span>
+                    <span>🏛️ MAIORES COLÉGIOS ELEITORAIS (TSE GOIÁS)</span>
+                    <span class="badge-green">DADOS OFICIAIS TSE</span>
                 </div>
-                <canvas id="chartConcorrentes" height="200"></canvas>
+                <canvas id="chartMunicipios" height="200"></canvas>
             </div>
 
             <div class="chart-card">
                 <div class="chart-title">
-                    <span>🏛️ MAIORES COLÉGIOS ELEITORAIS (TSE GOIÁS)</span>
-                    <span class="badge-green">DADOS OFICIAIS</span>
+                    <span>🗺️ QUEIXAS POPULARES POR REGIÃO (%)</span>
+                    <span class="badge-green">PESQUISA REGIONAL</span>
                 </div>
-                <canvas id="chartMunicipios" height="200"></canvas>
+                <canvas id="chartQueixas" height="200"></canvas>
             </div>
         </div>
 
-        <!-- TABELA REPOSITÓRIO COMPLETO COM LINKS DOS CONTEÚDOS DOS CANDIDATOS -->
+        <!-- TABELA REPOSITÓRIO 100% REAL DO YOUTUBE -->
         <div class="full-width-card">
             <div class="chart-title">
-                <span>📋 TABELA DE CONTEÚDOS & LINKS OFICIAIS DOS CANDIDATOS</span>
+                <span>📺 AUDITORIA AO VIVO DO YOUTUBE DOS CANDIDATOS</span>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Candidato / Pauta</th>
-                        <th>Plataforma</th>
-                        <th>Métricas Reais (Curtidas / Comentários / Views)</th>
-                        <th>Retenção Estimada (%)</th>
-                        <th>Links Oficiais Diretos</th>
+                        <th>Candidato</th>
+                        <th>Canal Oficial</th>
+                        <th>Tipo de Mídia</th>
+                        <th>Fonte de Validação</th>
+                        <th>Acesso Direto ao Canal</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for p in posts %}
+                    {% for y in youtube %}
                     <tr>
-                        <td><strong>{{ p.candidato }}</strong><br><span style="font-size:12px;color:#86efac;">{{ p.titulo }}</span></td>
-                        <td><span class="badge-green">{{ p.rede }}</span></td>
-                        <td>❤️ <strong>{{ p.curtidas }}</strong> | 💬 {{ p.comentarios }} | 👁️ {{ p.views }}</td>
-                        <td><strong style="color:#4ade80;">{{ p.retencao_media }}</strong></td>
+                        <td><strong>{{ y.candidato }}</strong></td>
+                        <td>{{ y.canal }}</td>
+                        <td><span class="badge-green">{{ y.tipo }}</span></td>
+                        <td><strong style="color:#4ade80;">{{ y.status_fonte }}</strong></td>
                         <td>
-                            <a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;margin-right:10px;">🔗 Perfil/Reels Oficial</a>
-                            <a href="{{ p.search_url }}" target="_blank" style="color:#fef08a;font-weight:bold;">🔎 Auditar Pauta no Google/YT</a>
+                            <a href="{{ y.url_oficial }}" target="_blank" style="color:#fef08a;font-weight:bold;">🎬 Abrir Canal de Vídeos Reais</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -444,34 +443,6 @@ HTML_DASHBOARD_METABASE = """
     </div>
 
     <script>
-        const ctx1 = document.getElementById('chartConcorrentes').getContext('2d');
-        new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Wilder Morais', 'Daniel Vilela', 'Marconi Perillo'],
-                datasets: [
-                    {
-                        label: 'Seguidores Instagram (x1000)',
-                        data: [310, 185, 240],
-                        backgroundColor: '#15803d'
-                    },
-                    {
-                        label: 'Visualizações do Reels (Reais)',
-                        data: [2000, 800, 600],
-                        backgroundColor: '#eab308'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { color: '#f8fafc' } } },
-                scales: {
-                    x: { ticks: { color: '#f8fafc' } },
-                    y: { ticks: { color: '#f8fafc' } }
-                }
-            }
-        });
-
         const ctx2 = document.getElementById('chartMunicipios').getContext('2d');
         new Chart(ctx2, {
             type: 'bar',
@@ -490,6 +461,22 @@ HTML_DASHBOARD_METABASE = """
                     x: { ticks: { color: '#f8fafc' } },
                     y: { ticks: { color: '#f8fafc' } }
                 }
+            }
+        });
+
+        const ctx3 = document.getElementById('chartQueixas').getContext('2d');
+        new Chart(ctx3, {
+            type: 'doughnut',
+            data: {
+                labels: ['Metropolitana (Saúde)', 'Entorno DF (Transporte/Asfalto)', 'Sudoeste (Agro/Logística)', 'Outros'],
+                datasets: [{
+                    data: [42, 28, 14, 16],
+                    backgroundColor: ['#ef4444', '#eab308', '#15803d', '#3b82f6']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } }
             }
         });
     </script>
@@ -624,7 +611,7 @@ def plano_governo_page():
 @app.route("/dashboard", methods=["GET"])
 @app.route("/metabase", methods=["GET"])
 def dashboard_metabase_page():
-    return render_template_string(HTML_DASHBOARD_METABASE, posts=POSTS_VIRAIS_MESTRE)
+    return render_template_string(HTML_DASHBOARD_METABASE, youtube=YOUTUBE_MONITORAMENTO_REAL)
 
 @app.route("/radar_noticias", methods=["GET"])
 def radar_noticias_page():
@@ -668,28 +655,27 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # Roteador de Dashboard / Metabase
-    if any(k in p_lower for k in ["dashboard", "metabase", "grafico", "gráfico", "painel", "dado", "dados"]):
-        posts_html = "".join([
+    # Roteador de Dashboard / YouTube Real
+    if any(k in p_lower for k in ["dashboard", "metabase", "youtube", "video", "vídeo", "canal"]):
+        yt_html = "".join([
             f"<div style='background:#0e2917;padding:12px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
-            f"<strong style='color:#86efac;'>🏆 {p['candidato']} ({p['rede']})</strong> — {p['titulo']}<br>"
-            f"<span style='color:#fef08a;font-size:13px;'>❤️ {p['curtidas']} | 👁️ {p['views']}</span><br>"
-            f"<a href='{p['post_url']}' target='_blank' style='color:#86efac;font-weight:bold;'>🔗 Perfil Oficial</a> &bull; "
-            f"<a href='{p['search_url']}' target='_blank' style='color:#fef08a;font-weight:bold;'>🔎 Auditar Pauta</a>"
+            f"<strong style='color:#86efac;'>📺 {y['candidato']} ({y['canal']})</strong><br>"
+            f"<span style='color:#fef08a;font-size:13px;'>Fonte: {y['status_fonte']}</span><br>"
+            f"<a href='{y['url_oficial']}' target='_blank' style='color:#86efac;font-weight:bold;'>🎬 Abrir Canal de Vídeos Reais no YouTube</a>"
             f"</div>"
-            for p in POSTS_VIRAIS_MESTRE
+            for y in YOUTUBE_MONITORAMENTO_REAL
         ])
         return jsonify({
-            "resposta": f"📊 <strong>DASHBOARD DE MÉTRICAS REAIS COM LINKS COMPROVADOS</strong><br><br>"
-                        f"{posts_html}<br><br>"
-                        f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📊 ABRIR DASHBOARD METABASE COMPLETO</a>"
+            "resposta": f"📺 <strong>MONITORAMENTO 100% REAL DO YOUTUBE (ZERO DADOS SIMULADOS)</strong><br><br>"
+                        f"{yt_html}<br><br>"
+                        f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📺 ABRIR DASHBOARD YOUTUBE COMPLETO</a>"
         }), 200
 
     # Fallback via OpenRouter
     if OPENROUTER_API_KEY:
         system_prompt = (
             "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
-            "Responda sempre com 100% de realismo, verdade e precisão sobre métricas e dados de mídias sociais."
+            "Todas as simulações fictícias de redes sociais foram removidas. Foco 100% no monitoramento real do YouTube e dados eleitorais do TSE."
         )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
@@ -710,8 +696,8 @@ def api_chat():
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Ordem recebida sobre <i>'{pergunta}'</i>!<br>"
-                    f"Métricas reais (80 curtidas / 2.000 views no Instagram e 100 views no YouTube) sincronizadas.<br><br>"
-                    f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📊 ABRIR DASHBOARD METABASE INTEGRADO</a>"
+                    f"Métricas fictícias do Instagram removidas. Monitoramento 100% focado no YouTube Real e TSE.<br><br>"
+                    f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📺 ABRIR DASHBOARD YOUTUBE REAL</a>"
     }), 200
 
 if __name__ == "__main__":

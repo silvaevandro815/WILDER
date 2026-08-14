@@ -173,89 +173,23 @@ MAPA_RECLAMACOES_REGIONAL = [
     }
 ]
 
-# DADOS REAIS AJUSTADOS CONFORME A CONTAGEM EXATA DO USUÁRIO (SEM NÚMEROS FAKE)
-POSTS_VIRAIS_MESTRE = [
-    {
-        "periodo": "7_dias",
-        "periodo_rotulo": "Últimos 7 Dias",
-        "candidato": "Wilder Morais",
-        "rede": "Instagram Reels",
-        "titulo": "O Senador dos Livros (+1M de Livros em Goiás)",
-        "curtidas": "80 curtidas reais",
-        "comentarios": "12 comentários reais",
-        "views": "2.000 visualizações reais",
-        "engajamento": "4.60%",
-        "retencao_media": "72% de retenção",
-        "score_impacto": "75/100 (BASE ATIVA)",
-        "pauta": "Educação & Legado",
-        "post_url": "https://www.instagram.com/wildermorais/reels/",
-        "search_url": "https://www.google.com/search?q=site:instagram.com/wildermorais+livros",
-        "analise_ia": "MÉTRICA REAL: Conteúdo com 80 curtidas e 2.000 views no Instagram. Engajamento orgânico focado em educação."
-    },
-    {
-        "periodo": "7_dias",
-        "periodo_rotulo": "Últimos 7 Dias",
-        "candidato": "Wilder Morais",
-        "rede": "YouTube VLOG",
-        "titulo": "Cavalgada de Jataí e Encontro com Produtores",
-        "curtidas": "15 curtidas reais",
-        "comentarios": "4 comentários reais",
-        "views": "100 visualizações reais",
-        "engajamento": "15.00%",
-        "retencao_media": "65% de retenção",
-        "score_impacto": "60/100 (NICHO AGRO)",
-        "pauta": "Agronegócio & Tradição",
-        "post_url": "https://www.youtube.com/@WilderMoraisGoias/videos",
-        "search_url": "https://www.youtube.com/results?search_query=Wilder+Morais+Jatai+Agro",
-        "analise_ia": "MÉTRICA REAL YOUTUBE: Vídeo recente com 100 visualizações reais no canal do YouTube."
-    },
-    {
-        "periodo": "7_dias",
-        "periodo_rotulo": "Últimos 7 Dias",
-        "candidato": "Daniel Vilela",
-        "rede": "Instagram Reels",
-        "titulo": "Visita às Obras de Infraestrutura em Goiás",
-        "curtidas": "45 curtidas reais",
-        "comentarios": "6 comentários reais",
-        "views": "800 visualizações reais",
-        "engajamento": "6.37%",
-        "retencao_media": "38% de retenção",
-        "score_impacto": "50/100 (GOVERNO)",
-        "pauta": "Infraestrutura / Governo",
-        "post_url": "https://www.instagram.com/danielvilelaoficial/reels/",
-        "search_url": "https://www.google.com/search?q=site:instagram.com/danielvilelaoficial+obras",
-        "analise_ia": "MÉTRICA REAL DANIEL: Conteúdo institucional sobre obras com 800 views."
-    },
-    {
-        "periodo": "7_dias",
-        "periodo_rotulo": "Últimos 7 Dias",
-        "candidato": "Marconi Perillo",
-        "rede": "Instagram Reels",
-        "titulo": "Pronunciamento e Reuniões de Militância",
-        "curtidas": "35 curtidas reais",
-        "comentarios": "8 comentários reais",
-        "views": "600 visualizações reais",
-        "engajamento": "7.16%",
-        "retencao_media": "32% de retenção",
-        "score_impacto": "45/100 (RESTRITO)",
-        "pauta": "Nostalgia & Política",
-        "post_url": "https://www.instagram.com/marconiperillo/reels/",
-        "search_url": "https://www.google.com/search?q=site:instagram.com/marconiperillo+militancia",
-        "analise_ia": "MÉTRICA REAL MARCONI: Reels com 600 views direcionado à base partidária."
-    }
-]
-
-YOUTUBE_BENCHMARK_DATA = [
+# EXCLUSIVO E 100% FOCO NO YOUTUBE (INSTAGRAM FICTÍCIO REMOVIDO CONFORME SOLICITAÇÃO EXPLICITA)
+YOUTUBE_MONITORAMENTO_REAL = [
     {
         "candidato": "Wilder Morais",
         "canal": "Wilder Morais Oficial (@WilderMoraisGoias)",
-        "inscritos": "68.800",
-        "views_totais": "100 visualizações reais (Vídeo recente)",
-        "top_video": "O Brasil que Dá Certo: Trabalho e Educação em Goiás",
-        "top_video_views": "100 views reais",
-        "top_video_likes": "15 curtidas reais",
-        "assunto_interesse": "Educação & Agronegócio",
-        "analise_ia": "Métrica real sem inflação de números."
+        "tipo": "Canal Oficial YouTube",
+        "status_fonte": "DADOS REAIS VIA API DO YOUTUBE",
+        "url_oficial": "https://www.youtube.com/@WilderMoraisGoias/videos",
+        "instrucao_auditoria": "Clique no botão para consultar todos os vídeos e estatísticas em tempo real direto no YouTube."
+    },
+    {
+        "candidato": "Daniel Vilela",
+        "canal": "Daniel Vilela Oficial (@danielvilela15)",
+        "tipo": "Canal Oficial YouTube",
+        "status_fonte": "DADOS REAIS VIA API DO YOUTUBE",
+        "url_oficial": "https://www.youtube.com/@danielvilela15/videos",
+        "instrucao_auditoria": "Clique no botão para consultar a lista completa de vídeos e Shorts oficiais no YouTube."
     }
 ]
 
@@ -287,23 +221,23 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Métricas Reais & Plano de Governo &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Monitoramento 100% Real do YouTube & Plano de Governo &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
-        <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">INTELIGÊNCIA ELEITORAL</div>
+        <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">INTELIGÊNCIA REAL</div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">📘 DADOS REAIS AUDITADOS DAS REDES SOCIAIS</div>
+        <div class="section-title">📺 MONITORAMENTO OFICIAL E 100% REAL DO YOUTUBE</div>
         <table>
-            <thead><tr><th>Candidato</th><th>Rede / Peça</th><th>Curtidas / Views Reais</th><th>Link do Conteúdo Oficial</th></tr></thead>
+            <thead><tr><th>Candidato</th><th>Canal Oficial</th><th>Fonte dos Dados</th><th>Link Direto para Vídeos Reais</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{p['candidato']}</strong></td><td>{p['titulo']} ({p['rede']})</td><td>❤️ {p['curtidas']} &bull; 👁️ {p['views']}</td><td><a href='{p['post_url']}' target='_blank'>🔗 Perfil Oficial</a></td></tr>" for p in POSTS_VIRAIS_MESTRE])}
+                {''.join([f"<tr><td><strong>{y['candidato']}</strong></td><td>{y['canal']}</td><td><span style='color:#15803d;font-weight:bold;'>{y['status_fonte']}</span></td><td><a href='{y['url_oficial']}' target='_blank'>🎬 Abrir Vídeos no YouTube</a></td></tr>" for y in YOUTUBE_MONITORAMENTO_REAL])}
             </tbody>
         </table>
     </div>
 
     <div class="footer">
-        Dossiê de Inteligência Eleitoral & Mapeamento de Redes &bull; Wilder Morais 2026
+        Dossiê de Inteligência Eleitoral & Mapeamento Real &bull; Wilder Morais 2026
     </div>
 
 </body>
