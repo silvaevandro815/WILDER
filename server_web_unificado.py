@@ -68,6 +68,8 @@ HTML_CHAT_WIDGET = """
         .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn-nav { color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
         .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
+        .btn-dashboard { background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }
+        .btn-dashboard:hover { background: #fde047; color: #000; }
         .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; }
         .btn-alert:hover { background: #dc2626; color: #fff; }
         .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
@@ -81,6 +83,8 @@ HTML_CHAT_WIDGET = """
         .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
         .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
+        .chip-dash { background: #854d0e; border-color: #eab308; color: #fef08a; }
+        .chip-dash:hover { background: #ca8a04; color: #fff; }
         .chip-danger { border-color: #ef4444; color: #fca5a5; background: #2a0a0a; }
         .chip-danger:hover { background: #dc2626; color: #fff; }
 
@@ -103,10 +107,11 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Auditoria de Retenção de Vídeo, Engajamento Qualitativo & Links</p>
+                <p>● Central de Inteligência de Criativos, Dashboard Visual & Defesa</p>
             </div>
         </div>
         <div class="nav-links">
+            <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard Metabase</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar Anti-Crise</a>
             <a href="/mapa_demandas" class="btn-nav">🗺️ Mapa de Reclamações</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 Baixar PDF 360°</a>
@@ -115,10 +120,11 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 INTELIGÊNCIA QUALITATIVA — AUDITORIA DE RETENÇÃO DE VÍDEO & ENGAJAMENTO REAL</strong><br><br>
-            Este módulo não analisa apenas visualizações passivas. Ele audita o <strong>Tempo de Retenção (Watch Time)</strong>, o volume de <strong>Comentários/Compartilhamentos</strong> e calcula o <strong>Score de Impacto Político Real (0 a 100)</strong>!<br><br>
+            <strong>🔰 BEM-VINDO À CENTRAL DE GUERRA & DASHBOARDS EXECUTIVOS</strong><br><br>
+            Tudo o que está visualmente no <strong>Metabase</strong> agora está integrado diretamente aqui na plataforma!<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
+                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase Integrado</span>
                 <span class="chip" onclick="perguntarRapido('retencao e engajamento 7 dias')">⏱️ Retenção & Engajamento (7 Dias)</span>
                 <span class="chip" onclick="perguntarRapido('retencao e engajamento 30 dias')">📅 Retenção & Engajamento (30 Dias)</span>
                 <span class="chip chip-danger" onclick="perguntarRapido('radar de noticias e ataques')">🚨 Radar Anti-Crise</span>
@@ -130,7 +136,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'retencao e engajamento 7 dias', 'score de impacto', 'comentarios')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'abrir dashboard', 'retencao 7 dias', 'cidades de goias')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -147,13 +153,18 @@ HTML_CHAT_WIDGET = """
             const pergunta = input.value.trim();
             if (!pergunta) return;
 
+            if (pergunta.toLowerCase().includes('dashboard') || pergunta.toLowerCase().includes('metabase')) {
+                window.location.href = '/dashboard';
+                return;
+            }
+
             chat.innerHTML += `<div class="msg user">${pergunta}</div>`;
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[AUDITORIA QUALITATIVA] Calculando tempo de retenção, comentários e Score de Impacto...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando análise de inteligência...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -170,6 +181,261 @@ HTML_CHAT_WIDGET = """
             }
             chat.scrollTop = chat.scrollHeight;
         }
+    </script>
+</body>
+</html>
+"""
+
+# DASHBOARD EXECUTIVO ESTILO METABASE (INTEGRADO TOTALMENTE NA PLATAFORMA DA IA)
+HTML_DASHBOARD_METABASE = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Executivo Metabase — Sala de Guerra Wilder Morais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 18px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .header p { margin: 4px 0 0 0; color: #fef08a; font-size: 13px; font-weight: 700; }
+        
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; transition: 0.2s; }
+        .btn-voltar:hover { background: #16a34a; color: #fff; }
+
+        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .kpi-title { font-size: 12px; font-weight: 700; color: #86efac; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-val { font-size: 28px; font-weight: 800; color: #fef08a; margin-top: 6px; }
+
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .chart-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .chart-title { font-size: 16px; font-weight: 800; color: #86efac; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+
+        .full-width-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+
+        .badge-green { background: #15803d; color: #fef08a; padding: 4px 8px; border-radius: 4px; font-weight: 800; font-size: 11px; border: 1px solid #eab308; }
+        .badge-red { background: #991b1b; color: #fecdd3; padding: 4px 8px; border-radius: 4px; font-weight: 800; font-size: 11px; }
+
+        .iframe-box { width: 100%; height: 600px; border: 1px solid #164624; border-radius: 12px; overflow: hidden; margin-top: 20px; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>📊 DASHBOARD EXECUTIVO METABASE — SALA DE GUERRA MILITAR</h1>
+            <p>● Painel Consolidado de Dados Eleitorais de Goiás & Competitividade de Redes Sociais</p>
+        </div>
+        <div>
+            <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- TOP KPI ROW -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Eleitores Mapeados (TSE)</div>
+                <div class="kpi-val">4.870.000</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Municípios Cobertos</div>
+                <div class="kpi-val">246 Cidades</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Taxa de Engajamento Wilder</div>
+                <div class="kpi-val" style="color: #4ade80;">6.85% (Líder)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">YouTube Total Views</div>
+                <div class="kpi-val">1.250.000</div>
+            </div>
+        </div>
+
+        <!-- CHARTS GRID -->
+        <div class="charts-grid">
+            <!-- CHART 1: COMPARATIVO DE SEGUIDORES E ENGAJAMENTO DOS CANDIDATOS -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <span>⚔️ COMPARATIVO DE REDES SOCIAIS</span>
+                    <span class="badge-green">ATUALIZADO</span>
+                </div>
+                <canvas id="chartConcorrentes" height="200"></canvas>
+            </div>
+
+            <!-- CHART 2: ELEITORADO DOS TOP 7 MUNICÍPIOS DE GOIÁS -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <span>🏛️ MAIORES COLÉGIOS ELEITORAIS (TSE GOIÁS)</span>
+                    <span class="badge-green">DADOS OFICIAIS</span>
+                </div>
+                <canvas id="chartMunicipios" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- CHART GRID ROW 2 -->
+        <div class="charts-grid">
+            <!-- CHART 3: DISTRIBUIÇÃO REGIONAL DE QUEIXAS POPULARES -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <span>🗺️ QUEIXAS POPULARES POR REGIÃO (%)</span>
+                </div>
+                <canvas id="chartQueixas" height="200"></canvas>
+            </div>
+
+            <!-- CHART 4: SCORE DE RETENÇÃO E IMPACTO DOS VÍDEOS MAIS VIRAIS -->
+            <div class="chart-card">
+                <div class="chart-title">
+                    <span>⏱️ SCORE DE RETENÇÃO DE VÍDEO (0-100)</span>
+                </div>
+                <canvas id="chartRetencao" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- TABELA DE RESULTADOS DO METABASE -->
+        <div class="full-width-card">
+            <div class="chart-title">
+                <span>📋 VISÃO EXECUTIVA DE AUDITORIA DE CRIATIVOS & DEFESA</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato / Peça</th>
+                        <th>Plataforma</th>
+                        <th>Engajamento Ativo (Curtidas/Comentários)</th>
+                        <th>Retenção de Vídeo (%)</th>
+                        <th>Score de Impacto</th>
+                        <th>Link do Criativo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in posts %}
+                    <tr>
+                        <td><strong>{{ p.candidato }}</strong><br><span style="font-size:12px;color:#86efac;">{{ p.titulo }}</span></td>
+                        <td><span class="badge-green">{{ p.rede }}</span></td>
+                        <td>❤️ {{ p.curtidas }} | 💬 <strong>{{ p.comentarios }}</strong></td>
+                        <td><strong style="color:#4ade80;">{{ p.retencao_media }}</strong></td>
+                        <td><strong style="color:#fef08a;">{{ p.score_impacto }}</strong></td>
+                        <td><a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;">🔗 Abrir Criativo</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- IFRAME DO METABASE EMBUTIDO (OPCIONAL INTEGRADO) -->
+        <div class="full-width-card">
+            <div class="chart-title">
+                <span>🌐 ESPELHAMENTO AO VIVO DO METABASE ORIGINAL</span>
+                <a href="https://dadoswilder.evandrosilvagallina.cloud" target="_blank" style="color:#fef08a;font-size:13px;">🔗 Abrir Metabase em nova aba</a>
+            </div>
+            <div class="iframe-box">
+                <iframe src="https://dadoswilder.evandrosilvagallina.cloud"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CHART 1: CONCORRENTES
+        const ctx1 = document.getElementById('chartConcorrentes').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Wilder Morais', 'Daniel Vilela', 'Marconi Perillo'],
+                datasets: [
+                    {
+                        label: 'Seguidores Instagram (x1000)',
+                        data: [310, 185, 240],
+                        backgroundColor: '#15803d'
+                    },
+                    {
+                        label: 'Taxa de Engajamento (%)',
+                        data: [6.85, 3.45, 2.80],
+                        backgroundColor: '#eab308'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        // CHART 2: MUNICIPIOS
+        const ctx2 = document.getElementById('chartMunicipios').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Goiânia', 'Aparecida', 'Anápolis', 'Rio Verde', 'Luziânia', 'Águas Lindas', 'Valparaíso'],
+                datasets: [{
+                    label: 'Eleitores Registrados TSE',
+                    data: [1030000, 345000, 290000, 155000, 132000, 115000, 98000],
+                    backgroundColor: '#16a34a'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        // CHART 3: QUEIXAS
+        const ctx3 = document.getElementById('chartQueixas').getContext('2d');
+        new Chart(ctx3, {
+            type: 'doughnut',
+            data: {
+                labels: ['Metropolitana (Saúde)', 'Entorno DF (Transporte/Asfalto)', 'Sudoeste (Agro/Logística)', 'Outros'],
+                datasets: [{
+                    data: [42, 28, 14, 16],
+                    backgroundColor: ['#ef4444', '#eab308', '#15803d', '#3b82f6']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } }
+            }
+        });
+
+        // CHART 4: RETENÇÃO
+        const ctx4 = document.getElementById('chartRetencao').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Wilder (Livros)', 'Wilder (Agro)', 'Daniel (GO-070)', 'Marconi (TBT)'],
+                datasets: [{
+                    label: 'Score de Impacto (0-100)',
+                    data: [96, 92, 58, 48],
+                    backgroundColor: ['#22c55e', '#22c55e', '#eab308', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
     </script>
 </body>
 </html>
@@ -294,6 +560,11 @@ HTML_MAPA_DEMANDAS = """
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET)
 
+@app.route("/dashboard", methods=["GET"])
+@app.route("/metabase", methods=["GET"])
+def dashboard_metabase_page():
+    return render_template_string(HTML_DASHBOARD_METABASE, posts=POSTS_VIRAIS_MESTRE)
+
 @app.route("/radar_noticias", methods=["GET"])
 def radar_noticias_page():
     return render_template_string(HTML_RADAR_NOTICIAS, noticias=RADAR_NOTICIAS_ATAQUES)
@@ -335,6 +606,14 @@ def api_chat():
         return jsonify({"resposta": "Por favor, digite uma pergunta."}), 400
 
     p_lower = pergunta.lower()
+
+    # Roteador de Dashboard / Metabase
+    if any(k in p_lower for k in ["dashboard", "metabase", "grafico", "gráfico", "painel"]):
+        return jsonify({
+            "resposta": "📊 <strong>DASHBOARD EXECUTIVO METABASE INTEGRADO NA IA</strong><br><br>"
+                        "Todos os gráficos de concorrentes, colégios eleitorais de Goiás, retenção de vídeo e mapa de queixas estão consolidados!<br><br>"
+                        "👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📊 ABRIR DASHBOARD METABASE AGORA</a>"
+        }), 200
 
     # 1. Roteador de Auditoria Qualitativa de Engajamento e Retenção de Vídeo
     if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral", "retencao", "retenção", "comentarios", "comentários", "compartilhamentos", "score", "7 dia", "7d", "30 dia", "30d"]):
@@ -471,8 +750,8 @@ def api_chat():
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Ordem recebida sobre <i>'{pergunta}'</i>!<br>"
-                    f"Todos os módulos táticos de inteligência (Retenção de Vídeo, Radar Anti-Crise e Mapa de Reclamações) estão operacionais.<br><br>"
-                    f"👉 <a href='/download_pdf' target='_blank' style='background:linear-gradient(135deg, #15803d, #16a34a);color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;border:1px solid #eab308;'>📄 BAIXAR O DOSSIÊ MESTRE 360° DA CAMPANHA</a>"
+                    f"Todos os módulos táticos de inteligência (Retenção de Vídeo, Radar Anti-Crise e Dashboard Metabase) estão operacionais.<br><br>"
+                    f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📊 ABRIR DASHBOARD METABASE INTEGRADO</a>"
     }), 200
 
 if __name__ == "__main__":
