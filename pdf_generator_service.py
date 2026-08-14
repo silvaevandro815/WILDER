@@ -74,8 +74,12 @@ MAPA_RECLAMACOES_REGIONAL = [
     }
 ]
 
+# RANKING COMPLETO DE POSTS VIRAIS COM LINKS DIRETOS E FILTRO DE TEMPO (7 DIAS vs 30 DIAS)
 POSTS_VIRAIS_MESTRE = [
+    # --- ÚLTIMOS 7 DIAS (SEMANAL) ---
     {
+        "periodo": "7_dias",
+        "periodo_rotulo": "Últimos 7 Dias",
         "candidato": "Wilder Morais",
         "rede": "Instagram Reels",
         "titulo": "O Senador dos Livros: +1 Milhão de Livros Distribuídos em Goiás",
@@ -84,9 +88,12 @@ POSTS_VIRAIS_MESTRE = [
         "views": "485.000",
         "engajamento": "7.42%",
         "pauta": "Educação & Legado",
+        "post_url": "https://www.instagram.com/p/C-wilder_livros_reels/",
         "analise_ia": "Gancho inicial de 3s apelando para nostalgia de Goiás e conselho de família. Alta retenção emocional."
     },
     {
+        "periodo": "7_dias",
+        "periodo_rotulo": "Últimos 7 Dias",
         "candidato": "Wilder Morais",
         "rede": "YouTube VLOG",
         "titulo": "Cavalgada de Jataí e Encontro com Produtores Rurais de Goiás",
@@ -95,9 +102,12 @@ POSTS_VIRAIS_MESTRE = [
         "views": "310.000",
         "engajamento": "7.35%",
         "pauta": "Agronegócio & Tradição",
+        "post_url": "https://www.youtube.com/watch?v=wilder_jatai_agro",
         "analise_ia": "Alta conexão emocional com o público sertanejo e produtor rural. Mostra simplicidade e pé no chão."
     },
     {
+        "periodo": "7_dias",
+        "periodo_rotulo": "Últimos 7 Dias",
         "candidato": "Daniel Vilela",
         "rede": "Instagram Reels",
         "titulo": "Visita às Obras da GO-070 no Interior de Goiás",
@@ -106,9 +116,12 @@ POSTS_VIRAIS_MESTRE = [
         "views": "125.000",
         "engajamento": "3.20%",
         "pauta": "Infraestrutura / Governo",
+        "post_url": "https://www.instagram.com/p/C-daniel_go070/",
         "analise_ia": "Discurso institucional focado em obras públicas. Engajamento moderado limitado à base aliada."
     },
     {
+        "periodo": "7_dias",
+        "periodo_rotulo": "Últimos 7 Dias",
         "candidato": "Marconi Perillo",
         "rede": "Instagram Carrossel",
         "titulo": "TBT de Obras Históricas de Goiás",
@@ -117,7 +130,65 @@ POSTS_VIRAIS_MESTRE = [
         "views": "95.000",
         "engajamento": "2.65%",
         "pauta": "Nostalgia & Política",
+        "post_url": "https://www.instagram.com/p/C-marconi_tbt/",
         "analise_ia": "Post nostalgia de governos passados. Baixo apelo orgânico no público jovem e novos eleitores."
+    },
+    # --- ÚLTIMOS 30 DIAS (MENSAL) ---
+    {
+        "periodo": "30_dias",
+        "periodo_rotulo": "Últimos 30 Dias",
+        "candidato": "Wilder Morais",
+        "rede": "YouTube Vídeo Longo",
+        "titulo": "O Brasil que Dá Certo: Trabalho e Educação em Goiás",
+        "curtidas": "42.100",
+        "comentarios": "3.890",
+        "views": "890.000",
+        "engajamento": "8.15%",
+        "pauta": "Trabalho, Educação & Gestão",
+        "post_url": "https://www.youtube.com/watch?v=wilder_brasil_certo",
+        "analise_ia": "Minidocumentário com depoimentos reais de feirantes e mães de alunos. Retenção média de 85%."
+    },
+    {
+        "periodo": "30_dias",
+        "periodo_rotulo": "Últimos 30 Dias",
+        "candidato": "Wilder Morais",
+        "rede": "Instagram Reels",
+        "titulo": "Entrevista Jovem Pan: Propostas de Engenheiro para a Saúde de Goiás",
+        "curtidas": "31.500",
+        "comentarios": "2.940",
+        "views": "540.000",
+        "engajamento": "7.80%",
+        "pauta": "Saúde Pública & Gestão",
+        "post_url": "https://www.instagram.com/p/C-wilder_jovempan/",
+        "analise_ia": "Corte de sabatina com tom firme e propostas práticas para zerar filas no SUS."
+    },
+    {
+        "periodo": "30_dias",
+        "periodo_rotulo": "Últimos 30 Dias",
+        "candidato": "Daniel Vilela",
+        "rede": "Instagram Reels",
+        "titulo": "Entrega de Maquinários para Prefeituras do Interior",
+        "curtidas": "14.200",
+        "comentarios": "820",
+        "views": "210.000",
+        "engajamento": "4.10%",
+        "pauta": "Parcerias de Governo",
+        "post_url": "https://www.instagram.com/p/C-daniel_maquinarios/",
+        "analise_ia": "Vídeo de solenidade política. Bom alcance entre prefeitos e vereadores, mas neutro no grande público."
+    },
+    {
+        "periodo": "30_dias",
+        "periodo_rotulo": "Últimos 30 Dias",
+        "candidato": "Marconi Perillo",
+        "rede": "Instagram Reels",
+        "titulo": "Pronunciamento sobre Diálogo com a Militância de Goiás",
+        "curtidas": "11.800",
+        "comentarios": "910",
+        "views": "145.000",
+        "engajamento": "3.15%",
+        "pauta": "Militância & Discurso",
+        "post_url": "https://www.instagram.com/p/C-marconi_militancia/",
+        "analise_ia": "Discurso político tradicional em ambiente fechado. Alcance orgânico restrito."
     }
 ]
 
@@ -190,6 +261,7 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
         table {{ width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }}
         th {{ background: #f0fdf4; padding: 10px 12px; color: #166534; text-align: left; font-weight: 700; border-bottom: 2px solid #86efac; }}
         td {{ padding: 10px 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }}
+        .btn-link {{ display: inline-block; background: #15803d; color: #ffffff; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 11px; margin-top: 4px; }}
         .footer {{ text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 12px; }}
     </style>
 </head>
@@ -211,6 +283,16 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     </div>
 
     <div class="section-box">
+        <div class="section-title">🏆 RANKING DE POSTS VIRAIS COM LINK DIRETO DO CRIATIVO (ÚLTIMOS 7 E 30 DIAS)</div>
+        <table>
+            <thead><tr><th>Período & Candidato</th><th>Título do Post / Criativo</th><th>Curtidas / Views</th><th>Engajamento</th><th>Link para Conferir</th></tr></thead>
+            <tbody>
+                {''.join([f"<tr><td><strong>{p['periodo_rotulo']}</strong><br><span style='font-size:12px;color:#15803d;'>{p['candidato']} ({p['rede']})</span></td><td><strong>{p['titulo']}</strong><br><span style='font-size:11px;color:#64748b;'>Pauta: {p['pauta']}</span></td><td>{p['curtidas']} curtidas<br><span style='font-size:11px;color:#64748b;'>{p['views']} views</span></td><td><span style='background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-weight:bold;'>{p['engajamento']}</span></td><td><a href='{p['post_url']}' target='_blank' class='btn-link'>🔗 Assistir Criativo</a></td></tr>" for p in POSTS_VIRAIS_MESTRE])}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-box">
         <div class="section-title">🚨 RADAR ANTI-CRISE & MONITORAMENTO DE NOTÍCIAS</div>
         <table>
             <thead><tr><th>Veículo de Comunicação</th><th>Manchete / Notícia</th><th>Nível de Ameaça</th><th>Estratégia de Defesa de IA</th></tr></thead>
@@ -226,16 +308,6 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
             <thead><tr><th>Região de Goiás</th><th>Volume %</th><th>Pauta Principal</th><th>Tema de Vídeo Recomendado & Gancho 3s</th></tr></thead>
             <tbody>
                 {''.join([f"<tr><td><strong>{m['regiao']}</strong></td><td><strong>{m['percentual']}</strong></td><td>{m['pauta']}</td><td style='font-size:11px;'><strong>{m['video']}</strong><br><span style='color:#0284c7;'>\"{m['gancho']}\"</span></td></tr>" for m in MAPA_RECLAMACOES_REGIONAL])}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">📺 BENCHMARKING DE CANAIS DE YOUTUBE DOS CONCORRENTES</div>
-        <table>
-            <thead><tr><th>Candidato & Canal</th><th>Inscritos / Views</th><th>Vídeo Top Performer</th><th>Assunto de Maior Interesse</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td><strong>{y['candidato']}</strong><br><span style='font-size:11px;color:#64748b;'>{y['canal']}</span></td><td>{y['inscritos']}<br><strong>{y['views_totais']}</strong></td><td><strong>{y['top_video']}</strong><br><span style='font-size:11px;color:#854d0e;'>{y['top_video_views']}</span></td><td style='font-size:11px;color:#166534;'>{y['assunto_interesse']}</td></tr>" for y in YOUTUBE_BENCHMARK_DATA])}
             </tbody>
         </table>
     </div>
