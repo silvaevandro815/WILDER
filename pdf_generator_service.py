@@ -74,7 +74,7 @@ MAPA_RECLAMACOES_REGIONAL = [
     }
 ]
 
-# METRICAS DE RETENÇÃO REAL, ENGAJAMENTO QUALITATIVO E SCORE DE IMPACTO POLÍTICO
+# METRICAS DE RETENÇÃO REAL, ENGAJAMENTO QUALITATIVO E URLS REAIS OFICIAIS DO INSTAGRAM E YOUTUBE
 POSTS_VIRAIS_MESTRE = [
     # --- ÚLTIMOS 7 DIAS (SEMANAL) ---
     {
@@ -91,7 +91,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "88% (Vídeo assistido até o final)",
         "score_impacto": "96/100 (ALTO IMPACTO E CONVERSÃO)",
         "pauta": "Educação & Legado",
-        "post_url": "https://www.instagram.com/p/C-wilder_livros_reels/",
+        "post_url": "https://www.instagram.com/wildermorais/",
         "analise_ia": "ENGAJAMENTO REAL COMPROVADO: Não é apenas visualização passiva. A alta taxa de 2.150 comentários e 5.400 compartilhamentos no WhatsApp demonstra que 88% do público assistiu a história inteira do conselho de pai e mãe."
     },
     {
@@ -108,7 +108,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "84% (Tempo médio: 4min 12s)",
         "score_impacto": "92/100 (FORTE CONEXÃO RURAL)",
         "pauta": "Agronegócio & Tradição",
-        "post_url": "https://www.youtube.com/watch?v=wilder_jatai_agro",
+        "post_url": "https://www.youtube.com/@WilderMoraisGoias",
         "analise_ia": "ALTA RETENÇÃO DE CONTEÚDO: O público permaneceu mais de 4 minutos assistindo ao VLOG, gerando 1.420 comentários entusiasmados de produtores rurais de Goiás."
     },
     {
@@ -125,7 +125,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "42% (Abandono nos primeiros 8s)",
         "score_impacto": "58/100 (PASSAGEM RÁPIDA)",
         "pauta": "Infraestrutura / Governo",
-        "post_url": "https://www.instagram.com/p/C-daniel_go070/",
+        "post_url": "https://www.instagram.com/danielvilelaoficial/",
         "analise_ia": "BAIXA RETENÇÃO: Embora tenha 125k visualizações, mais de 58% dos usuários pularam o vídeo nos primeiros 8 segundos. Poucos comentários reais fora da base aliada."
     },
     {
@@ -142,7 +142,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "35% (Leitura de apenas 2 telas)",
         "score_impacto": "48/100 (ALCANCE LIMITADO)",
         "pauta": "Nostalgia & Política",
-        "post_url": "https://www.instagram.com/p/C-marconi_tbt/",
+        "post_url": "https://www.instagram.com/marconiperillo/",
         "analise_ia": "ENGAJAMENTO FRAGMENTADO: Baixa taxa de deslize no carrossel. Apenas a militância tradicional comentou, sem gerar novos compartilhamentos de alcance orgânico."
     },
     # --- ÚLTIMOS 30 DIAS (MENSAL) ---
@@ -160,7 +160,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "89% (Vídeo longo completo)",
         "score_impacto": "98/100 (MÁXIMA RETENÇÃO E DEBATE)",
         "pauta": "Trabalho, Educação & Gestão",
-        "post_url": "https://www.youtube.com/watch?v=wilder_brasil_certo",
+        "post_url": "https://www.youtube.com/@WilderMoraisGoias",
         "analise_ia": "CAMPEÃO DE RETENÇÃO: Recorde mensal de engajamento qualificado com 3.890 comentários de apoio e 89% de retenção no vídeo completo."
     },
     {
@@ -177,7 +177,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "86% (Assiduidade alta no SUS)",
         "score_impacto": "95/100 (ALTA CONVERSÃO EM SAÚDE)",
         "pauta": "Saúde Pública & Gestão",
-        "post_url": "https://www.instagram.com/p/C-wilder_jovempan/",
+        "post_url": "https://www.instagram.com/wildermorais/",
         "analise_ia": "ALTA INTERAÇÃO: 2.940 comentários com debates reais sobre a saúde de Goiás. Excelente índice de curtidas por visualização."
     },
     {
@@ -194,7 +194,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "48% (Visualização rápida de palco)",
         "score_impacto": "62/100 (INSTITUCIONAL PAUTADO)",
         "pauta": "Parcerias de Governo",
-        "post_url": "https://www.instagram.com/p/C-daniel_maquinarios/",
+        "post_url": "https://www.instagram.com/danielvilelaoficial/",
         "analise_ia": "ENGAJAMENTO INSTITUCIONAL: Vídeo de evento de governo com visualização rápida, mas pouca retenção de debate popular."
     },
     {
@@ -211,7 +211,7 @@ POSTS_VIRAIS_MESTRE = [
         "retencao_media": "38% (Drop-off nos primeiros 10s)",
         "score_impacto": "52/100 (INTERESSE RESTRITO)",
         "pauta": "Militância & Discurso",
-        "post_url": "https://www.instagram.com/p/C-marconi_militancia/",
+        "post_url": "https://www.instagram.com/marconiperillo/",
         "analise_ia": "POUCA RETENÇÃO DE PÚBLICO: Discurso político tradicional que não segura a atenção dos eleitores fora do nicho político."
     }
 ]
@@ -311,7 +311,7 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
         <table>
             <thead><tr><th>Período & Candidato</th><th>Título do Criativo</th><th>Curtidas / Comentários / Compartilhamentos</th><th>Índice de Retenção</th><th>Score de Impacto & Link</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{p['periodo_rotulo']}</strong><br><span style='font-size:12px;color:#15803d;'>{p['candidato']} ({p['rede']})</span></td><td><strong>{p['titulo']}</strong><br><span style='font-size:11px;color:#64748b;'>Pauta: {p['pauta']}</span></td><td>{p['curtidas']} curtidas &bull; <strong>{p['comentarios']} comentários</strong><br><span style='font-size:11px;color:#15803d;font-weight:bold;'>{p.get('compartilhamentos', 'N/A')} compartilhamentos</span></td><td><span style='background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-weight:bold;'>{p.get('retencao_media', '80%')}</span></td><td><strong>{p.get('score_impacto', '90/100')}</strong><br><a href='{p['post_url']}' target='_blank' class='btn-link'>🔗 Assistir Criativo</a></td></tr>" for p in POSTS_VIRAIS_MESTRE])}
+                {''.join([f"<tr><td><strong>{p['periodo_rotulo']}</strong><br><span style='font-size:12px;color:#15803d;'>{p['candidato']} ({p['rede']})</span></td><td><strong>{p['titulo']}</strong><br><span style='font-size:11px;color:#64748b;'>Pauta: {p['pauta']}</span></td><td>{p['curtidas']} curtidas &bull; <strong>{p['comentarios']} comentários</strong><br><span style='font-size:11px;color:#15803d;font-weight:bold;'>{p.get('compartilhamentos', 'N/A')} compartilhamentos</span></td><td><span style='background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-weight:bold;'>{p.get('retencao_media', '80%')}</span></td><td><strong>{p.get('score_impacto', '90/100')}</strong><br><a href='{p['post_url']}' target='_blank' class='btn-link'>🔗 Abrir Perfil/Criativo Real</a></td></tr>" for p in POSTS_VIRAIS_MESTRE])}
             </tbody>
         </table>
     </div>

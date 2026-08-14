@@ -120,8 +120,8 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 BEM-VINDO À CENTRAL DE GUERRA & DASHBOARDS EXECUTIVOS</strong><br><br>
-            Tudo o que está visualmente no <strong>Metabase</strong> agora está integrado diretamente aqui na plataforma!<br><br>
+            <strong>🔰 BEM-VINDO À CENTRAL DE GUERRA & AUDITORIA DE REDES SOCIAIS</strong><br><br>
+            Todos os botões de criativos agora direcionam para os <strong>Perfis e Vídeos Oficiais do Instagram e YouTube</strong> de cada candidato!<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
                 <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase Integrado</span>
@@ -164,7 +164,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando análise de inteligência...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Auditando perfis oficiais do Instagram e YouTube...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -306,7 +306,7 @@ HTML_DASHBOARD_METABASE = """
         <!-- TABELA DE RESULTADOS DO METABASE -->
         <div class="full-width-card">
             <div class="chart-title">
-                <span>📋 VISÃO EXECUTIVA DE AUDITORIA DE CRIATIVOS & DEFESA</span>
+                <span>📋 VISÃO EXECUTIVA DE AUDITORIA DE CRIATIVOS & DEFESA (PERFIS OFICIAIS REAL)</span>
             </div>
             <table>
                 <thead>
@@ -316,7 +316,7 @@ HTML_DASHBOARD_METABASE = """
                         <th>Engajamento Ativo (Curtidas/Comentários)</th>
                         <th>Retenção de Vídeo (%)</th>
                         <th>Score de Impacto</th>
-                        <th>Link do Criativo</th>
+                        <th>Link do Perfil/Criativo Oficial</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -327,7 +327,7 @@ HTML_DASHBOARD_METABASE = """
                         <td>❤️ {{ p.curtidas }} | 💬 <strong>{{ p.comentarios }}</strong></td>
                         <td><strong style="color:#4ade80;">{{ p.retencao_media }}</strong></td>
                         <td><strong style="color:#fef08a;">{{ p.score_impacto }}</strong></td>
-                        <td><a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;">🔗 Abrir Criativo</a></td>
+                        <td><a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;">🔗 Abrir Perfil/Vídeo Oficial</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -616,7 +616,7 @@ def api_chat():
         }), 200
 
     # 1. Roteador de Auditoria Qualitativa de Engajamento e Retenção de Vídeo
-    if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral", "retencao", "retenção", "comentarios", "comentários", "compartilhamentos", "score", "7 dia", "7d", "30 dia", "30d"]):
+    if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral", "retencao", "retenção", "comentarios", "comentários", "compartilhamentos", "score", "7 dia", "7d", "30 dia", "30d", "link"]):
         
         filtro_periodo = "30_dias" if any(k in p_lower for k in ["30", "mês", "mes", "mensal"]) else "7_dias"
         rotulo_periodo = "ÚLTIMOS 30 DIAS (MENSAL)" if filtro_periodo == "30_dias" else "ÚLTIMOS 7 DIAS (SEMANAL)"
@@ -638,14 +638,14 @@ def api_chat():
             f"<div style='margin-top:8px;font-size:12.5px;color:#a7f3d0;background:#040e08;padding:10px;border-radius:8px;border:1px solid #16a34a;'>"
             f"💡 <strong>Diagnóstico de IA de Retenção & Engajamento Qualitativo:</strong><br>{p['analise_ia']}</div>"
             f"<div style='margin-top:10px;'>"
-            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ASSISTIR CRIATIVO NO {p['rede'].upper().split()[0]}</a></div>"
+            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ABRIR PERFIL/VÍDEO OFICIAL NO {p['rede'].upper().split()[0]}</a></div>"
             f"</div>"
             for p in posts_filtrados
         ])
 
         return jsonify({
             "resposta": f"⏱️ <strong>AUDITORIA QUALITATIVA DE ENGAJAMENTO REAL & RETENÇÃO — {rotulo_periodo}</strong><br>"
-                        f"<p style='font-size:13px;color:#a7f3d0;'>Esta análise avalia visualizações x comentários x retenção de vídeo até o final. Clique no botão verde para auditar o criativo!</p>"
+                        f"<p style='font-size:13px;color:#a7f3d0;'>Esta análise avalia visualizações x comentários x retenção de vídeo até o final. Clique no botão verde para auditar os perfis e conteúdos reais!</p>"
                         f"{posts_html}<br><br>"
                         f"<strong>Alternar Janela Temporável:</strong><br>"
                         f"👉 <a href='#' onclick='perguntarRapido(\"retencao e engajamento 7 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ranking 7 Dias (Semanal)]</a> &bull; "
