@@ -1,24 +1,17 @@
-import sys
-import server_web_unificado
+from server_web_unificado import app
 
-print("=== TESTANDO INSTANCIAÇÃO DA APLICAÇÃO FLASK COM DASHBOARD METABASE ===")
-app = server_web_unificado.app
+def test_flask_routes():
+    print("=== TESTANDO INSTANCIAÇÃO DA APLICAÇÃO FLASK COM DASHBOARD & PLANO DE GOVERNO ===")
+    print(f"App Name: {app.name}")
+    client = app.test_client()
 
-print("App Name:", app.name)
-with app.test_client() as client:
-    res = client.get("/")
-    print("GET / -> Status Code:", res.status_code)
-    
-    res_dash = client.get("/dashboard")
-    print("GET /dashboard -> Status Code:", res_dash.status_code)
-    
-    res_pdf = client.get("/download_pdf")
-    print("GET /download_pdf -> Status Code:", res_pdf.status_code)
-    
-    res_radar = client.get("/radar_noticias")
-    print("GET /radar_noticias -> Status Code:", res_radar.status_code)
-    
-    res_mapa = client.get("/mapa_demandas")
-    print("GET /mapa_demandas -> Status Code:", res_mapa.status_code)
+    routes = ["/", "/dashboard", "/download_pdf", "/radar_noticias", "/mapa_demandas", "/plano_governo"]
+    for route in routes:
+        response = client.get(route)
+        print(f"GET {route} -> Status Code: {response.status_code}")
+        assert response.status_code in [200, 302], f"Rota {route} falhou com código {response.status_code}"
 
-print("🎉 APLICAÇÃO FLASK E DASHBOARD METABASE RESPONDERAM COM SUCESSO A TODAS AS ROTAS!")
+    print("🎉 APLICAÇÃO FLASK, DASHBOARD & PLANO DE GOVERNO RESPONDERAM COM SUCESSO A TODAS AS ROTAS!")
+
+if __name__ == "__main__":
+    test_flask_routes()

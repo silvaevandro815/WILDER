@@ -19,7 +19,11 @@ except Exception:
 load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
-from pdf_generator_service import gerar_buffer_relatorio_360, POSTS_VIRAIS_MESTRE, YOUTUBE_BENCHMARK_DATA, RADAR_NOTICIAS_ATAQUES, MAPA_RECLAMACOES_REGIONAL
+from pdf_generator_service import (
+    gerar_buffer_relatorio_360, POSTS_VIRAIS_MESTRE, YOUTUBE_BENCHMARK_DATA,
+    RADAR_NOTICIAS_ATAQUES, MAPA_RECLAMACOES_REGIONAL,
+    PLANO_DE_GOVERNO_MEMORIA, PRIMEIRA_SEMANA_CONTEUDO
+)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY") or os.getenv("SUPABASE_KEY")
@@ -73,6 +77,8 @@ HTML_CHAT_WIDGET = """
         .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; }
         .btn-alert:hover { background: #dc2626; color: #fff; }
         .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
+        .btn-plano { background: #1e3a8a; border-color: #60a5fa; color: #dbeafe; }
+        .btn-plano:hover { background: #2563eb; color: #fff; }
         
         .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }
         .msg { max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
@@ -87,6 +93,8 @@ HTML_CHAT_WIDGET = """
         .chip-dash:hover { background: #ca8a04; color: #fff; }
         .chip-danger { border-color: #ef4444; color: #fca5a5; background: #2a0a0a; }
         .chip-danger:hover { background: #dc2626; color: #fff; }
+        .chip-plano { background: #1e3a8a; border-color: #60a5fa; color: #bfdbfe; }
+        .chip-plano:hover { background: #2563eb; color: #fff; }
 
         .btn-link-creative { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; border: 1px solid #eab308; margin-top: 8px; transition: 0.2s; }
         .btn-link-creative:hover { background: #16a34a; color: #ffffff; }
@@ -110,10 +118,11 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Inteligência Estratégica, Transparência & Defesa</p>
+                <p>● Central de Inteligência Estratégica, Plano de Governo & Trends Virais</p>
             </div>
         </div>
         <div class="nav-links">
+            <a href="/plano_governo" class="btn-nav btn-plano">📘 Plano de Governo & 1ª Semana</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard Metabase</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar Anti-Crise</a>
             <a href="/mapa_demandas" class="btn-nav">🗺️ Mapa de Reclamações</a>
@@ -123,23 +132,22 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 CENTRAL DE INTELIGÊNCIA MILITAR — TRANSPARÊNCIA TOTAL</strong><br><br>
-            Abaixo você pode consultar o relatório de projeção tática das pautas e usar os botões de <strong>Auditoria Direta ao Vivo</strong> no Instagram e no YouTube para ver todos os conteúdos reais publicados!<br><br>
+            <strong>🔰 PLANO DE GOVERNO "GOIÁS PARA QUEM FAZ" & ESTRATÉGIA DA 1ª SEMANA EMBUTIDOS!</strong><br><br>
+            A IA está com a memória 100% fixada no Plano de Governo de Wilder Morais (Primeiro Salário, Primeira Renda, HUB de Inovação) e na diretriz de <strong>apresentação, empatia e nova identidade visual</strong> para alinhar com o Vitorino!<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
-                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase Integrado</span>
-                <span class="chip" onclick="perguntarRapido('retencao e engajamento 7 dias')">⏱️ Retenção & Engajamento (7 Dias)</span>
-                <span class="chip" onclick="perguntarRapido('retencao e engajamento 30 dias')">📅 Retenção & Engajamento (30 Dias)</span>
+                <span class="chip chip-plano" onclick="window.location.href='/plano_governo'">📘 Ver Plano de Governo & Guia 1ª Semana</span>
+                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase</span>
+                <span class="chip" onclick="perguntarRapido('trends para jovens 18 a 35 anos')">🚀 Trends Virais para Jovens (18-35)</span>
+                <span class="chip" onclick="perguntarRapido('matriz da primeira semana vitorino')">📅 Matriz de Conteúdo 1ª Semana</span>
                 <span class="chip chip-danger" onclick="perguntarRapido('radar de noticias e ataques')">🚨 Radar Anti-Crise</span>
-                <span class="chip" onclick="perguntarRapido('mapa de reclamacoes por regiao')">🗺️ Mapa de Reclamações</span>
-                <span class="chip" onclick="perguntarRapido('me de um relatorio')">📊 Dossiê PDF 360°</span>
             </div>
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'abrir dashboard', 'retencao 7 dias', 'cidades de goias')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'plano de governo', 'trends jovens', 'primeira semana')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -156,6 +164,10 @@ HTML_CHAT_WIDGET = """
             const pergunta = input.value.trim();
             if (!pergunta) return;
 
+            if (pergunta.toLowerCase().includes('plano') || pergunta.toLowerCase().includes('governo')) {
+                window.location.href = '/plano_governo';
+                return;
+            }
             if (pergunta.toLowerCase().includes('dashboard') || pergunta.toLowerCase().includes('metabase')) {
                 window.location.href = '/dashboard';
                 return;
@@ -167,7 +179,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando dados de auditoria...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Consultando Plano de Governo & Trends de IA...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -185,6 +197,130 @@ HTML_CHAT_WIDGET = """
             chat.scrollTop = chat.scrollHeight;
         }
     </script>
+</body>
+</html>
+"""
+
+# TELA DEDICADA DO PLANO DE GOVERNO, JOVENS (18-35) E 1ª SEMANA (MARCELO VITORINO)
+HTML_PLANO_GOVERNO = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Governo & Guia da 1ª Semana — Wilder Morais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #0b2214, #1e3a8a, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        
+        .box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .box-title { font-size: 18px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #eab308; padding-left: 10px; }
+        
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .card-pilar { background: #040e08; border: 1px solid #22c55e; border-radius: 10px; padding: 16px; }
+        .card-pilar h4 { margin: 0 0 8px 0; color: #fef08a; font-size: 15px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+
+        .badge-trend { background: #1e3a8a; color: #bfdbfe; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 11.5px; border: 1px solid #60a5fa; }
+        .badge-dia { background: #15803d; color: #fef08a; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 11.5px; border: 1px solid #eab308; }
+
+        .checklist-visual { background: #040e08; border: 1px solid #eab308; padding: 16px; border-radius: 10px; margin-top: 14px; }
+        .checklist-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>📘 PLANO DE GOVERNO "GOIÁS PARA QUEM FAZ" & GUIA DA 1ª SEMANA</h1>
+            <p>● Diretriz Estratégica da Chefe & Alinhamento com Marcelo Vitorino</p>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+    </div>
+
+    <div class="container">
+        <!-- SEÇÃO 1: OS 3 PILARES DO PLANO DE GOVERNO WILDER MORAIS & ANA PAULA REZENDE -->
+        <div class="box">
+            <div class="box-title">🏆 OS 3 PILARES DO PLANO DE GOVERNO (MEMÓRIA FIXADA NA IA)</div>
+            <p style="color:#a7f3d0;font-size:14px;margin-bottom:16px;"><strong>Chapa Oficial:</strong> Wilder Morais (Governador) & Ana Paula Rezende (Vice-Governadora) &bull; <strong>Lema:</strong> <i>"Trabalho, Cuidado e Oportunidade chegando à vida das pessoas."</i></p>
+            <div class="grid-3">
+                {% for p in plano.pilares_fundamentais %}
+                <div class="card-pilar">
+                    <h4>{{ p.pilar }}</h4>
+                    <p style="font-size:13px;color:#cbd5e1;margin-bottom:10px;">{{ p.foco }}</p>
+                    <div style="font-size:12px;color:#86efac;font-weight:bold;">Programas: {{ ", ".join(p.programas_chave) }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- SEÇÃO 2: PROGRAMAS DE EDUTAINMENT PARA JOVENS (18 A 35 ANOS) -->
+        <div class="box">
+            <div class="box-title">🚀 PROGRAMAS DO PLANO DE GOVERNO PARA JOVENS (18 A 35 ANOS) & TRENDS VIRAIS</div>
+            <p style="color:#a7f3d0;font-size:14px;">União de entretenimento e informação para engajar a juventude de Goiás no TikTok, Instagram e YouTube Shorts:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Programa do Governo Wilder</th>
+                        <th>Descrição da Proposta Real</th>
+                        <th>Público Alvo</th>
+                        <th>Formato de Trend Viral (Edutainment)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prog in plano.programas_jovens_18_35 %}
+                    <tr>
+                        <td><strong style="color:#fef08a;">{{ prog.nome }}</strong></td>
+                        <td>{{ prog.descricao }}</td>
+                        <td>{{ prog.publico }}</td>
+                        <td><span class="badge-trend">{{ prog.trend_format }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SEÇÃO 3: MATRIZ DE CONTEÚDO DA 1ª SEMANA (ALINHAMENTO COM VITORINO & MENSAGEM DA CHEFE) -->
+        <div class="box">
+            <div class="box-title">📅 PLANO DA 1ª SEMANA: APRESENTAÇÃO, EMPATIA & NOVA IDENTIDADE VISUAL</div>
+            <p style="color:#a7f3d0;font-size:14px;">Plano tático em cumprimento às orientações encaminhadas pela coordenação para alinhar com a consultoria do Vitorino:</p>
+            
+            <div class="checklist-visual">
+                <strong style="color:#eab308;font-size:15px;">🎨 CHECKLIST DE IDENTIDADE VISUAL EXIGIDA PELA CHEFE:</strong>
+                <div class="checklist-item" style="margin-top:10px;">✅ <strong>Fotos de Perfil dos Canais & WhatsApp:</strong> Retrato de Wilder com iluminação quente, sorriso empático e camisa social sem gravata (tom de trabalho e proximidade).</div>
+                <div class="checklist-item">✅ <strong>Capa do YouTube:</strong> Layout com Wilder & Ana Paula Rezende, selo "Goiás para Quem Faz", fundo com obras e paisagem de Goiás em alta resolução.</div>
+                <div class="checklist-item">✅ <strong>Paleta Oficial:</strong> Verde Bandeira, Amarelo Ouro e Azul Real (Pentágono Eleitoral).</div>
+            </div>
+
+            <table style="margin-top:20px;">
+                <thead>
+                    <tr>
+                        <th>Dia</th>
+                        <th>Foco / Linha Editorial</th>
+                        <th>Formato & Gancho Inicial de 3s</th>
+                        <th>Chamada para Ação (CTA)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sem in primeira_semana %}
+                    <tr>
+                        <td><span class="badge-dia">{{ sem.dia }}</span></td>
+                        <td><strong>{{ sem.foco }}</strong><br><span style="font-size:12px;color:#a7f3d0;">{{ sem.historia }}</span></td>
+                        <td><strong>{{ sem.formato }}</strong><br><span style="color:#fef08a;">"{{ sem.gancho_3s }}"</span></td>
+                        <td><strong style="color:#86efac;">{{ sem.call_to_action }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
 """
@@ -566,6 +702,11 @@ HTML_MAPA_DEMANDAS = """
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET)
 
+@app.route("/plano_governo", methods=["GET"])
+@app.route("/primeira_semana", methods=["GET"])
+def plano_governo_page():
+    return render_template_string(HTML_PLANO_GOVERNO, plano=PLANO_DE_GOVERNO_MEMORIA, primeira_semana=PRIMEIRA_SEMANA_CONTEUDO)
+
 @app.route("/dashboard", methods=["GET"])
 @app.route("/metabase", methods=["GET"])
 def dashboard_metabase_page():
@@ -613,6 +754,25 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
+    # Roteador de Plano de Governo & 1ª Semana
+    if any(k in p_lower for k in ["plano", "governo", "jovem", "jovens", "vitorino", "primeira semana", "semana 1", "identidade", "capa"]):
+        jovens_html = "".join([
+            f"<div style='background:#0e2917;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
+            f"<strong style='color:#fef08a;font-size:15px;'>🚀 {prog['nome']}</strong><br>"
+            f"<span style='color:#e2e8f0;font-size:13px;'>{prog['descricao']}</span><br>"
+            f"<div style='margin-top:6px;font-size:12.5px;color:#86efac;'>"
+            f"🎯 <strong>Formato Viral Trend:</strong> {prog['trend_format']} (Público: {prog['publico']})</div>"
+            f"</div>"
+            for prog in PLANO_DE_GOVERNO_MEMORIA["programas_jovens_18_35"]
+        ])
+
+        return jsonify({
+            "resposta": f"📘 <strong>MEMÓRIA FIXADA: PLANO DE GOVERNO 'GOIÁS PARA QUEM FAZ'</strong><br>"
+                        f"<p style='font-size:13px;color:#a7f3d0;'>Chapa Wilder Morais & Ana Paula Rezende | Diretriz da Chefe & Estratégia Marcelo Vitorino:</p>"
+                        f"{jovens_html}<br><br>"
+                        f"👉 <a href='/plano_governo' style='background:linear-gradient(135deg, #1e3a8a, #2563eb);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #60a5fa;'>📘 VER MATRIZ DA 1ª SEMANA & IDENTIDADE VISUAL</a>"
+        }), 200
+
     # Roteador de Dashboard / Metabase
     if any(k in p_lower for k in ["dashboard", "metabase", "grafico", "gráfico", "painel"]):
         return jsonify({
@@ -621,127 +781,20 @@ def api_chat():
                         "👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📊 ABRIR DASHBOARD METABASE AGORA</a>"
         }), 200
 
-    # 1. Roteador de Auditoria Qualitativa de Engajamento e Retenção de Vídeo
-    if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral", "retencao", "retenção", "comentarios", "comentários", "compartilhamentos", "score", "7 dia", "7d", "30 dia", "30d", "link"]):
-        
-        filtro_periodo = "30_dias" if any(k in p_lower for k in ["30", "mês", "mes", "mensal"]) else "7_dias"
-        rotulo_periodo = "ÚLTIMOS 30 DIAS (MENSAL)" if filtro_periodo == "30_dias" else "ÚLTIMOS 7 DIAS (SEMANAL)"
-
-        posts_filtrados = [p for p in POSTS_VIRAIS_MESTRE if p.get("periodo") == filtro_periodo]
-        if not posts_filtrados:
-            posts_filtrados = POSTS_VIRAIS_MESTRE[:4]
-
-        posts_html = "".join([
-            f"<div style='background:#0e2917;padding:16px;border-radius:12px;margin-top:12px;border:1px solid #1a4628;box-shadow:0 4px 12px rgba(0,0,0,0.3);'>"
-            f"<div style='display:flex;justify-content:space-between;align-items:center;'>"
-            f"<strong style='font-size:15px;color:#86efac;'>🏆 {p['candidato']} ({p['rede']})</strong>"
-            f"<span class='badge-retencao'>SCORE: {p.get('score_impacto', '90/100')}</span></div>"
-            f"<div style='color:#fef08a;font-weight:bold;font-size:14px;margin-top:6px;'>\"{p['titulo']}\"</div>"
-            f"<div style='margin-top:8px;font-size:13px;color:#cbd5e1;'>"
-            f"• <strong>Engajamento Projetado</strong>: ❤️ {p['curtidas']} curtidas | 💬 <strong>{p['comentarios']} comentários</strong> | 🔄 {p.get('compartilhamentos', 'N/A')} compartilhamentos<br>"
-            f"• ⏱️ <strong>Tempo de Retenção Média</strong>: <span style='color:#86efac;font-weight:bold;'>{p.get('retencao_media', '85%')}</span> | Views Totais: {p['views']}<br>"
-            f"• 📊 <strong>Taxa de Engajamento Real</strong>: <span style='color:#4ade80;font-weight:bold;'>{p['engajamento']}</span> (Pauta: {p['pauta']})</div>"
-            f"<div style='margin-top:8px;font-size:12.5px;color:#a7f3d0;background:#040e08;padding:10px;border-radius:8px;border:1px solid #16a34a;'>"
-            f"💡 <strong>Diagnóstico de IA de Retenção & Engajamento Qualitativo:</strong><br>{p['analise_ia']}</div>"
-            f"<div style='margin-top:10px;'>"
-            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 CANAL / PERFIL OFICIAL</a>"
-            f"<a href='{p.get('search_url', p['post_url'])}' target='_blank' class='btn-link-search'>🔎 AUDITAR COMANTÁRIOS AO VIVO</a>"
-            f"</div></div>"
-            for p in posts_filtrados
-        ])
-
-        return jsonify({
-            "resposta": f"⏱️ <strong>AUDITORIA QUALITATIVA DE PAUTAS DE ENGAJAMENTO — {rotulo_periodo}</strong><br>"
-                        f"<p style='font-size:13px;color:#a7f3d0;'>Use os botões de <strong>Auditar Comentários ao Vivo</strong> para conferir todas as postagens e comentários publicados nas redes sociais!</p>"
-                        f"{posts_html}<br><br>"
-                        f"<strong>Alternar Janela Temporável:</strong><br>"
-                        f"👉 <a href='#' onclick='perguntarRapido(\"retencao e engajamento 7 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ranking 7 Dias (Semanal)]</a> &bull; "
-                        f"<a href='#' onclick='perguntarRapido(\"retencao e engajamento 30 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ranking 30 Dias (Mensal)]</a>"
-        }), 200
-
-    # 2. Roteamento Radar Anti-Crise e Notícias
-    if any(k in p_lower for k in ["radar", "ataque", "ataques", "noticia", "notícia", "crise", "falando mal", "fake news"]):
-        noticias_html = "".join([
-            f"<div style='background:#1a0808;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #ef4444;'><div style='display:flex;justify-content:space-between;'>"
-            f"<strong>📰 {n['veiculo']}</strong>"
-            f"<span style='background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;'>{n['nivel_ameaca']}</span></div>"
-            f"<div style='color:#fff;font-weight:bold;margin-top:6px;'>\"{n['manchete']}\"</div>"
-            f"<div style='background:#040e08;padding:8px;border-radius:6px;margin-top:8px;font-size:12px;border-left:3px solid #eab308;'>"
-            f"🛡️ <strong>Estratégia de Defesa IA:</strong> {n['estrategia_defesa']}</div></div>"
-            for n in RADAR_NOTICIAS_ATAQUES
-        ])
-        return jsonify({
-            "resposta": f"🚨 <strong>RADAR ANTI-CRISE & MONITORAMENTO DE NOTÍCIAS DA OPOSIÇÃO</strong><br>{noticias_html}<br><br>👉 <a href='/radar_noticias' target='_blank' style='color:#fef08a;font-weight:bold;text-decoration:underline;'>Abrir Painel Completo do Radar Anti-Crise</a>"
-        }), 200
-
-    # 3. Roteamento Mapa Tático de Reclamações por Região
-    if any(k in p_lower for k in ["mapa", "reclamacao", "reclamação", "reclamacoes", "regiao", "região", "demandas", "queixas"]):
-        mapa_html = "".join([
-            f"<div style='background:#0e2917;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
-            f"<strong>📍 {m['regiao']}</strong> ({m['percentual']} do total de queixas)<br>"
-            f"<span style='color:#fef08a;font-weight:bold;font-size:13px;'>Pauta Principal: {m['pauta']}</span><br>"
-            f"<div style='margin-top:6px;font-size:12.5px;color:#e2e8f0;background:#040e08;padding:8px;border-radius:6px;border-left:3px solid #16a34a;'>"
-            f"🎥 <strong>Vídeo Recomendado:</strong> {m['video']}<br>"
-            f"🎯 <strong>Gancho 3s:</strong> {m['gancho']}</div></div>"
-            for m in MAPA_RECLAMACOES_REGIONAL
-        ])
-        return jsonify({
-            "resposta": f"🗺️ <strong>MAPA TÁTICO DE RECLAMAÇÕES POPULARES POR REGIÃO DE GOIÁS</strong><br>{mapa_html}<br><br>👉 <a href='/mapa_demandas' target='_blank' style='color:#fef08a;font-weight:bold;text-decoration:underline;'>Abrir Gráficos Interativos do Mapa de Reclamações</a>"
-        }), 200
-
-    # 4. Roteador de YouTube dos Concorrentes
-    if any(k in p_lower for k in ["youtube", "canal", "vilela", "marconi", "assunto", "interesse"]):
-        yt_html = "".join([
-            f"<div style='background:#0e2917;padding:14px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
-            f"<strong>📺 {y['candidato']} — {y['canal']}</strong><br>"
-            f"<span style='color:#fef08a;font-weight:bold;font-size:13px;'>Inscritos: {y['inscritos']} | Views Totais: {y['views_totais']}</span><br>"
-            f"<div style='margin-top:6px;font-size:13px;color:#e2e8f0;'>"
-            f"• <strong>Vídeo Top Performer</strong>: \"{y['top_video']}\"<br>"
-            f"• <strong>Métricas</strong>: <span style='color:#86efac;font-weight:bold;'>{y['top_video_views']}</span> ({y['top_video_likes']})<br>"
-            f"• 🎯 <strong>Assunto de Maior Interesse</strong>: <span style='color:#fde047;'>{y['assunto_interesse']}</span></div>"
-            f"<div style='margin-top:6px;font-size:12px;color:#a7f3d0;background:#040e08;padding:8px;border-radius:6px;border:1px solid #16a34a;'>"
-            f"💡 <strong>Análise de IA:</strong> {y['analise_ia']}</div></div>"
-            for y in YOUTUBE_BENCHMARK_DATA
-        ])
-        return jsonify({
-            "resposta": f"📺 <strong>BENCHMARKING DE CANAIS DE YOUTUBE DOS CONCORRENTES</strong><br>{yt_html}"
-        }), 200
-
-    # 5. Roteador de Guerra de Concorrentes
-    if any(k in p_lower for k in ["crescendo", "concorrente", "concorrentes", "quem", "redes", "seguidores", "wilder"]):
-        return jsonify({
-            "resposta": """⚔️ <strong>GUERRA DE CONCORRENTES & COMPARATIVO DE REDES SOCIAIS</strong><br><br>
-1. 🥇 <strong>Wilder Morais (@WilderMorais)</strong>:
-   • <strong>Instagram</strong>: 310.000 seguidores | <strong>Taxa de Engajamento</strong>: <span style='color:#4ade80;font-weight:bold;'>6.85% (LÍDER)</span><br>
-   • <strong>YouTube Oficial</strong>: 1.250.000 visualizações acumuladas<br>
-   • <strong>Facebook</strong>: 142.000 seguidores<br><br>
-2. 🥈 <strong>Daniel Vilela (@Danielvilelaoficial)</strong>:
-   • <strong>Instagram</strong>: 185.000 seguidores | <strong>Taxa de Engajamento</strong>: 3.45%<br>
-   • <strong>Facebook</strong>: 95.000 seguidores<br><br>
-3. 🥉 <strong>Marconi Perillo (@Marconiperillo)</strong>:
-   • <strong>Instagram</strong>: 240.000 seguidores | <strong>Taxa de Engajamento</strong>: 2.80%<br>
-   • <strong>Facebook</strong>: 130.000 seguidores<br><br>
-👉 <a href='/download_pdf' target='_blank' style='color:#fef08a;font-weight:bold;text-decoration:underline;'>Baixar o Dossiê de Concorrentes em PDF</a>"""
-        }), 200
-
-    # 6. Roteamento de Relatórios e PDF
-    if any(k in p_lower for k in ["relatorio", "relatório", "pdf", "dados", "resumo", "baixar"]):
-        return jsonify({
-            "resposta": """📊 <strong>DOSSIÊ MESTRE 360° DE INTELIGÊNCIA ELEITORAL MILITAR</strong><br><br>
-• 📍 <strong>246 Cidades de Goiás</strong>: Mapeadas com eleitorado TSE e coordenadas PostGIS.<br>
-• 🚨 <strong>Radar Anti-Crise</strong>: Monitoramento de notícias e defesa em tempo real.<br>
-• 🗺️ <strong>Mapa de Reclamações</strong>: Queixas da população divididas por região.<br>
-• 📺 <strong>YouTube & Concorrentes</strong>: Benchmarking de vídeos virais e taxas de engajamento.<br><br>
-👉 <a href='/download_pdf' target='_blank' style='background:linear-gradient(135deg, #15803d, #16a34a);color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:6px;border:1px solid #eab308;'>📄 BAIXAR O RELATÓRIO OFICIAL 360° EM PDF</a>"""
-        }), 200
-
-    # Fallback via OpenRouter
+    # Fallback via OpenRouter com Memória Completa do Plano de Governo
     if OPENROUTER_API_KEY:
+        system_prompt = (
+            "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
+            "Sua memória permanente possui 100% do Plano de Governo 'GOIÁS PARA QUEM FAZ' (Chapa Wilder Morais & Ana Paula Rezende). "
+            "Pilares: 1. Família Protegida, 2. Desenvolvimento que Fica, 3. Prosperidade que Chega em Casa. "
+            "Programas para Jovens (18-35 anos): 'Primeiro Salário' (Estado paga parte dos custos nos primeiros meses), 'Primeira Renda' (crédito sem juros para abrir empresa), 'HUB de Inovação' (IA, games e economia criativa), 'Curso com Vaga'. "
+            "Diretriz da 1ª Semana (Estratégia Marcelo Vitorino): Foco em Apresentação Humana, Empatia, Origem humilde em Taquaral, Senador dos Livros e Nova Identidade Visual nas redes."
+        )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
             "model": MODEL_NAME,
             "messages": [
-                {"role": "system", "content": "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. Responda em Português com tom militar, autoridade e clareza estratégica."},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": pergunta}
             ],
             "temperature": 0.3
@@ -757,8 +810,8 @@ def api_chat():
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Ordem recebida sobre <i>'{pergunta}'</i>!<br>"
-                    f"Todos os módulos táticos de inteligência (Retenção de Vídeo, Radar Anti-Crise e Dashboard Metabase) estão operacionais.<br><br>"
-                    f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📊 ABRIR DASHBOARD METABASE INTEGRADO</a>"
+                    f"Plano de Governo 'Goiás Para Quem Faz' e Diretrizes da 1ª Semana devidamente carregados.<br><br>"
+                    f"👉 <a href='/plano_governo' style='background:linear-gradient(135deg, #1e3a8a, #2563eb);color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #60a5fa;'>📘 ABRIR PLANO DE GOVERNO & 1ª SEMANA</a>"
     }), 200
 
 if __name__ == "__main__":
