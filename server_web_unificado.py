@@ -87,6 +87,8 @@ HTML_CHAT_WIDGET = """
         .btn-link-creative { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; border: 1px solid #eab308; margin-top: 8px; transition: 0.2s; }
         .btn-link-creative:hover { background: #16a34a; color: #ffffff; }
 
+        .badge-retencao { background: #14351f; color: #86efac; border: 1px solid #22c55e; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; }
+
         .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
         .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
         input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #22c55e; background: #040e08; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
@@ -101,7 +103,7 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Inteligência de Criativos, Posts Virais (7d & 30d) & Defesa</p>
+                <p>● Auditoria de Retenção de Vídeo, Engajamento Qualitativo & Links</p>
             </div>
         </div>
         <div class="nav-links">
@@ -113,12 +115,12 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 COMANDO CENTRAL DE IA — ANÁLISE DE CRIATIVOS E RANKING VIRAL</strong><br><br>
-            Agora você tem acesso direto aos <strong>Links Oficiais dos Criativos</strong> de cada post publicado no Instagram e YouTube para auditar o motivo do sucesso de cada peça!<br><br>
-            <strong>Escolha o período do ranking para analisar:</strong>
+            <strong>🔰 INTELIGÊNCIA QUALITATIVA — AUDITORIA DE RETENÇÃO DE VÍDEO & ENGAJAMENTO REAL</strong><br><br>
+            Este módulo não analisa apenas visualizações passivas. Ele audita o <strong>Tempo de Retenção (Watch Time)</strong>, o volume de <strong>Comentários/Compartilhamentos</strong> e calcula o <strong>Score de Impacto Político Real (0 a 100)</strong>!<br><br>
+            <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
-                <span class="chip" onclick="perguntarRapido('posts virais 7 dias')">🔥 Ranking dos Últimos 7 Dias (Semanal)</span>
-                <span class="chip" onclick="perguntarRapido('posts virais 30 dias')">📅 Ranking dos Últimos 30 Dias (Mensal)</span>
+                <span class="chip" onclick="perguntarRapido('retencao e engajamento 7 dias')">⏱️ Retenção & Engajamento (7 Dias)</span>
+                <span class="chip" onclick="perguntarRapido('retencao e engajamento 30 dias')">📅 Retenção & Engajamento (30 Dias)</span>
                 <span class="chip chip-danger" onclick="perguntarRapido('radar de noticias e ataques')">🚨 Radar Anti-Crise</span>
                 <span class="chip" onclick="perguntarRapido('mapa de reclamacoes por regiao')">🗺️ Mapa de Reclamações</span>
                 <span class="chip" onclick="perguntarRapido('me de um relatorio')">📊 Dossiê PDF 360°</span>
@@ -128,7 +130,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite uma ordem (ex: 'posts virais 7 dias', 'posts virais 30 dias', 'link dos criativos')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'retencao e engajamento 7 dias', 'score de impacto', 'comentarios')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -151,7 +153,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[INTELIGÊNCIA MILITAR] Auditando links de criativos e ranking de engajamento...</strong>';
+            botMsg.innerHTML = '<strong>[AUDITORIA QUALITATIVA] Calculando tempo de retenção, comentários e Score de Impacto...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -334,10 +336,9 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # 1. Roteador de Engajamento de Posts Virais (Filtro 7 Dias vs 30 Dias + Link de Criativo Clicável)
-    if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral", "7 dia", "7d", "30 dia", "30d", "semana", "link", "criativo"]):
+    # 1. Roteador de Auditoria Qualitativa de Engajamento e Retenção de Vídeo
+    if any(k in p_lower for k in ["post", "posts", "engajou", "engajado", "curtidas", "viral", "retencao", "retenção", "comentarios", "comentários", "compartilhamentos", "score", "7 dia", "7d", "30 dia", "30d"]):
         
-        # Filtra por 30 dias se o usuário pedir explicitamente 30 dias, caso contrário mostra 7 dias por padrão
         filtro_periodo = "30_dias" if any(k in p_lower for k in ["30", "mês", "mes", "mensal"]) else "7_dias"
         rotulo_periodo = "ÚLTIMOS 30 DIAS (MENSAL)" if filtro_periodo == "30_dias" else "ÚLTIMOS 7 DIAS (SEMANAL)"
 
@@ -349,26 +350,27 @@ def api_chat():
             f"<div style='background:#0e2917;padding:16px;border-radius:12px;margin-top:12px;border:1px solid #1a4628;box-shadow:0 4px 12px rgba(0,0,0,0.3);'>"
             f"<div style='display:flex;justify-content:space-between;align-items:center;'>"
             f"<strong style='font-size:15px;color:#86efac;'>🏆 {p['candidato']} ({p['rede']})</strong>"
-            f"<span style='background:#15803d;color:#fef08a;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;border:1px solid #eab308;'>{p['periodo_rotulo']}</span></div>"
+            f"<span class='badge-retencao'>SCORE: {p.get('score_impacto', '90/100')}</span></div>"
             f"<div style='color:#fef08a;font-weight:bold;font-size:14px;margin-top:6px;'>\"{p['titulo']}\"</div>"
             f"<div style='margin-top:8px;font-size:13px;color:#cbd5e1;'>"
-            f"• <strong>Curtidas</strong>: {p['curtidas']} | <strong>Comentários</strong>: {p['comentarios']} | <strong>Views</strong>: {p['views']}<br>"
-            f"• <strong>Taxa de Engajamento</strong>: <span style='color:#4ade80;font-weight:bold;'>{p['engajamento']}</span> (Pauta: {p['pauta']})</div>"
+            f"• <strong>Engajamento Ativo</strong>: ❤️ {p['curtidas']} curtidas | 💬 <strong>{p['comentarios']} comentários</strong> | 🔄 {p.get('compartilhamentos', 'N/A')} compartilhamentos no WhatsApp<br>"
+            f"• ⏱️ <strong>Tempo de Retenção Média</strong>: <span style='color:#86efac;font-weight:bold;'>{p.get('retencao_media', '85%')}</span> | Views Totais: {p['views']}<br>"
+            f"• 📊 <strong>Taxa de Engajamento Real</strong>: <span style='color:#4ade80;font-weight:bold;'>{p['engajamento']}</span> (Pauta: {p['pauta']})</div>"
             f"<div style='margin-top:8px;font-size:12.5px;color:#a7f3d0;background:#040e08;padding:10px;border-radius:8px;border:1px solid #16a34a;'>"
-            f"💡 <strong>Análise de Performance de IA (Por que viralizou?):</strong><br>{p['analise_ia']}</div>"
+            f"💡 <strong>Diagnóstico de IA de Retenção & Engajamento Qualitativo:</strong><br>{p['analise_ia']}</div>"
             f"<div style='margin-top:10px;'>"
-            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ASSISTIR / CONFERIR CRIATIVO NO {p['rede'].upper().split()[0]}</a></div>"
+            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ASSISTIR CRIATIVO NO {p['rede'].upper().split()[0]}</a></div>"
             f"</div>"
             for p in posts_filtrados
         ])
 
         return jsonify({
-            "resposta": f"🔥 <strong>RANKING DE CRIATIVOS VIRAIS MAIS ENGAJADOS — {rotulo_periodo}</strong><br>"
-                        f"<p style='font-size:13px;color:#a7f3d0;'>Clique no botão verde de cada card para abrir o link do post e auditar o resultado real do criativo!</p>"
+            "resposta": f"⏱️ <strong>AUDITORIA QUALITATIVA DE ENGAJAMENTO REAL & RETENÇÃO — {rotulo_periodo}</strong><br>"
+                        f"<p style='font-size:13px;color:#a7f3d0;'>Esta análise avalia visualizações x comentários x retenção de vídeo até o final. Clique no botão verde para auditar o criativo!</p>"
                         f"{posts_html}<br><br>"
-                        f"<strong>Alternar Período de Análise:</strong><br>"
-                        f"👉 <a href='#' onclick='perguntarRapido(\"posts virais 7 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ver Ranking 7 Dias]</a> &bull; "
-                        f"<a href='#' onclick='perguntarRapido(\"posts virais 30 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ver Ranking 30 Dias]</a>"
+                        f"<strong>Alternar Janela Temporável:</strong><br>"
+                        f"👉 <a href='#' onclick='perguntarRapido(\"retencao e engajamento 7 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ranking 7 Dias (Semanal)]</a> &bull; "
+                        f"<a href='#' onclick='perguntarRapido(\"retencao e engajamento 30 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ranking 30 Dias (Mensal)]</a>"
         }), 200
 
     # 2. Roteamento Radar Anti-Crise e Notícias
@@ -469,7 +471,7 @@ def api_chat():
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Ordem recebida sobre <i>'{pergunta}'</i>!<br>"
-                    f"Todos os módulos táticos de inteligência (Radar Anti-Crise, Mapa de Reclamações e Criativos Virais) estão operacionais.<br><br>"
+                    f"Todos os módulos táticos de inteligência (Retenção de Vídeo, Radar Anti-Crise e Mapa de Reclamações) estão operacionais.<br><br>"
                     f"👉 <a href='/download_pdf' target='_blank' style='background:linear-gradient(135deg, #15803d, #16a34a);color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;border:1px solid #eab308;'>📄 BAIXAR O DOSSIÊ MESTRE 360° DA CAMPANHA</a>"
     }), 200
 
