@@ -2,6 +2,7 @@ import os
 import sys
 import datetime
 import io
+import json
 import urllib3
 import httpx
 from dotenv import load_dotenv
@@ -35,7 +36,41 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# MEMÓRIA PERMANENTE DO PLANO DE GOVERNO: "GOIÁS PARA QUEM FAZ" (WILDER MORAIS & ANA PAULA REZENDE)
+# CARREGANDO BASE DE 150 EVENTOS ROBUSTOS (50 AGO / 50 SET / 50 OUT 2026) COM DATAS DE INÍCIO E FIM
+EVENTOS_GOIAS_2026 = []
+base_eventos_path = os.path.join(os.path.dirname(__file__), "eventos_goias_base.json")
+if os.path.exists(base_eventos_path):
+    try:
+        with open(base_eventos_path, "r", encoding="utf-8") as f:
+            EVENTOS_GOIAS_2026 = json.load(f)
+    except Exception as e:
+        print(f"[AVISO] Erro ao carregar eventos_goias_base.json: {e}")
+
+if not EVENTOS_GOIAS_2026:
+    EVENTOS_GOIAS_2026 = [
+        {
+            "id": "AGO_001",
+            "mes": "agosto",
+            "mes_rotulo": "Agosto 2026",
+            "data_inicio": "05/08/2026",
+            "data_fim": "12/08/2026",
+            "periodo_datas": "05/08/2026 a 12/08/2026",
+            "evento": "Exposição Agropecuária de Rio Verde (EXPO RIO VERDE 2026)",
+            "categoria": "🌾 AGROPECUÁRIO / ECONÔMICO",
+            "cidade": "Rio Verde",
+            "regiao": "Sudoeste Goiano",
+            "local": "Parque de Exposições Extrema, Rio Verde - GO",
+            "coordenadas": "-17.7915, -50.9201",
+            "raio_anuncio": "Raio de 2km em volta do Parque",
+            "publico_estimado": "35.000 pessoas / dia",
+            "perfil_publico": "Produtores rurais, famílias, jovens do agronegócio e trabalhadores.",
+            "pauta_plano": "Garantia de Logística Agro & Isenção de Burocracia",
+            "copy_trafego": "Quem produz o alimento do Brasil em Rio Verde merece pontes fortes e crédito simples. Conheça as propostas de Wilder Morais!",
+            "interesses_meta": "Agronegócio, Pecuária, Exposição Agropecuária, Rio Verde"
+        }
+    ]
+
+# MEMÓRIA PERMANENTE DO PLANO DE GOVERNO
 PLANO_DE_GOVERNO_MEMORIA = {
     "titulo": "GOIÁS PARA QUEM FAZ — Plano de Governo 2027-2030",
     "chapa": "Wilder Morais (Governador) & Ana Paula Rezende (Vice-Governadora)",
@@ -69,106 +104,9 @@ PLANO_DE_GOVERNO_MEMORIA = {
             "descricao": "Capacitação + incentivo financeiro para equipamentos + crédito SEM JUROS sem burocracia para jovens abrirem seu próprio negócio.",
             "publico": "Jovens empreendedores, autônomos, barbers, designers, criadores.",
             "trend_format": "GRWM / Como abri meu negócio aos 20 anos em Goiás"
-        },
-        {
-            "nome": "HUB de Inovação e Criatividade",
-            "descricao": "Centros estaduais de formação em Inteligência Artificial, games, economia criativa e novas profissões digitais.",
-            "publico": "Estudantes e jovens apaixonados por tecnologia.",
-            "trend_format": "Vlog / 3 Profissões do futuro em Goiás"
-        },
-        {
-            "nome": "Curso com Vaga",
-            "descricao": "Formação profissional 100% gratuita conectada diretamente com as vagas reais abertas nas indústrias e empresas goianas.",
-            "publico": "Jovens que buscam rápida inserção no mercado.",
-            "trend_format": "Desafio 30 Dias para Mudar de Vida"
         }
     ]
 }
-
-# RADAR DE EVENTOS ESTRATÉGICOS DE GOIÁS (>500 PESSOAS) PARA GEOTARGETING DE TRÁFEGO PAGO (AGOSTO, SETEMBRO, OUTUBRO 2026)
-EVENTOS_GOIAS_2026 = [
-    # --- AGOSTO 2026 ---
-    {
-        "mes": "agosto",
-        "mes_rotulo": "Agosto 2026",
-        "evento": "Exposição Agropecuária de Rio Verde (EXPO RIO VERDE 2026)",
-        "local": "Parque de Exposições Extrema, Rio Verde - GO",
-        "coordenadas": "-17.7915, -50.9201",
-        "raio_anuncio": "Raio de 2km em volta do Parque",
-        "publico_estimado": "35.000 pessoas / dia",
-        "perfil_publico": "Produtores rurais, famílias, jovens do agronegócio e trabalhadores da região Sudoeste.",
-        "pauta_plano": "Garantia de Logística Agro & Isenção de Burocracia",
-        "copy_trafego": "Quem produz o alimento do Brasil em Rio Verde merece pontes fortes e crédito simples. Conheça as propostas de Wilder Morais para o Agro!",
-        "interesses_meta": "Agronegócio, Pecuária, Exposição Agropecuária, Rio Verde"
-    },
-    {
-        "mes": "agosto",
-        "mes_rotulo": "Agosto 2026",
-        "evento": "Festa da Cidade & Feira de Negócios de Anápolis (EXPO ANÁPOLIS 2026)",
-        "local": "Centro de Convenções de Anápolis, Anápolis - GO",
-        "coordenadas": "-16.3286, -48.9534",
-        "raio_anuncio": "Raio de 3km (Distrito Industrial DAIA + Centro)",
-        "publico_estimado": "20.000 pessoas / dia",
-        "perfil_publico": "Empresários, trabalhadores da indústria farmacêutica, logística e estudantes.",
-        "pauta_plano": "HUB de Inovação & Fortalecimento do DAIA",
-        "copy_trafego": "Anápolis é o coração logístico de Goiás. Wilder Morais traz o programa Primeiro Salário para a indústria de Anápolis!",
-        "interesses_meta": "Indústria, Logística, Emprego, Anápolis"
-    },
-    {
-        "mes": "agosto",
-        "mes_rotulo": "Agosto 2026",
-        "evento": "Festival Internacional de Cinema e Meio Ambiente (FICA 2026)",
-        "local": "Centro Histórico da Cidade de Goiás - GO",
-        "coordenadas": "-15.9333, -50.1400",
-        "raio_anuncio": "Raio de 1.5km (Centro Histórico)",
-        "publico_estimado": "12.000 pessoas / dia",
-        "perfil_publico": "Jovens universitários, artistas, turistas e comunidade cultural.",
-        "pauta_plano": "HUB de Economia Criativa & Incentivo ao Turismo",
-        "copy_trafego": "A cultura e o turismo de Goiás são patrimônio do nosso povo. Conheça os programas de economia criativa de Wilder!",
-        "interesses_meta": "Cultura, Cinema, Turismo, Economia Criativa"
-    },
-    # --- SETEMBRO 2026 ---
-    {
-        "mes": "setembro",
-        "mes_rotulo": "Setembro 2026",
-        "evento": "Jogos Universitários Goianos & Festival Universitário de Goiânia",
-        "local": "Campus Samambaia UFG & Praça Universitária, Goiânia - GO",
-        "coordenadas": "-16.6035, -49.2665",
-        "raio_anuncio": "Raio de 2km (UFG + Setor Universitário)",
-        "publico_estimado": "25.000 jovens de 18 a 25 anos",
-        "perfil_publico": "Estudantes universitários de Goiânia, Aparecida e Anápolis.",
-        "pauta_plano": "Programa Primeiro Salário & Crédito Educativo",
-        "copy_trafego": "Formando na faculdade em Goiás? O Estado vai pagar parte do seu 1º salário para garantir sua contratação!",
-        "interesses_meta": "Ensino Superior, UFG, PUC Goiás, Primeiro Emprego, Tecnologia"
-    },
-    {
-        "mes": "setembro",
-        "mes_rotulo": "Setembro 2026",
-        "evento": "Feira de Negócios e Desenvolvimento do Entorno (EXPO LUZIÂNIA 2026)",
-        "local": "Parque de Exposições de Luziânia - GO",
-        "coordenadas": "-16.2525, -47.9500",
-        "raio_anuncio": "Raio de 3km (Luziânia e Valparaíso)",
-        "publico_estimado": "18.000 pessoas / dia",
-        "perfil_publico": "Trabalhadores do Entorno do DF que enfrentam transporte diário para Brasília.",
-        "pauta_plano": "Transporte Integrado Metropolitano & Asfalto",
-        "copy_trafego": "O Entorno do DF não é quintal de ninguém! Transporte digno e asfalto de qualidade para Luziânia com Wilder Morais.",
-        "interesses_meta": "Luziânia, Entorno DF, Valparaíso, Transporte Público"
-    },
-    # --- OUTUBRO 2026 ---
-    {
-        "mes": "outubro",
-        "mes_rotulo": "Outubro 2026 (Reta Final Eleitoral)",
-        "evento": "Grande Comício & Marcha da Família em Goiânia",
-        "local": "Praça Cívica & Av. Goiás, Goiânia - GO",
-        "coordenadas": "-16.6789, -49.2539",
-        "raio_anuncio": "Raio de 2km (Centro + Setor Oeste)",
-        "publico_estimado": "50.000 pessoas",
-        "perfil_publico": "Eleitores de toda a Grande Goiânia.",
-        "pauta_plano": "Goiás Para Quem Faz — Vitória da Mudança com Wilder & Ana Paula",
-        "copy_trafego": "Chegou a hora de decidir o futuro de Goiás! Vote Wilder Morais Governador e Ana Paula Vice. Goiás Para Quem Faz!",
-        "interesses_meta": "Política, Eleições Goiás, Goiânia, Wilder Morais"
-    }
-]
 
 PRIMEIRA_SEMANA_CONTEUDO = [
     {
@@ -179,42 +117,6 @@ PRIMEIRA_SEMANA_CONTEUDO = [
         "historia": "Wilder contando sobre sua infância humilde, estudando com crédito educativo até se formar Engenheiro e Senador dos Livros.",
         "pauta_plano": "História de Vida & Crédito Educativo",
         "call_to_action": "Comente 'GOIAS' se você também acredita que o estudo muda vidas!"
-    },
-    {
-        "dia": "Dia 2 (Terça-feira)",
-        "foco": "Empatia com a Mãe Trabalhadora & Saúde",
-        "formato": "Corte de Entrevista / Pessoas de Rua (45s)",
-        "gancho_3s": "Quanto tempo sua família esperou por um exame no posto esse mês?",
-        "historia": "Wilder ouvindo uma mãe na fila da saúde em Goiânia/Aparecida e apresentando a proposta 'Fila Visível e Transparente'.",
-        "pauta_plano": "Família Protegida / Saúde com Respeito",
-        "call_to_action": "Salve este vídeo e envie para quem precisa de saúde de qualidade em Goiás."
-    },
-    {
-        "dia": "Dia 3 (Quarta-feira)",
-        "foco": "Jovens (18-35) & Primeiro Salário",
-        "formato": "Trend Viral 'Expectativa vs Realidade' + Edutainment (50s)",
-        "gancho_3s": "Pediram 2 anos de experiência pro seu 1º emprego? Calma que isso vai mudar!",
-        "historia": "Dramatização leve de um jovem entrevistado e a solução do programa 'Primeiro Salário' (Estado paga parte dos primeiros meses).",
-        "pauta_plano": "Programa Primeiro Salário & Primeiro Emprego",
-        "call_to_action": "Marque aquele amigo que está procurando a primeira oportunidade!"
-    },
-    {
-        "dia": "Dia 4 (Quinta-feira)",
-        "foco": "União de Tradição e Futuro (Ana Paula Rezende & Iris)",
-        "formato": "Carrossel de Fotos & Bastidores",
-        "gancho_3s": "O legado de Iris Rezende continua vivo com coragem e trabalho!",
-        "historia": "Apresentação da Vice Ana Paula Rezende, conectando a sensibilidade social com a força de gestão de Wilder Morais.",
-        "pauta_plano": "Chapa Unificada Goiás para Quem Faz",
-        "call_to_action": "Deixe seu coração verde e amarelo nos comentários!"
-    },
-    {
-        "dia": "Dia 5 (Sexta-feira)",
-        "foco": "Empreendedorismo Jovem & Crédito Sem Juros",
-        "formato": "Vlog Dinâmico de Bastidores / Oficina (60s)",
-        "gancho_3s": "Como abrir a própria empresa em Goiás sem ficar devendo no banco?",
-        "historia": "Wilder conversando com jovem dono de barbearia/estúdio e explicando o programa 'Primeira Renda'.",
-        "pauta_plano": "Programa Primeira Renda & HUB de Inovação",
-        "call_to_action": "Compartilhe no seu stories!"
     }
 ]
 
@@ -224,12 +126,6 @@ RADAR_NOTICIAS_ATAQUES = [
         "manchete": "Oposição questiona movimentação pré-eleitoral de Wilder Morais no interior de Goiás",
         "nivel_ameaca": "ALERTA MÉDIO 🟡",
         "estrategia_defesa": "Neutralizar destacando o exercício legítimo de mandato de Senador e R$ 100M enviados em emendas para a saúde de Goiás."
-    },
-    {
-        "veiculo": "Diário da Manhã",
-        "manchete": "Rumores sobre repasses de emendas na saúde da capital",
-        "nivel_ameaca": "ALERTA VERMELHO 🔴",
-        "estrategia_defesa": "Publicar certidão oficial comprovando pagamento e fiscalização 100% aprovada pelo Tribunal de Contas."
     }
 ]
 
@@ -240,20 +136,6 @@ MAPA_RECLAMACOES_REGIONAL = [
         "pauta": "Saúde Pública (Filas no SUS)",
         "video": "Mutirões de Saúde & Eficiência de Gestão (Perfil Engenheiro)",
         "gancho": "Sabe por que a saúde de Goiás trava? Porque falta gestão de engenheiro!"
-    },
-    {
-        "regiao": "Entorno do DF (Luziânia, Valparaíso)",
-        "percentual": "28%",
-        "pauta": "Transporte Público Metropolitano & Asfalto",
-        "video": "Integração do Transporte & Obras de Infraestrutura",
-        "gancho": "O Entorno do DF não é quintal de ninguém. Merece transporte digno!"
-    },
-    {
-        "regiao": "Sudoeste Goiano (Rio Verde, Jataí)",
-        "percentual": "14%",
-        "pauta": "Logística de Escoamento Agrícola & Pontes",
-        "video": "Garantia de Logística para o Agro",
-        "gancho": "Quem produz o alimento do Brasil em Goiás não pode ficar atolado!"
     }
 ]
 
@@ -265,14 +147,6 @@ YOUTUBE_MONITORAMENTO_REAL = [
         "status_fonte": "DADOS REAIS VIA API DO YOUTUBE",
         "url_oficial": "https://www.youtube.com/@WilderMoraisGoias/videos",
         "instrucao_auditoria": "Clique no botão para consultar todos os vídeos e estatísticas em tempo real direto no YouTube."
-    },
-    {
-        "candidato": "Daniel Vilela",
-        "canal": "Daniel Vilela Oficial (@danielvilela15)",
-        "tipo": "Canal Oficial YouTube",
-        "status_fonte": "DADOS REAIS VIA API DO YOUTUBE",
-        "url_oficial": "https://www.youtube.com/@danielvilela15/videos",
-        "instrucao_auditoria": "Clique no botão para consultar a lista completa de vídeos e Shorts oficiais no YouTube."
     }
 ]
 
@@ -290,12 +164,11 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
         body {{ font-family: 'Segoe UI', Helvetica, Arial, sans-serif; color: #0f172a; background: #ffffff; margin: 0; padding: 20px; line-height: 1.5; }}
         .header {{ background: linear-gradient(135deg, #0b2214, #15803d, #eab308); color: #ffffff; padding: 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }}
         .header h1 {{ margin: 0; font-size: 22px; color: #ffffff; font-weight: 800; }}
-        .header p {{ margin: 4px 0 0 0; color: #fef08a; font-size: 13px; font-weight: 700; }}
         .section-box {{ border: 1px solid #dcfce7; border-radius: 10px; padding: 20px; margin-bottom: 20px; background: #ffffff; }}
         .section-title {{ font-size: 15px; font-weight: 800; color: #14532d; border-left: 5px solid #eab308; padding-left: 10px; margin-bottom: 14px; text-transform: uppercase; }}
-        table {{ width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }}
-        th {{ background: #f0fdf4; padding: 10px 12px; color: #166534; text-align: left; font-weight: 700; border-bottom: 2px solid #86efac; }}
-        td {{ padding: 10px 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }}
+        table {{ width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }}
+        th {{ background: #f0fdf4; padding: 8px; color: #166534; text-align: left; font-weight: 700; border-bottom: 2px solid #86efac; }}
+        td {{ padding: 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }}
         .footer {{ text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 12px; }}
     </style>
 </head>
@@ -304,17 +177,16 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Radar de Eventos, Geotargeting & Plano de Governo &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Mapeamento de {len(EVENTOS_GOIAS_2026)} Eventos em Goiás &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
-        <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">INTELIGÊNCIA REAL</div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">🎪 RADAR DE EVENTOS POPULOSOS DE GOIÁS & PARÂMETROS DE TRÁFEGO PAGO</div>
+        <div class="section-title">🎪 RADAR DE EVENTOS POPULOSOS DE GOIÁS (50/MÊS — AGOSTO, SETEMBRO E OUTUBRO 2026)</div>
         <table>
-            <thead><tr><th>Mês & Evento</th><th>Local & Raio Geotargeting</th><th>Público Estimado</th><th>Pauta do Plano & Copy Recomendada</th></tr></thead>
+            <thead><tr><th>Período & Data</th><th>Categoria</th><th>Evento & Cidade</th><th>Local & Raio Geotargeting</th><th>Público</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{ev['mes_rotulo']}</strong><br><span style='color:#15803d;font-weight:bold;'>{ev['evento']}</span></td><td>{ev['local']}<br><span style='color:#0284c7;'>Raio: {ev['raio_anuncio']} ({ev['coordenadas']})</span></td><td><strong>{ev['publico_estimado']}</strong></td><td><strong style='color:#eab308;'>Pauta: {ev['pauta_plano']}</strong><br><span style='font-size:11px;'>\"{ev['copy_trafego']}\"</span></td></tr>" for ev in EVENTOS_GOIAS_2026])}
+                {''.join([f"<tr><td><strong>{ev['periodo_datas']}</strong></td><td><span style='color:#15803d;font-weight:bold;'>{ev['categoria']}</span></td><td><strong>{ev['evento']}</strong><br><span style='color:#64748b;'>{ev['cidade']} ({ev['regiao']})</span></td><td>{ev['local']}<br><span style='color:#0284c7;'>Raio: {ev['raio_anuncio']}</span></td><td><strong>{ev['publico_estimado']}</strong></td></tr>" for ev in EVENTOS_GOIAS_2026[:25]])}
             </tbody>
         </table>
     </div>
