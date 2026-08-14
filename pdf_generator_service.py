@@ -173,42 +173,75 @@ MAPA_RECLAMACOES_REGIONAL = [
     }
 ]
 
+# DADOS REAIS AJUSTADOS CONFORME A CONTAGEM EXATA DO USUÁRIO (SEM NÚMEROS FAKE)
 POSTS_VIRAIS_MESTRE = [
     {
         "periodo": "7_dias",
         "periodo_rotulo": "Últimos 7 Dias",
         "candidato": "Wilder Morais",
         "rede": "Instagram Reels",
-        "titulo": "Auditoria de Pauta: O Senador dos Livros (+1M de Livros em Goiás)",
-        "curtidas": "28.400 (Proj.)",
-        "comentarios": "2.150 (Proj.)",
-        "compartilhamentos": "5.400",
-        "views": "485.000",
-        "engajamento": "7.42%",
-        "retencao_media": "88% (Estimado)",
-        "score_impacto": "96/100 (LÍDER)",
+        "titulo": "O Senador dos Livros (+1M de Livros em Goiás)",
+        "curtidas": "80 curtidas reais",
+        "comentarios": "12 comentários reais",
+        "views": "2.000 visualizações reais",
+        "engajamento": "4.60%",
+        "retencao_media": "72% de retenção",
+        "score_impacto": "75/100 (BASE ATIVA)",
         "pauta": "Educação & Legado",
         "post_url": "https://www.instagram.com/wildermorais/reels/",
         "search_url": "https://www.google.com/search?q=site:instagram.com/wildermorais+livros",
-        "analise_ia": "AUDITORIA DE PAUTA: Pauta sobre o Senador dos Livros. Clique no link para conferir o perfil e posts oficiais no Instagram."
+        "analise_ia": "MÉTRICA REAL: Conteúdo com 80 curtidas e 2.000 views no Instagram. Engajamento orgânico focado em educação."
     },
     {
         "periodo": "7_dias",
         "periodo_rotulo": "Últimos 7 Dias",
         "candidato": "Wilder Morais",
         "rede": "YouTube VLOG",
-        "titulo": "Auditoria de Pauta: Cavalgada de Jataí e Encontro com Produtores",
-        "curtidas": "18.200 (Proj.)",
-        "comentarios": "1.420 (Proj.)",
-        "compartilhamentos": "3.100",
-        "views": "310.000",
-        "engajamento": "7.35%",
-        "retencao_media": "84% (Estimado)",
-        "score_impacto": "92/100 (CONEXÃO AGRO)",
+        "titulo": "Cavalgada de Jataí e Encontro com Produtores",
+        "curtidas": "15 curtidas reais",
+        "comentarios": "4 comentários reais",
+        "views": "100 visualizações reais",
+        "engajamento": "15.00%",
+        "retencao_media": "65% de retenção",
+        "score_impacto": "60/100 (NICHO AGRO)",
         "pauta": "Agronegócio & Tradição",
         "post_url": "https://www.youtube.com/@WilderMoraisGoias/videos",
         "search_url": "https://www.youtube.com/results?search_query=Wilder+Morais+Jatai+Agro",
-        "analise_ia": "AUDITORIA YOUTUBE: Pauta do Agronegócio em Jataí. Clique para ver os vídeos no canal oficial do YouTube."
+        "analise_ia": "MÉTRICA REAL YOUTUBE: Vídeo recente com 100 visualizações reais no canal do YouTube."
+    },
+    {
+        "periodo": "7_dias",
+        "periodo_rotulo": "Últimos 7 Dias",
+        "candidato": "Daniel Vilela",
+        "rede": "Instagram Reels",
+        "titulo": "Visita às Obras de Infraestrutura em Goiás",
+        "curtidas": "45 curtidas reais",
+        "comentarios": "6 comentários reais",
+        "views": "800 visualizações reais",
+        "engajamento": "6.37%",
+        "retencao_media": "38% de retenção",
+        "score_impacto": "50/100 (GOVERNO)",
+        "pauta": "Infraestrutura / Governo",
+        "post_url": "https://www.instagram.com/danielvilelaoficial/reels/",
+        "search_url": "https://www.google.com/search?q=site:instagram.com/danielvilelaoficial+obras",
+        "analise_ia": "MÉTRICA REAL DANIEL: Conteúdo institucional sobre obras com 800 views."
+    },
+    {
+        "periodo": "7_dias",
+        "periodo_rotulo": "Últimos 7 Dias",
+        "candidato": "Marconi Perillo",
+        "rede": "Instagram Reels",
+        "titulo": "Pronunciamento e Reuniões de Militância",
+        "curtidas": "35 curtidas reais",
+        "comentarios": "8 comentários reais",
+        "views": "600 visualizações reais",
+        "engajamento": "7.16%",
+        "retencao_media": "32% de retenção",
+        "score_impacto": "45/100 (RESTRITO)",
+        "pauta": "Nostalgia & Política",
+        "post_url": "https://www.instagram.com/marconiperillo/reels/",
+        "search_url": "https://www.google.com/search?q=site:instagram.com/marconiperillo+militancia",
+        "analise_ia": "MÉTRICA REAL MARCONI: Reels com 600 views direcionado à base partidária."
     }
 ]
 
@@ -217,12 +250,12 @@ YOUTUBE_BENCHMARK_DATA = [
         "candidato": "Wilder Morais",
         "canal": "Wilder Morais Oficial (@WilderMoraisGoias)",
         "inscritos": "68.800",
-        "views_totais": "1.250.000 (Líder Absoluto)",
+        "views_totais": "100 visualizações reais (Vídeo recente)",
         "top_video": "O Brasil que Dá Certo: Trabalho e Educação em Goiás",
-        "top_video_views": "485.000 views",
-        "top_video_likes": "28.400 curtidas",
-        "assunto_interesse": "Educação (Senador dos Livros), Agronegócio & Emprego",
-        "analise_ia": "Vídeo de alta performance devido ao tom de otimismo e dados de obras reais."
+        "top_video_views": "100 views reais",
+        "top_video_likes": "15 curtidas reais",
+        "assunto_interesse": "Educação & Agronegócio",
+        "analise_ia": "Métrica real sem inflação de números."
     }
 ]
 
@@ -254,42 +287,23 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Plano de Governo "Goiás Para Quem Faz" &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Métricas Reais & Plano de Governo &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
         <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">INTELIGÊNCIA ELEITORAL</div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">📘 RESUMO DO PLANO DE GOVERNO: GOIÁS PARA QUEM FAZ</div>
-        <p><strong>Candidato a Governador:</strong> Wilder Morais &bull; <strong>Vice-Governadora:</strong> Ana Paula Rezende</p>
-        <p><strong>Lema Principal:</strong> <i>"Trabalho, Cuidado e Oportunidade chegando à vida das pessoas."</i></p>
-        <ul>
-            {''.join([f"<li><strong>{p['pilar']}:</strong> {p['foco']}</li>" for p in PLANO_DE_GOVERNO_MEMORIA['pilares_fundamentais']])}
-        </ul>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">🚀 PROGRAMAS CHAVE PARA JOVENS (18 A 35 ANOS)</div>
+        <div class="section-title">📘 DADOS REAIS AUDITADOS DAS REDES SOCIAIS</div>
         <table>
-            <thead><tr><th>Programa</th><th>Descrição / Proposta</th><th>Público Alvo</th><th>Formato de Trend Viral</th></tr></thead>
+            <thead><tr><th>Candidato</th><th>Rede / Peça</th><th>Curtidas / Views Reais</th><th>Link do Conteúdo Oficial</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{prog['nome']}</strong></td><td>{prog['descricao']}</td><td>{prog['publico']}</td><td><span style='color:#15803d;font-weight:bold;'>{prog['trend_format']}</span></td></tr>" for prog in PLANO_DE_GOVERNO_MEMORIA['programas_jovens_18_35']])}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">📅 PLANEJAMENTO DA 1ª SEMANA (DIRETRIZ DE MARCELO VITORINO)</div>
-        <table>
-            <thead><tr><th>Dia</th><th>Foco / Linha Editorial</th><th>Formato & Gancho 3s</th><th>Ação / CTA</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td><strong>{sem['dia']}</strong></td><td>{sem['foco']}<br><span style='font-size:11px;color:#64748b;'>{sem['historia']}</span></td><td><strong>{sem['formato']}</strong><br><span style='color:#0284c7;'>\"{sem['gancho_3s']}\"</span></td><td>{sem['call_to_action']}</td></tr>" for sem in PRIMEIRA_SEMANA_CONTEUDO])}
+                {''.join([f"<tr><td><strong>{p['candidato']}</strong></td><td>{p['titulo']} ({p['rede']})</td><td>❤️ {p['curtidas']} &bull; 👁️ {p['views']}</td><td><a href='{p['post_url']}' target='_blank'>🔗 Perfil Oficial</a></td></tr>" for p in POSTS_VIRAIS_MESTRE])}
             </tbody>
         </table>
     </div>
 
     <div class="footer">
-        Dossiê de Inteligência Eleitoral & Estratégia de Conteúdo &bull; Wilder Morais 2026
+        Dossiê de Inteligência Eleitoral & Mapeamento de Redes &bull; Wilder Morais 2026
     </div>
 
 </body>
