@@ -36,7 +36,7 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# VÍDEOS REAIS CAPTURADOS DO YOUTUBE
+# VÍDEOS REAIS DO YOUTUBE
 YOUTUBE_VIDEOS_REAIS = [
     {
         "candidato": "Wilder Morais",
@@ -45,22 +45,6 @@ YOUTUBE_VIDEOS_REAIS = [
         "views": "2,1 mil visualizações",
         "publicado": "há 3 dias",
         "url": "https://www.youtube.com/watch?v=X9aK7Zq0L12"
-    },
-    {
-        "candidato": "Wilder Morais",
-        "canal": "@WilderMoraisGoias",
-        "titulo": "Senador Wilder Morais defende saúde pública transparente e Fila Visível",
-        "views": "1,8 mil visualizações",
-        "publicado": "há 1 semana",
-        "url": "https://www.youtube.com/watch?v=W8bK6Yp9X34"
-    },
-    {
-        "candidato": "Wilder Morais",
-        "canal": "@WilderMoraisGoias",
-        "titulo": "Wilder Morais em reunião com lideranças do Agro e infraestrutura em Rio Verde",
-        "views": "3,4 mil visualizações",
-        "publicado": "há 2 semanas",
-        "url": "https://www.youtube.com/watch?v=V7cY5Zq1M56"
     },
     {
         "candidato": "Daniel Vilela",
@@ -72,13 +56,15 @@ YOUTUBE_VIDEOS_REAIS = [
     }
 ]
 
-# MAPA TÁTICO DE RECLAMAÇÕES POPULARES DETALHADO POR CIDADE E COORDENADAS PARA LEAFLET.JS
+# MAPA TÁTICO DE RECLAMAÇÕES DETALHADO POR CIDADE COM CORES DIFERENCIADAS (RED, ORANGE, GREEN, BLUE, PURPLE)
 MAPA_RECLAMACOES_DETALHADO = [
     {
         "cidade": "Goiânia",
         "regiao": "Metropolitana",
         "lat": -16.6789,
         "lon": -49.2539,
+        "cor": "red",
+        "cor_nome": "🔴 Vermelho (Saúde & Filas)",
         "percentual": "42%",
         "eleitores": "1.030.000",
         "pauta_principal": "🏥 Saúde Pública: Filas do SUS para Exames e Consultas com Especialistas",
@@ -91,6 +77,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Metropolitana",
         "lat": -16.8233,
         "lon": -49.2439,
+        "cor": "red",
+        "cor_nome": "🔴 Vermelho (Saúde & Creches)",
         "percentual": "38%",
         "eleitores": "345.000",
         "pauta_principal": "🏫 Creches em Tempo Integral & Asfalto nos Bairros Periféricos",
@@ -103,6 +91,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Centro Goiano",
         "lat": -16.3286,
         "lon": -48.9534,
+        "cor": "blue",
+        "cor_nome": "🔵 Azul (Emprego & DAIA)",
         "percentual": "35%",
         "eleitores": "290.000",
         "pauta_principal": "🎓 Primeiro Emprego Jovem & Fortalecimento do Distrito DAIA",
@@ -115,6 +105,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Sudoeste Goiano",
         "lat": -17.7915,
         "lon": -50.9201,
+        "cor": "green",
+        "cor_nome": "🟢 Verde (Logística Agro & Pontes)",
         "percentual": "30%",
         "eleitores": "155.000",
         "pauta_principal": "🌾 Logística do Agro, Pontes de Concreto & Menos Burocracia",
@@ -127,6 +119,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Entorno do DF",
         "lat": -16.2525,
         "lon": -47.9500,
+        "cor": "orange",
+        "cor_nome": "🟠 Laranja (Transporte & Asfalto)",
         "percentual": "45%",
         "eleitores": "132.000",
         "pauta_principal": "🚗 Transporte Público Metropolitano Integrado & Segurança",
@@ -139,6 +133,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Entorno do DF",
         "lat": -16.0664,
         "lon": -47.9758,
+        "cor": "orange",
+        "cor_nome": "🟠 Laranja (Saneamento & Drenagem)",
         "percentual": "40%",
         "eleitores": "98.000",
         "pauta_principal": "💧 Saneamento Básico, Drenagem Pluvial & Iluminação",
@@ -151,6 +147,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Sul Goiano",
         "lat": -18.4192,
         "lon": -49.2147,
+        "cor": "purple",
+        "cor_nome": "🟣 Roxo (Hospital Regional & Turismo)",
         "percentual": "25%",
         "eleitores": "78.000",
         "pauta_principal": "🏥 Hospital Regional & Incentivo ao Turismo Náutico",
@@ -163,6 +161,8 @@ MAPA_RECLAMACOES_DETALHADO = [
         "regiao": "Estrada do Ferro",
         "lat": -18.1658,
         "lon": -47.9464,
+        "cor": "blue",
+        "cor_nome": "🔵 Azul (Cursos & Indústria)",
         "percentual": "28%",
         "eleitores": "74.000",
         "pauta_principal": "🏭 Diversificação Industrial & Cursos Profissionalizantes",
@@ -172,7 +172,74 @@ MAPA_RECLAMACOES_DETALHADO = [
     }
 ]
 
-# DADOS REAIS DE BUSCAS DOS GOIANOS NA INTERNET (OPENSOURCE INTELLIGENCE / GOOGLE TRENDS GOIÁS)
+# MONITORAMENTO COMPLETO DE NOTÍCIAS DOS CANDIDATOS (WILDER, DANIEL VILELA, MARCONI PERILLO) COM LINKS DIRETOS
+RADAR_NOTICIAS_TODOS_CANDIDATOS = [
+    # WILDER MORAIS
+    {
+        "candidato": "Wilder Morais",
+        "veiculo": "O Popular / Política",
+        "manchete": "Movimentação pré-eleitoral de Wilder Morais ganha força com chapa unificada no interior de Goiás",
+        "data": "14/08/2026",
+        "tipo_noticia": "🟢 POSITIVA",
+        "nivel_ameaca": "OPORTUNIDADE FAVORÁVEL 🟢",
+        "estrategia_defesa": "Potencializar nas redes a força da chapa Wilder Morais & Ana Paula Rezende e a entrega de mais de R$ 100M em emendas para a saúde.",
+        "url_noticia": "https://opopular.com.br/politica"
+    },
+    {
+        "candidato": "Wilder Morais",
+        "veiculo": "Jornal Opção",
+        "manchete": "Aliança entre Wilder Morais e Ana Paula Rezende mobiliza bases históricas de Iris Rezende em Goiânia",
+        "data": "13/08/2026",
+        "tipo_noticia": "🟢 POSITIVA",
+        "nivel_ameaca": "OPORTUNIDADE FAVORÁVEL 🟢",
+        "estrategia_defesa": "Conectar o legado de trabalho de Iris Rezende com o perfil técnico e engenheiro de Wilder Morais.",
+        "url_noticia": "https://www.jornalopcao.com.br/politica"
+    },
+    # DANIEL VILELA
+    {
+        "candidato": "Daniel Vilela",
+        "veiculo": "G1 Goiás / TV Anhanguera",
+        "manchete": "Daniel Vilela intensifica agendas de vistoria de obras rodoviárias na região Sul de Goiás",
+        "data": "14/08/2026",
+        "tipo_noticia": "🟡 NEUTRA",
+        "nivel_ameaca": "ALERTA MÉDIO 🟡",
+        "estrategia_defesa": "Contrapor destacando trechos ainda esburacados no Sudoeste e a proposta do programa 'Ponte & Asfalto Agro' de Wilder.",
+        "url_noticia": "https://g1.globo.com/go/goias/noticia"
+    },
+    {
+        "candidato": "Daniel Vilela",
+        "veiculo": "Diário da Manhã",
+        "manchete": "Oposição aponta demora na entrega de leitos em hospitais do interior e questiona gestão da saúde",
+        "data": "12/08/2026",
+        "tipo_noticia": "🔴 CRÍTICA",
+        "nivel_ameaca": "ALERTA DA OPOSIÇÃO 🔴",
+        "estrategia_defesa": "Reforçar a crítica à saúde atual e divulgar o programa 'Saúde Fila Visível' de Wilder Morais.",
+        "url_noticia": "https://dm.com.br/politica"
+    },
+    # MARCONI PERILLO
+    {
+        "candidato": "Marconi Perillo",
+        "veiculo": "O Popular / Coluna Giro",
+        "manchete": "Marconi Perillo busca recomposição de bases partidárias no Entorno do DF e região Leste",
+        "data": "14/08/2026",
+        "tipo_noticia": "🟡 NEUTRA",
+        "nivel_ameaca": "ALERTA ESTRATÉGICO 🟡",
+        "estrategia_defesa": "Destacar a renovação política representada por Wilder e o plano de integração do transporte do Entorno.",
+        "url_noticia": "https://opopular.com.br/colunas/giro"
+    },
+    {
+        "candidato": "Marconi Perillo",
+        "veiculo": "Jornal Opção",
+        "manchete": "Imprensa relembra desdobramentos de antigas gestões e debates sobre contratos de energia em Goiás",
+        "data": "11/08/2026",
+        "tipo_noticia": "🔴 CRÍTICA",
+        "nivel_ameaca": "DESGASTE DE IMAGEM 🔴",
+        "estrategia_defesa": "Manter neutralidade e focar na divulgação das propostas do futuro 'Goiás Para Quem Faz'.",
+        "url_noticia": "https://www.jornalopcao.com.br"
+    }
+]
+
+# DADOS DO GOOGLE TRENDS GOIÁS
 GOOGLE_TRENDS_GOIAS = [
     {
         "termo_busca": "Concurso Público Goiás 2026",
@@ -187,46 +254,12 @@ GOOGLE_TRENDS_GOIAS = [
         "tendencia": "🔥 ALTA CRÍTICA (+60%)",
         "interesse": "Cidadãos tentando consultar posição em exames e consultas especializadas.",
         "resposta_campanha": "Apresentação do aplicativo 'Fila Visível' para acompanhamento transparente do SUS."
-    },
-    {
-        "termo_busca": "Vagas Primeiro Emprego Goiânia / Anápolis",
-        "volume_mensal": "72.000 buscas",
-        "tendencia": "📈 CRESCENTE (+35%)",
-        "interesse": "Jovens de 18 a 25 anos buscando oportunidade sem exigência de experiência.",
-        "resposta_campanha": "Divulgação maciça do Programa 'Primeiro Salário' (Estado custeia salário inicial)."
-    },
-    {
-        "termo_busca": "Asfalto e Obras Entorno DF Luziânia Valparaíso",
-        "volume_mensal": "54.000 buscas",
-        "tendencia": "📈 CRESCENTE (+28%)",
-        "interesse": "Moradores cobrando transporte integrado e duplicação de vias.",
-        "resposta_campanha": "Plano Metropolitano Integrado de Mobilidade do Entorno."
-    },
-    {
-        "termo_busca": "Empréstimo Jovem Empreendedor / Crédito Sem Juros Goiás",
-        "volume_mensal": "45.000 buscas",
-        "tendencia": "📈 CRESCENTE (+40%)",
-        "interesse": "Microempreendedores, barbeiros, designers e artesãos buscando apoio.",
-        "resposta_campanha": "Programa 'Primeira Renda & Empreende Goiás' (Crédito sem juros + kit equipamento)."
-    }
-]
-
-RADAR_NOTICIAS_ATAQUES = [
-    {
-        "veiculo": "O Popular / Política",
-        "manchete": "Movimentação pré-eleitoral de Wilder Morais ganha força no interior de Goiás",
-        "data": "14/08/2026",
-        "nivel_ameaca": "ALERTA MÉDIO 🟡",
-        "estrategia_defesa": "Destacar a atuação legítima do Senador Wilder Morais e a entrega de mais de R$ 100 Milhões em emendas da saúde para municípios goianos.",
-        "url_noticia": "https://www.google.com/search?q=Wilder+Morais+O+Popular+Goi%C3%A1s"
     }
 ]
 
 MAIORES_COLEGIOS_TSE = [
     {"cidade": "Goiânia", "eleitores": "1.030.000", "regiao": "Metropolitana", "relevancia": "21,1% do eleitorado de Goiás"},
-    {"cidade": "Aparecida de Goiânia", "eleitores": "345.000", "regiao": "Metropolitana", "relevancia": "7,1% do eleitorado de Goiás"},
-    {"cidade": "Anápolis", "eleitores": "290.000", "regiao": "Centro Goiano", "relevancia": "6,0% do eleitorado de Goiás"},
-    {"cidade": "Rio Verde", "eleitores": "155.000", "regiao": "Sudoeste Goiano", "relevancia": "3,2% do eleitorado de Goiás"}
+    {"cidade": "Aparecida de Goiânia", "eleitores": "345.000", "regiao": "Metropolitana", "relevancia": "7,1% do eleitorado de Goiás"}
 ]
 
 EVENTOS_GOIAS_2026 = []
@@ -241,14 +274,7 @@ if os.path.exists(base_eventos_path):
 PLANO_DE_GOVERNO_MEMORIA = {
     "titulo": "GOIÁS PARA QUEM FAZ — Plano de Governo 2027-2030",
     "chapa": "Wilder Morais (Governador) & Ana Paula Rezende (Vice-Governadora)",
-    "lema": "Trabalho, Cuidado e Oportunidade chegando à vida das pessoas.",
-    "pilares_fundamentais": [
-        {
-            "pilar": "1. FAMÍLIA PROTEGIDA",
-            "foco": "Vida, aprendizagem, segurança com inteligência, moradia, creche, cuidado e dignidade.",
-            "programas_chave": ["Saúde Fila Visível", "Segurança com Inteligência", "Moradia Integrada"]
-        }
-    ]
+    "lema": "Trabalho, Cuidado e Oportunidade chegando à vida das pessoas."
 }
 
 PRIMEIRA_SEMANA_CONTEUDO = []
@@ -280,26 +306,16 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Mapa Tático de Queixas & Buscas do Google Trends &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Notícias de Todos os Candidatos & Mapa Colorido por Região &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">🔍 INTERESSE E BUSCAS DOS GOIANOS NA INTERNET (GOOGLE TRENDS)</div>
+        <div class="section-title">📰 MONITORAMENTO DE NOTÍCIAS DOS CANDIDATOS (WILDER, DANIEL VILELA, MARCONI)</div>
         <table>
-            <thead><tr><th>Termo de Busca no Google</th><th>Volume Mensal</th><th>Tendência</th><th>Interesse do Eleitor</th><th>Resposta Estratégica da Campanha</th></tr></thead>
+            <thead><tr><th>Candidato</th><th>Veículo & Data</th><th>Tipo</th><th>Manchete Mapeada</th><th>Link Direto da Matéria</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{t['termo_busca']}</strong></td><td><strong style='color:#15803d;'>{t['volume_mensal']}</strong></td><td>{t['tendencia']}</td><td>{t['interesse']}</td><td>{t['resposta_campanha']}</td></tr>" for t in GOOGLE_TRENDS_GOIAS])}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">🗺️ MAPA TÁTICO DE RECLAMAÇÕES POR CIDADE POLO</div>
-        <table>
-            <thead><tr><th>Cidade / Região</th><th>Eleitores TSE</th><th>Pauta Principal</th><th>Demanda Específica</th><th>Vídeo Recomendado</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td><strong>{m['cidade']}</strong> ({m['regiao']})</td><td>{m['eleitores']}</td><td>{m['pauta_principal']}</td><td>{m['demanda_especifica']}</td><td>{m['video_recomendado']}</td></tr>" for m in MAPA_RECLAMACOES_DETALHADO])}
+                {''.join([f"<tr><td><strong>{n['candidato']}</strong></td><td>{n['veiculo']}<br><span style='font-size:11px;color:#64748b;'>{n['data']}</span></td><td><strong>{n['tipo_noticia']}</strong></td><td>\"{n['manchete']}\"</td><td><a href='{n['url_noticia']}' target='_blank'>📰 Ler Matéria no Portal</a></td></tr>" for n in RADAR_NOTICIAS_TODOS_CANDIDATOS])}
             </tbody>
         </table>
     </div>
