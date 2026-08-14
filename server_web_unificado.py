@@ -121,7 +121,7 @@ HTML_CHAT_WIDGET = """
     <div class="chat-box" id="chat">
         <div class="msg bot">
             <strong>🔰 BEM-VINDO À CENTRAL DE GUERRA & AUDITORIA DE REDES SOCIAIS</strong><br><br>
-            Todos os botões de criativos agora direcionam para os <strong>Perfis e Vídeos Oficiais do Instagram e YouTube</strong> de cada candidato!<br><br>
+            Todos os botões de criativos apontam diretamente para a aba de <strong>Reels e Vídeos Oficiais no Instagram e YouTube</strong> de cada candidato!<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
                 <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase Integrado</span>
@@ -327,7 +327,7 @@ HTML_DASHBOARD_METABASE = """
                         <td>❤️ {{ p.curtidas }} | 💬 <strong>{{ p.comentarios }}</strong></td>
                         <td><strong style="color:#4ade80;">{{ p.retencao_media }}</strong></td>
                         <td><strong style="color:#fef08a;">{{ p.score_impacto }}</strong></td>
-                        <td><a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;">🔗 Abrir Perfil/Vídeo Oficial</a></td>
+                        <td><a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;">🔗 Abrir Reels/Vídeos Oficiais</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -638,7 +638,7 @@ def api_chat():
             f"<div style='margin-top:8px;font-size:12.5px;color:#a7f3d0;background:#040e08;padding:10px;border-radius:8px;border:1px solid #16a34a;'>"
             f"💡 <strong>Diagnóstico de IA de Retenção & Engajamento Qualitativo:</strong><br>{p['analise_ia']}</div>"
             f"<div style='margin-top:10px;'>"
-            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ABRIR PERFIL/VÍDEO OFICIAL NO {p['rede'].upper().split()[0]}</a></div>"
+            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ABRIR REELS/VÍDEOS OFICIAIS NO {p['rede'].upper().split()[0]}</a></div>"
             f"</div>"
             for p in posts_filtrados
         ])
