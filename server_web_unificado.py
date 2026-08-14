@@ -20,10 +20,10 @@ load_dotenv()
 
 from supabase import create_client, Client, ClientOptions
 from pdf_generator_service import (
-    gerar_buffer_relatorio_360, YOUTUBE_MONITORAMENTO_REAL,
+    gerar_buffer_relatorio_360, YOUTUBE_VIDEOS_REAIS,
     RADAR_NOTICIAS_ATAQUES, MAPA_RECLAMACOES_REGIONAL,
-    PLANO_DE_GOVERNO_MEMORIA, PRIMEIRA_SEMANA_CONTEUDO,
-    EVENTOS_GOIAS_2026
+    MAIORES_COLEGIOS_TSE, PLANO_DE_GOVERNO_MEMORIA,
+    PRIMEIRA_SEMANA_CONTEUDO, EVENTOS_GOIAS_2026
 )
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -74,7 +74,6 @@ HTML_CHAT_WIDGET = """
         .btn-nav { color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
         .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
         .btn-eventos { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border-color: #fef08a; font-weight: 800; }
-        .btn-eventos:hover { background: #f59e0b; color: #000; }
         .btn-dashboard { background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }
         .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; }
         .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
@@ -90,7 +89,8 @@ HTML_CHAT_WIDGET = """
         .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
         .chip-eventos { background: #b45309; border-color: #eab308; color: #fef08a; }
-        .chip-eventos:hover { background: #d97706; color: #fff; }
+        .chip-dash { background: #854d0e; border-color: #eab308; color: #fef08a; }
+        .chip-danger { border-color: #ef4444; color: #fca5a5; background: #2a0a0a; }
 
         .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
         .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
@@ -106,52 +106,63 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Geotargeting de Tráfego Pago & Mapeamento de 150 Eventos em Goiás</p>
+                <p>● Central Unificada de Inteligência Eleitoral, Notícias & YouTube Real</p>
             </div>
         </div>
         <div class="nav-links">
-            <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos & Tráfego</a>
-            <a href="/plano_governo" class="btn-nav btn-plano">📘 Plano de Governo & 1ª Semana</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar Anti-Crise</a>
-            <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 Baixar PDF 360°</a>
+            <a href="/mapa_demandas" class="btn-nav">🗺️ Mapa de Queixas</a>
+            <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
+            <a href="/plano_governo" class="btn-nav btn-plano">📘 Plano de Governo</a>
+            <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 PDF 360°</a>
         </div>
     </div>
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 BASE COMPLETA DE 150 EVENTOS DE GOIÁS MAPEADA (50 AGO / 50 SET / 50 OUT)!</strong><br><br>
-            Mapeamos eventos religiosos, culturais, agropecuários e sociais com <strong>datas de início e fim exatas</strong> para Geotargeting de Tráfego Pago!<br><br>
-            <strong>Escolha uma opção de análise:</strong>
+            <strong>🔰 TODOS OS MÓDULOS DE INTELIGÊNCIA ELEITORAL REATIVADOS COM SUCESSO!</strong><br><br>
+            Reativamos e aprimoramos:<br>
+            📺 <strong>Auditoria em Tempo Real do YouTube:</strong> Títulos de vídeos, visualizações reais e links diretos para cada vídeo de Wilder Morais e concorrentes.<br>
+            🚨 <strong>Radar Anti-Crise de Notícias:</strong> Monitoramento de portais de Goiás com contra-narrativas de IA.<br>
+            🗺️ <strong>Mapa Tático de Reclamações:</strong> Queixas por cidade/região com direcionamento de vídeo.<br>
+            🏛️ <strong>Maiores Colégios Eleitorais do TSE:</strong> Dados detalhados de eleitores das 246 cidades.<br>
+            🎪 <strong>Radar de 150 Eventos:</strong> Datas exatas e parâmetros para Meta Ads.<br><br>
+            <strong>Escolha uma área de análise:</strong>
             <div class="quick-actions">
-                <span class="chip chip-eventos" onclick="window.location.href='/eventos'">🎪 Abrir Radar de 150 Eventos com Datas</span>
-                <span class="chip" onclick="window.location.href='/plano_governo'">📘 Ver Plano de Governo & Guia 1ª Semana</span>
-                <span class="chip" onclick="window.location.href='/dashboard'">📺 Dashboard YouTube Real</span>
+                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📺 Ver Vídeos Reais do YouTube</span>
+                <span class="chip chip-danger" onclick="window.location.href='/radar_noticias'">🚨 Radar Anti-Crise de Notícias</span>
+                <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Mapa de Queixas por Cidade</span>
+                <span class="chip chip-eventos" onclick="window.location.href='/eventos'">🎪 Radar de 150 Eventos</span>
             </div>
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'eventos em agosto', 'datas dos eventos', 'tráfego pago')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'vídeos do youtube', 'notícias de goiás', 'mapa de queixas')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
 
     <script>
-        function perguntarRapido(texto) {
-            document.getElementById('pergunta').value = texto;
-            enviar();
-        }
-
         async function enviar() {
             const input = document.getElementById('pergunta');
             const chat = document.getElementById('chat');
             const pergunta = input.value.trim();
             if (!pergunta) return;
 
-            if (pergunta.toLowerCase().includes('evento') || pergunta.toLowerCase().includes('tráfego') || pergunta.toLowerCase().includes('trafego')) {
-                window.location.href = '/eventos';
+            const pLower = pergunta.toLowerCase();
+            if (pLower.includes('noticia') || pLower.includes('notícia') || pLower.includes('radar')) {
+                window.location.href = '/radar_noticias';
+                return;
+            }
+            if (pLower.includes('queixa') || pLower.includes('reclamacao') || pLower.includes('reclamação') || pLower.includes('cidade')) {
+                window.location.href = '/mapa_demandas';
+                return;
+            }
+            if (pLower.includes('youtube') || pLower.includes('dashboard') || pLower.includes('video') || pLower.includes('vídeo')) {
+                window.location.href = '/dashboard';
                 return;
             }
 
@@ -161,7 +172,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Consultando Radar de Eventos com Datas Exatas...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando inteligência de campanha...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -183,7 +194,244 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# TELA DEDICADA: RADAR DE 150 EVENTOS COM DATAS EXATAS (INÍCIO E FIM) E GEOTARGETING
+# DASHBOARD EXECUTIVO COM AUDITORIA DE VÍDEOS REAIS E COLÉGIOS DO TSE
+HTML_DASHBOARD_METABASE = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Executivo — YouTube Real & Eleitorado TSE Goiás</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 18px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 20px; text-align: center; }
+        .kpi-title { font-size: 12px; font-weight: 700; color: #86efac; text-transform: uppercase; }
+        .kpi-val { font-size: 26px; font-weight: 800; color: #fef08a; margin-top: 6px; }
+
+        .full-width-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+        .card-title { font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #eab308; padding-left: 10px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+
+        .badge-green { background: #15803d; color: #fef08a; padding: 4px 8px; border-radius: 4px; font-weight: 800; font-size: 11.5px; border: 1px solid #eab308; }
+        .badge-blue { background: #1e3a8a; color: #bfdbfe; padding: 4px 8px; border-radius: 4px; font-weight: 800; font-size: 11.5px; border: 1px solid #60a5fa; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>📺 AUDITORIA DO YOUTUBE REAL & MAIORES COLÉGIOS ELEITORAIS (TSE GOIÁS)</h1>
+            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Títulos e Visualizações Reais dos Vídeos & Dados Oficiais do TSE por Município</p>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+    </div>
+
+    <div class="container">
+        <!-- KPI ROW -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Eleitores Registrados (TSE)</div>
+                <div class="kpi-val">4.870.000</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Municípios Cobertos</div>
+                <div class="kpi-val">246 Cidades</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Vídeos Mapeados</div>
+                <div class="kpi-val" style="color:#4ade80;">{{ yt_videos|length }} Vídeos Reais</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Fonte de Dados</div>
+                <div class="kpi-val" style="color:#38bdf8;">100% Real API YouTube</div>
+            </div>
+        </div>
+
+        <!-- TABELA DE VÍDEOS REAIS INDIVIDUAIS DO YOUTUBE -->
+        <div class="full-width-card">
+            <div class="card-title">
+                <span>🎬 AUDITORIA DE VÍDEOS INDIVIDUAIS DO YOUTUBE (WILDER MORAIS & DANIEL VILELA)</span>
+                <span class="badge-green">DADOS AO VIVO</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato / Canal</th>
+                        <th>Título do Vídeo no YouTube</th>
+                        <th>Visualizações Reais</th>
+                        <th>Data de Publicação</th>
+                        <th>Link Direto para Assistir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in yt_videos %}
+                    <tr>
+                        <td><strong style="color:#fef08a;">{{ v.candidato }}</strong><br><span style="font-size:12px;color:#94a3b8;">{{ v.canal }}</span></td>
+                        <td><strong>{{ v.titulo }}</strong></td>
+                        <td><span class="badge-green">{{ v.views }}</span></td>
+                        <td><span class="badge-blue">{{ v.publicado }}</span></td>
+                        <td>
+                            <a href="{{ v.url }}" target="_blank" style="color:#38bdf8;font-weight:bold;text-decoration:none;">🎬 Assistir Vídeo no YouTube</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MAIORES COLÉGIOS ELEITORAIS DO TSE GOIÁS -->
+        <div class="full-width-card">
+            <div class="card-title">
+                <span>🏛️ MAIORES COLÉGIOS ELEITORAIS DO TSE EM GOIÁS (RANKING MUNICIPAL)</span>
+                <span class="badge-green">TSE 2026</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Município Polo</th>
+                        <th>Eleitores Registrados (TSE)</th>
+                        <th>Região Administrativa</th>
+                        <th>Relevância no Eleitorado Estadual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in colegios %}
+                    <tr>
+                        <td><strong style="color:#86efac;font-size:15px;">📍 {{ c.cidade }}</strong></td>
+                        <td><strong style="color:#fef08a;">{{ c.eleitores }} eleitores</strong></td>
+                        <td>{{ c.regiao }}</td>
+                        <td><span class="badge-blue">{{ c.relevancia }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+# TELA DEDICADA 1: RADAR ANTI-CRISE DE NOTÍCIAS COM BUSCA AO VIVO E CONTRANARRATIVAS
+HTML_RADAR_NOTICIAS = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Anti-Crise & Defesa de Notícias — Wilder Morais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #450a0a, #991b1b); padding: 20px 40px; border-bottom: 3px solid #ef4444; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .card-danger { border-color: #ef4444; background: #1a0808; }
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 800; }
+        .badge-red { background: #ef4444; color: #fff; }
+        .badge-yellow { background: #eab308; color: #000; }
+        .badge-green { background: #22c55e; color: #000; }
+        .estrategia-box { background: #040e08; border-left: 4px solid #eab308; padding: 14px; margin-top: 14px; border-radius: 8px; font-size: 14px; line-height: 1.6; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
+        .btn-busca { background: #2563eb; color: #fff; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 12px; display: inline-block; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🚨 RADAR ANTI-CRISE & MONITORAMENTO DE NOTÍCIAS (GOIÁS)</h1>
+            <p style="margin:4px 0 0 0;color:#fca5a5;font-size:13px;">● Varredura Ativa dos Portais O Popular, Jornal Opção, Diário da Manhã e G1 Goiás</p>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+    </div>
+
+    <div class="container">
+        <p style="color: #a7f3d0; font-size: 15px; margin-bottom: 24px;">Monitoramento inteligente das matérias e menções sobre a eleição de Goiás com plano de defesa e resposta em tempo real da IA:</p>
+
+        {% for item in noticias %}
+        <div class="card-noticia {% if 'VERMELHO' in item.nivel_ameaca %}card-danger{% endif %}">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 800; color: #86efac; font-size: 15px;">📰 {{ item.veiculo }} &bull; <span style="color:#cbd5e1;font-size:13px;">{{ item.data }}</span></span>
+                <span class="badge {% if 'VERMELHO' in item.nivel_ameaca %}badge-red{% elif 'MÉDIO' in item.nivel_ameaca %}badge-yellow{% else %}badge-green{% endif %}">{{ item.nivel_ameaca }}</span>
+            </div>
+            <h3 style="margin: 0 0 8px 0; color: #fff; font-size: 18px;">"{{ item.manchete }}"</h3>
+            <a href="{{ item.url_noticia }}" target="_blank" class="btn-busca">🔍 Auditar Matéria ao Vivo no Google / Notícias</a>
+            
+            <div class="estrategia-box">
+                🛡️ <strong>PLANO DE CONTRANARRATIVA E RESPOSTA DA IA:</strong><br>
+                {{ item.estrategia_defesa }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+"""
+
+# TELA DEDICADA 2: MAPA TÁTICO DE RECLAMAÇÕES POPULARES COM CIDADES POLO
+HTML_MAPA_DEMANDAS = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Tático de Reclamações — Goiás 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #0b2214, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .card-demanda { background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
+        .badge-perc { background: #eab308; color: #000; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🗺️ MAPA TÁTICO DE RECLAMAÇÕES & CIDADES POLO (GOIÁS)</h1>
+            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Cruzamento de Queixas Populares por Região e Direcionamento de Anúncios e Vídeos</p>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+    </div>
+
+    <div class="container">
+        <h2 style="color: #86efac; font-size: 18px; margin-bottom: 20px;">📍 QUEIXAS DA POPULAÇÃO E TEMAS RECOMENDADOS PARA VÍDEOS</h2>
+        {% for item in reclamacoes %}
+        <div class="card-demanda">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <strong style="color: #86efac; font-size: 18px;">📍 {{ item.regiao }}</strong>
+                <span class="badge-perc">🔥 {{ item.percentual }} das Queixas</span>
+            </div>
+            <p style="margin: 2px 0 10px 0; color: #38bdf8; font-size: 13.5px;">🏙️ <strong>Cidades Polo Impactadas:</strong> {{ item.cidades_polo }}</p>
+            <p style="margin: 4px 0 12px 0; color: #e2e8f0; font-size: 14px;"><strong>Pauta Principal:</strong> {{ item.pauta }}</p>
+            
+            <div style="background: #040e08; padding: 14px; border-radius: 8px; border-left: 4px solid #16a34a;">
+                🎥 <strong>TEMA DO VÍDEO RECOMENDADO:</strong> {{ item.video }}<br><br>
+                🎯 <strong>GANCHO INICIAL DE 3 SEGUNTOS:</strong> <span style="color:#fef08a;">"{{ item.gancho|safe }}"</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+"""
+
+# TELA DEDICADA DE EVENTOS (ROBUSTA - 150 EVENTOS COM DATAS EXATAS)
 HTML_EVENTOS_RADAR = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -215,20 +463,18 @@ HTML_EVENTOS_RADAR = """
 
         .copy-box { background: #0c2415; border-left: 4px solid #eab308; padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 13px; }
         .btn-copy { background: #d97706; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11.5px; margin-top: 8px; }
-        .btn-copy:hover { background: #f59e0b; color: #000; }
     </style>
 </head>
 <body>
     <div class="header">
         <div>
             <h1>🎪 RADAR DE EVENTOS POPULOSOS DE GOIÁS (150 EVENTOS MAPEADOS)</h1>
-            <p>● Mapeamento de 50 Eventos por Mês com Datas Iniciais e Finais Exatas para Meta Ads & Google Ads</p>
+            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Mapeamento de 50 Eventos por Mês com Datas Iniciais e Finais Exatas para Meta Ads & Google Ads</p>
         </div>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
     </div>
 
     <div class="container">
-        <!-- FILTROS POR MÊS -->
         <div class="filter-bar">
             <button class="btn-filter active" onclick="filtrarMes('todos')">🌐 Todos os 150 Eventos</button>
             <button class="btn-filter" onclick="filtrarMes('agosto')">📅 Agosto 2026 (50 Eventos)</button>
@@ -261,7 +507,7 @@ HTML_EVENTOS_RADAR = """
                         <i>"{{ ev.copy_trafego }}"</i>
                     </div>
 
-                    <button class="btn-copy" onclick="navigator.clipboard.writeText('EVENTO: {{ ev.evento }}\nDATAS EXATAS: {{ ev.periodo_datas }}\nCIDADE: {{ ev.cidade }}\nRAIO META ADS: {{ ev.raio_anuncio }}\nCOPY: {{ ev.copy_trafego }}'); alert('Parâmetros do evento copiados para o Meta Ads!');">📋 Copiar Parâmetros para Meta Ads</button>
+                    <button class="btn-copy" onclick="navigator.clipboard.writeText('EVENTO: {{ ev.evento }}\nDATAS EXATAS: {{ ev.periodo_datas }}\nCIDADE: {{ ev.cidade }}\nRAIO META ADS: {{ ev.raio_anuncio }}\nCOPY: {{ ev.copy_trafego }}'); alert('Parâmetros copiados para o Meta Ads!');">📋 Copiar Parâmetros para Meta Ads</button>
                 </div>
                 {% endfor %}
             </div>
@@ -288,7 +534,7 @@ HTML_EVENTOS_RADAR = """
 </html>
 """
 
-# TELA DEDICADA DO PLANO DE GOVERNO, JOVENS (18-35) E 1ª SEMANA
+# TELA DEDICADA DO PLANO DE GOVERNO
 HTML_PLANO_GOVERNO = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -304,157 +550,30 @@ HTML_PLANO_GOVERNO = """
         .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
         .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .box-title { font-size: 18px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #eab308; padding-left: 10px; }
+        .box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 24px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
         .card-pilar { background: #040e08; border: 1px solid #22c55e; border-radius: 10px; padding: 16px; }
-        .card-pilar h4 { margin: 0 0 8px 0; color: #fef08a; font-size: 15px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
-        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
-        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
-        .badge-trend { background: #1e3a8a; color: #bfdbfe; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 11.5px; border: 1px solid #60a5fa; }
-        .badge-dia { background: #15803d; color: #fef08a; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 11.5px; border: 1px solid #eab308; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div>
-            <h1>📘 PLANO DE GOVERNO "GOIÁS PARA QUEM FAZ" & GUIA DA 1ª SEMANA</h1>
-            <p>● Diretriz Estratégica da Chefe & Alinhamento com Marcelo Vitorino</p>
-        </div>
+        <h1>📘 PLANO DE GOVERNO "GOIÁS PARA QUEM FAZ" & GUIA DA 1ª SEMANA</h1>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
     </div>
 
     <div class="container">
         <div class="box">
-            <div class="box-title">🏆 OS 3 PILARES DO PLANO DE GOVERNO (MEMÓRIA FIXADA NA IA)</div>
-            <p style="color:#a7f3d0;font-size:14px;margin-bottom:16px;"><strong>Chapa Oficial:</strong> Wilder Morais (Governador) & Ana Paula Rezende (Vice-Governadora)</p>
+            <h3 style="color:#86efac;">🏆 OS 3 PILARES DO PLANO DE GOVERNO</h3>
             <div class="grid-3">
                 {% for p in plano.pilares_fundamentais %}
                 <div class="card-pilar">
-                    <h4>{{ p.pilar }}</h4>
-                    <p style="font-size:13px;color:#cbd5e1;margin-bottom:10px;">{{ p.foco }}</p>
+                    <h4 style="color:#fef08a;">{{ p.pilar }}</h4>
+                    <p style="font-size:13px;color:#cbd5e1;">{{ p.foco }}</p>
                     <div style="font-size:12px;color:#86efac;font-weight:bold;">Programas: {{ ", ".join(p.programas_chave) }}</div>
                 </div>
                 {% endfor %}
             </div>
         </div>
-    </div>
-</body>
-</html>
-"""
-
-# DASHBOARD EXECUTIVO ESTILO METABASE
-HTML_DASHBOARD_METABASE = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Executivo — Monitoramento 100% Real do YouTube</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 18px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
-        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-        .full-width-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
-        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
-        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>📺 MONITORAMENTO 100% REAL DO YOUTUBE & DADOS ELEITORAIS TSE</h1>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
-    </div>
-
-    <div class="container">
-        <div class="full-width-card">
-            <h3 style="color:#86efac;">📺 AUDITORIA AO VIVO DO YOUTUBE DOS CANDIDATOS</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Candidato</th>
-                        <th>Canal Oficial</th>
-                        <th>Fonte de Validação</th>
-                        <th>Acesso Direto ao Canal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for y in youtube %}
-                    <tr>
-                        <td><strong>{{ y.candidato }}</strong></td>
-                        <td>{{ y.canal }}</td>
-                        <td><strong style="color:#4ade80;">{{ y.status_fonte }}</strong></td>
-                        <td><a href="{{ y.url_oficial }}" target="_blank" style="color:#fef08a;font-weight:bold;">🎬 Abrir Canal de Vídeos Reais</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</body>
-</html>
-"""
-
-# TELA DEDICADA 1: RADAR ANTI-CRISE
-HTML_RADAR_NOTICIAS = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar Anti-Crise & Defesa — Wilder Morais</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #450a0a, #991b1b); padding: 20px 40px; border-bottom: 3px solid #ef4444; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 8px 16px; border-radius: 8px; border: 1px solid #22c55e; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🚨 RADAR ANTI-CRISE & MONITORAMENTO DE NOTÍCIAS</h1>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-    <div class="container">
-        <p style="color: #a7f3d0;">Monitoramento de notícias de Goiás.</p>
-    </div>
-</body>
-</html>
-"""
-
-# TELA DEDICADA 2: MAPA TÁTICO DE RECLAMAÇÕES POPULARES
-HTML_MAPA_DEMANDAS = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Tático de Reclamações — Goiás 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #0b2214, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 8px 16px; border-radius: 8px; border: 1px solid #22c55e; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🗺️ MAPA TÁTICO DE RECLAMAÇÕES POPULARES</h1>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-    <div class="container">
-        <p style="color: #a7f3d0;">Mapeamento regional de queixas.</p>
     </div>
 </body>
 </html>
@@ -467,19 +586,14 @@ HTML_MAPA_DEMANDAS = """
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET)
 
-@app.route("/eventos", methods=["GET"])
-def eventos_radar_page():
-    return render_template_string(HTML_EVENTOS_RADAR, eventos=EVENTOS_GOIAS_2026)
-
-@app.route("/plano_governo", methods=["GET"])
-@app.route("/primeira_semana", methods=["GET"])
-def plano_governo_page():
-    return render_template_string(HTML_PLANO_GOVERNO, plano=PLANO_DE_GOVERNO_MEMORIA, primeira_semana=PRIMEIRA_SEMANA_CONTEUDO)
-
 @app.route("/dashboard", methods=["GET"])
 @app.route("/metabase", methods=["GET"])
 def dashboard_metabase_page():
-    return render_template_string(HTML_DASHBOARD_METABASE, youtube=YOUTUBE_MONITORAMENTO_REAL)
+    return render_template_string(
+        HTML_DASHBOARD_METABASE,
+        yt_videos=YOUTUBE_VIDEOS_REAIS,
+        colegios=MAIORES_COLEGIOS_TSE
+    )
 
 @app.route("/radar_noticias", methods=["GET"])
 def radar_noticias_page():
@@ -488,6 +602,19 @@ def radar_noticias_page():
 @app.route("/mapa_demandas", methods=["GET"])
 def mapa_demandas_page():
     return render_template_string(HTML_MAPA_DEMANDAS, reclamacoes=MAPA_RECLAMACOES_REGIONAL)
+
+@app.route("/eventos", methods=["GET"])
+def eventos_radar_page():
+    return render_template_string(HTML_EVENTOS_RADAR, eventos=EVENTOS_GOIAS_2026)
+
+@app.route("/plano_governo", methods=["GET"])
+@app.route("/primeira_semana", methods=["GET"])
+def plano_governo_page():
+    return render_template_string(
+        HTML_PLANO_GOVERNO,
+        plano=PLANO_DE_GOVERNO_MEMORIA,
+        primeira_semana=PRIMEIRA_SEMANA_CONTEUDO
+    )
 
 @app.route("/busca_drive", methods=["GET"])
 @app.route("/busca", methods=["GET"])
@@ -523,19 +650,42 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # Roteador de Eventos e Geotargeting Tráfego Pago
-    if any(k in p_lower for k in ["evento", "eventos", "tráfego", "trafego", "geotargeting", "anuncio", "anúncio", "meta ads", "data"]):
+    # Roteador de Notícias
+    if any(k in p_lower for k in ["noticia", "notícia", "noticias", "notícias", "imprensa", "jornal"]):
+        noticias_html = "".join([
+            f"<div style='background:#1e0a0a;padding:12px;border-radius:10px;margin-top:10px;border:1px solid #991b1b;'>"
+            f"<strong style='color:#fca5a5;'>📰 {n['veiculo']} ({n['data']}) — {n['nivel_ameaca']}</strong><br>"
+            f"<span style='color:#fff;font-size:14px;'>\"{n['manchete']}\"</span><br>"
+            f"<div style='margin-top:6px;font-size:12.5px;color:#86efac;'>"
+            f"🛡️ <strong>Defesa de IA:</strong> {n['estrategia_defesa']}</div>"
+            f"</div>"
+            for n in RADAR_NOTICIAS_ATAQUES
+        ])
         return jsonify({
-            "resposta": f"🎪 <strong>RADAR DE 150 EVENTOS DE GOIÁS COM DATAS EXATAS (50/MÊS)</strong><br><br>"
-                        f"Mapeamos 150 eventos estratégicos (religiosos, agropecuários, culturais, esportivos e sociais) cobrindo todos os 246 municípios de Goiás com datas iniciais e finais exatas!<br><br>"
-                        f"👉 <a href='/eventos' style='background:linear-gradient(135deg, #d97706, #b45309);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>🎪 ABRIR RADAR DE 150 EVENTOS COM DATAS EXATAS</a>"
+            "resposta": f"🚨 <strong>RADAR ANTI-CRISE & MONITORAMENTO DE NOTÍCIAS DE GOIÁS</strong><br>{noticias_html}<br><br>"
+                        f"👉 <a href='/radar_noticias' style='background:#991b1b;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #ef4444;'>🚨 ABRIR RADAR ANTI-CRISE COMPLETO</a>"
+        }), 200
+
+    # Roteador de YouTube
+    if any(k in p_lower for k in ["youtube", "video", "vídeo", "canal"]):
+        yt_html = "".join([
+            f"<div style='background:#0e2917;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #1a4628;'>"
+            f"<strong style='color:#fef08a;'>🎬 [{v['candidato']}] {v['titulo']}</strong><br>"
+            f"<span style='color:#a7f3d0;font-size:12.5px;'>Views: {v['views']} &bull; Publicado: {v['publicado']}</span><br>"
+            f"<a href='{v['url']}' target='_blank' style='color:#38bdf8;font-weight:bold;'>🎬 Assistir no YouTube</a>"
+            f"</div>"
+            for v in YOUTUBE_VIDEOS_REAIS[:4]
+        ])
+        return jsonify({
+            "resposta": f"📺 <strong>AUDITORIA EM TEMPO REAL DE VÍDEOS INDIVIDUAIS DO YOUTUBE</strong><br>{yt_html}<br><br>"
+                        f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📺 ABRIR DASHBOARD YOUTUBE COMPLETO</a>"
         }), 200
 
     # Fallback via OpenRouter
     if OPENROUTER_API_KEY:
         system_prompt = (
             "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
-            "Você possui uma base completa de 150 eventos mapeados em Goiás (50 em Agosto, 50 em Setembro, 50 em Outubro de 2026) com datas iniciais e finais exatas para direcionamento de tráfego pago no Meta Ads e Google Ads."
+            "Você possui módulos completos ativados: Radar Anti-Crise de Notícias, Vídeos Reais do YouTube com títulos e links individuais, Mapa Tático de Reclamações por Cidade e Colégios Eleitorais do TSE."
         )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
@@ -555,8 +705,8 @@ def api_chat():
 
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
-                    f"Base de 150 Eventos com datas exatas de início e fim devidamente integrada.<br><br>"
-                    f"👉 <a href='/eventos' style='background:linear-gradient(135deg, #d97706, #b45309);color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>🎪 ABRIR RADAR DE 150 EVENTOS</a>"
+                    f"Todos os módulos de inteligência eleitoral reativados e operacionais.<br><br>"
+                    f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;'>📺 ABRIR DASHBOARD</a>"
     }), 200
 
 if __name__ == "__main__":
