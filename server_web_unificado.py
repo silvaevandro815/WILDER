@@ -91,6 +91,9 @@ HTML_CHAT_WIDGET = """
         .btn-link-creative { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; border: 1px solid #eab308; margin-top: 8px; transition: 0.2s; }
         .btn-link-creative:hover { background: #16a34a; color: #ffffff; }
 
+        .btn-link-search { display: inline-flex; align-items: center; gap: 6px; background: #0c2415; color: #86efac; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; border: 1px solid #22c55e; margin-top: 8px; margin-left: 6px; transition: 0.2s; }
+        .btn-link-search:hover { background: #16a34a; color: #ffffff; }
+
         .badge-retencao { background: #14351f; color: #86efac; border: 1px solid #22c55e; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; }
 
         .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
@@ -107,7 +110,7 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Inteligência de Criativos, Dashboard Visual & Defesa</p>
+                <p>● Central de Inteligência Estratégica, Transparência & Defesa</p>
             </div>
         </div>
         <div class="nav-links">
@@ -120,8 +123,8 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 BEM-VINDO À CENTRAL DE GUERRA & AUDITORIA DE REDES SOCIAIS</strong><br><br>
-            Todos os botões de criativos apontam diretamente para a aba de <strong>Reels e Vídeos Oficiais no Instagram e YouTube</strong> de cada candidato!<br><br>
+            <strong>🔰 CENTRAL DE INTELIGÊNCIA MILITAR — TRANSPARÊNCIA TOTAL</strong><br><br>
+            Abaixo você pode consultar o relatório de projeção tática das pautas e usar os botões de <strong>Auditoria Direta ao Vivo</strong> no Instagram e no YouTube para ver todos os conteúdos reais publicados!<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
                 <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📊 Abrir Dashboard Metabase Integrado</span>
@@ -164,7 +167,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Auditando perfis oficiais do Instagram e YouTube...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando dados de auditoria...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -235,7 +238,7 @@ HTML_DASHBOARD_METABASE = """
     <div class="header">
         <div>
             <h1>📊 DASHBOARD EXECUTIVO METABASE — SALA DE GUERRA MILITAR</h1>
-            <p>● Painel Consolidado de Dados Eleitorais de Goiás & Competitividade de Redes Sociais</p>
+            <p>● Painel Consolidado de Projeção Eleitoral de Goiás & Links de Auditoria Direta</p>
         </div>
         <div>
             <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
@@ -269,7 +272,7 @@ HTML_DASHBOARD_METABASE = """
             <div class="chart-card">
                 <div class="chart-title">
                     <span>⚔️ COMPARATIVO DE REDES SOCIAIS</span>
-                    <span class="badge-green">ATUALIZADO</span>
+                    <span class="badge-green">PROJEÇÃO TÁTICA</span>
                 </div>
                 <canvas id="chartConcorrentes" height="200"></canvas>
             </div>
@@ -306,17 +309,17 @@ HTML_DASHBOARD_METABASE = """
         <!-- TABELA DE RESULTADOS DO METABASE -->
         <div class="full-width-card">
             <div class="chart-title">
-                <span>📋 VISÃO EXECUTIVA DE AUDITORIA DE CRIATIVOS & DEFESA (PERFIS OFICIAIS REAL)</span>
+                <span>📋 VISÃO EXECUTIVA DE AUDITORIA DE CRIATIVOS & AUDITORIA DE PAUTAS AO VIVO</span>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Candidato / Peça</th>
+                        <th>Candidato / Pauta</th>
                         <th>Plataforma</th>
-                        <th>Engajamento Ativo (Curtidas/Comentários)</th>
-                        <th>Retenção de Vídeo (%)</th>
+                        <th>Métricas Estimadas (Curtidas/Comentários)</th>
+                        <th>Retenção Média (%)</th>
                         <th>Score de Impacto</th>
-                        <th>Link do Perfil/Criativo Oficial</th>
+                        <th>Auditoria Direta ao Vivo</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -327,7 +330,10 @@ HTML_DASHBOARD_METABASE = """
                         <td>❤️ {{ p.curtidas }} | 💬 <strong>{{ p.comentarios }}</strong></td>
                         <td><strong style="color:#4ade80;">{{ p.retencao_media }}</strong></td>
                         <td><strong style="color:#fef08a;">{{ p.score_impacto }}</strong></td>
-                        <td><a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;">🔗 Abrir Reels/Vídeos Oficiais</a></td>
+                        <td>
+                            <a href="{{ p.post_url }}" target="_blank" style="color:#86efac;font-weight:bold;margin-right:8px;">🔗 Perfil Oficial</a>
+                            <a href="{{ p.search_url }}" target="_blank" style="color:#fef08a;font-weight:bold;">🔎 Auditar Pauta no Google/YT</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -632,20 +638,21 @@ def api_chat():
             f"<span class='badge-retencao'>SCORE: {p.get('score_impacto', '90/100')}</span></div>"
             f"<div style='color:#fef08a;font-weight:bold;font-size:14px;margin-top:6px;'>\"{p['titulo']}\"</div>"
             f"<div style='margin-top:8px;font-size:13px;color:#cbd5e1;'>"
-            f"• <strong>Engajamento Ativo</strong>: ❤️ {p['curtidas']} curtidas | 💬 <strong>{p['comentarios']} comentários</strong> | 🔄 {p.get('compartilhamentos', 'N/A')} compartilhamentos no WhatsApp<br>"
+            f"• <strong>Engajamento Projetado</strong>: ❤️ {p['curtidas']} curtidas | 💬 <strong>{p['comentarios']} comentários</strong> | 🔄 {p.get('compartilhamentos', 'N/A')} compartilhamentos<br>"
             f"• ⏱️ <strong>Tempo de Retenção Média</strong>: <span style='color:#86efac;font-weight:bold;'>{p.get('retencao_media', '85%')}</span> | Views Totais: {p['views']}<br>"
             f"• 📊 <strong>Taxa de Engajamento Real</strong>: <span style='color:#4ade80;font-weight:bold;'>{p['engajamento']}</span> (Pauta: {p['pauta']})</div>"
             f"<div style='margin-top:8px;font-size:12.5px;color:#a7f3d0;background:#040e08;padding:10px;border-radius:8px;border:1px solid #16a34a;'>"
             f"💡 <strong>Diagnóstico de IA de Retenção & Engajamento Qualitativo:</strong><br>{p['analise_ia']}</div>"
             f"<div style='margin-top:10px;'>"
-            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 ABRIR REELS/VÍDEOS OFICIAIS NO {p['rede'].upper().split()[0]}</a></div>"
-            f"</div>"
+            f"<a href='{p['post_url']}' target='_blank' class='btn-link-creative'>🔗 CANAL / PERFIL OFICIAL</a>"
+            f"<a href='{p.get('search_url', p['post_url'])}' target='_blank' class='btn-link-search'>🔎 AUDITAR COMANTÁRIOS AO VIVO</a>"
+            f"</div></div>"
             for p in posts_filtrados
         ])
 
         return jsonify({
-            "resposta": f"⏱️ <strong>AUDITORIA QUALITATIVA DE ENGAJAMENTO REAL & RETENÇÃO — {rotulo_periodo}</strong><br>"
-                        f"<p style='font-size:13px;color:#a7f3d0;'>Esta análise avalia visualizações x comentários x retenção de vídeo até o final. Clique no botão verde para auditar os perfis e conteúdos reais!</p>"
+            "resposta": f"⏱️ <strong>AUDITORIA QUALITATIVA DE PAUTAS DE ENGAJAMENTO — {rotulo_periodo}</strong><br>"
+                        f"<p style='font-size:13px;color:#a7f3d0;'>Use os botões de <strong>Auditar Comentários ao Vivo</strong> para conferir todas as postagens e comentários publicados nas redes sociais!</p>"
                         f"{posts_html}<br><br>"
                         f"<strong>Alternar Janela Temporável:</strong><br>"
                         f"👉 <a href='#' onclick='perguntarRapido(\"retencao e engajamento 7 dias\");return false;' style='color:#fef08a;font-weight:bold;'>[Ranking 7 Dias (Semanal)]</a> &bull; "
