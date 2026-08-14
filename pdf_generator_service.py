@@ -85,7 +85,91 @@ PLANO_DE_GOVERNO_MEMORIA = {
     ]
 }
 
-# MATRIZ DE CONTEÚDO DA PRIMEIRA SEMANA (APRESENTAÇÃO, EMPATIA E IDENTIDADE VISUAL - SEGUNDO DIRETRIZ VITORINO)
+# RADAR DE EVENTOS ESTRATÉGICOS DE GOIÁS (>500 PESSOAS) PARA GEOTARGETING DE TRÁFEGO PAGO (AGOSTO, SETEMBRO, OUTUBRO 2026)
+EVENTOS_GOIAS_2026 = [
+    # --- AGOSTO 2026 ---
+    {
+        "mes": "agosto",
+        "mes_rotulo": "Agosto 2026",
+        "evento": "Exposição Agropecuária de Rio Verde (EXPO RIO VERDE 2026)",
+        "local": "Parque de Exposições Extrema, Rio Verde - GO",
+        "coordenadas": "-17.7915, -50.9201",
+        "raio_anuncio": "Raio de 2km em volta do Parque",
+        "publico_estimado": "35.000 pessoas / dia",
+        "perfil_publico": "Produtores rurais, famílias, jovens do agronegócio e trabalhadores da região Sudoeste.",
+        "pauta_plano": "Garantia de Logística Agro & Isenção de Burocracia",
+        "copy_trafego": "Quem produz o alimento do Brasil em Rio Verde merece pontes fortes e crédito simples. Conheça as propostas de Wilder Morais para o Agro!",
+        "interesses_meta": "Agronegócio, Pecuária, Exposição Agropecuária, Rio Verde"
+    },
+    {
+        "mes": "agosto",
+        "mes_rotulo": "Agosto 2026",
+        "evento": "Festa da Cidade & Feira de Negócios de Anápolis (EXPO ANÁPOLIS 2026)",
+        "local": "Centro de Convenções de Anápolis, Anápolis - GO",
+        "coordenadas": "-16.3286, -48.9534",
+        "raio_anuncio": "Raio de 3km (Distrito Industrial DAIA + Centro)",
+        "publico_estimado": "20.000 pessoas / dia",
+        "perfil_publico": "Empresários, trabalhadores da indústria farmacêutica, logística e estudantes.",
+        "pauta_plano": "HUB de Inovação & Fortalecimento do DAIA",
+        "copy_trafego": "Anápolis é o coração logístico de Goiás. Wilder Morais traz o programa Primeiro Salário para a indústria de Anápolis!",
+        "interesses_meta": "Indústria, Logística, Emprego, Anápolis"
+    },
+    {
+        "mes": "agosto",
+        "mes_rotulo": "Agosto 2026",
+        "evento": "Festival Internacional de Cinema e Meio Ambiente (FICA 2026)",
+        "local": "Centro Histórico da Cidade de Goiás - GO",
+        "coordenadas": "-15.9333, -50.1400",
+        "raio_anuncio": "Raio de 1.5km (Centro Histórico)",
+        "publico_estimado": "12.000 pessoas / dia",
+        "perfil_publico": "Jovens universitários, artistas, turistas e comunidade cultural.",
+        "pauta_plano": "HUB de Economia Criativa & Incentivo ao Turismo",
+        "copy_trafego": "A cultura e o turismo de Goiás são patrimônio do nosso povo. Conheça os programas de economia criativa de Wilder!",
+        "interesses_meta": "Cultura, Cinema, Turismo, Economia Criativa"
+    },
+    # --- SETEMBRO 2026 ---
+    {
+        "mes": "setembro",
+        "mes_rotulo": "Setembro 2026",
+        "evento": "Jogos Universitários Goianos & Festival Universitário de Goiânia",
+        "local": "Campus Samambaia UFG & Praça Universitária, Goiânia - GO",
+        "coordenadas": "-16.6035, -49.2665",
+        "raio_anuncio": "Raio de 2km (UFG + Setor Universitário)",
+        "publico_estimado": "25.000 jovens de 18 a 25 anos",
+        "perfil_publico": "Estudantes universitários de Goiânia, Aparecida e Anápolis.",
+        "pauta_plano": "Programa Primeiro Salário & Crédito Educativo",
+        "copy_trafego": "Formando na faculdade em Goiás? O Estado vai pagar parte do seu 1º salário para garantir sua contratação!",
+        "interesses_meta": "Ensino Superior, UFG, PUC Goiás, Primeiro Emprego, Tecnologia"
+    },
+    {
+        "mes": "setembro",
+        "mes_rotulo": "Setembro 2026",
+        "evento": "Feira de Negócios e Desenvolvimento do Entorno (EXPO LUZIÂNIA 2026)",
+        "local": "Parque de Exposições de Luziânia - GO",
+        "coordenadas": "-16.2525, -47.9500",
+        "raio_anuncio": "Raio de 3km (Luziânia e Valparaíso)",
+        "publico_estimado": "18.000 pessoas / dia",
+        "perfil_publico": "Trabalhadores do Entorno do DF que enfrentam transporte diário para Brasília.",
+        "pauta_plano": "Transporte Integrado Metropolitano & Asfalto",
+        "copy_trafego": "O Entorno do DF não é quintal de ninguém! Transporte digno e asfalto de qualidade para Luziânia com Wilder Morais.",
+        "interesses_meta": "Luziânia, Entorno DF, Valparaíso, Transporte Público"
+    },
+    # --- OUTUBRO 2026 ---
+    {
+        "mes": "outubro",
+        "mes_rotulo": "Outubro 2026 (Reta Final Eleitoral)",
+        "evento": "Grande Comício & Marcha da Família em Goiânia",
+        "local": "Praça Cívica & Av. Goiás, Goiânia - GO",
+        "coordenadas": "-16.6789, -49.2539",
+        "raio_anuncio": "Raio de 2km (Centro + Setor Oeste)",
+        "publico_estimado": "50.000 pessoas",
+        "perfil_publico": "Eleitores de toda a Grande Goiânia.",
+        "pauta_plano": "Goiás Para Quem Faz — Vitória da Mudança com Wilder & Ana Paula",
+        "copy_trafego": "Chegou a hora de decidir o futuro de Goiás! Vote Wilder Morais Governador e Ana Paula Vice. Goiás Para Quem Faz!",
+        "interesses_meta": "Política, Eleições Goiás, Goiânia, Wilder Morais"
+    }
+]
+
 PRIMEIRA_SEMANA_CONTEUDO = [
     {
         "dia": "Dia 1 (Segunda-feira)",
@@ -173,7 +257,6 @@ MAPA_RECLAMACOES_REGIONAL = [
     }
 ]
 
-# EXCLUSIVO E 100% FOCO NO YOUTUBE (INSTAGRAM FICTÍCIO REMOVIDO CONFORME SOLICITAÇÃO EXPLICITA)
 YOUTUBE_MONITORAMENTO_REAL = [
     {
         "candidato": "Wilder Morais",
@@ -221,23 +304,23 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Monitoramento 100% Real do YouTube & Plano de Governo &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Radar de Eventos, Geotargeting & Plano de Governo &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
         <div style="background: #15803d; color: #fef08a; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #eab308;">INTELIGÊNCIA REAL</div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">📺 MONITORAMENTO OFICIAL E 100% REAL DO YOUTUBE</div>
+        <div class="section-title">🎪 RADAR DE EVENTOS POPULOSOS DE GOIÁS & PARÂMETROS DE TRÁFEGO PAGO</div>
         <table>
-            <thead><tr><th>Candidato</th><th>Canal Oficial</th><th>Fonte dos Dados</th><th>Link Direto para Vídeos Reais</th></tr></thead>
+            <thead><tr><th>Mês & Evento</th><th>Local & Raio Geotargeting</th><th>Público Estimado</th><th>Pauta do Plano & Copy Recomendada</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{y['candidato']}</strong></td><td>{y['canal']}</td><td><span style='color:#15803d;font-weight:bold;'>{y['status_fonte']}</span></td><td><a href='{y['url_oficial']}' target='_blank'>🎬 Abrir Vídeos no YouTube</a></td></tr>" for y in YOUTUBE_MONITORAMENTO_REAL])}
+                {''.join([f"<tr><td><strong>{ev['mes_rotulo']}</strong><br><span style='color:#15803d;font-weight:bold;'>{ev['evento']}</span></td><td>{ev['local']}<br><span style='color:#0284c7;'>Raio: {ev['raio_anuncio']} ({ev['coordenadas']})</span></td><td><strong>{ev['publico_estimado']}</strong></td><td><strong style='color:#eab308;'>Pauta: {ev['pauta_plano']}</strong><br><span style='font-size:11px;'>\"{ev['copy_trafego']}\"</span></td></tr>" for ev in EVENTOS_GOIAS_2026])}
             </tbody>
         </table>
     </div>
 
     <div class="footer">
-        Dossiê de Inteligência Eleitoral & Mapeamento Real &bull; Wilder Morais 2026
+        Dossiê de Inteligência Eleitoral & Estratégia de Tráfego Pago &bull; Wilder Morais 2026
     </div>
 
 </body>

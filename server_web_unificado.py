@@ -22,7 +22,8 @@ from supabase import create_client, Client, ClientOptions
 from pdf_generator_service import (
     gerar_buffer_relatorio_360, YOUTUBE_MONITORAMENTO_REAL,
     RADAR_NOTICIAS_ATAQUES, MAPA_RECLAMACOES_REGIONAL,
-    PLANO_DE_GOVERNO_MEMORIA, PRIMEIRA_SEMANA_CONTEUDO
+    PLANO_DE_GOVERNO_MEMORIA, PRIMEIRA_SEMANA_CONTEUDO,
+    EVENTOS_GOIAS_2026
 )
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -72,13 +73,12 @@ HTML_CHAT_WIDGET = """
         .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn-nav { color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
         .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
+        .btn-eventos { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border-color: #fef08a; font-weight: 800; }
+        .btn-eventos:hover { background: #f59e0b; color: #000; }
         .btn-dashboard { background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }
-        .btn-dashboard:hover { background: #fde047; color: #000; }
         .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; }
-        .btn-alert:hover { background: #dc2626; color: #fff; }
         .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
         .btn-plano { background: #1e3a8a; border-color: #60a5fa; color: #dbeafe; }
-        .btn-plano:hover { background: #2563eb; color: #fff; }
         
         .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }
         .msg { max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
@@ -89,12 +89,8 @@ HTML_CHAT_WIDGET = """
         .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
         .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
-        .chip-dash { background: #854d0e; border-color: #eab308; color: #fef08a; }
-        .chip-dash:hover { background: #ca8a04; color: #fff; }
-        .chip-danger { border-color: #ef4444; color: #fca5a5; background: #2a0a0a; }
-        .chip-danger:hover { background: #dc2626; color: #fff; }
-        .chip-plano { background: #1e3a8a; border-color: #60a5fa; color: #bfdbfe; }
-        .chip-plano:hover { background: #2563eb; color: #fff; }
+        .chip-eventos { background: #b45309; border-color: #eab308; color: #fef08a; }
+        .chip-eventos:hover { background: #d97706; color: #fff; }
 
         .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
         .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
@@ -110,34 +106,34 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Inteligência Estratégica & Monitoramento 100% Real do YouTube</p>
+                <p>● Geotargeting de Tráfego Pago, Radar de Eventos & Plano de Governo</p>
             </div>
         </div>
         <div class="nav-links">
+            <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de Eventos & Tráfego Pago</a>
             <a href="/plano_governo" class="btn-nav btn-plano">📘 Plano de Governo & 1ª Semana</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar Anti-Crise</a>
-            <a href="/mapa_demandas" class="btn-nav">🗺️ Mapa de Reclamações</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 Baixar PDF 360°</a>
         </div>
     </div>
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 DADOS FICTÍCIOS DE INSTAGRAM REMOVIDOS COM SUCESSO!</strong><br><br>
-            Removemos totalmente as métricas simuladas de redes sociais e fortalecemos o <strong>Monitoramento 100% Real do YouTube</strong> e Dados Eleitorais do TSE.<br><br>
+            <strong>🔰 RADAR DE EVENTOS & PARÂMETROS PARA GESTOR DE TRÁFEGO PAGO PRONTOS!</strong><br><br>
+            Mapeamos os maiores eventos de Goiás em <strong>Agosto, Setembro e Outubro de 2026</strong> com raio de anúncios (1km a 3km), coordenadas e copies prontas para a equipe de Tráfego Pago!<br><br>
             <strong>Escolha uma opção de análise:</strong>
             <div class="quick-actions">
-                <span class="chip chip-dash" onclick="window.location.href='/dashboard'">📺 Abrir Dashboard 100% Real do YouTube</span>
-                <span class="chip chip-plano" onclick="window.location.href='/plano_governo'">📘 Ver Plano de Governo & Guia 1ª Semana</span>
-                <span class="chip chip-danger" onclick="perguntarRapido('radar de noticias e ataques')">🚨 Radar Anti-Crise</span>
+                <span class="chip chip-eventos" onclick="window.location.href='/eventos'">🎪 Abrir Radar de Eventos & Geotargeting</span>
+                <span class="chip" onclick="window.location.href='/plano_governo'">📘 Ver Plano de Governo & Guia 1ª Semana</span>
+                <span class="chip" onclick="window.location.href='/dashboard'">📺 Dashboard YouTube Real</span>
             </div>
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'abrir dashboard', 'youtube real', 'plano de governo')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'eventos', 'trafego pago', 'plano de governo')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -154,8 +150,8 @@ HTML_CHAT_WIDGET = """
             const pergunta = input.value.trim();
             if (!pergunta) return;
 
-            if (pergunta.toLowerCase().includes('dashboard') || pergunta.toLowerCase().includes('metabase')) {
-                window.location.href = '/dashboard';
+            if (pergunta.toLowerCase().includes('evento') || pergunta.toLowerCase().includes('tráfego') || pergunta.toLowerCase().includes('trafego')) {
+                window.location.href = '/eventos';
                 return;
             }
 
@@ -165,7 +161,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando dados reais do YouTube...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Consultando Radar de Eventos & Tráfego Pago...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -183,6 +179,86 @@ HTML_CHAT_WIDGET = """
             chat.scrollTop = chat.scrollHeight;
         }
     </script>
+</body>
+</html>
+"""
+
+# TELA DEDICADA: RADAR DE EVENTOS & GEOTARGETING PARA GESTOR DE TRÁFEGO PAGO (META ADS / GOOGLE ADS)
+HTML_EVENTOS_RADAR = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Eventos & Geotargeting de Tráfego Pago — Goiás 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #0b2214, #d97706, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        
+        .box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .box-title { font-size: 18px; font-weight: 800; color: #fef08a; margin-bottom: 16px; border-left: 5px solid #d97706; padding-left: 10px; }
+        
+        .card-evento { background: #040e08; border: 1px solid #22c55e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .badge-mes { background: #b45309; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; }
+        .badge-publico { background: #15803d; color: #fef08a; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; }
+        
+        .copy-box { background: #0c2415; border-left: 4px solid #eab308; padding: 14px; border-radius: 8px; margin-top: 12px; font-size: 13.5px; }
+        .btn-copy { background: #d97706; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11.5px; margin-top: 8px; }
+        .btn-copy:hover { background: #f59e0b; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🎪 RADAR DE EVENTOS POPULOSOS (>500 PESSOAS) & TRÁFEGO PAGO</h1>
+            <p>● Mapeamento Tático de Geofencing para Meta Ads e Google Ads (Agosto, Setembro, Outubro 2026)</p>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+    </div>
+
+    <div class="container">
+        <!-- MANUAL DE INSTRUÇÃO PARA O GESTOR DE TRÁFEGO PAGO -->
+        <div class="box">
+            <div class="box-title">🎯 GUIA DE EXECUTIVO PARA O GESTOR DE TRÁFEGO PAGO</div>
+            <p style="color:#a7f3d0;font-size:14px;line-height:1.6;">
+                <strong>Como direcionar anúncios nos exatos locais dos eventos:</strong><br>
+                1. No <strong>Meta Ads Manager (Facebook/Instagram)</strong>, crie um conjunto de anúncios do tipo <i>Alcance / Engajamento Local</i>.<br>
+                2. Na seção <strong>Localização</strong>, mude para <i>"Pessoas nesta localização recentemente"</i> ou <i>"Pessoas que moram ou estiveram recentemente nesta localização"</i>.<br>
+                3. Digite o pino ou coordenadas informadas no card e defina o <strong>Raio de 1km a 3km</strong> em volta do Parque ou Centro de Convenções.<br>
+                4. Ative os <strong>Interesses Sugeridos</strong> para maximizar o retorno das peças criativas!
+            </p>
+        </div>
+
+        <!-- LISTA DE EVENTOS POR MÊS -->
+        <div class="box">
+            <div class="box-title">📍 EVENTOS MAPEADOS PARA AGOSTO, SETEMBRO E OUTUBRO DE 2026</div>
+            {% for ev in eventos %}
+            <div class="card-evento">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                    <span class="badge-mes">{{ ev.mes_rotulo }}</span>
+                    <span class="badge-publico">👥 {{ ev.publico_estimado }}</span>
+                </div>
+                <h3 style="margin:0 0 6px 0;color:#fff;font-size:18px;">{{ ev.evento }}</h3>
+                <p style="margin:4px 0;color:#cbd5e1;font-size:13.5px;">📍 <strong>Local:</strong> {{ ev.local }}</p>
+                <p style="margin:4px 0;color:#38bdf8;font-size:13.5px;">🎯 <strong>Parâmetro Geotargeting:</strong> {{ ev.raio_anuncio }} (Coordenadas: <code>{{ ev.coordenadas }}</code>)</p>
+                <p style="margin:4px 0;color:#86efac;font-size:13.5px;">🏷️ <strong>Interesses Meta Ads:</strong> {{ ev.interesses_meta }}</p>
+                
+                <div class="copy-box">
+                    <strong>💡 PAUTA DO PLANO DE GOVERNO APLICADA:</strong> <span style="color:#fef08a;">{{ ev.pauta_plano }}</span><br>
+                    <strong>📣 COPY RECOMENDADA PARA O ANÚNCIO:</strong><br>
+                    <i>"{{ ev.copy_trafego }}"</i>
+                </div>
+
+                <button class="btn-copy" onclick="navigator.clipboard.writeText('EVENTO: {{ ev.evento }}\nLOCALIZACAO: {{ ev.local }}\nRAIO: {{ ev.raio_anuncio }}\nINTERESSES: {{ ev.interesses_meta }}\nCOPY: {{ ev.copy_trafego }}'); alert('Parâmetros do evento copiados com sucesso para a área de transferência!');">📋 Copiar Parâmetros para Meta Ads</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
 """
@@ -304,7 +380,7 @@ HTML_PLANO_GOVERNO = """
 </html>
 """
 
-# DASHBOARD EXECUTIVO ESTILO METABASE — DADOS REAIS DO YOUTUBE E TSE (SEM INSTAGRAM FICTÍCIO)
+# DASHBOARD EXECUTIVO ESTILO METABASE
 HTML_DASHBOARD_METABASE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -360,7 +436,6 @@ HTML_DASHBOARD_METABASE = """
     </div>
 
     <div class="container">
-        <!-- TOP KPI ROW COM DADOS REAIS ELEITORAIS -->
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-title">Eleitores Mapeados (TSE)</div>
@@ -380,7 +455,6 @@ HTML_DASHBOARD_METABASE = """
             </div>
         </div>
 
-        <!-- CHARTS GRID -->
         <div class="charts-grid">
             <div class="chart-card">
                 <div class="chart-title">
@@ -399,7 +473,6 @@ HTML_DASHBOARD_METABASE = """
             </div>
         </div>
 
-        <!-- TABELA REPOSITÓRIO 100% REAL DO YOUTUBE -->
         <div class="full-width-card">
             <div class="chart-title">
                 <span>📺 AUDITORIA AO VIVO DO YOUTUBE DOS CANDIDATOS</span>
@@ -430,7 +503,6 @@ HTML_DASHBOARD_METABASE = """
             </table>
         </div>
 
-        <!-- IFRAME DO METABASE EMBUTIDO -->
         <div class="full-width-card">
             <div class="chart-title">
                 <span>🌐 ESPELHAMENTO AO VIVO DO METABASE ORIGINAL</span>
@@ -603,6 +675,10 @@ HTML_MAPA_DEMANDAS = """
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET)
 
+@app.route("/eventos", methods=["GET"])
+def eventos_radar_page():
+    return render_template_string(HTML_EVENTOS_RADAR, eventos=EVENTOS_GOIAS_2026)
+
 @app.route("/plano_governo", methods=["GET"])
 @app.route("/primeira_semana", methods=["GET"])
 def plano_governo_page():
@@ -655,27 +731,31 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # Roteador de Dashboard / YouTube Real
-    if any(k in p_lower for k in ["dashboard", "metabase", "youtube", "video", "vídeo", "canal"]):
-        yt_html = "".join([
+    # Roteador de Eventos e Geotargeting Tráfego Pago
+    if any(k in p_lower for k in ["evento", "eventos", "tráfego", "trafego", "geotargeting", "anuncio", "anúncio", "meta ads"]):
+        eventos_html = "".join([
             f"<div style='background:#0e2917;padding:12px;border-radius:10px;margin-top:10px;border:1px solid #1a4628;'>"
-            f"<strong style='color:#86efac;'>📺 {y['candidato']} ({y['canal']})</strong><br>"
-            f"<span style='color:#fef08a;font-size:13px;'>Fonte: {y['status_fonte']}</span><br>"
-            f"<a href='{y['url_oficial']}' target='_blank' style='color:#86efac;font-weight:bold;'>🎬 Abrir Canal de Vídeos Reais no YouTube</a>"
+            f"<strong style='color:#fef08a;font-size:15px;'>🎪 {ev['evento']} ({ev['mes_rotulo']})</strong><br>"
+            f"<span style='color:#e2e8f0;font-size:13px;'>📍 Local: {ev['local']} (Público: {ev['publico_estimado']})</span><br>"
+            f"<div style='margin-top:6px;font-size:12.5px;color:#38bdf8;'>"
+            f"🎯 <strong>Raio Meta Ads:</strong> {ev['raio_anuncio']} (Coordenadas: {ev['coordenadas']})</div>"
+            f"<div style='margin-top:6px;font-size:12px;color:#86efac;background:#040e08;padding:8px;border-radius:6px;'>"
+            f"📣 <strong>Copy Recomendada:</strong> \"{ev['copy_trafego']}\"</div>"
             f"</div>"
-            for y in YOUTUBE_MONITORAMENTO_REAL
+            for ev in EVENTOS_GOIAS_2026
         ])
         return jsonify({
-            "resposta": f"📺 <strong>MONITORAMENTO 100% REAL DO YOUTUBE (ZERO DADOS SIMULADOS)</strong><br><br>"
-                        f"{yt_html}<br><br>"
-                        f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📺 ABRIR DASHBOARD YOUTUBE COMPLETO</a>"
+            "resposta": f"🎪 <strong>RADAR DE EVENTOS & PARÂMETROS PARA TRÁFEGO PAGO (GEOTARGETING)</strong><br>"
+                        f"<p style='font-size:13px;color:#a7f3d0;'>Mapeamento de grandes eventos (>500 pessoas) em Goiás para pin-point de anúncios no Meta Ads e Google Ads:</p>"
+                        f"{eventos_html}<br><br>"
+                        f"👉 <a href='/eventos' style='background:linear-gradient(135deg, #d97706, #b45309);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>🎪 ABRIR RADAR DE EVENTOS COMPLETO</a>"
         }), 200
 
     # Fallback via OpenRouter
     if OPENROUTER_API_KEY:
         system_prompt = (
             "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
-            "Todas as simulações fictícias de redes sociais foram removidas. Foco 100% no monitoramento real do YouTube e dados eleitorais do TSE."
+            "Para tráfego pago, oriente o gestor de tráfego a usar Geofencing/Geotargeting definindo um raio de 1km a 3km no Meta Ads em volta das coordenadas de eventos de grande aglomeração em Goiás (Expo Rio Verde, Expo Anápolis, Jogos Universitários, FICA, Comícios)."
         )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
@@ -696,8 +776,8 @@ def api_chat():
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
                     f"Ordem recebida sobre <i>'{pergunta}'</i>!<br>"
-                    f"Métricas fictícias do Instagram removidas. Monitoramento 100% focado no YouTube Real e TSE.<br><br>"
-                    f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📺 ABRIR DASHBOARD YOUTUBE REAL</a>"
+                    f"Radar de Eventos e Parâmetros de Geotargeting de Tráfego Pago carregados com sucesso.<br><br>"
+                    f"👉 <a href='/eventos' style='background:linear-gradient(135deg, #d97706, #b45309);color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>🎪 ABRIR RADAR DE EVENTOS & TRÁFEGO PAGO</a>"
     }), 200
 
 if __name__ == "__main__":
