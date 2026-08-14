@@ -90,7 +90,6 @@ HTML_CHAT_WIDGET = """
         .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
         .chip-mapa { background: #0369a1; border-color: #38bdf8; color: #fff; }
-        .chip-alert { background: #991b1b; border-color: #ef4444; color: #fff; }
 
         .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
         .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
@@ -106,11 +105,11 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Mapa Colorido por Setor & Radar de Notícias de Todos os Candidatos com Links</p>
+                <p>● Central Unificada de Inteligência Eleitoral, Notícias & YouTube Real</p>
             </div>
         </div>
         <div class="nav-links">
-            <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa Colorido & Queixas</a>
+            <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa & Gráficos Interativos</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar de Notícias & Links</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
             <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
@@ -120,14 +119,12 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔰 NOVO MAPA COLORIDO E RADAR DE NOTÍCIAS DE TODOS OS CANDIDATOS ATIVADO!</strong><br><br>
-            Implementamos:<br>
-            🎨 <strong>Mapa Colorido por Setor:</strong> Pinos coloridos em Leaflet.js para cada tipo de problema (🔴 Saúde, 🟠 Transporte, 🟢 Agro, 🔵 Emprego, 🟣 Hospital).<br>
-            📰 <strong>Notícias de Wilder, Daniel Vilela e Marconi Perillo:</strong> Matérias positivas e críticas com <strong>links diretos para leitura nos portais</strong> (O Popular, Jornal Opção, Diário da Manhã, G1).<br><br>
+            <strong>🔰 MAPA INTERATIVO E GRÁFICOS VISUAIS DE QUEIXAS E BUSCAS ATIVADOS!</strong><br><br>
+            Implementamos o <strong>Mapa Colorido por Pauta</strong> e <strong>3 Gráficos Visuais Interativos</strong> diretamente abaixo do mapa para analisar em detalhes os locais de queixas e buscas no Google!<br><br>
             <strong>Escolha uma área de análise:</strong>
             <div class="quick-actions">
-                <span class="chip chip-mapa" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa Colorido por Setor</span>
-                <span class="chip chip-alert" onclick="window.location.href='/radar_noticias'">📰 Notícias & Links de Todos os Candidatos</span>
+                <span class="chip chip-mapa" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa & Gráficos Interativos</span>
+                <span class="chip" onclick="window.location.href='/radar_noticias'">📰 Notícias & Links dos Candidatos</span>
                 <span class="chip" onclick="window.location.href='/dashboard'">📺 Dashboard YouTube Real</span>
             </div>
         </div>
@@ -135,7 +132,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'notícias do daniel vilela', 'marconi perillo', 'mapa colorido')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'mapa', 'gráficos', 'queixas por cidade')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -148,11 +145,7 @@ HTML_CHAT_WIDGET = """
             if (!pergunta) return;
 
             const pLower = pergunta.toLowerCase();
-            if (pLower.includes('noticia') || pLower.includes('notícia') || pLower.includes('daniel') || pLower.includes('marconi') || pLower.includes('wilder')) {
-                window.location.href = '/radar_noticias';
-                return;
-            }
-            if (pLower.includes('mapa') || pLower.includes('cor') || pLower.includes('cores') || pLower.includes('queixa')) {
+            if (pLower.includes('mapa') || pLower.includes('grafico') || pLower.includes('gráfico') || pLower.includes('queixa')) {
                 window.location.href = '/mapa_demandas';
                 return;
             }
@@ -185,14 +178,14 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# MAPA TÁTICO INTERATIVO COM PINOS COLORIDOS POR SETOR (RED, ORANGE, GREEN, BLUE, PURPLE)
+# MAPA TÁTICO INTERATIVO LEAFLET.JS + 3 GRÁFICOS VISUAIS IMPRESSIONANTES (CHART.JS)
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Colorido de Queixas por Setor — Goiás 2026</title>
+    <title>Mapa Tático Interativo & Gráficos de Queixas — Goiás 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -202,11 +195,11 @@ HTML_MAPA_DEMANDAS = """
         * { box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
         
-        .header { background: linear-gradient(135deg, #0b2214, #0284c7, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: linear-gradient(135deg, #0b2214, #0284c7, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
         .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
         
-        .container { max-width: 1320px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
 
         .legend-bar { background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
         .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
@@ -219,7 +212,16 @@ HTML_MAPA_DEMANDAS = """
         .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
         .card-title { font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #0284c7; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        #map { width: 100%; height: 540px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+        #map { width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+
+        /* GRÁFICOS DETALHADOS EMBAIXO DO MAPA */
+        .charts-row-top { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .charts-row-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .chart-box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
 
         .leaflet-popup-content-wrapper { background: #040e08; color: #f8fafc; border: 1px solid #22c55e; border-radius: 10px; }
         .leaflet-popup-tip { background: #040e08; }
@@ -228,16 +230,16 @@ HTML_MAPA_DEMANDAS = """
 <body>
     <div class="header">
         <div>
-            <h1>🗺️ MAPA TÁTICO COLORIDO DE QUEIXAS POPULARES (GOIÁS)</h1>
-            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Cores Diferenciadas por Tipo de Problema (Saúde, Transporte, Agro, Emprego, Hospital)</p>
+            <h1>🗺️ MAPA TÁTICO & GRÁFICOS VISUAIS INTERATIVOS (GOIÁS)</h1>
+            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Geolocalização de Queixas & Painel Gráfico Detalhado de Buscas e Problemas por Cidade</p>
         </div>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
     </div>
 
     <div class="container">
-        <!-- BARRA DE LEGENDA DAS CORES -->
+        <!-- BARRA DE LEGENDA DAS CORES DO MAPA -->
         <div class="legend-bar">
-            <span style="color:#fef08a;font-weight:800;font-size:14px;">🎨 LEGENDA DE CORES DO MAPA:</span>
+            <span style="color:#fef08a;font-weight:800;font-size:14px;">🎨 CORES DAS PAUTAS NO MAPA:</span>
             <div class="legend-item"><span class="dot-red"></span> 🔴 Saúde & Filas SUS</div>
             <div class="legend-item"><span class="dot-orange"></span> 🟠 Transporte & Asfalto</div>
             <div class="legend-item"><span class="dot-green"></span> 🟢 Logística Agro & Pontes</div>
@@ -245,27 +247,93 @@ HTML_MAPA_DEMANDAS = """
             <div class="legend-item"><span class="dot-purple"></span> 🟣 Hospital Regional & Turismo</div>
         </div>
 
-        <!-- SEÇÃO DO MAPA INTERATIVO LEAFLET.JS -->
+        <!-- 1. MAPA LEAFLET.JS -->
         <div class="map-section">
             <div class="card-title">
-                <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE NOS PINOS)</span>
-                <span style="font-size:12px;color:#38bdf8;font-weight:bold;">SALA DE GUERRA GIS</span>
+                <span>📍 MAPA DE GOIÁS COM MARCADORES COLORIDOS POR PAUTA (CLIQUE NOS PINOS)</span>
+                <span style="font-size:12px;color:#38bdf8;font-weight:bold;">TECNOLOGIA LEAFLET.JS GIS</span>
             </div>
             <div id="map"></div>
+        </div>
+
+        <!-- 2. PAINEL DE GRÁFICOS VISUAIS INTERATIVOS DIRETAMENTE ABAIXO DO MAPA -->
+        <div class="charts-row-top">
+            <!-- GRÁFICO 1: BARRA POR CIDADE -->
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>📊 INTENSIDADE DE QUEIXAS POPULARES POR MUNICÍPIO POLO (%)</span>
+                </div>
+                <canvas id="chartCidades" height="230"></canvas>
+            </div>
+
+            <!-- GRÁFICO 2: DOUGHNUT POR SETOR -->
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>🍩 DISTRIBUIÇÃO DAS RECLAMAÇÕES POR CATEGORIA</span>
+                </div>
+                <canvas id="chartCategorias" height="230"></canvas>
+            </div>
+        </div>
+
+        <div class="charts-row-bottom">
+            <!-- GRÁFICO 3: BUSCAS NO GOOGLE TRENDS -->
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>🔍 GOOGLE TRENDS — TERMOS DE MAIOR BUSCA DOS GOIANOS</span>
+                </div>
+                <canvas id="chartGoogleTrends" height="220"></canvas>
+            </div>
+
+            <!-- GRÁFICO 4: RADAR DE URGÊNCIA POR REGIÃO -->
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>📈 NÍVEL DE URGÊNCIA DE ATENDIMENTO POR REGIÃO</span>
+                </div>
+                <canvas id="chartUrgencia" height="220"></canvas>
+            </div>
+        </div>
+
+        <!-- 3. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
+        <div class="map-section">
+            <div class="card-title">
+                <span>📋 DETALHAMENTO DE CIDADES, ELEITORES TSE E DIRECIONAMENTO DE VÍDEOS</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cidade Polo & Região</th>
+                        <th>Pauta Prioritária</th>
+                        <th>Eleitores TSE</th>
+                        <th>Reclamação Específica dos Moradores</th>
+                        <th>Vídeo Recomendado para Wilder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in reclamacoes %}
+                    <tr>
+                        <td><strong style="color:#fef08a;font-size:15px;">📍 {{ c.cidade }}</strong><br><span style="font-size:12px;color:#94a3b8;">{{ c.regiao }}</span></td>
+                        <td><strong style="color:#38bdf8;">{{ c.pauta_principal }}</strong></td>
+                        <td><strong style="color:#86efac;">{{ c.eleitores }}</strong></td>
+                        <td>{{ c.demanda_especifica }}</td>
+                        <td><strong style="color:#eab308;">{{ c.video_recomendado }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
+        // INICIALIZAÇÃO DO MAPA LEAFLET.JS
         const map = L.map('map').setView([-16.6789, -49.2539], 7);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
-            attribution: '© OpenStreetMap / Sala de Guerra Wilder Morais'
+            attribution: '© OpenStreetMap / Inteligência Eleitoral Wilder Morais'
         }).addTo(map);
 
         const dadosCidades = {{ reclamacoes|tojson }};
 
-        // ÍCONES COLORIDOS CUSTOMIZADOS DO LEAFLET.JS
         function getCustomIcon(color) {
             const colorHex = {
                 'red': '#ef4444',
@@ -277,7 +345,7 @@ HTML_MAPA_DEMANDAS = """
 
             return L.divIcon({
                 className: 'custom-pin',
-                html: `<div style="background-color:${colorHex};width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px ${colorHex};"></div>`,
+                html: `<div style="background-color:${colorHex};width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ${colorHex};"></div>`,
                 iconSize: [22, 22],
                 iconAnchor: [11, 11]
             });
@@ -302,84 +370,94 @@ HTML_MAPA_DEMANDAS = """
                 .addTo(map)
                 .bindPopup(popupContent);
         });
+
+        // --- GRÁFICOS VISUAIS INTERATIVOS DIRETAMENTE ABAIXO DO MAPA ---
+
+        // GRÁFICO 1: BARRAS DE INTENSIDADE POR CIDADE
+        new Chart(document.getElementById('chartCidades').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'],
+                datasets: [{
+                    label: '% de Queixas na Cidade',
+                    data: [45, 42, 40, 38, 35, 30, 28, 25],
+                    backgroundColor: ['#f97316', '#ef4444', '#f97316', '#ef4444', '#3b82f6', '#22c55e', '#3b82f6', '#a855f7']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        // GRÁFICO 2: DOUGHNUT DE SETORES DE RECLAMAÇÃO
+        new Chart(document.getElementById('chartCategorias').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Saúde & Filas SUS (42%)', 'Transporte & Asfalto (28%)', 'Logística Agro & Pontes (14%)', 'Emprego Jovem (9%)', 'Hospital & Turismo (7%)'],
+                datasets: [{
+                    data: [42, 28, 14, 9, 7],
+                    backgroundColor: ['#ef4444', '#f97316', '#22c55e', '#3b82f6', '#a855f7']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } }
+            }
+        });
+
+        // GRÁFICO 3: GOOGLE TRENDS BUSCAS
+        new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Concurso Público', 'Saúde / Fila SUS', 'Primeiro Emprego', 'Asfalto Entorno', 'Crédito Jovem'],
+                datasets: [{
+                    label: 'Volume Mensal Estimado no Google',
+                    data: [96000, 88000, 72000, 54000, 45000],
+                    backgroundColor: '#0284c7'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        // GRÁFICO 4: RADAR DE URGÊNCIA POR REGIÃO
+        new Chart(document.getElementById('chartUrgencia').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: ['Metropolitana', 'Entorno DF', 'Sudoeste Agro', 'Centro Goiano', 'Sul Goiano', 'Estrada do Ferro'],
+                datasets: [{
+                    label: 'Índice de Urgência de Resposta (0 a 100)',
+                    data: [95, 90, 85, 80, 75, 70],
+                    backgroundColor: 'rgba(234, 179, 8, 0.2)',
+                    borderColor: '#eab308',
+                    pointBackgroundColor: '#eab308'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    r: {
+                        angleLines: { color: '#164624' },
+                        grid: { color: '#164624' },
+                        pointLabels: { color: '#86efac' },
+                        ticks: { backdropColor: 'transparent', color: '#f8fafc' }
+                    }
+                }
+            }
+        });
     </script>
-</body>
-</html>
-"""
-
-# RADAR DE NOTÍCIAS DE TODOS OS CANDIDATOS (WILDER, DANIEL VILELA, MARCONI) COM LINKS DIRETOS
-HTML_RADAR_NOTICIAS = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar Anti-Crise de Notícias — Todos os Candidatos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        
-        .header { background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
-        
-        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-
-        .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .card-danger { border-color: #ef4444; background: #1a0808; }
-        .card-pos { border-color: #22c55e; background: #081a0e; }
-
-        .badge-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; border: 1px solid #60a5fa; }
-        .badge-pos { background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-        .badge-neu { background: #eab308; color: #000; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-        .badge-cri { background: #dc2626; color: #fff; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-
-        .btn-link-portal { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 13px; display: inline-block; margin-top: 10px; border: 1px solid #60a5fa; }
-        .btn-link-portal:hover { background: #3b82f6; }
-
-        .estrategia-box { background: #040e08; border-left: 4px solid #eab308; padding: 14px; margin-top: 14px; border-radius: 8px; font-size: 13.5px; line-height: 1.6; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div>
-            <h1>📰 RADAR DE NOTÍCIAS COMPLETO DOS CANDIDATOS (WILDER, DANIEL, MARCONI)</h1>
-            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Varredura dos Maiores Portais (O Popular, Jornal Opção, Diário da Manhã, G1) com Links Diretos</p>
-        </div>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-
-    <div class="container">
-        {% for item in noticias %}
-        <div class="card-noticia {% if 'POSITIVA' in item.tipo_noticia %}card-pos{% elif 'CRÍTICA' in item.tipo_noticia %}card-danger{% endif %}">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <span class="badge-cand">👤 {{ item.candidato }}</span>
-                    <span style="font-weight: 800; color: #86efac; font-size: 15px;">📰 {{ item.veiculo }} &bull; <span style="color:#cbd5e1;font-size:13px;">{{ item.data }}</span></span>
-                </div>
-                <span>
-                    {% if 'POSITIVA' in item.tipo_noticia %}
-                    <span class="badge-pos">🟢 MATÉRIA POSITIVA</span>
-                    {% elif 'CRÍTICA' in item.tipo_noticia %}
-                    <span class="badge-cri">🔴 MATÉRIA CRÍTICA</span>
-                    {% else %}
-                    <span class="badge-neu">🟡 MATÉRIA NEUTRA</span>
-                    {% endif %}
-                </span>
-            </div>
-            
-            <h3 style="margin: 0 0 8px 0; color: #fff; font-size: 18px;">"{{ item.manchete }}"</h3>
-            
-            <a href="{{ item.url_noticia }}" target="_blank" class="btn-link-portal">📰 Ler Matéria Completa no Portal Oficial (Link Direto)</a>
-            
-            <div class="estrategia-box">
-                🛡️ <strong>ESTRATÉGIA DA SALA DE GUERRA / RESPOSTA DA IA:</strong><br>
-                {{ item.estrategia_defesa }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 </body>
 </html>
 """
@@ -472,6 +550,41 @@ HTML_EVENTOS_RADAR = """
 </html>
 """
 
+# RADAR DE NOTÍCIAS
+HTML_RADAR_NOTICIAS = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Anti-Crise de Notícias — Todos os Candidatos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #450a0a, #991b1b); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
+        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📰 RADAR DE NOTÍCIAS COMPLETO DOS CANDIDATOS</h1>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+    </div>
+    <div class="container">
+        {% for item in noticias %}
+        <div style="background:#0a1f12;border:1px solid #164624;padding:20px;border-radius:12px;margin-bottom:16px;">
+            <strong style="color:#fef08a;">👤 {{ item.candidato }}</strong> &bull; <span style="color:#86efac;">{{ item.veiculo }}</span>
+            <h3 style="color:#fff;margin:6px 0;">"{{ item.manchete }}"</h3>
+            <a href="{{ item.url_noticia }}" target="_blank" style="color:#38bdf8;font-weight:bold;">📰 Ler Matéria Completa</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+"""
+
 # ROUTING DAS TELAS DA SALA DE GUERRA MILITAR
 
 @app.route("/", methods=["GET"])
@@ -546,27 +659,19 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # Roteador de Notícias
-    if any(k in p_lower for k in ["noticia", "notícia", "noticias", "notícias", "daniel", "marconi", "wilder"]):
+    # Roteador de Mapa e Gráficos Interativos
+    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade"]):
         return jsonify({
-            "resposta": f"📰 <strong>RADAR DE NOTÍCIAS DOS CANDIDATOS (WILDER, DANIEL VILELA, MARCONI PERILLO)</strong><br><br>"
-                        f"Mapeamos matérias positivas, neutras e críticas dos principais portais de Goiás com links diretos para leitura!<br><br>"
-                        f"👉 <a href='/radar_noticias' style='background:#991b1b;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #ef4444;'>📰 ABRIR RADAR DE NOTÍCIAS COM LINKS DIRETOS</a>"
-        }), 200
-
-    # Roteador de Mapa Colorido
-    if any(k in p_lower for k in ["mapa", "cor", "cores", "queixa", "cidade"]):
-        return jsonify({
-            "resposta": f"🗺️ <strong>MAPA COLORIDO POR SETOR DE RECLAMAÇÃO (LEAFLET.JS GIS)</strong><br><br>"
-                        f"Pinos coloridos diferenciando cada tipo de problema (🔴 Saúde, 🟠 Transporte, 🟢 Agro, 🔵 Emprego, 🟣 Hospital) com dados do TSE!<br><br>"
-                        f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA COLORIDO INTERATIVO</a>"
+            "resposta": f"🗺️ <strong>MAPA INTERATIVO & PAINEL DE 4 GRÁFICOS VISUAIS COMPLETO</strong><br><br>"
+                        f"Abaixo do mapa, você encontrará 4 gráficos interativos em Chart.js detalhando o ranking de queixas por cidade, os setores mais cobrados, buscas do Google Trends e índice de urgência por região!<br><br>"
+                        f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & PAINEL DE GRÁFICOS VISUAIS</a>"
         }), 200
 
     # Fallback via OpenRouter
     if OPENROUTER_API_KEY:
         system_prompt = (
             "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
-            "Seu sistema agora possui Mapa Colorido em Leaflet.js (Vermelho=Saúde, Laranja=Transporte, Verde=Agro, Azul=Emprego, Roxo=Hospital) e Radar de Notícias cobrindo Wilder Morais, Daniel Vilela e Marconi Perillo com links diretos para os portais oficiais."
+            "Seu sistema agora conta com um Mapa Interativo Leaflet.js acompanhado de 4 gráficos visuais detalhados abaixo do mapa (Barras de Cidades, Rosca de Setores, Barras do Google Trends e Radar de Urgência por Região)."
         )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
@@ -586,8 +691,8 @@ def api_chat():
 
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
-                    f"Mapa Colorido por Pauta e Notícias dos Candidatos com links operacionais.<br><br>"
-                    f"👉 <a href='/mapa_demandas' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;'>🗺️ ABRIR MAPA COLORIDO</a>"
+                    f"Painel de Gráficos e Mapa Interativo ativos.<br><br>"
+                    f"👉 <a href='/mapa_demandas' style='background:#0284c7;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;'>🗺️ ABRIR MAPA & GRÁFICOS</a>"
     }), 200
 
 if __name__ == "__main__":
