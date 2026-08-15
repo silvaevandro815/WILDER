@@ -5,7 +5,7 @@ import re
 import requests
 import urllib3
 import httpx
-from flask import Flask, request, jsonify, render_template_string, send_file
+from flask import Flask, request, jsonify, render_template_string, send_file, send_from_directory
 from dotenv import load_dotenv
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -50,17 +50,19 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
-# BLINDAGEM DO CLIENTE: DESABILITA CLIQUE DIREITO, F12, CTRL+U, CTRL+SHIFT+I PARA EVITAR CÓPIA
+# ROTA DEDICADA PARA SERVIR A FOTO 3D DE PERFIL DO WILDER
+@app.route("/wilder_3d.jpg")
+@app.route("/static/wilder_3d.jpg")
+def serve_wilder_avatar():
+    static_dir = os.path.join(os.path.dirname(__file__), "static")
+    return send_from_directory(static_dir, "wilder_3d.jpg")
+
+# BLINDAGEM DO CLIENTE: DESABILITA CLIQUE DIREITO, F12, CTRL+U
 HTML_PROTECTION_SCRIPT = """
 <script>
-    // DESABILITA BOTÃO DIREITO DO MOUSE
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
-
-    // DESABILITA ATALHOS DE TECLADO PARA INSPECIONAR CÓDIGO (F12, CTRL+U, CTRL+SHIFT+I/J/C)
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     document.addEventListener('keydown', function(e) {
         if (
             e.keyCode === 123 || 
@@ -74,7 +76,7 @@ HTML_PROTECTION_SCRIPT = """
 </script>
 """
 
-# COMPONENTE DE TOAST POPUP DE ALERTA DE PESQUISA
+# COMPONENTE DE TOAST POPUP COM O AVATAR 3D DO WILDER
 HTML_ALERT_SYSTEM_SCRIPT = """
 <style>
     @keyframes pulseAlert {
@@ -88,42 +90,50 @@ HTML_ALERT_SYSTEM_SCRIPT = """
         top: 20px;
         right: 20px;
         z-index: 99999;
-        max-width: 420px;
-        width: 90%;
+        max-width: 440px;
+        width: 92%;
         background: linear-gradient(135deg, #0b2214, #15803d);
         border: 2px solid #eab308;
-        border-radius: 14px;
-        padding: 18px 20px;
+        border-radius: 16px;
+        padding: 16px 20px;
         color: #ffffff;
         box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         animation: pulseAlert 2s infinite;
         display: block;
-        transition: all 0.3s ease;
     }
 
-    .toast-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .toast-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .toast-badge { background: #eab308; color: #040e08; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
     .toast-close { background: transparent; border: none; color: #fef08a; font-size: 20px; font-weight: bold; cursor: pointer; }
-    .toast-title { font-size: 15.5px; font-weight: 800; color: #fef08a; margin: 0 0 6px 0; }
-    .toast-body { font-size: 13px; color: #e2e8f0; line-height: 1.5; margin-bottom: 12px; }
-    .toast-btn { background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 800; text-decoration: none; display: inline-block; }
+    
+    .toast-content-wrapper { display: flex; gap: 14px; align-items: center; }
+    .toast-avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; box-shadow: 0 4px 12px rgba(234,179,8,0.5); }
+    
+    .toast-title { font-size: 15px; font-weight: 800; color: #fef08a; margin: 0 0 4px 0; }
+    .toast-body { font-size: 12.5px; color: #e2e8f0; line-height: 1.4; margin-bottom: 8px; }
+    .toast-btn { background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none; display: inline-block; }
     .toast-btn:hover { background: #16a34a; color: #fff; border-color: #eab308; }
 </style>
 
 <div id="toastAlert" class="toast-alert-container">
     <div class="toast-header">
-        <span class="toast-badge">🚨 PESQUISA ELEITORAL CONFIRMADA</span>
+        <span class="toast-badge">🚀 ALERTA DE PESQUISA ELEITORAL</span>
         <button class="toast-close" onclick="document.getElementById('toastAlert').style.display='none';">✕</button>
     </div>
-    <div class="toast-title">🚀 WILDER MORAIS SALTA PARA 22% NAS PESQUISAS!</div>
-    <div class="toast-body">
-        O Instituto Goiás Pesquisas confirma: <strong>Wilder atinge 22,0% dos votos válidos</strong>, ultrapassa Marconi Perillo e avança consolidado para o 2º Turno em Goiás!
+    <div class="toast-content-wrapper">
+        <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="toast-avatar">
+        <div>
+            <div class="toast-title">WILDER SALTA PARA 22% NOS VOTOS VÁLIDOS!</div>
+            <div class="toast-body">
+                Instituto Goiás Pesquisas confirma: <strong>Wilder atinge 22,0%</strong> e vai para o 2º Turno em Goiás!
+            </div>
+            <a href="/radar_noticias" class="toast-btn">📊 Ver no Radar</a>
+        </div>
     </div>
-    <a href="/radar_noticias" class="toast-btn">📊 Ver Detalhes no Radar de Notícias</a>
 </div>
 """ + HTML_PROTECTION_SCRIPT
 
-# INTERFACE MILITAR PENTÁGONO VERDE E AMARELO (SALA DE GUERRA)
+# INTERFACE MILITAR PENTÁGONO VERDE E AMARELO COM FOTO 3D DE PERFIL
 HTML_CHAT_WIDGET = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -136,9 +146,9 @@ HTML_CHAT_WIDGET = """
         * { box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #040e08; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        .header { background: linear-gradient(135deg, #0b2214, #15803d, #16a34a); padding: 14px 28px; border-bottom: 3px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 6px 25px rgba(22,163,74,0.4); }
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #16a34a); padding: 12px 28px; border-bottom: 3px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 6px 25px rgba(22,163,74,0.4); }
         .brand { display: flex; align-items: center; gap: 14px; }
-        .brand-logo { background: linear-gradient(135deg, #eab308, #f59e0b); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: #040e08; box-shadow: 0 4px 15px rgba(234,179,8,0.6); }
+        .brand-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; box-shadow: 0 4px 15px rgba(234,179,8,0.6); }
         .brand-text h1 { margin: 0; font-size: 19px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.4); letter-spacing: 0.5px; }
         .brand-text p { margin: 2px 0 0 0; font-size: 12px; color: #fef08a; font-weight: 700; }
         
@@ -151,9 +161,11 @@ HTML_CHAT_WIDGET = """
         .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
         
         .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }
+        .msg-row { display: flex; gap: 12px; align-items: flex-start; width: 100%; }
+        .msg-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .msg { max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
-        .user { background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 14px rgba(22,163,74,0.3); border: 1px solid #22c55e; }
-        .bot { background: #0a1f12; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+        .user { background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; border: 1px solid #22c55e; }
+        .bot { background: #0a1f12; color: #e2e8f0; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
         .bot strong { color: #86efac; }
 
         .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
@@ -172,10 +184,10 @@ HTML_CHAT_WIDGET = """
     """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
         <div class="brand">
-            <div class="brand-logo">⚔️</div>
+            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Inteligência Estratégica & IA Especialista em Campanha</p>
+                <p>● Perfil Oficial & Inteligência Estratégica da Campanha</p>
             </div>
         </div>
         <div class="nav-links">
@@ -188,22 +200,24 @@ HTML_CHAT_WIDGET = """
     </div>
 
     <div class="chat-box" id="chat">
-        <div class="msg bot">
-            <strong>🔰 IA DE CAMPANHA SUPER-ATUALIZADA E PRONTA PARA RESPONDER QUALQUER PERGUNTA!</strong><br><br>
-            Você pode perguntar <strong>QUALQUER COISA</strong> sobre a campanha: propostas do Plano de Governo, estratégias para discursos, redação de posts e roteiros de vídeos, dados de pesquisas, contra-narrativas a ataques, notícias de jornais e tráfego pago nos eventos!<br><br>
-            <strong>Sugestões de perguntas para testar a IA:</strong>
-            <div class="quick-actions">
-                <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30 segundos sobre o programa Primeiro Salário para os jovens de Anápolis')">🎬 Roteiro de Reels 30s</span>
-                <span class="chip" onclick="perguntarRapido('Qual é a estratégia para combater as críticas sobre a saúde na Grande Goiânia?')">🛡️ Defesa de Saúde Pública</span>
-                <span class="chip" onclick="perguntarRapido('Escreva um discurso curto do Wilder Morais em um evento do Agro em Rio Verde')">🎤 Discurso Wilder em Rio Verde</span>
-                <span class="chip" onclick="perguntarRapido('Quais são os 3 pilares principais do Plano de Governo Goiás Para Quem Faz?')">📘 Pilares do Plano de Governo</span>
+        <div class="msg-row">
+            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="msg-avatar">
+            <div class="msg bot">
+                <strong>🔰 FOTO 3D DE PERFIL DO WILDER MORAIS INTEGRADA EM TODO O SISTEMA!</strong><br><br>
+                Personalizamos a interface com o avatar 3D do Wilder Morais nos cabeçalhos, respostas da IA, notificações e relatórios do sistema!<br><br>
+                <strong>Faça uma consulta ou escolha um atalho:</strong>
+                <div class="quick-actions">
+                    <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30s sobre o programa Primeiro Salário')">🎬 Roteiro de Reels 30s</span>
+                    <span class="chip" onclick="perguntarRapido('Quais são os dados da última pesquisa do Instituto Goiás Pesquisas?')">📊 Dados da Pesquisa 22%</span>
+                    <span class="chip" onclick="perguntarRapido('Escreva um discurso curto de Wilder em Rio Verde')">🎤 Discurso Wilder Morais</span>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Faça qualquer pergunta sobre a campanha, discursos, posts, pesquisas ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Consulte a IA de campanha sobre discursos, posts, pesquisas ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
@@ -220,14 +234,21 @@ HTML_CHAT_WIDGET = """
             const pergunta = input.value.trim();
             if (!pergunta) return;
 
-            chat.innerHTML += `<div class="msg user">${pergunta}</div>`;
+            chat.innerHTML += `
+                <div class="msg-row" style="justify-content:flex-end;">
+                    <div class="msg user">${pergunta}</div>
+                </div>
+            `;
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
 
-            const botMsg = document.createElement('div');
-            botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA IA] Analisando banco de dados da campanha e gerando resposta...</strong>';
-            chat.appendChild(botMsg);
+            const botRow = document.createElement('div');
+            botRow.className = 'msg-row';
+            botRow.innerHTML = `
+                <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="msg-avatar">
+                <div class="msg bot"><strong>[SALA DE GUERRA IA] Analisando banco de dados e gerando resposta...</strong></div>
+            `;
+            chat.appendChild(botRow);
             chat.scrollTop = chat.scrollHeight;
 
             try {
@@ -237,9 +258,9 @@ HTML_CHAT_WIDGET = """
                     body: JSON.stringify({ pergunta })
                 });
                 const data = await res.json();
-                botMsg.innerHTML = data.resposta;
+                botRow.querySelector('.msg.bot').innerHTML = data.resposta;
             } catch (err) {
-                botMsg.innerHTML = '<strong>Erro de comunicação com a IA da Sala de Guerra.</strong>';
+                botRow.querySelector('.msg.bot').innerHTML = '<strong>Erro de comunicação com a IA da Sala de Guerra.</strong>';
             }
             chat.scrollTop = chat.scrollHeight;
         }
@@ -248,7 +269,68 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# TELAS DEDICADAS DO PROJETO COM PROTEÇÃO ANTI-CÓPIA APLICADA
+# DASHBOARD EXECUTIVO COM AVATAR 3D DO WILDER NO HEADER
+HTML_DASHBOARD_METABASE = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Executivo — YouTube Real & Eleitorado TSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .brand-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+    </style>
+</head>
+<body>
+    """ + HTML_ALERT_SYSTEM_SCRIPT + """
+    <div class="header">
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Painel de Monitoramento Oficial de Vídeos de Wilder Morais e Concorrentes</p>
+            </div>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+    </div>
+    <div class="container">
+        <div style="background:#0a1f12;padding:20px;border-radius:14px;border:1px solid #164624;">
+            <h3 style="color:#86efac;">🎬 VÍDEOS INDIVIDUAIS DO YOUTUBE</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Título do Vídeo</th>
+                        <th>Visualizações</th>
+                        <th>Link Direto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in yt_videos %}
+                    <tr>
+                        <td><strong style="color:#fef08a;">{{ v.candidato }}</strong></td>
+                        <td>{{ v.titulo }}</td>
+                        <td><span style="color:#4ade80;">{{ v.views }}</span></td>
+                        <td><a href="{{ v.url }}" target="_blank" style="color:#38bdf8;font-weight:bold;">🎬 Assistir Vídeo no YouTube</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+# RADAR DE NOTÍCIAS COM AVATAR 3D DO WILDER
 HTML_RADAR_NOTICIAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -258,24 +340,25 @@ HTML_RADAR_NOTICIAS = """
     <title>Radar Anti-Crise de Notícias — Sala de Guerra</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .header { background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .brand-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; }
         .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
         .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-        .card-pesquisa { background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(234,179,8,0.4); }
+        .card-pesquisa { background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; }
         .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; }
-        .badge-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-        .badge-pos { background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-        .btn-gnews { background: #2563eb; color: #fff; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 12.5px; }
-        .btn-portal { background: #15803d; color: #fef08a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 12.5px; }
     </style>
 </head>
 <body>
     """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
-        <h1>📰 RADAR DE NOTÍCIAS & PESQUISAS ELEITORAIS</h1>
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">📰 RADAR DE NOTÍCIAS & PESQUISAS ELEITORAIS</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Alertas Automáticos de Levantamentos e Notícias com Links Auditáveis</p>
+            </div>
+        </div>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
 
@@ -287,14 +370,10 @@ HTML_RADAR_NOTICIAS = """
 
         {% for item in noticias %}
         <div class="card-noticia">
-            <span class="badge-cand">{{ item.candidato }}</span> &bull; <strong style="color:#86efac;">{{ item.veiculo }}</strong>
+            <strong style="color:#86efac;">{{ item.candidato }} &bull; {{ item.veiculo }}</strong>
             <h3 style="color:#fff;margin:8px 0;">"{{ item.manchete }}"</h3>
             <div style="margin-top:10px;display:flex;gap:10px;">
-                <a href="{{ item.url_google_news }}" target="_blank" class="btn-gnews">🔍 Auditar no Google News</a>
-                <a href="{{ item.url_portal }}" target="_blank" class="btn-portal">📰 Portal de Notícias</a>
-            </div>
-            <div style="background:#040e08;padding:12px;border-radius:6px;border-left:4px solid #eab308;margin-top:12px;font-size:13.5px;">
-                🛡️ <strong>Estratégia da IA:</strong> {{ item.estrategia_defesa }}
+                <a href="{{ item.url_google_news }}" target="_blank" style="color:#38bdf8;font-weight:bold;">🔍 Auditar no Google News</a>
             </div>
         </div>
         {% endfor %}
@@ -303,6 +382,7 @@ HTML_RADAR_NOTICIAS = """
 </html>
 """
 
+# MAPA TÁTICO INTERATIVO COM AVATAR 3D DO WILDER
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -315,8 +395,8 @@ HTML_MAPA_DEMANDAS = """
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #0b2214, #0284c7); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+        .header { background: linear-gradient(135deg, #0b2214, #0284c7); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .brand-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; }
         .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
         .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
         #map { width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
@@ -325,7 +405,13 @@ HTML_MAPA_DEMANDAS = """
 <body>
     """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
-        <h1>🗺️ MAPA TÁTICO COLORIDO POR PAUTA & QUEIXAS</h1>
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">🗺️ MAPA TÁTICO COLORIDO & QUEIXAS POPULARES</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Geolocalização de Demandas e Pautas por Município Polo de Goiás</p>
+            </div>
+        </div>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
     <div class="container">
@@ -339,35 +425,6 @@ HTML_MAPA_DEMANDAS = """
         const dados = {{ reclamacoes|tojson }};
         dados.forEach(c => { L.marker([c.lat, c.lon]).addTo(map).bindPopup(`<b>${c.cidade}</b><br>${c.pauta_principal}`); });
     </script>
-</body>
-</html>
-"""
-
-HTML_DASHBOARD_METABASE = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Executivo — YouTube Real</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #0b2214, #15803d); padding: 18px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
-        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-    </style>
-</head>
-<body>
-    """ + HTML_ALERT_SYSTEM_SCRIPT + """
-    <div class="header">
-        <h1>📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</h1>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-    <div class="container">
-        <p style="color:#86efac;">Vídeos Reais do YouTube.</p>
-    </div>
 </body>
 </html>
 """
@@ -438,7 +495,7 @@ def relatorio_pdf_download():
         print(f"[ERRO DOWNLOAD PDF] Falha ao gerar buffer: {e}")
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
-# SUPER UPGRADE NA INTELIGÊNCIA DA IA DE CAMPANHA
+# API DO CHAT DE IA COM SUPORTE AO PERFIL 3D DO WILDER
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     data = request.json or {}
@@ -446,30 +503,13 @@ def api_chat():
     if not pergunta:
         return jsonify({"resposta": "Por favor, digite uma pergunta."}), 400
 
-    # PROMPT DE SISTEMA COM CONHECIMENTO COMPLETO E PODER DE REDAÇÃO DE CONTEÚDO
     system_prompt = f"""
 Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
 
-VOCÊ TEM ACESSO COMPLETO A TODOS OS DADOS DA CAMPANHA:
-1. PESQUISA ELEITORAL OFICIAL (Instituto Goiás Pesquisas - 14/08/2026):
-   - Wilder Morais salta para 22,0% dos Votos Válidos!
-   - Daniel Vilela (MDB): 43,5%
-   - Marconi Perillo (PSDB): 21,9% (Wilder ultrapassa Marconi e vai para o 2º Turno!).
-2. PLANO DE GOVERNO 'GOIÁS PARA QUEM FAZ':
-   - Pilar 1: Família Protegida (Saúde Fila Visível digital, creches, segurança inteligente).
-   - Pilar 2: Desenvolvimento Que Fica (Ponte & Asfalto Agro, logística, infraestrutura).
-   - Pilar 3: Prosperidade Que Chega em Casa (Programa Primeiro Salário para jovens 18-29 anos, Primeira Renda & crédito sem juros, HUB de Inovação).
-3. MATRIZ EDITORIAL E DE DISCURSOS:
-   - Tom de voz de Wilder: Engenheiro gestor, empático, tom humano, direto, simples, focado em resolver problemas sem picuinha política.
-4. RADAR DE EVENTOS & GEOTARGETING:
-   - 150 eventos mapeados em Goiás com raio de 1km a 3km no Meta Ads.
-5. BANCO DE NOTÍCIAS & ANTI-CRISE:
-   - Respostas prontas para defender emendas de saúde, infraestrutura e propostas.
-
-SUAS CAPACIDADES:
-- Você responde a QUALQUER pergunta sobre a campanha, discursos, estratégias, notícias, pesquisas e propostas.
-- Se o usuário pedir para redigir um post, Reels, TikTok, discurso, nota à imprensa ou roteiro, ESCREVA O TEXTO COMPLETO com gancho inicial de 3s, texto principal e Call to Action (CTA)!
-- Responda sempre formatado em HTML simples e elegante (use <strong>, <br>, <ul>, <li>).
+CONHECIMENTO COMPLETO DA CAMPANHA:
+1. PESQUISA OFICIAL (Instituto Goiás Pesquisas - 14/08/2026): Wilder salta para 22,0% dos Votos Válidos, ultrapassando Marconi Perillo (21,9%) e indo ao 2º Turno contra Daniel Vilela (43,5%).
+2. PLANO DE GOVERNO 'GOIÁS PARA QUEM FAZ': Família Protegida, Desenvolvimento Que Fica, Prosperidade Que Chega em Casa (Primeiro Salário, Primeira Renda & Crédito Sem Juros, HUB de Inovação).
+3. REDAÇÃO E CONTEÚDO: Você redige posts, roteiros de Reels/TikTok de 30s/60s com gancho de 3s, discursos do Wilder e respostas a ataques.
 """
 
     if OPENROUTER_API_KEY:
@@ -490,18 +530,14 @@ SUAS CAPACIDADES:
             print(f"[ERRO CHAT OPENROUTER]: {e}")
             pass
 
-    # RESPOSTA DE FALLBACK INTELIGENTE CASO NÃO HAJA CHAVE DE API
     p_lower = pergunta.lower()
     if any(k in p_lower for k in ["pesquisa", "22", "voto", "vilela", "marconi"]):
         resp = f"🚀 <strong>PESQUISA ELEITORAL CONFIRMADA (INSTITUTO GOIÁS PESQUISAS - 14/08/2026)</strong><br><br>" \
                f"Wilder Morais salta para <strong>22,0% dos Votos Válidos</strong>, ultrapassando Marconi Perillo (21,9%) e garantindo vaga isolada na disputa de 2º Turno contra Daniel Vilela (43,5%)!"
-    elif any(k in p_lower for k in ["plano", "proposta", "primeiro salário", "jovem"]):
-        resp = f"📘 <strong>PROGRAMA PRIMEIRO SALÁRIO & PLANO GOIÁS PARA QUEM FAZ</strong><br><br>" \
-               f"O Governo de Wilder Morais vai assumir parte do custo salarial inicial dos jovens de 18 a 29 anos nas empresas e indústrias de Goiás, eliminando a exigência de experiência prévia!"
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
                f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% calibrado com os dados da pesquisa de 22%, o Plano de Governo e o Radar de Eventos de Goiás!"
+               f"O sistema está 100% calibrado com os dados da pesquisa de 22%, o Plano de Governo e a nova identidade visual!"
 
     return jsonify({"resposta": resp}), 200
 
