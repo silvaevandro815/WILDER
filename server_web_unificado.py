@@ -464,82 +464,73 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <script>
-        // REGRA DE OURO 3: Garantir ciclo de vida com DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function() {
-            // --- MAPA DE DEMANDAS ---
-            try {
-                var mapEl = document.getElementById('map');
-                if (mapEl && typeof L !== 'undefined') {
-                    
-                    var map = L.map('map', { zoomControl: true, scrollWheelZoom: true })
-                                .setView([-16.6789, -49.2539], 7);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 18,
-                        subdomains: ['a','b','c'],
-                        attribution: '© OpenStreetMap contributors'
+            // ── MAPA DE DEMANDAS ────────────────────────────────────────────────
+            var mapEl = document.getElementById('map');
+            if (!mapEl) { console.error('DIV #map nao encontrada'); return; }
+            if (typeof L === 'undefined') { console.error('Leaflet nao carregou'); return; }
+
+            var map = L.map('map', { zoomControl: true, scrollWheelZoom: true }).setView([-16.6789, -49.2539], 7);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                subdomains: ['a','b','c'],
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+            }).addTo(map);
+
+            var dadosCidades = {{ reclamacoes|tojson }};
+            var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
+
+            // Carrega GeoJSON simplificado via fetch (arquivo local /static/goias_min.geojson)
+            fetch('/static/goias_min.geojson')
+                .then(function(r) {
+                    if (!r.ok) throw new Error('GeoJSON status ' + r.status);
+                    return r.json();
+                })
+                .then(function(geo) {
+                    L.geoJSON(geo, {
+                        style: function(f) {
+                            var nome = (f.properties.name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                            var corFill = '#1e293b', opac = 0.15, w = 0.5;
+                            dadosCidades.forEach(function(c) {
+                                var cNome = (c.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                                if (nome === cNome) { corFill = colorMap[c.cor] || '#10b981'; opac = 0.6; w = 2; }
+                            });
+                            return { fillColor: corFill, weight: w, opacity: 1, color: '#475569', fillOpacity: opac };
+                        },
+                        onEachFeature: function(f, layer) {
+                            var nome = f.properties.name || '';
+                            dadosCidades.forEach(function(c) {
+                                var cNome = (c.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                                var fNome = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                                if (fNome === cNome) {
+                                    layer.bindPopup('<div style="font-family:sans-serif;min-width:180px"><b style="color:#f59e0b">📍 ' + c.cidade + '</b><br><span style="color:#38bdf8">' + c.pauta_principal + '</span><br><small style="color:#10b981"><b>Eleitores: ' + c.eleitores + '</b></small><br><small style="color:#94a3b8">' + c.demanda_especifica + '</small></div>');
+                                }
+                            });
+                        }
                     }).addTo(map);
+                    setTimeout(function() { map.invalidateSize(true); }, 300);
+                })
+                .catch(function(e) { console.error('Erro GeoJSON demandas:', e); });
 
-                    var dadosCidades = {{ reclamacoes|tojson }};
-                    var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
+            // Pins animados sobre o mapa
+            dadosCidades.forEach(function(c) {
+                if (!c.lat || !c.lon) return;
+                var cor = colorMap[c.cor] || '#10b981';
+                var icon = L.divIcon({
+                    className: '',
+                    html: '<div style="width:16px;height:16px;border-radius:50%;background:' + cor + ';border:2px solid #fff;box-shadow:0 0 8px ' + cor + ';"></div>',
+                    iconSize: [16, 16], iconAnchor: [8, 8]
+                });
+                var popup = '<div style="font-family:sans-serif;min-width:180px"><b style="color:#f59e0b">📍 ' + c.cidade + '</b><br><span style="color:#38bdf8">' + c.pauta_principal + '</span><br><b style="color:#10b981">Eleitores: ' + c.eleitores + '</b></div>';
+                L.marker([c.lat, c.lon], { icon: icon }).addTo(map).bindPopup(popup);
+            });
 
-                    var geo = {{ goias_geojson|tojson }};
-                    if (typeof geo === 'string' && geo !== "null") {
-                        try { geo = JSON.parse(geo); } catch(e){}
-                    }
-                    if (geo && geo.features) {
-                        L.geoJSON(geo, {
-                            style: function(f) {
-                                var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                                var corFill = '#1e293b';
-                                var opac = 0.2;
-                                var w = 1;
-                                dadosCidades.forEach(function(c) {
-                                    var cNome = c.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                                    if (nome === cNome || (nome === 'aparecida de goiania' && cNome === 'aparecida de goiania')) {
-                                        corFill = colorMap[c.cor] || '#10b981';
-                                        opac = 0.65;
-                                        w = 2;
-                                    }
-                                });
-                                return { fillColor: corFill, weight: w, opacity: 1, color: '#334155', fillOpacity: opac };
-                            }
-                        }).addTo(map);
-                    }
+            setTimeout(function() { map.invalidateSize(true); }, 200);
+            setTimeout(function() { map.invalidateSize(true); }, 1000);
 
-                    // REGRA DE OURO 4: O truque de recalcular o tamanho após inicialização
-                    [200, 600, 1400, 2500].forEach(function(ms) {
-                        setTimeout(function() { map.invalidateSize(true); }, ms);
-                    });
-
-                    var svgCont = document.getElementById('svgGoiasContainer');
-                    if (svgCont) svgCont.style.display = 'none';
-
-                    dadosCidades.forEach(function(c) {
-                        var cor = colorMap[c.cor] || '#10b981';
-                        var icon = L.divIcon({
-                            className: 'custom-pin',
-                            html: '<div style="position:relative;"><div style="width:20px;height:20px;border-radius:50%;background:' + cor + ';border:2px solid #fff;box-shadow:0 0 12px ' + cor + ';"></div><div style="position:absolute;top:0;left:0;width:20px;height:20px;border-radius:50%;background:' + cor + ';opacity:0.4;animation:pingMap 1.8s cubic-bezier(0,0,0.2,1) infinite;"></div></div>',
-                            iconSize: [20, 20],
-                            iconAnchor: [10, 10]
-                        });
-
-                        var popup = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:200px;">'
-                            + '<h4 style="margin:0 0 6px 0;color:#f59e0b;font-size:14px;">📍 ' + c.cidade + '</h4>'
-                            + '<p style="margin:2px 0;font-size:12px;color:#38bdf8;">' + c.pauta_principal + '</p>'
-                            + '<p style="margin:2px 0;font-size:11.5px;color:#10b981;"><strong>Eleitores: ' + c.eleitores + '</strong></p>'
-                            + '<p style="margin:4px 0 0 0;font-size:11px;color:#94a3b8;font-style:italic;">' + c.demanda_especifica + '</p>'
-                            + '</div>';
-
-                        L.marker([c.lat, c.lon], { icon: icon }).addTo(map).bindPopup(popup);
-                    });
-                }
-            } catch(err) {
-                console.warn('[Mapa Demandas]', err);
-                // SVG já está visível como fallback
-            }
-
-            // ─── GRÁFICOS CHART.JS COM ANIMAÇÕES E GRADIENTES ──────────────────
+            // ── GRÁFICOS CHART.JS ───────────────────────────────────────────────
             try {
                 if (typeof Chart !== 'undefined') {
                     Chart.defaults.color = '#94a3b8';
@@ -876,70 +867,60 @@ HTML_RADAR_EVENTOS = """
     </div>
 
     <script>
-        // REGRA DE OURO 3: Garantir ciclo de vida com DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function() {
-            // ─── MAPA DE EVENTOS COM OSM VALIDADO ──────────────────────────────
-            try {
-                var mapEvEl = document.getElementById('mapEventos');
-                if (mapEvEl && typeof L !== 'undefined') {
 
-                    var mapEv = L.map('mapEventos', { zoomControl: true })
-                                  .setView([-16.6789, -49.2539], 7);
+            // ── MAPA DE EVENTOS ─────────────────────────────────────────────────
+            var mapEvEl = document.getElementById('mapEventos');
+            if (!mapEvEl) { console.error('DIV #mapEventos nao encontrada'); return; }
+            if (typeof L === 'undefined') { console.error('Leaflet nao carregou'); return; }
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 18,
-                        subdomains: ['a','b','c'],
-                        attribution: '© OpenStreetMap contributors'
+            var mapEv = L.map('mapEventos', { zoomControl: true }).setView([-16.6789, -49.2539], 7);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                subdomains: ['a','b','c'],
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+            }).addTo(mapEv);
+
+            var dadosEventos = {{ eventos|tojson }};
+
+            // Carrega GeoJSON simplificado via fetch
+            fetch('/static/goias_min.geojson')
+                .then(function(r) {
+                    if (!r.ok) throw new Error('GeoJSON status ' + r.status);
+                    return r.json();
+                })
+                .then(function(geo) {
+                    L.geoJSON(geo, {
+                        style: function(f) {
+                            var nome = (f.properties.name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                            var hasEvent = dadosEventos.some(function(e) {
+                                return (e.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === nome;
+                            });
+                            return {
+                                fillColor: hasEvent ? '#8b5cf6' : '#1e293b',
+                                weight: hasEvent ? 2 : 0.5,
+                                opacity: 1,
+                                color: '#475569',
+                                fillOpacity: hasEvent ? 0.45 : 0.15
+                            };
+                        }
                     }).addTo(mapEv);
+                    setTimeout(function() { mapEv.invalidateSize(true); }, 300);
+                })
+                .catch(function(e) { console.error('Erro GeoJSON eventos:', e); });
 
-                    var dadosEventos = {{ eventos|tojson }};
+            // Circles nos eventos
+            dadosEventos.forEach(function(e) {
+                if (!e.lat || !e.lon) return;
+                var popup = '<div style="font-family:sans-serif;min-width:180px"><b style="color:#8b5cf6">🎪 ' + e.nome + '</b><br><b style="color:#f59e0b">📍 ' + e.cidade + '</b> (' + e.regiao + ')<br><span style="color:#38bdf8">📅 ' + e.data + ' — ' + e.mes + '</span><br><b style="color:#10b981">👥 ' + e.publico_estimado + '</b></div>';
+                L.circle([e.lat, e.lon], {
+                    color: '#8b5cf6', fillColor: '#a855f7', fillOpacity: 0.4, weight: 2, radius: 8000
+                }).addTo(mapEv).bindPopup(popup);
+            });
 
-                    var geo = {{ goias_geojson|tojson }};
-                    if (typeof geo === 'string' && geo !== "null") {
-                        try { geo = JSON.parse(geo); } catch(e){}
-                    }
-                    if (geo && geo.features) {
-                        L.geoJSON(geo, {
-                            style: function(f) {
-                                var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                                var hasEvent = dadosEventos.some(e => e.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nome);
-                                return { 
-                                    fillColor: hasEvent ? '#8b5cf6' : '#1e293b', 
-                                    weight: hasEvent ? 2 : 1, 
-                                    opacity: 1, 
-                                    color: '#334155', 
-                                    fillOpacity: hasEvent ? 0.4 : 0.2 
-                                };
-                            }
-                        }).addTo(mapEv);
-                    }
-
-                    // REGRA DE OURO 4: O truque de recalcular o tamanho após inicialização
-                    setTimeout(function() { mapEv.invalidateSize(true); }, 200);
-                    setTimeout(function() { mapEv.invalidateSize(true); }, 800);
-                    setTimeout(function() { mapEv.invalidateSize(true); }, 2000);
-
-                    dadosEventos.forEach(function(e) {
-                        var popup = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:200px;">'
-                            + '<h4 style="margin:0 0 4px 0;color:#8b5cf6;font-size:14px;">🎪 ' + e.nome + '</h4>'
-                            + '<p style="margin:2px 0;font-size:12px;color:#f59e0b;"><strong>📍 ' + e.cidade + '</strong> (' + e.regiao + ')</p>'
-                            + '<p style="margin:2px 0;font-size:12px;color:#38bdf8;">📅 ' + e.data + ' — ' + e.mes + '</p>'
-                            + '<p style="margin:2px 0;font-size:11.5px;color:#10b981;"><strong>👥 ' + e.publico_estimado + '</strong></p>'
-                            + '<p style="margin:4px 0 0 0;font-size:11px;color:#94a3b8;">🎯 ' + e.raio_meta_ads + '</p>'
-                            + '</div>';
-
-                        L.circle([e.lat, e.lon], {
-                            color: '#8b5cf6',
-                            fillColor: '#a855f7',
-                            fillOpacity: 0.4,
-                            weight: 2,
-                            radius: 10000
-                        }).addTo(mapEv).bindPopup(popup);
-                    });
-                }
-            } catch(err) {
-                console.warn('[Mapa Eventos]', err);
-            }
+            setTimeout(function() { mapEv.invalidateSize(true); }, 200);
+            setTimeout(function() { mapEv.invalidateSize(true); }, 1000);
         });
 
         function filtrarMes(mes) {
@@ -1092,19 +1073,9 @@ def chat_home():
 
 @app.route("/eventos", methods=["GET"])
 def eventos_radar_page():
-    import json
-    goias_geojson = None
-    try:
-        if os.path.exists('static/goias.geojson'):
-            with open('static/goias.geojson', 'r', encoding='utf-8') as f:
-                goias_geojson = json.load(f)
-    except Exception as e:
-        print("Erro lendo geojson eventos:", e)
-        pass
     return render_template_string(
         HTML_RADAR_EVENTOS,
         eventos=EVENTOS_GOIAS_2026,
-        goias_geojson=goias_geojson,
         wilder_avatar=WILDER_AVATAR_B64
     )
 
@@ -1112,19 +1083,9 @@ def eventos_radar_page():
 @app.route("/mapa", methods=["GET"])
 def route_mapa():
     from pdf_generator_service import MAPA_RECLAMACOES_DETALHADO
-    import json
-    goias_geojson = None
-    try:
-        if os.path.exists('static/goias.geojson'):
-            with open('static/goias.geojson', 'r', encoding='utf-8') as f:
-                goias_geojson = json.load(f)
-    except Exception as e:
-        print("Erro lendo geojson:", e)
-        pass
     return render_template_string(
         HTML_MAPA_DEMANDAS,
         reclamacoes=MAPA_RECLAMACOES_DETALHADO,
-        goias_geojson=goias_geojson,
         google_trends=GOOGLE_TRENDS_GOIAS,
         wilder_avatar=WILDER_AVATAR_B64
     )
