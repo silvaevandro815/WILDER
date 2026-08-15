@@ -65,15 +65,15 @@ PESQUISA_OFICIAL_GOIAS_2026 = {
     "data_divulgacao": "14 de Agosto de 2026",
     "periodo_campo": "10 a 12 de Agosto de 2026",
     "margem_erro": "2,89 pontos percentuais",
-    "confirmacao_subida": "VERDADEIRO 🟢 — Wilder Morais salta de 16% para 22,0% dos Votos Válidos!",
+    "confirmacao_subida": "CENÁRIO ELEITORAL — PESQUISA OFICIAL (AGOSTO 2026)",
     "cenario_votos_validos": [
         {"candidato": "Daniel Vilela (MDB)", "percentual": "43,5%", "posicao": "1º Lugar"},
-        {"candidato": "Wilder Morais (PL)", "percentual": "22,0%", "posicao": "2º Lugar (CRESCIMENTO EXPRESSIVO 🚀)"},
+        {"candidato": "Wilder Morais (PL)", "percentual": "22,0%", "posicao": "2º Lugar (Empate Técnico com 3º)"},
         {"candidato": "Marconi Perillo (PSDB)", "percentual": "21,9%", "posicao": "3º Lugar"},
         {"candidato": "Luis Cesar Bueno (PT)", "percentual": "10,5%", "posicao": "4º Lugar"},
         {"candidato": "Luciana Amorim (UP)", "percentual": "2,1%", "posicao": "5º Lugar"}
     ],
-    "analise_estrategica": "Wilder Morais ultrapassa Marconi Perillo e se consolida como o principal adversário de Daniel Vilela no 2º Turno em Goiás!"
+    "analise_estrategica": "Daniel Vilela lidera isolado. Wilder Morais e Marconi Perillo estão em empate técnico na disputa pelo 2º Turno. Cenário de forte competição pelo eleitorado de centro-direita."
 }
 
 # BANCO COMPLETO DE VÍDEOS REAIS E TESTADOS DO YOUTUBE COM EMBEDS OPERACIONAIS E MÉTRICAS AUDITADAS
@@ -233,28 +233,28 @@ CANIS_YOUTUBE_METRICAS = [
     {
         "candidato": "Wilder Morais (PL)",
         "inscritos": "124.500",
-        "crescimento_mensal": "+18.400 inscritos (+17.3% 🚀)",
+        "crescimento_mensal": "+18.400",
         "views_semanais": "88.920 views",
-        "engajamento_taxa": "6,4% (Mais Alto de Goiás 🔥)",
-        "sentimento_comentarios": "97% Positivo (Discurso do Agro & Emprego)",
+        "engajamento_taxa": "6,4%",
+        "sentimento_comentarios": "Apoio consolidado no setor Agro, mas alcance ainda fraco entre jovens (16-24 anos).",
         "video_top": "PL confirma Wilder Morais & Ana Paula (31,5k views)"
     },
     {
         "candidato": "Daniel Vilela (MDB)",
         "inscritos": "98.200",
-        "crescimento_mensal": "+8.100 inscritos (+8.9%)",
+        "crescimento_mensal": "+8.100",
         "views_semanais": "102.100 views",
         "engajamento_taxa": "4,1%",
-        "sentimento_comentarios": "68% Positivo (Cobranças no Entorno do DF)",
+        "sentimento_comentarios": "Base forte institucional prefeituras; críticas frequentes de moradores do Entorno e jovens.",
         "video_top": "Jingle Daniel Vilela Governador (28,6k views)"
     },
     {
         "candidato": "Marconi Perillo (PSDB)",
         "inscritos": "84.600",
-        "crescimento_mensal": "+3.400 inscritos (+4.1%)",
+        "crescimento_mensal": "+3.400",
         "views_semanais": "58.100 views",
         "engajamento_taxa": "3,8%",
-        "sentimento_comentarios": "54% Positivo (Debate de Rejeição)",
+        "sentimento_comentarios": "Alto recall de marca, sentimentos muito polarizados (fiel vs. rejeição alta na Capital).",
         "video_top": "Melhores momentos debate TV Band (16,5k views)"
     }
 ]
@@ -266,8 +266,8 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
         "manchete": "Goiás Pesquisas/Mais Goiás: Daniel Vilela lidera com 37,2%; Wilder e Marconi empatam em segundo",
         "data": "14/08/2026",
         "tipo_noticia": "🟢 POSITIVA",
-        "nivel_ameaca": "ALERTA DE VITÓRIA 🚀",
-        "estrategia_defesa": "Impulsionar nas redes que Wilder já atinge 22% dos Votos Válidos e assumiu a vaga do 2º Turno!",
+        "nivel_ameaca": "ALERTA DE CRESCIMENTO",
+        "estrategia_defesa": "Aproveitar empate técnico para consolidar imagem no segundo turno via tráfego pago focado em propostas jovens.",
         "url_noticia": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPYXhBdkhzeHpnaVBBRHpkYmpEd2E5TWFxWXhiVllsN0Nwb3JZb0JpV2ZWTlYwa1IxVENSRUREamxDODBTYXdZVUM3NVlhYjl5SkFDZXB0S1dRcE1VdHZCWUYtdHh4OGt2RmZiMnJTaW00TjhMYVdtMTdnbXdNcW9IV3ZSVDNKeU9PWVo1eGZxVGhnejdLR3F4Q0xJOUd5cW5nc0JOdmM3bHdsM1VpcDBVVTFzQlM5VXlNaWlrYlVzZmJPLUlkcHNGVjlB?oc=5",
         "url_google_news": "https://news.google.com/search?q=Wilder+Morais+Goias+pesquisa"
     },
@@ -277,8 +277,8 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
         "manchete": "PL lança Wilder Morais como candidato oficial ao governo de Goiás",
         "data": "14/08/2026",
         "tipo_noticia": "🟢 POSITIVA",
-        "nivel_ameaca": "OPORTUNIDADE FAVORÁVEL 🟢",
-        "estrategia_defesa": "Divulgar trechos do discurso de lançamento focado em infraestrutura, primeiro emprego e saúde com transparência.",
+        "nivel_ameaca": "NEUTRO",
+        "estrategia_defesa": "Discurso focado em infraestrutura e propostas concretas como o Primeiro Emprego para juventude.",
         "url_noticia": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOU2hDcXhPaEJ6eE1hVlVTZFROeUFNblhaaWZyeUlpTUFGRTRCMXN3N3lRNGRTXzhJRFgzRzhPR2lzamltVm44NkZUVVBNdm9MOUxjR0ZFaXJxblZ6UEc4UkRJb1VkN0RHZVFtMl9qWUNpakZNekU3emdtcVVweHhaWWx3dXF0Yzg1TF9mNGYxNmtIR0RSWHpFOXJIaWwwTWJrQkdaX3ZadHc1QTNSRVZqOFQ0dkpvVXdqUW9FX2Y2UFJfQW5V0gHTAUFVX3lxTE41N2pKbFZHNlFWbURpOGtubmJvamNXV2NXMWdsazhDdjFTTVBCRWt3ekpXUVY1cE5VWFJpSVlxSTVlbDhWdDFNRkFvZldTNGRFa1ljd1RGp5VUVBR0t2VVlDRFBFOTA4Qnh0TkY4bGoxTlN5eHo2QkVzVnRlZC12SHRNMFdOaXRPNllDREV1MV9EZkphaFdkNHByblo0QldRbnhMcHp4SWQ2LXR0dkJXa2pHbThHYkxxQmo3bWpLTV9CQ2Jub3hteS1oZWc?oc=5",
         "url_google_news": "https://news.google.com/search?q=PL+lanca+Wilder+Morais+Goias"
     },
@@ -327,10 +327,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔴 Vermelho (Saúde & Filas)",
         "percentual": "42%",
         "eleitores": "1.030.000",
-        "pauta_principal": "🏥 Saúde Pública: Filas do SUS para Exames e Consultas com Especialistas",
-        "demanda_especifica": "Mães aguardando exames há mais de 90 dias nos Cais e Postos de Saúde da Capital.",
-        "video_recomendado": "Mutirões de Saúde & Sistema 'Fila Visível' Digital",
-        "gancho_3s": "Sabe por que a saúde de Goiânia trava na fila? Porque falta gestão de engenheiro!"
+        "pauta_principal": "🏥 Saúde Pública e Emprego",
+        "demanda_especifica": "Filas no SUS e lentidão no atendimento primário. Alta procura por programas de 1º emprego para jovens.",
+        "video_recomendado": "Propostas para zerar filas e Geração de Emprego na Capital",
+        "gancho_3s": "Foco da Campanha: Fila visível do SUS e capacitação para jovens na Capital."
     },
     {
         "cidade": "Aparecida de Goiânia",
@@ -341,10 +341,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔴 Vermelho (Saúde & Creches)",
         "percentual": "38%",
         "eleitores": "345.000",
-        "pauta_principal": "🏫 Creches em Tempo Integral & Asfalto nos Bairros Periféricos",
-        "demanda_especifica": "Falta de vagas em CMEIs para mães trabalhadoras e buracos nas vias de ligação.",
-        "video_recomendado": "Cuidado com a Mãe Trabalhadora & Asfalto de Qualidade",
-        "gancho_3s": "Trabalha o dia todo em Aparecida e não tem onde deixar o filho? Vamos resolver!"
+        "pauta_principal": "🏫 Creches em Tempo Integral & Ensino Técnico",
+        "demanda_especifica": "Mães trabalhadoras sem vagas em creches e jovens carentes de qualificação técnica.",
+        "video_recomendado": "Cartão Creche e Cursos Profissionalizantes Integrados",
+        "gancho_3s": "Foco da Campanha: Vagas de creche garantidas e ensino técnico."
     },
     {
         "cidade": "Anápolis",
@@ -355,10 +355,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔵 Azul (Emprego & DAIA)",
         "percentual": "35%",
         "eleitores": "290.000",
-        "pauta_principal": "🎓 Primeiro Emprego Jovem & Fortalecimento do Distrito DAIA",
-        "demanda_especifica": "Jovens recém-formados sem oportunidade de emprego por exigência de experiência prévia.",
-        "video_recomendado": "Programa Primeiro Salário (Estado custeia primeiros meses)",
-        "gancho_3s": "Pediram 2 anos de experiência pro seu 1º emprego em Anápolis? Isso vai mudar!"
+        "pauta_principal": "🎓 Primeiro Emprego Jovem & Habitação Popular",
+        "demanda_especifica": "Jovens enfrentando barreiras para o primeiro emprego no polo industrial e déficit de moradia popular.",
+        "video_recomendado": "Programa Primeiro Salário e Ampliação Habitacional",
+        "gancho_3s": "Foco da Campanha: Programa 1º Salário subsidiado pelo Estado e moradias."
     },
     {
         "cidade": "Rio Verde",
@@ -369,10 +369,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🟢 Verde (Logística Agro & Pontes)",
         "percentual": "30%",
         "eleitores": "155.000",
-        "pauta_principal": "🌾 Logística do Agro, Pontes de Concreto & Menos Burocracia",
-        "demanda_especifica": "Estradas vicinais esburacadas atolando carretas de grãos durante a safra.",
-        "video_recomendado": "Ponte & Asfalto Agro com Crédito Simples",
-        "gancho_3s": "Quem produz o alimento do Brasil em Rio Verde não pode ficar atolado!"
+        "pauta_principal": "🌾 Logística do Agro & Agrotech para Juventude",
+        "demanda_especifica": "Gargalos em estradas vicinais e falta de integração tecnológica no campo para reter jovens.",
+        "video_recomendado": "Manutenção Viária e HUB de Inovação Agro",
+        "gancho_3s": "Foco da Campanha: Logística eficiente e capacitação técnica em agronegócio."
     },
     {
         "cidade": "Luziânia",
@@ -383,10 +383,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🟠 Laranja (Transporte & Asfalto)",
         "percentual": "45%",
         "eleitores": "132.000",
-        "pauta_principal": "🚗 Transporte Público Metropolitano Integrado & Segurança",
-        "demanda_especifica": "Passagem cara e ônibus sucateados no deslocamento diário para Brasília.",
-        "video_recomendado": "Integração do Transporte do Entorno & Tarifa Justa",
-        "gancho_3s": "O Entorno do DF não é quintal de ninguém! Transporte digno para Luziânia!"
+        "pauta_principal": "🚗 Mobilidade Urbana & Custo de Vida",
+        "demanda_especifica": "Alto tempo de deslocamento para Brasília, passagens caras e ausência de opções de lazer para os jovens.",
+        "video_recomendado": "Integração do Transporte do Entorno & Praças da Juventude",
+        "gancho_3s": "Foco da Campanha: Integração tarifária metropolitana e infraestrutura de lazer."
     },
     {
         "cidade": "Valparaíso de Goiás",
@@ -397,10 +397,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🟠 Laranja (Saneamento & Drenagem)",
         "percentual": "40%",
         "eleitores": "98.000",
-        "pauta_principal": "💧 Saneamento Básico, Drenagem Pluvial & Iluminação",
-        "demanda_especifica": "Alagamentos em períodos de chuva e falta de infraestrutura básica nos bairros novos.",
-        "video_recomendado": "Obras de Drenagem e Infraestrutura Urbana",
-        "gancho_3s": "Chega de lama e alagamento em Valparaíso! Gestão técnica e obras de verdade!"
+        "pauta_principal": "💧 Saneamento Básico & Prevenção Criminal Jovem",
+        "demanda_especifica": "Infraestrutura precária em bairros novos e vulnerabilidade de jovens nas periferias.",
+        "video_recomendado": "Obras de Drenagem e Segurança Comunitária Educativa",
+        "gancho_3s": "Foco da Campanha: Revitalização urbana e reforço policial preventivo com foco social."
     },
     {
         "cidade": "Itumbiara",
@@ -411,10 +411,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🟣 Roxo (Hospital Regional & Turismo)",
         "percentual": "25%",
         "eleitores": "78.000",
-        "pauta_principal": "🏥 Hospital Regional & Incentivo ao Turismo Náutico",
-        "demanda_especifica": "Necessidade de especialidades médicas locais para evitar deslocamento a Goiânia.",
-        "video_recomendado": "Fortalecimento do Hospital Regional & Crédito Turístico",
-        "gancho_3s": "Saúde especializada em Itumbiara sem precisar viajar até Goiânia!"
+        "pauta_principal": "🏥 Especialidades Médicas & Empreendedorismo",
+        "demanda_especifica": "Falta de especialistas médicos locais e alta demanda por microcrédito para jovens empreendedores.",
+        "video_recomendado": "Fortalecimento do Hospital Regional & Linha Primeira Renda",
+        "gancho_3s": "Foco da Campanha: Saúde descentralizada e crédito para jovens."
     },
     {
         "cidade": "Catalão",
@@ -425,10 +425,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔵 Azul (Cursos & Indústria)",
         "percentual": "28%",
         "eleitores": "74.000",
-        "pauta_principal": "🏭 Diversificação Industrial & Cursos Profissionalizantes",
-        "demanda_especifica": "Demanda por mão de obra qualificada para o polo automotivo e mineração.",
-        "video_recomendado": "Programa 'Curso com Vaga' (Capacitação gratuita com vaga garantida)",
-        "gancho_3s": "Curso profissionalizante gratuito com vaga de emprego direto nas indústrias de Catalão!"
+        "pauta_principal": "🏭 Diversificação Industrial & Vagas Jovem",
+        "demanda_especifica": "Demanda reprimida por qualificação industrial específica para os jovens locais poderem atuar nas montadoras.",
+        "video_recomendado": "Programa 'Curso com Vaga' em Parceria com a Indústria",
+        "gancho_3s": "Foco da Campanha: Capacitação gratuita vinculada a vagas reais nas indústrias."
     }
 ]
 

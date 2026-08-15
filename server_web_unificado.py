@@ -1205,46 +1205,50 @@ def api_chat():
     # Busca notícias reais ao vivo
     noticias_ao_vivo = buscar_noticias_rss()
 
-    system_prompt = f"""Você é Paulo, estrategista-chefe de inteligência eleitoral da campanha Wilder Morais (PL) — Governador de Goiás 2026.
+    # Lê o plano de governo na memória
+    plano_governo_texto = ""
+    try:
+        if os.path.exists('plano_governo_texto.txt'):
+            with open('plano_governo_texto.txt', 'r', encoding='utf-8', errors='ignore') as f:
+                plano_governo_texto = f.read(5000) # Primeiros 5000 caracteres como contexto principal
+    except Exception:
+        pass
+
+    system_prompt = f"""Você é Paulo, Analista de Inteligência de Dados Eleitorais da campanha Wilder Morais (PL) — Governador de Goiás 2026.
 
 REGRAS ABSOLUTAS:
-- Responda como humano especialista, direto e sucinto (máximo 3 parágrafos curtos)
-- NUNCA diga "não tenho acesso" ou "não posso verificar"
-- Use os dados abaixo como base factual — eles são atualizados e confiáveis
-- Seja estratégico, não robótico
+- Seja ESTRITAMENTE NEUTRO, objetivo e analítico. Não aja como torcedor ou propaganda eleitoral.
+- Responda de forma sucinta (máximo 3 parágrafos curtos).
+- Use os dados factuais abaixo para embasar sua análise.
+- NUNCA diga "não tenho acesso" ou "não posso verificar".
+- Foco em dores do público, direcionamento de conteúdo e estratégias com público jovem.
 
 ═══════════════════════════════════════════
 DADOS ELEITORAIS — Instituto Goiás Pesquisas (14/08/2026):
-• Daniel Vilela (MDB): 43,5% votos válidos — 1º lugar
-• Wilder Morais (PL): 22,0% votos válidos — 2º lugar (subiu de 16%! Wilder ULTRAPASSOU Marconi)
-• Marconi Perillo (PSDB): 21,9% votos válidos — 3º lugar
-• Luis Cesar Bueno (PT): 10,5% — 4º lugar
-• Luciana Amorim (UP): 2,1% — 5º lugar
-• Margem de erro: 2,89 pontos percentuais
-• Análise: Wilder se consolida como principal adversário de Daniel Vilela no 2º turno
+• Daniel Vilela (MDB): 43,5% — Liderança Isolada
+• Wilder Morais (PL): 22,0% — Empate técnico pelo 2º lugar
+• Marconi Perillo (PSDB): 21,9% — Empate técnico pelo 2º lugar
+• Luis Cesar Bueno (PT): 10,5%
+• Luciana Amorim (UP): 2,1%
 
 ═══════════════════════════════════════════
-YOUTUBE — WILDER LIDERA ENGAJAMENTO (dados auditados):
-• Wilder Morais: 124.500 inscritos | +18.400/mês (+17,3%) | engajamento 6,4% (MAIS ALTO DE GOIÁS)
-• Daniel Vilela: 98.200 inscritos | +8.100/mês | engajamento 4,1%
-• Marconi Perillo: 84.600 inscritos | +3.400/mês | engajamento 3,8%
-• Vídeo top de Wilder: PL confirma candidatura (31.500 views)
+YOUTUBE — MÉTRICAS DE CANAIS:
+• Wilder Morais: 124.500 inscritos | engajamento 6,4% (Forte no Agro, fraco entre jovens)
+• Daniel Vilela: 98.200 inscritos | engajamento 4,1% (Forte institucional, alvo de críticas no Entorno)
+• Marconi Perillo: 84.600 inscritos | engajamento 3,8% (Alta polarização)
 
 ═══════════════════════════════════════════
-MAPEAMENTO DE QUEIXAS POPULARES POR CIDADE:
-• Luziânia: 45% reclamam de transporte público ruim para o DF (132k eleitores)
-• Goiânia: 42% reclamam de filas do SUS (1.030.000 eleitores — 21% do estado)
-• Valparaíso: 40% reclamam de saneamento e alagamentos (98k eleitores)
-• Aparecida de Goiânia: 38% reclamam de creches e asfalto (345k eleitores)
-• Anápolis: 35% reclamam de falta de emprego jovem (290k eleitores)
-• Rio Verde: 30% reclamam de logística agro e estradas (155k eleitores)
+MAPEAMENTO DE QUEIXAS POPULARES E PÚBLICO JOVEM:
+• Luziânia: 45% reclamam de mobilidade para o DF e falta de lazer jovem.
+• Goiânia: 42% reclamam de filas do SUS e buscam 1º emprego (jovens periferia).
+• Valparaíso: 40% reclamam de saneamento e vulnerabilidade criminal jovem.
+• Aparecida de Goiânia: 38% reclamam de creches e falta de ensino técnico.
+• Anápolis: 35% reclamam de barreiras no 1º emprego (DAIA) e falta de moradia.
+• Rio Verde: 30% reclamam de gargalos em estradas e tecnologia agrotech.
 
 ═══════════════════════════════════════════
-GOOGLE TRENDS GOIÁS (agosto 2026):
-• "Pesquisa Wilder Morais 22%": 112.000 buscas/mês (+180%)
-• "Concurso Público Goiás": 96.000 buscas/mês
-• "Fila SUS Goiás": 88.000 buscas/mês
-• "Primeiro Emprego Goiânia": 72.000 buscas/mês
+PLANO DE GOVERNO (RESUMO BASEADO NO PDF OFICIAL):
+{plano_governo_texto}
 
 ═══════════════════════════════════════════
 MANCHETES EM TEMPO REAL (Google News):
@@ -1274,30 +1278,35 @@ Responda sobre: {pergunta}"""
     # FALLBACK LOCAL COM DADOS REAIS
     p_lower = pergunta.lower()
     if any(k in p_lower for k in ["pesquisa", "porcentagem", "votos", "eleição", "eleições", "sondagem", "resultado", "pesquisas"]):
-        resp = ("📊 <strong>Pesquisa Instituto Goiás Pesquisas — 14/08/2026:</strong><br><br>"
-                "Wilder Morais saltou de 16% para <strong>22,0% dos votos válidos</strong>, ultrapassando Marconi Perillo (21,9%) e assumindo o 2º lugar. "
-                "Daniel Vilela lidera com 43,5%. <strong>Wilder está a apenas 21 pontos do líder e sobe consistentemente.</strong><br><br>"
+        resp = ("📊 <strong>Cenário Eleitoral — 14/08/2026:</strong><br><br>"
+                "Daniel Vilela lidera isolado com 43,5%. Wilder Morais (22,0%) e Marconi Perillo (21,9%) estão em empate técnico "
+                "disputando a vaga para o 2º turno. O cenário mostra forte competição no eleitorado de centro-direita.<br><br>"
                 "👉 <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Ver análise completa no Radar de Notícias</a>")
     elif any(k in p_lower for k in ["youtube", "vídeo", "video", "engajamento", "canal", "inscritos"]):
-        resp = ("📺 <strong>Wilder lidera engajamento no YouTube em Goiás:</strong><br><br>"
-                "Taxa de 6,4% — a mais alta entre os candidatos. Crescimento de +18.400 inscritos por mês. "
-                "Daniel Vilela tem 4,1% e Marconi Perillo 3,8% de engajamento.<br><br>"
+        resp = ("📺 <strong>Métricas de YouTube em Goiás:</strong><br><br>"
+                "Wilder Morais possui 6,4% de engajamento, consolidado no setor do Agro, mas com necessidade de aproximação ao público jovem. "
+                "Daniel Vilela (4,1%) possui base institucional forte. Marconi Perillo (3,8%) enfrenta alta polarização.<br><br>"
                 "👉 <a href='/dashboard' style='color:#10b981;font-weight:800;'>Ver auditoria completa do YouTube</a>")
-    elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "asfalto", "goiânia", "anápolis", "luziânia"]):
-        resp = ("🗺️ <strong>Principais queixas por cidade em Goiás:</strong><br><br>"
-                "Luziânia (45%): transporte público para o DF. Goiânia (42%): filas do SUS. "
-                "Valparaíso (40%): saneamento. Aparecida (38%): creches. Anápolis (35%): emprego jovem.<br><br>"
+    elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "jovem", "emprego"]):
+        resp = ("🗺️ <strong>Dores Populares e Público Jovem:</strong><br><br>"
+                "Luziânia (45%): transporte para o DF e falta de lazer. Goiânia (42%): filas do SUS e busca por 1º emprego. "
+                "Aparecida (38%): vagas em creches e ensino técnico. Anápolis (35%): moradia e barreiras de emprego no DAIA.<br><br>"
                 "👉 <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Ver mapa interativo completo</a>")
     elif any(k in p_lower for k in ["evento", "festa", "agro", "romaria", "cavalgada", "exposição"]):
         resp = ("🎪 <strong>150 eventos mapeados em Goiás (Ago-Out 2026):</strong><br><br>"
                 "O sistema identifica eventos agro, religiosos, culturais e políticos com público estimado e raio de tráfego pago no Meta Ads. "
                 "É possível filtrar por mês e visualizar no mapa interativo.<br><br>"
                 "👉 <a href='/eventos' style='color:#10b981;font-weight:800;'>Abrir Radar de 150 Eventos</a>")
+    elif any(k in p_lower for k in ["plano", "governo", "proposta", "propostas"]):
+        resp = ("📄 <strong>Plano de Governo:</strong><br><br>"
+                "As principais propostas incluem a 'Fila Visível' na Saúde, 'Primeiro Salário' e 'Curso com Vaga' para os jovens, "
+                "e o 'Cartão Creche' para as mães trabalhadoras. O foco é geração de emprego e qualificação técnica.<br><br>"
+                "👉 <a href='/plano_governo' style='color:#10b981;font-weight:800;'>Acessar base de dados</a>")
     else:
-        resp = (f"🔰 <strong>Análise sobre: \"{pergunta}\"</strong><br><br>"
-                f"Com base nos dados da campanha: Wilder Morais (PL) está em <strong>2º lugar com 22% dos votos válidos</strong>, "
-                f"liderando em engajamento no YouTube (6,4%) e crescendo consistentemente nas pesquisas.<br><br>"
-                f"Para detalhes específicos, consulte o <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Radar de Notícias</a> ou o <a href='/dashboard' style='color:#10b981;font-weight:800;'>Painel YouTube</a>.")
+        resp = (f"🔰 <strong>Análise Estratégica: \"{pergunta}\"</strong><br><br>"
+                f"Daniel Vilela lidera as pesquisas (43,5%), enquanto Wilder Morais (22%) e Marconi Perillo (21,9%) disputam o 2º turno. "
+                f"O desafio central é comunicar propostas de geração de 1º emprego, saúde e infraestrutura para o público jovem e do Entorno.<br><br>"
+                f"Para detalhes específicos, consulte o <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Radar de Notícias</a> ou o <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Mapa de Demandas</a>.")
 
     return jsonify({"resposta": resp}), 200
 
