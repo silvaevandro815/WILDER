@@ -307,9 +307,9 @@ HTML_MAPA_DEMANDAS = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa Tático Interativo & Gráficos — Goiás 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS & JS - Validado OpenSource via CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet CSS & JS - Cloudflare CDN (Mais Estável e sem bloqueio de integridade) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="/static/chart.js"></script>
     """ + PREMIUM_THEME_CSS + """
     <style>
@@ -566,27 +566,26 @@ HTML_MAPA_DEMANDAS = """
                     var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
 
                     // Carrega GeoJSON para pintar os municípios no mapa (Coroplético OpenSource validado)
-                    fetch('https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-52-mun.json')
-                        .then(r => r.json())
-                        .then(geo => {
-                            L.geoJSON(geo, {
-                                style: function(f) {
-                                    var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                                    var corFill = '#1e293b';
-                                    var opac = 0.2;
-                                    var w = 1;
-                                    dadosCidades.forEach(function(c) {
-                                        var cNome = c.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                                        if (nome === cNome || (nome === 'aparecida de goiania' && cNome === 'aparecida de goiania')) {
-                                            corFill = colorMap[c.cor] || '#10b981';
-                                            opac = 0.65;
-                                            w = 2;
-                                        }
-                                    });
-                                    return { fillColor: corFill, weight: w, opacity: 1, color: '#334155', fillOpacity: opac };
-                                }
-                            }).addTo(map);
-                        }).catch(e => console.error("Erro GeoJSON:", e));
+                    var geo = {{ goias_geojson|safe }};
+                    if (geo && geo.features) {
+                        L.geoJSON(geo, {
+                            style: function(f) {
+                                var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                                var corFill = '#1e293b';
+                                var opac = 0.2;
+                                var w = 1;
+                                dadosCidades.forEach(function(c) {
+                                    var cNome = c.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                                    if (nome === cNome || (nome === 'aparecida de goiania' && cNome === 'aparecida de goiania')) {
+                                        corFill = colorMap[c.cor] || '#10b981';
+                                        opac = 0.65;
+                                        w = 2;
+                                    }
+                                });
+                                return { fillColor: corFill, weight: w, opacity: 1, color: '#334155', fillOpacity: opac };
+                            }
+                        }).addTo(map);
+                    }
 
                     // Forçar redraw múltiplas vezes para garantir render
                     [200, 600, 1400, 2500].forEach(function(ms) {
@@ -881,9 +880,9 @@ HTML_RADAR_EVENTOS = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radar de 150 Eventos em Goiás — QG Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS & JS - Validado OpenSource via CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet CSS & JS - Cloudflare CDN (Mais Estável e sem bloqueio de integridade) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     """ + PREMIUM_THEME_CSS + """
     <style>
         #mapEventos { width: 100%; height: 480px; border-radius: 12px; border: 1px solid var(--border-color); background: #000; }
@@ -978,23 +977,22 @@ HTML_RADAR_EVENTOS = """
                     var dadosEventos = {{ eventos|tojson }};
 
                     // Carrega GeoJSON para dar cor ao estado (Coroplético OpenSource validado)
-                    fetch('https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-52-mun.json')
-                        .then(r => r.json())
-                        .then(geo => {
-                            L.geoJSON(geo, {
-                                style: function(f) {
-                                    var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                                    var hasEvent = dadosEventos.some(e => e.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nome);
-                                    return { 
-                                        fillColor: hasEvent ? '#8b5cf6' : '#1e293b', 
-                                        weight: hasEvent ? 2 : 1, 
-                                        opacity: 1, 
-                                        color: '#334155', 
-                                        fillOpacity: hasEvent ? 0.4 : 0.2 
-                                    };
-                                }
-                            }).addTo(mapEv);
-                        }).catch(e => console.error("Erro GeoJSON:", e));
+                    var geo = {{ goias_geojson|safe }};
+                    if (geo && geo.features) {
+                        L.geoJSON(geo, {
+                            style: function(f) {
+                                var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                                var hasEvent = dadosEventos.some(e => e.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nome);
+                                return { 
+                                    fillColor: hasEvent ? '#8b5cf6' : '#1e293b', 
+                                    weight: hasEvent ? 2 : 1, 
+                                    opacity: 1, 
+                                    color: '#334155', 
+                                    fillOpacity: hasEvent ? 0.4 : 0.2 
+                                };
+                            }
+                        }).addTo(mapEv);
+                    }
 
                     [200, 600, 1400, 2500].forEach(function(ms) {
                         setTimeout(function() { mapEv.invalidateSize(true); }, ms);
@@ -1172,18 +1170,35 @@ def chat_home():
 
 @app.route("/eventos", methods=["GET"])
 def eventos_radar_page():
+    goias_geojson = "null"
+    try:
+        if os.path.exists('static/goias.geojson'):
+            with open('static/goias.geojson', 'r', encoding='utf-8') as f:
+                goias_geojson = f.read()
+    except Exception:
+        pass
     return render_template_string(
         HTML_RADAR_EVENTOS,
         eventos=EVENTOS_GOIAS_2026,
+        goias_geojson=goias_geojson,
         wilder_avatar=WILDER_AVATAR_B64
     )
 
 @app.route("/mapa_demandas", methods=["GET"])
 @app.route("/mapa", methods=["GET"])
-def mapa_demandas_page():
+def route_mapa():
+    from pdf_generator_service import MAPA_RECLAMACOES_DETALHADO
+    goias_geojson = "null"
+    try:
+        if os.path.exists('static/goias.geojson'):
+            with open('static/goias.geojson', 'r', encoding='utf-8') as f:
+                goias_geojson = f.read()
+    except Exception:
+        pass
     return render_template_string(
         HTML_MAPA_DEMANDAS,
         reclamacoes=MAPA_RECLAMACOES_DETALHADO,
+        goias_geojson=goias_geojson,
         google_trends=GOOGLE_TRENDS_GOIAS,
         wilder_avatar=WILDER_AVATAR_B64
     )
