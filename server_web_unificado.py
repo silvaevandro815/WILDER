@@ -74,15 +74,15 @@ HTML_PROTECTION_SCRIPT = """
 </script>
 """
 
-HTML_ALERT_SYSTEM_SCRIPT = f"""
+HTML_ALERT_SYSTEM_SCRIPT = """
 <style>
-    @keyframes pulseAlert {{
-        0% {{ box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }}
-        70% {{ box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }}
-        100% {{ box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }}
-    }}
+    @keyframes pulseAlert {
+        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
 
-    .toast-alert-container {{
+    .toast-alert-container {
         position: fixed;
         top: 80px;
         right: 20px;
@@ -97,17 +97,17 @@ HTML_ALERT_SYSTEM_SCRIPT = f"""
         box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         animation: pulseAlert 2.5s infinite;
         display: block;
-    }}
+    }
 
-    .toast-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }}
-    .toast-badge {{ background: #eab308; color: #040e08; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; }}
-    .toast-close {{ background: transparent; border: none; color: #fef08a; font-size: 20px; font-weight: bold; cursor: pointer; }}
-    .toast-content-wrapper {{ display: flex; gap: 12px; align-items: center; }}
-    .toast-avatar {{ width: 54px; height: 54px; min-width: 54px; min-height: 54px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-    .toast-title {{ font-size: 14.5px; font-weight: 800; color: #fef08a; margin: 0 0 4px 0; line-height: 1.3; }}
-    .toast-body {{ font-size: 12px; color: #e2e8f0; line-height: 1.4; margin-bottom: 8px; }}
-    .toast-btn {{ background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none; display: inline-block; }}
-    .toast-btn:hover {{ background: #16a34a; color: #fff; border-color: #eab308; }}
+    .toast-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .toast-badge { background: #eab308; color: #040e08; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+    .toast-close { background: transparent; border: none; color: #fef08a; font-size: 20px; font-weight: bold; cursor: pointer; }
+    .toast-content-wrapper { display: flex; gap: 12px; align-items: center; }
+    .toast-avatar { width: 54px; height: 54px; min-width: 54px; min-height: 54px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+    .toast-title { font-size: 14.5px; font-weight: 800; color: #fef08a; margin: 0 0 4px 0; line-height: 1.3; }
+    .toast-body { font-size: 12px; color: #e2e8f0; line-height: 1.4; margin-bottom: 8px; }
+    .toast-btn { background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none; display: inline-block; }
+    .toast-btn:hover { background: #16a34a; color: #fff; border-color: #eab308; }
 </style>
 
 <div id="toastAlert" class="toast-alert-container">
@@ -116,7 +116,7 @@ HTML_ALERT_SYSTEM_SCRIPT = f"""
         <button class="toast-close" onclick="document.getElementById('toastAlert').style.display='none';">✕</button>
     </div>
     <div class="toast-content-wrapper">
-        <img src="{WILDER_AVATAR_B64}" alt="" class="toast-avatar">
+        <img src="{{ wilder_avatar }}" alt="" class="toast-avatar">
         <div>
             <div class="toast-title">WILDER SALTA PARA 22% NOS VOTOS VÁLIDOS!</div>
             <div class="toast-body">
@@ -128,7 +128,7 @@ HTML_ALERT_SYSTEM_SCRIPT = f"""
 </div>
 """ + HTML_PROTECTION_SCRIPT
 
-HTML_CHAT_WIDGET = f"""
+HTML_CHAT_WIDGET = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -137,48 +137,48 @@ HTML_CHAT_WIDGET = f"""
     <title>SALA DE GUERRA ELEITORAL — WILDER MORAIS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {{ box-sizing: border-box; }}
-        body {{ font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #040e08; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }}
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #040e08; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        .header {{ background: linear-gradient(135deg, #0b2214, #15803d, #16a34a); padding: 12px 28px; border-bottom: 3px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 6px 25px rgba(22,163,74,0.4); }}
-        .brand {{ display: flex; align-items: center; gap: 14px; }}
-        .brand-avatar {{ width: 52px; height: 52px; min-width: 52px; min-height: 52px; border-radius: 50%; border: 2.5px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-        .brand-text h1 {{ margin: 0; font-size: 19px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.4); letter-spacing: 0.5px; }}
-        .brand-text p {{ margin: 2px 0 0 0; font-size: 12px; color: #fef08a; font-weight: 700; }}
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #16a34a); padding: 12px 28px; border-bottom: 3px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 6px 25px rgba(22,163,74,0.4); }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-avatar { width: 52px; height: 52px; min-width: 52px; min-height: 52px; border-radius: 50%; border: 2.5px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .brand-text h1 { margin: 0; font-size: 19px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.4); letter-spacing: 0.5px; }
+        .brand-text p { margin: 2px 0 0 0; font-size: 12px; color: #fef08a; font-weight: 700; }
         
-        .nav-links {{ display: flex; gap: 8px; flex-wrap: wrap; }}
-        .btn-nav {{ color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }}
-        .btn-nav:hover {{ background: #16a34a; border-color: #eab308; color: #fff; }}
-        .btn-alert {{ background: #991b1b; border-color: #ef4444; color: #fecdd3; font-weight: 800; }}
-        .btn-mapa {{ background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border-color: #38bdf8; font-weight: 800; }}
-        .btn-dashboard {{ background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }}
-        .btn-pdf {{ background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }}
+        .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-nav { color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
+        .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; font-weight: 800; }
+        .btn-mapa { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border-color: #38bdf8; font-weight: 800; }
+        .btn-dashboard { background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }
+        .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
         
-        .chat-box {{ flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }}
-        .msg-row {{ display: flex; gap: 14px; align-items: flex-start; width: 100%; }}
-        .msg-avatar {{ width: 46px; height: 46px; min-width: 46px; min-height: 46px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-        .msg {{ max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }}
-        .user {{ background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; border: 1px solid #22c55e; }}
-        .bot {{ background: #0a1f12; color: #e2e8f0; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }}
-        .bot strong {{ color: #86efac; }}
+        .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }
+        .msg-row { display: flex; gap: 14px; align-items: flex-start; width: 100%; }
+        .msg-avatar { width: 46px; height: 46px; min-width: 46px; min-height: 46px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .msg { max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
+        .user { background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; border: 1px solid #22c55e; }
+        .bot { background: #0a1f12; color: #e2e8f0; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+        .bot strong { color: #86efac; }
 
-        .quick-actions {{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }}
-        .chip {{ background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }}
-        .chip:hover {{ background: #16a34a; color: #fff; border-color: #eab308; }}
+        .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
 
-        .input-container {{ background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }}
-        .input-box {{ max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }}
-        input {{ flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #22c55e; background: #040e08; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }}
-        input:focus {{ border-color: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.25); }}
-        button {{ padding: 14px 28px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; border: 1px solid #eab308; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 14px rgba(22,163,74,0.4); }}
-        button:hover {{ background: #16a34a; color: #fff; }}
+        .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
+        .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
+        input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #22c55e; background: #040e08; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
+        input:focus { border-color: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.25); }
+        button { padding: 14px 28px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; border: 1px solid #eab308; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 14px rgba(22,163,74,0.4); }
+        button:hover { background: #16a34a; color: #fff; }
     </style>
 </head>
 <body>
-    {HTML_ALERT_SYSTEM_SCRIPT}
+    {% include 'alert_script' ignore missing %}
     <div class="header">
         <div class="brand">
-            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
+            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
                 <p>● Central de Inteligência Estratégica & Notícias em Tempo Real</p>
@@ -195,16 +195,16 @@ HTML_CHAT_WIDGET = f"""
 
     <div class="chat-box" id="chat">
         <div class="msg-row">
-            <img src="{WILDER_AVATAR_B64}" alt="" class="msg-avatar">
+            <img src="{{ wilder_avatar }}" alt="" class="msg-avatar">
             <div class="msg bot">
                 <strong>🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — WILDER MORAIS 2026</strong><br><br>
                 Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Mapa Tático Colorido por Pauta</strong>, <strong>Painel de 4 Gráficos Visuais Interativos</strong>, Notícias Reais dos Candidatos e Pesquisas Eleitorais.<br><br>
                 <strong>Faça uma consulta ou escolha um atalho de ação:</strong>
                 <div class="quick-actions">
                     <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa Colorido & 4 Gráficos</span>
+                    <span class="chip" onclick="perguntarRapido('Quais são os termos mais buscados pelos goianos no Google Trends?')">🔍 Buscas do Google Trends</span>
                     <span class="chip" onclick="perguntarRapido('Quais são os dados da última pesquisa eleitoral do Instituto Goiás Pesquisas?')">📊 Pesquisa Eleitoral 22%</span>
                     <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30s sobre o programa Primeiro Salário')">🎬 Roteiro de Reels 30s</span>
-                    <span class="chip" onclick="perguntarRapido('Escreva um discurso curto de Wilder em Rio Verde')">🎤 Discurso Wilder Morais</span>
                 </div>
             </div>
         </div>
@@ -212,18 +212,18 @@ HTML_CHAT_WIDGET = f"""
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Consulte a IA sobre mapa de queixas, gráficos, discursos, notícias ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Consulte a IA sobre mapa de queixas, gráficos, pesquisas do Google, discursos ou notícias..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
 
     <script>
-        function perguntarRapido(texto) {{
+        function perguntarRapido(texto) {
             document.getElementById('pergunta').value = texto;
             enviar();
-        }}
+        }
 
-        async function enviar() {{
+        async function enviar() {
             const input = document.getElementById('pergunta');
             const chat = document.getElementById('chat');
             const pergunta = input.value.trim();
@@ -231,7 +231,7 @@ HTML_CHAT_WIDGET = f"""
 
             chat.innerHTML += `
                 <div class="msg-row" style="justify-content:flex-end;">
-                    <div class="msg user">${{pergunta}}</div>
+                    <div class="msg user">${pergunta}</div>
                 </div>
             `;
             input.value = '';
@@ -240,180 +240,32 @@ HTML_CHAT_WIDGET = f"""
             const botRow = document.createElement('div');
             botRow.className = 'msg-row';
             botRow.innerHTML = `
-                <img src="{WILDER_AVATAR_B64}" alt="" class="msg-avatar">
+                <img src="{{ wilder_avatar }}" alt="" class="msg-avatar">
                 <div class="msg bot"><strong>[SALA DE GUERRA IA] Analisando banco de dados...</strong></div>
             `;
             chat.appendChild(botRow);
             chat.scrollTop = chat.scrollHeight;
 
-            try {{
-                const res = await fetch('/api/chat', {{
+            try {
+                const res = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
-                    body: JSON.stringify({{ pergunta }})
-                }});
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pergunta })
+                });
                 const data = await res.json();
                 botRow.querySelector('.msg.bot').innerHTML = data.resposta;
-            }} catch (err) {{
+            } catch (err) {
                 botRow.querySelector('.msg.bot').innerHTML = '<strong>Erro de comunicação com a IA da Sala de Guerra.</strong>';
-            }}
+            }
             chat.scrollTop = chat.scrollHeight;
-        }}
+        }
     </script>
 </body>
 </html>
 """
 
-HTML_RADAR_NOTICIAS = f"""
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de Notícias Reais & Pesquisas — Goiás 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {{ box-sizing: border-box; }}
-        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
-        
-        .header {{ background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }}
-        .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }}
-        .container {{ max-width: 1280px; margin: 30px auto; padding: 0 20px; }}
-        
-        .filter-bar {{ display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }}
-        .btn-filter {{ background: #0c2415; color: #fef08a; border: 1px solid #22c55e; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; }}
-        .btn-filter:hover, .btn-filter.active {{ background: #15803d; color: #fff; border-color: #eab308; }}
-
-        .card-pesquisa {{ background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(234,179,8,0.4); }}
-        .card-noticia {{ background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: 0.2s; }}
-        .card-danger {{ border-color: #ef4444; background: #1a0808; }}
-        .card-pos {{ border-color: #22c55e; background: #081a0e; }}
-
-        .badge-cand {{ background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; border: 1px solid #60a5fa; }}
-        .badge-pos {{ background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }}
-        .badge-cri {{ background: #dc2626; color: #fff; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }}
-        .badge-neu {{ background: #eab308; color: #000; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }}
-
-        .links-row {{ display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }}
-        .btn-link-real {{ background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #60a5fa; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }}
-        .btn-link-real:hover {{ background: #3b82f6; }}
-        .btn-gnews {{ background: #040e08; color: #86efac; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #22c55e; display: inline-flex; align-items: center; gap: 6px; }}
-
-        .estrategia-box {{ background: #040e08; border-left: 4px solid #eab308; padding: 16px; margin-top: 16px; border-radius: 8px; font-size: 14px; line-height: 1.6; }}
-        
-        table {{ width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }}
-        th {{ background: #040e08; color: #86efac; padding: 10px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }}
-        td {{ padding: 10px; border-bottom: 1px solid #14351f; color: #e2e8f0; }}
-    </style>
-</head>
-<body>
-    {HTML_ALERT_SYSTEM_SCRIPT}
-    <div class="header">
-        <div style="display:flex;align-items:center;gap:14px;">
-            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
-            <div>
-                <h1 style="margin:0;font-size:20px;color:#fff;">📰 RADAR DE NOTÍCIAS REAIS & PESQUISAS ELEITORAIS</h1>
-                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Notícias Jornalísticas Validadas ao Vivo com Links Reais para Wilder, Daniel Vilela e Marconi Perillo</p>
-            </div>
-        </div>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-
-    <div class="container">
-        <!-- FILTROS POR CANDIDATO -->
-        <div class="filter-bar">
-            <button class="btn-filter active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos</button>
-            <button class="btn-filter" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais</button>
-            <button class="btn-filter" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela</button>
-            <button class="btn-filter" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo</button>
-        </div>
-
-        <!-- CARD DA PESQUISA ELEITORAL CONFIRMADA -->
-        <div class="card-pesquisa">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                <span style="font-weight:800;color:#fef08a;font-size:17px;">🚀 PESQUISA ELEITORAL OFICIAL — {{{{ pesquisa.instituto }}}}</span>
-                <span style="background:#eab308;color:#000;padding:4px 10px;border-radius:6px;font-weight:800;font-size:12px;">DIVULGADA EM {{{{ pesquisa.data_divulgacao }}}}</span>
-            </div>
-            <h2 style="margin:4px 0 12px 0;color:#fff;font-size:20px;">"{{{{ pesquisa.confirmacao_subida }}}}"</h2>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Candidato</th>
-                        <th>Votos Válidos (%)</th>
-                        <th>Posição & Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{% for c in pesquisa.cenario_votos_validos %}}
-                    <tr>
-                        <td><strong>{{{{ c.candidato }}}}</strong></td>
-                        <td><strong style="color:#fef08a;font-size:16px;">{{{{ c.percentual }}}}</strong></td>
-                        <td><span style="color:#86efac;font-weight:bold;">{{{{ c.posicao }}}}</span></td>
-                    </tr>
-                    {{% endfor %}}
-                </tbody>
-            </table>
-        </div>
-
-        <h3 style="color:#86efac;margin-bottom:16px;">📰 NOTÍCIAS REAIS DA IMPRENSA DE GOIÁS (LINK DIRETO DE CADA MATÉRIA)</h3>
-
-        {{% for item in noticias %}}
-        <div class="card-noticia item-noticia {{{{ item.candidato }}}} {{% if 'CRÍTICA' in item.tipo_noticia %}}card-danger{{% elif 'POSITIVA' in item.tipo_noticia %}}card-pos{{% endif %}}">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <span class="badge-cand">👤 {{{{ item.candidato }}}}</span>
-                    <span style="font-weight: 800; color: #86efac; font-size: 15px;">📰 {{{{ item.veiculo }}}} &bull; <span style="color:#cbd5e1;font-size:13px;">{{{{ item.data }}}}</span></span>
-                </div>
-                <span>
-                    {{% if 'CRÍTICA' in item.tipo_noticia %}}
-                    <span class="badge-cri">🔴 {{{{ item.tipo_noticia }}}}</span>
-                    {{% elif 'POSITIVA' in item.tipo_noticia %}}
-                    <span class="badge-pos">🟢 {{{{ item.tipo_noticia }}}}</span>
-                    {{% else %}}
-                    <span class="badge-neu">🟡 {{{{ item.tipo_noticia }}}}</span>
-                    {{% endif %}}
-                </span>
-            </div>
-            
-            <h3 style="margin: 0 0 10px 0; color: #fff; font-size: 18.5px;">"{{{{ item.manchete }}}}"</h3>
-            
-            <div class="links-row">
-                <a href="{{{{ item.url_noticia }}}}" target="_blank" class="btn-link-real">📰 Ler Matéria Real no Portal (Link Oficial)</a>
-                <a href="{{{{ item.url_google_news }}}}" target="_blank" class="btn-gnews">🔍 Auditar no Google News</a>
-            </div>
-            
-            <div class="estrategia-box">
-                🛡️ <strong>PLANO DE AÇÃO & RESPOSTA DE ESTRATÉGIA IA:</strong><br>
-                {{{{ item.estrategia_defesa }}}}
-            </div>
-        </div>
-        {{% endfor %}}
-    </div>
-
-    <script>
-        function filtrarCandidato(cand) {{
-            const items = document.querySelectorAll('.item-noticia');
-            const btns = document.querySelectorAll('.btn-filter');
-            btns.forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-
-            items.forEach(item => {{
-                if (cand === 'todos' || item.classList.contains(cand)) {{
-                    item.style.display = 'block';
-                }} else {{
-                    item.style.display = 'none';
-                }}
-            }});
-        }}
-    </script>
-</body>
-</html>
-"""
-
-# MAPA TÁTICO INTERATIVO COM 4 GRÁFICOS VISUAIS E CORES POR SETOR (RESTAUTADO E APERFEIÇOADO)
-HTML_MAPA_DEMANDAS = f"""
+# MAPA TÁTICO INTERATIVO COM 4 GRÁFICOS VISUAIS E TABELA DE BUSCAS DO GOOGLE TRENDS (TEMPLATE JINJA2 LIMPO E SEM CORRUPÇÃO)
+HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -426,45 +278,44 @@ HTML_MAPA_DEMANDAS = f"""
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        * {{ box-sizing: border-box; }}
-        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
         
-        .header {{ background: linear-gradient(135deg, #0b2214, #0284c7, #15803d); padding: 16px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }}
-        .brand-avatar {{ width: 50px; height: 50px; min-width: 50px; min-height: 50px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
+        .header { background: linear-gradient(135deg, #0b2214, #0284c7, #15803d); padding: 16px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .brand-avatar { width: 50px; height: 50px; min-width: 50px; min-height: 50px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
         
-        .container {{ max-width: 1340px; margin: 30px auto; padding: 0 20px; }}
+        .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
 
-        .legend-bar {{ background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }}
-        .legend-item {{ display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }}
-        .dot-red {{ width: 14px; height: 14px; background: #ef4444; border-radius: 50%; display: inline-block; }}
-        .dot-orange {{ width: 14px; height: 14px; background: #f97316; border-radius: 50%; display: inline-block; }}
-        .dot-green {{ width: 14px; height: 14px; background: #22c55e; border-radius: 50%; display: inline-block; }}
-        .dot-blue {{ width: 14px; height: 14px; background: #3b82f6; border-radius: 50%; display: inline-block; }}
-        .dot-purple {{ width: 14px; height: 14px; background: #a855f7; border-radius: 50%; display: inline-block; }}
+        .legend-bar { background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
+        .dot-red { width: 14px; height: 14px; background: #ef4444; border-radius: 50%; display: inline-block; }
+        .dot-orange { width: 14px; height: 14px; background: #f97316; border-radius: 50%; display: inline-block; }
+        .dot-green { width: 14px; height: 14px; background: #22c55e; border-radius: 50%; display: inline-block; }
+        .dot-blue { width: 14px; height: 14px; background: #3b82f6; border-radius: 50%; display: inline-block; }
+        .dot-purple { width: 14px; height: 14px; background: #a855f7; border-radius: 50%; display: inline-block; }
 
-        .map-section {{ background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }}
-        .card-title {{ font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #0284c7; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }}
+        .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+        .card-title { font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #0284c7; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        #map {{ width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }}
+        #map { width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
 
-        .charts-row-top {{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px; }}
-        .charts-row-bottom {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }}
-        .chart-box {{ background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }}
+        .charts-row-top { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .charts-row-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .chart-box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 
-        table {{ width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }}
-        th {{ background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }}
-        td {{ padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }}
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
 
-        .leaflet-popup-content-wrapper {{ background: #040e08; color: #f8fafc; border: 1px solid #22c55e; border-radius: 10px; }}
-        .leaflet-popup-tip {{ background: #040e08; }}
+        .leaflet-popup-content-wrapper { background: #040e08; color: #f8fafc; border: 1px solid #22c55e; border-radius: 10px; }
+        .leaflet-popup-tip { background: #040e08; }
     </style>
 </head>
 <body>
-    {HTML_ALERT_SYSTEM_SCRIPT}
     <div class="header">
         <div style="display:flex;align-items:center;gap:14px;">
-            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
+            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
             <div>
                 <h1 style="margin:0;font-size:20px;color:#fff;">🗺️ MAPA TÁTICO COLORIDO & PAINEL DE 4 GRÁFICOS VISUAIS</h1>
                 <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Geolocalização de Queixas Populares por Cidade & Inteligência de Buscas do Google Trends</p>
@@ -526,7 +377,36 @@ HTML_MAPA_DEMANDAS = f"""
             </div>
         </div>
 
-        <!-- 3. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
+        <!-- 3. TABELA DETALHADA DAS BUSCAS DO GOOGLE TRENDS EM GOIÁS -->
+        <div class="map-section">
+            <div class="card-title">
+                <span>🔍 GOOGLE TRENDS GOIÁS — DETALHAMENTO DE BUSCAS E RESPOSTA DA CAMPANHA</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Termo de Busca em Goiás</th>
+                        <th>Volume Mensal Estimado</th>
+                        <th>Tendência na Web</th>
+                        <th>Interesse Principal do Eleitor</th>
+                        <th>Resposta Estratégica da Campanha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for g in google_trends %}
+                    <tr>
+                        <td><strong style="color:#fef08a;font-size:14.5px;">🔍 {{ g.termo_busca }}</strong></td>
+                        <td><strong style="color:#38bdf8;">{{ g.volume_mensal }}</strong></td>
+                        <td><strong style="color:#ef4444;">{{ g.tendencia }}</strong></td>
+                        <td>{{ g.interesse }}</td>
+                        <td><strong style="color:#86efac;">{{ g.resposta_campanha }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
         <div class="map-section">
             <div class="card-title">
                 <span>📋 DETALHAMENTO DAS 8 CIDADES POLO, ELEITORES TSE E VÍDEOS RECOMENDADOS</span>
@@ -542,15 +422,15 @@ HTML_MAPA_DEMANDAS = f"""
                     </tr>
                 </thead>
                 <tbody>
-                    {{% for c in reclamacoes %}}
+                    {% for c in reclamacoes %}
                     <tr>
-                        <td><strong style="color:#fef08a;font-size:15px;">📍 {{{{ c.cidade }}}}</strong><br><span style="font-size:12px;color:#94a3b8;">{{{{ c.regiao }}}}</span></td>
-                        <td><strong style="color:#38bdf8;">{{{{ c.pauta_principal }}}}</strong></td>
-                        <td><strong style="color:#86efac;">{{{{ c.eleitores }}}}</strong></td>
-                        <td>{{{{ c.demanda_especifica }}}}</td>
-                        <td><strong style="color:#eab308;">{{{{ c.video_recomendado }}}}</strong></td>
+                        <td><strong style="color:#fef08a;font-size:15px;">📍 {{ c.cidade }}</strong><br><span style="font-size:12px;color:#94a3b8;">{{ c.regiao }}</span></td>
+                        <td><strong style="color:#38bdf8;">{{ c.pauta_principal }}</strong></td>
+                        <td><strong style="color:#86efac;">{{ c.eleitores }}</strong></td>
+                        <td>{{ c.demanda_especifica }}</td>
+                        <td><strong style="color:#eab308;">{{ c.video_recomendado }}</strong></td>
                     </tr>
-                    {{% endfor %}}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -559,31 +439,31 @@ HTML_MAPA_DEMANDAS = f"""
     <script>
         const map = L.map('map').setView([-16.6789, -49.2539], 7);
 
-        L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '© OpenStreetMap / Inteligência Eleitoral Wilder Morais'
-        }}).addTo(map);
+        }).addTo(map);
 
-        const dadosCidades = {{{{ reclamacoes|tojson }}}};
+        const dadosCidades = {{ reclamacoes|tojson }};
 
-        function getCustomIcon(color) {{
-            const colorHex = {{
+        function getCustomIcon(color) {
+            const colorHex = {
                 'red': '#ef4444',
                 'orange': '#f97316',
                 'green': '#22c55e',
                 'blue': '#3b82f6',
                 'purple': '#a855f7'
-            }}[color] || '#22c55e';
+            }[color] || '#22c55e';
 
-            return L.divIcon({{
+            return L.divIcon({
                 className: 'custom-pin',
                 html: '<div style="background-color:' + colorHex + ';width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ' + colorHex + ';"></div>',
                 iconSize: [22, 22],
                 iconAnchor: [11, 11]
-            }});
-        }}
+            });
+        }
 
-        dadosCidades.forEach(c => {{
+        dadosCidades.forEach(c => {
             const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
                 '<h3 style="margin:0 0 4px 0;color:#fef08a;font-size:15px;">📍 ' + c.cidade + ' (' + c.regiao + ')</h3>' +
                 '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Pauta:</strong> ' + c.cor_nome + '</p>' +
@@ -595,98 +475,98 @@ HTML_MAPA_DEMANDAS = f"""
                 '<span style="color:#fff;font-size:11.5px;">"' + c.gancho_3s + '"</span>' +
                 '</div></div>';
 
-            L.marker([c.lat, c.lon], {{ icon: getCustomIcon(c.cor) }})
+            L.marker([c.lat, c.lon], { icon: getCustomIcon(c.cor) })
                 .addTo(map)
                 .bindPopup(popupContent);
-        }});
+        });
 
-        new Chart(document.getElementById('chartCidades').getContext('2d'), {{
+        new Chart(document.getElementById('chartCidades').getContext('2d'), {
             type: 'bar',
-            data: {{
+            data: {
                 labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'],
-                datasets: [{{
+                datasets: [{
                     label: '% de Queixas na Cidade',
                     data: [45, 42, 40, 38, 35, 30, 28, 25],
                     backgroundColor: ['#f97316', '#ef4444', '#f97316', '#ef4444', '#3b82f6', '#22c55e', '#3b82f6', '#a855f7']
-                }}]
-            }},
-            options: {{
+                }]
+            },
+            options: {
                 responsive: true,
-                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }},
-                scales: {{
-                    x: {{ ticks: {{ color: '#f8fafc' }} }},
-                    y: {{ ticks: {{ color: '#f8fafc' }} }}
-                }}
-            }}
-        }});
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
 
-        new Chart(document.getElementById('chartCategorias').getContext('2d'), {{
+        new Chart(document.getElementById('chartCategorias').getContext('2d'), {
             type: 'doughnut',
-            data: {{
+            data: {
                 labels: ['Saúde & Filas SUS (42%)', 'Transporte & Asfalto (28%)', 'Logística Agro & Pontes (14%)', 'Emprego Jovem (9%)', 'Hospital & Turismo (7%)'],
-                datasets: [{{
+                datasets: [{
                     data: [42, 28, 14, 9, 7],
                     backgroundColor: ['#ef4444', '#f97316', '#22c55e', '#3b82f6', '#a855f7']
-                }}]
-            }},
-            options: {{
+                }]
+            },
+            options: {
                 responsive: true,
-                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }}
-            }}
-        }});
+                plugins: { legend: { labels: { color: '#f8fafc' } } }
+            }
+        });
 
-        new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {{
+        new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {
             type: 'bar',
-            data: {{
+            data: {
                 labels: ['Concurso Público', 'Saúde / Fila SUS', 'Primeiro Emprego', 'Asfalto Entorno', 'Crédito Jovem'],
-                datasets: [{{
+                datasets: [{
                     label: 'Volume Mensal Estimado no Google',
                     data: [96000, 88000, 72000, 54000, 45000],
                     backgroundColor: '#0284c7'
-                }}]
-            }},
-            options: {{
+                }]
+            },
+            options: {
                 responsive: true,
-                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }},
-                scales: {{
-                    x: {{ ticks: {{ color: '#f8fafc' }} }},
-                    y: {{ ticks: {{ color: '#f8fafc' }} }}
-                }}
-            }}
-        }});
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    x: { ticks: { color: '#f8fafc' } },
+                    y: { ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
 
-        new Chart(document.getElementById('chartUrgencia').getContext('2d'), {{
+        new Chart(document.getElementById('chartUrgencia').getContext('2d'), {
             type: 'radar',
-            data: {{
+            data: {
                 labels: ['Metropolitana', 'Entorno DF', 'Sudoeste Agro', 'Centro Goiano', 'Sul Goiano', 'Estrada do Ferro'],
-                datasets: [{{
+                datasets: [{
                     label: 'Índice de Urgência de Resposta (0 a 100)',
                     data: [95, 90, 85, 80, 75, 70],
                     backgroundColor: 'rgba(234, 179, 8, 0.2)',
                     borderColor: '#eab308',
                     pointBackgroundColor: '#eab308'
-                }}]
-            }},
-            options: {{
+                }]
+            },
+            options: {
                 responsive: true,
-                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }},
-                scales: {{
-                    r: {{
-                        angleLines: {{ color: '#164624' }},
-                        grid: {{ color: '#164624' }},
-                        pointLabels: {{ color: '#86efac' }},
-                        ticks: {{ backdropColor: 'transparent', color: '#f8fafc' }}
-                    }}
-                }}
-            }}
-        }});
+                plugins: { legend: { labels: { color: '#f8fafc' } } },
+                scales: {
+                    r: {
+                        angleLines: { color: '#164624' },
+                        grid: { color: '#164624' },
+                        pointLabels: { color: '#86efac' },
+                        ticks: { backdropColor: 'transparent', color: '#f8fafc' }
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>
 """
 
 # DASHBOARD EXECUTIVO
-HTML_DASHBOARD_METABASE = f"""
+HTML_DASHBOARD_METABASE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -695,21 +575,20 @@ HTML_DASHBOARD_METABASE = f"""
     <title>Dashboard Executivo — YouTube Real</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
-        .header {{ background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }}
-        .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
-        .container {{ max-width: 1280px; margin: 30px auto; padding: 0 20px; }}
-        table {{ width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }}
-        th {{ background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }}
-        td {{ padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }}
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .brand-avatar { width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
     </style>
 </head>
 <body>
-    {HTML_ALERT_SYSTEM_SCRIPT}
     <div class="header">
         <div style="display:flex;align-items:center;gap:14px;">
-            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
+            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
             <div>
                 <h1 style="margin:0;font-size:20px;color:#fff;">📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</h1>
             </div>
@@ -729,18 +608,164 @@ HTML_DASHBOARD_METABASE = f"""
                     </tr>
                 </thead>
                 <tbody>
-                    {{% for v in yt_videos %}}
+                    {% for v in yt_videos %}
                     <tr>
-                        <td><strong style="color:#fef08a;">{{{{ v.candidato }}}}</strong></td>
-                        <td>{{{{ v.titulo }}}}</td>
-                        <td><span style="color:#4ade80;">{{{{ v.views }}}}</span></td>
-                        <td><a href="{{{{ v.url }}}}" target="_blank" style="color:#38bdf8;font-weight:bold;">🎬 Assistir Vídeo no YouTube</a></td>
+                        <td><strong style="color:#fef08a;">{{ v.candidato }}</strong></td>
+                        <td>{{ v.titulo }}</td>
+                        <td><span style="color:#4ade80;">{{ v.views }}</span></td>
+                        <td><a href="{{ v.url }}" target="_blank" style="color:#38bdf8;font-weight:bold;">🎬 Assistir Vídeo no YouTube</a></td>
                     </tr>
-                    {{% endfor %}}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+</body>
+</html>
+"""
+
+# RADAR DE NOTÍCIAS
+HTML_RADAR_NOTICIAS = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Notícias Reais & Pesquisas — Goiás 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        
+        .header { background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
+        .brand-avatar { width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
+        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+        
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .btn-filter { background: #0c2415; color: #fef08a; border: 1px solid #22c55e; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .btn-filter:hover, .btn-filter.active { background: #15803d; color: #fff; border-color: #eab308; }
+
+        .card-pesquisa { background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(234,179,8,0.4); }
+        .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: 0.2s; }
+        .card-danger { border-color: #ef4444; background: #1a0808; }
+        .card-pos { border-color: #22c55e; background: #081a0e; }
+
+        .badge-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; border: 1px solid #60a5fa; }
+        .badge-pos { background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+        .badge-cri { background: #dc2626; color: #fff; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+        .badge-neu { background: #eab308; color: #000; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+
+        .links-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+        .btn-link-real { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #60a5fa; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
+        .btn-link-real:hover { background: #3b82f6; }
+        .btn-gnews { background: #040e08; color: #86efac; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #22c55e; display: inline-flex; align-items: center; gap: 6px; }
+
+        .estrategia-box { background: #040e08; border-left: 4px solid #eab308; padding: 16px; margin-top: 16px; border-radius: 8px; font-size: 14px; line-height: 1.6; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+        th { background: #040e08; color: #86efac; padding: 10px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 10px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">📰 RADAR DE NOTÍCIAS REAIS & PESQUISAS ELEITORAIS</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Notícias Jornalísticas Validadas ao Vivo com Links Reais para Wilder, Daniel Vilela e Marconi Perillo</p>
+            </div>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+    </div>
+
+    <div class="container">
+        <div class="filter-bar">
+            <button class="btn-filter active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos</button>
+            <button class="btn-filter" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais</button>
+            <button class="btn-filter" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela</button>
+            <button class="btn-filter" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo</button>
+        </div>
+
+        <div class="card-pesquisa">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <span style="font-weight:800;color:#fef08a;font-size:17px;">🚀 PESQUISA ELEITORAL OFICIAL — {{ pesquisa.instituto }}</span>
+                <span style="background:#eab308;color:#000;padding:4px 10px;border-radius:6px;font-weight:800;font-size:12px;">DIVULGADA EM {{ pesquisa.data_divulgacao }}</span>
+            </div>
+            <h2 style="margin:4px 0 12px 0;color:#fff;font-size:20px;">"{{ pesquisa.confirmacao_subida }}"</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Votos Válidos (%)</th>
+                        <th>Posição & Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in pesquisa.cenario_votos_validos %}
+                    <tr>
+                        <td><strong>{{ c.candidato }}</strong></td>
+                        <td><strong style="color:#fef08a;font-size:16px;">{{ c.percentual }}</strong></td>
+                        <td><span style="color:#86efac;font-weight:bold;">{{ c.posicao }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="color:#86efac;margin-bottom:16px;">📰 NOTÍCIAS REAIS DA IMPRENSA DE GOIÁS (LINK DIRETO DE CADA MATÉRIA)</h3>
+
+        {% for item in noticias %}
+        <div class="card-noticia item-noticia {{ item.candidato }} {% if 'CRÍTICA' in item.tipo_noticia %}card-danger{% elif 'POSITIVA' in item.tipo_noticia %}card-pos{% endif %}">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="badge-cand">👤 {{ item.candidato }}</span>
+                    <span style="font-weight: 800; color: #86efac; font-size: 15px;">📰 {{ item.veiculo }} &bull; <span style="color:#cbd5e1;font-size:13px;">{{ item.data }}</span></span>
+                </div>
+                <span>
+                    {% if 'CRÍTICA' in item.tipo_noticia %}
+                    <span class="badge-cri">🔴 {{ item.tipo_noticia }}</span>
+                    {% elif 'POSITIVA' in item.tipo_noticia %}
+                    <span class="badge-pos">🟢 {{ item.tipo_noticia }}</span>
+                    {% else %}
+                    <span class="badge-neu">🟡 {{ item.tipo_noticia }}</span>
+                    {% endif %}
+                </span>
+            </div>
+            
+            <h3 style="margin: 0 0 10px 0; color: #fff; font-size: 18.5px;">"{{ item.manchete }}"</h3>
+            
+            <div class="links-row">
+                <a href="{{ item.url_noticia }}" target="_blank" class="btn-link-real">📰 Ler Matéria Real no Portal (Link Oficial)</a>
+                <a href="{{ item.url_google_news }}" target="_blank" class="btn-gnews">🔍 Auditar no Google News</a>
+            </div>
+            
+            <div class="estrategia-box">
+                🛡️ <strong>PLANO DE AÇÃO & RESPOSTA DE ESTRATÉGIA IA:</strong><br>
+                {{ item.estrategia_defesa }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function filtrarCandidato(cand) {
+            const items = document.querySelectorAll('.item-noticia');
+            const btns = document.querySelectorAll('.btn-filter');
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (cand === 'todos' || item.classList.contains(cand)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 """
@@ -750,14 +775,16 @@ HTML_DASHBOARD_METABASE = f"""
 @app.route("/", methods=["GET"])
 @app.route("/chat", methods=["GET"])
 def chat_home():
-    return render_template_string(HTML_CHAT_WIDGET)
+    return render_template_string(HTML_CHAT_WIDGET, wilder_avatar=WILDER_AVATAR_B64)
 
 @app.route("/mapa_demandas", methods=["GET"])
 @app.route("/mapa", methods=["GET"])
 def mapa_demandas_page():
     return render_template_string(
         HTML_MAPA_DEMANDAS,
-        reclamacoes=MAPA_RECLAMACOES_DETALHADO
+        reclamacoes=MAPA_RECLAMACOES_DETALHADO,
+        google_trends=GOOGLE_TRENDS_GOIAS,
+        wilder_avatar=WILDER_AVATAR_B64
     )
 
 @app.route("/radar_noticias", methods=["GET"])
@@ -765,7 +792,8 @@ def radar_noticias_page():
     return render_template_string(
         HTML_RADAR_NOTICIAS,
         noticias=RADAR_NOTICIAS_TODOS_CANDIDATOS,
-        pesquisa=PESQUISA_OFICIAL_GOIAS_2026
+        pesquisa=PESQUISA_OFICIAL_GOIAS_2026,
+        wilder_avatar=WILDER_AVATAR_B64
     )
 
 @app.route("/dashboard", methods=["GET"])
@@ -774,7 +802,8 @@ def dashboard_metabase_page():
     return render_template_string(
         HTML_DASHBOARD_METABASE,
         yt_videos=YOUTUBE_VIDEOS_REAIS,
-        colegios=MAIORES_COLEGIOS_TSE
+        colegios=MAIORES_COLEGIOS_TSE,
+        wilder_avatar=WILDER_AVATAR_B64
     )
 
 @app.route("/eventos", methods=["GET"])
@@ -823,6 +852,7 @@ Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra
 
 VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIAL:
 - Mapa Tático de Queixas por Cidade Polo com 4 Gráficos Interativos em Chart.js (Barras por Cidade, Rosca de Setores, Google Trends e Radar de Urgência por Região).
+- Google Trends Goiás (Concurso Público 96k, Saúde Fila SUS 88k, Primeiro Emprego 72k, Asfalto Entorno 54k, Crédito Jovem 45k).
 - Pesquisa Oficial (Instituto Goiás Pesquisas): Wilder atinge 22,0% dos Votos Válidos, ultrapassa Marconi Perillo (21,9%) e avança para o 2º Turno contra Daniel Vilela (43,5%).
 """
 
@@ -845,9 +875,9 @@ VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIA
             pass
 
     p_lower = pergunta.lower()
-    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade"]):
+    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade", "google", "trend", "trends", "busca"]):
         resp = f"🗺️ <strong>MAPA COLORIDO INTERATIVO & PAINEL DE 4 GRÁFICOS VISUAIS RESTAURADO</strong><br><br>" \
-               f"O painel visual completo abaixo do mapa conta com Gráfico de Barras de Cidades, Gráfico de Rosca de Setores, Buscas do Google Trends e Radar de Urgência por Região!<br><br>" \
+               f"O painel visual completo conta com Gráfico de Barras de Cidades, Gráfico de Rosca de Setores, Buscas do Google Trends em Goiás e Radar de Urgência por Região!<br><br>" \
                f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & 4 GRÁFICOS VISUAIS</a>"
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
