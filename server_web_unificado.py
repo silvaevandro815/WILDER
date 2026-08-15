@@ -203,7 +203,7 @@ HTML_CHAT_WIDGET = """
             <img src="{{ wilder_avatar }}" alt="" class="msg-avatar">
             <div class="msg bot">
                 <strong>🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — WILDER MORAIS 2026</strong><br><br>
-                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Mapa Tático Colorido por Pauta</strong>, <strong>Painel de 4 Gráficos Visuais</strong>, <strong>Radar de 150 Eventos em Goiás</strong> e Notícias Reais.<br><br>
+                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Mapa Tático Colorido por Pauta</strong> com pinos interativos e gráficos, <strong>Radar de 150 Eventos em Goiás</strong> e Notícias Reais.<br><br>
                 <strong>Faça uma consulta ou escolha um atalho de ação:</strong>
                 <div class="quick-actions">
                     <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa Colorido & 4 Gráficos</span>
@@ -269,7 +269,7 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# MAPA TÁTICO INTERATIVO COM 4 GRÁFICOS VISUAIS E FALLBACK COMPLETO HTML/CSS PARA GARANTIR VISUALIZAÇÃO 100% PERFEITA
+# MAPA TÁTICO COLORIDO COM PINOS INTERATIVOS DUAL-MODE (LEAFLET + VETORIAL SVG INTERATIVO DE GOIÁS)
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -279,15 +279,11 @@ HTML_MAPA_DEMANDAS = """
     <title>Mapa Tático Interativo & Gráficos de Queixas — Goiás 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- CARREGAMENTO DE CSS COM FALLBACK LOCAL -->
     <link rel="stylesheet" href="/static/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
 
-    <!-- CARREGAMENTO DE JS LOCAL PRIMEIRA OPÇÃO (100% BLOQUEIO PROOF) -->
     <script src="/static/leaflet.js"></script>
     <script src="/static/chart.js"></script>
-    
-    <!-- CDNS SECUNDÁRIOS CASO O LOCAL NÃO SEJA SERVIDO -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -309,20 +305,37 @@ HTML_MAPA_DEMANDAS = """
         .dot-blue { width: 14px; height: 14px; background: #3b82f6; border-radius: 50%; display: inline-block; }
         .dot-purple { width: 14px; height: 14px; background: #a855f7; border-radius: 50%; display: inline-block; }
 
-        .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+        .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; position: relative; }
         .card-title { font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #0284c7; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        #map { width: 100%; height: 520px; min-height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; display: block; }
+        #map { width: 100%; height: 520px; min-height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; display: block; position: relative; z-index: 1; }
+
+        .custom-pin { background: transparent !important; border: none !important; }
+
+        .goias-svg-wrapper { position: relative; width: 100%; height: 520px; background: linear-gradient(135deg, #040e08, #0b2214); border-radius: 12px; border: 1px solid #1e4028; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        
+        .pin-node { position: absolute; cursor: pointer; transform: translate(-50%, -50%); transition: transform 0.2s; z-index: 10; }
+        .pin-node:hover { transform: translate(-50%, -50%) scale(1.3); z-index: 100; }
+        
+        @keyframes pulsePin {
+            0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7); }
+            70% { box-shadow: 0 0 0 14px rgba(234, 179, 8, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+        }
+
+        .pin-circle { width: 26px; height: 26px; border-radius: 50%; border: 3px solid #ffffff; box-shadow: 0 0 15px rgba(0,0,0,0.8); animation: pulsePin 2s infinite; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; }
+        
+        .pin-tooltip { display: none; position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); background: #040e08; border: 2px solid #eab308; border-radius: 10px; padding: 12px; width: 260px; color: #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.9); z-index: 200; font-size: 12px; pointer-events: none; }
+        .pin-node:hover .pin-tooltip { display: block; }
 
         .charts-row-top { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px; }
         .charts-row-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
         .chart-box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); min-height: 320px; }
 
-        /* BARRAS DE PROGRESSO DE FALLBACK VISUAL GARANTIDO */
         .bar-container { margin-bottom: 12px; }
         .bar-label { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: #e2e8f0; margin-bottom: 4px; }
         .bar-track { background: #040e08; height: 18px; border-radius: 9px; overflow: hidden; border: 1px solid #1e4028; }
-        .bar-fill { height: 100%; border-radius: 9px; transition: width 1s ease-in-out; }
+        .bar-fill { height: 100%; border-radius: 9px; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
         th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
@@ -355,25 +368,112 @@ HTML_MAPA_DEMANDAS = """
             <div class="legend-item"><span class="dot-purple"></span> 🟣 Hospital Regional & Turismo</div>
         </div>
 
-        <!-- 1. MAPA LEAFLET.JS -->
+        <!-- 1. MAPA DUAL-MODE -->
         <div class="map-section">
             <div class="card-title">
-                <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE NOS PINOS)</span>
-                <span style="font-size:12px;color:#38bdf8;font-weight:bold;">TECNOLOGIA LEAFLET.JS GIS</span>
+                <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE OU PASSE O MOUSE NOS PINOS)</span>
+                <span style="font-size:12px;color:#38bdf8;font-weight:bold;">GEOLOCALIZAÇÃO DAS 8 CIDADES POLO</span>
             </div>
+            
             <div id="map"></div>
+
+            <div id="svgGoiasContainer" class="goias-svg-wrapper" style="margin-top:16px;">
+                <svg width="100%" height="100%" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+                    <path d="M 220,90 L 380,60 L 580,90 L 680,180 L 720,300 L 640,440 L 480,480 L 320,440 L 200,320 L 160,200 Z" fill="#061a0f" stroke="#164624" stroke-width="3" />
+                    <polygon points="610,240 650,240 650,270 610,270" fill="#040e08" stroke="#eab308" stroke-width="2" stroke-dasharray="3,3" />
+                    <text x="630" y="260" font-size="10" fill="#eab308" font-weight="bold" text-anchor="middle">DF</text>
+                </svg>
+
+                <div class="pin-node" style="top: 48%; left: 49%;">
+                    <div class="pin-circle" style="background:#ef4444;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Goiânia (Metropolitana)</strong><br>
+                        <span style="color:#38bdf8;">🔴 Saúde Pública & Filas SUS</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 1.030.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Mães aguardando exames há mais de 90 dias nos Cais e Postos de Saúde.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 54%; left: 51%;">
+                    <div class="pin-circle" style="background:#ef4444;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Aparecida de Goiânia</strong><br>
+                        <span style="color:#38bdf8;">🔴 Saúde & Creches Integrais</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 345.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Falta de vagas em CMEIs e pavimentação de bairros.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 42%; left: 54%;">
+                    <div class="pin-circle" style="background:#3b82f6;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Anápolis (Centro Goiano)</strong><br>
+                        <span style="color:#38bdf8;">🔵 Emprego Jovem & DAIA</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 290.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Jovens sem oportunidade por exigência de experiência prévia.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 72%; left: 34%;">
+                    <div class="pin-circle" style="background:#22c55e;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Rio Verde (Sudoeste Agro)</strong><br>
+                        <span style="color:#38bdf8;">🟢 Logística do Agro & Pontes</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 155.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Estradas vicinais esburacadas atolando carretas de grãos.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 40%; left: 68%;">
+                    <div class="pin-circle" style="background:#f97316;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Luziânia (Entorno DF)</strong><br>
+                        <span style="color:#38bdf8;">🟠 Transporte & Asfalto</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 132.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Passagem cara e ônibus sucateados no deslocamento p/ DF.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 37%; left: 71%;">
+                    <div class="pin-circle" style="background:#f97316;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Valparaíso de Goiás</strong><br>
+                        <span style="color:#38bdf8;">🟠 Saneamento & Drenagem</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 98.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Alagamentos em períodos de chuva e falta de infraestrutura.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 80%; left: 50%;">
+                    <div class="pin-circle" style="background:#a855f7;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Itumbiara (Sul Goiano)</strong><br>
+                        <span style="color:#38bdf8;">🟣 Hospital Regional & Turismo</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 78.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Necessidade de especialidades médicas sem viajar a Goiânia.</p>
+                    </div>
+                </div>
+
+                <div class="pin-node" style="top: 75%; left: 66%;">
+                    <div class="pin-circle" style="background:#3b82f6;">📍</div>
+                    <div class="pin-tooltip">
+                        <strong style="color:#fef08a;font-size:14px;">📍 Catalão (Estrada do Ferro)</strong><br>
+                        <span style="color:#38bdf8;">🔵 Cursos & Indústria</span><br>
+                        <span style="color:#86efac;">Eleitores TSE: 74.000</span><br>
+                        <p style="margin:4px 0 0 0;font-size:11px;color:#cbd5e1;">Qualificação profissional direta para a indústria e mineração.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 2. PAINEL DE 4 GRÁFICOS VISUAIS INTERATIVOS E BARRAS DE FALLBACK HTML/CSS -->
         <div class="charts-row-top">
-            <!-- GRÁFICO 1: BARRAS POR CIDADE -->
             <div class="chart-box">
                 <div class="card-title">
                     <span>📊 INTENSIDADE DE QUEIXAS POPULARES POR MUNICÍPIO POLO (%)</span>
                 </div>
                 <canvas id="chartCidades" style="max-height:260px;width:100%;"></canvas>
                 
-                <!-- BARRAS VISUAIS HTML/CSS (FALLBACK COMPLETO CASO O CANVAS SEJA BLOQUEADO) -->
                 <div id="fallbackCidades" style="margin-top:10px;">
                     {% for c in reclamacoes %}
                     <div class="bar-container">
@@ -389,7 +489,6 @@ HTML_MAPA_DEMANDAS = """
                 </div>
             </div>
 
-            <!-- GRÁFICO 2: ROSCA DE CATEGORIAS -->
             <div class="chart-box">
                 <div class="card-title">
                     <span>🍩 DISTRIBUIÇÃO DAS RECLAMAÇÕES POR CATEGORIA</span>
@@ -397,32 +496,16 @@ HTML_MAPA_DEMANDAS = """
                 <canvas id="chartCategorias" style="max-height:260px;width:100%;"></canvas>
                 
                 <div id="fallbackCategorias" style="margin-top:10px;">
-                    <div class="bar-container">
-                        <div class="bar-label"><span>🏥 Saúde & Filas SUS</span><span style="color:#ef4444;">42%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 42%; background: #ef4444;"></div></div>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-label"><span>🚗 Transporte & Asfalto</span><span style="color:#f97316;">28%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 28%; background: #f97316;"></div></div>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-label"><span>🌾 Logística Agro & Pontes</span><span style="color:#22c55e;">14%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 14%; background: #22c55e;"></div></div>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-label"><span>🎓 Emprego Jovem & DAIA</span><span style="color:#3b82f6;">9%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 9%; background: #3b82f6;"></div></div>
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-label"><span>🏥 Hospital Regional & Turismo</span><span style="color:#a855f7;">7%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 7%; background: #a855f7;"></div></div>
-                    </div>
+                    <div class="bar-container"><div class="bar-label"><span>🏥 Saúde & Filas SUS</span><span style="color:#ef4444;">42%</span></div><div class="bar-track"><div class="bar-fill" style="width: 42%; background: #ef4444;"></div></div></div>
+                    <div class="bar-container"><div class="bar-label"><span>🚗 Transporte & Asfalto</span><span style="color:#f97316;">28%</span></div><div class="bar-track"><div class="bar-fill" style="width: 28%; background: #f97316;"></div></div></div>
+                    <div class="bar-container"><div class="bar-label"><span>🌾 Logística Agro & Pontes</span><span style="color:#22c55e;">14%</span></div><div class="bar-track"><div class="bar-fill" style="width: 14%; background: #22c55e;"></div></div></div>
+                    <div class="bar-container"><div class="bar-label"><span>🎓 Emprego Jovem & DAIA</span><span style="color:#3b82f6;">9%</span></div><div class="bar-track"><div class="bar-fill" style="width: 9%; background: #3b82f6;"></div></div></div>
+                    <div class="bar-container"><div class="bar-label"><span>🏥 Hospital Regional & Turismo</span><span style="color:#a855f7;">7%</span></div><div class="bar-track"><div class="bar-fill" style="width: 7%; background: #a855f7;"></div></div></div>
                 </div>
             </div>
         </div>
 
         <div class="charts-row-bottom">
-            <!-- GRÁFICO 3: GOOGLE TRENDS -->
             <div class="chart-box">
                 <div class="card-title">
                     <span>🔍 GOOGLE TRENDS — TERMOS DE MAIOR BUSCA DOS GOIANOS</span>
@@ -444,7 +527,6 @@ HTML_MAPA_DEMANDAS = """
                 </div>
             </div>
 
-            <!-- GRÁFICO 4: RADAR DE URGÊNCIA -->
             <div class="chart-box">
                 <div class="card-title">
                     <span>📈 NÍVEL DE URGÊNCIA DE ATENDIMENTO POR REGIÃO</span>
@@ -522,7 +604,6 @@ HTML_MAPA_DEMANDAS = """
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // RENDERIZAÇÃO DO MAPA LEAFLET
             try {
                 if (typeof L !== 'undefined') {
                     const map = L.map('map').setView([-16.6789, -49.2539], 7);
@@ -533,7 +614,7 @@ HTML_MAPA_DEMANDAS = """
                         attribution: '© OpenStreetMap / CartoDB / Inteligência Eleitoral Wilder Morais'
                     }).addTo(map);
 
-                    setTimeout(function() { map.invalidateSize(); }, 300);
+                    setTimeout(function() { map.invalidateSize(); }, 200);
 
                     const dadosCidades = {{ reclamacoes|tojson }};
 
@@ -548,9 +629,9 @@ HTML_MAPA_DEMANDAS = """
 
                         return L.divIcon({
                             className: 'custom-pin',
-                            html: '<div style="background-color:' + colorHex + ';width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ' + colorHex + ';"></div>',
-                            iconSize: [22, 22],
-                            iconAnchor: [11, 11]
+                            html: '<div style="background-color:' + colorHex + ';width:24px;height:24px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 14px ' + colorHex + ';"></div>',
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 12]
                         });
                     }
 
@@ -575,10 +656,8 @@ HTML_MAPA_DEMANDAS = """
                 console.log("Erro no Leaflet:", e);
             }
 
-            // RENDERIZAÇÃO DO CHART.JS
             try {
                 if (typeof Chart !== 'undefined') {
-                    // GRÁFICO 1
                     new Chart(document.getElementById('chartCidades').getContext('2d'), {
                         type: 'bar',
                         data: {
@@ -592,7 +671,6 @@ HTML_MAPA_DEMANDAS = """
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f8fafc' } } }, scales: { x: { ticks: { color: '#f8fafc' } }, y: { ticks: { color: '#f8fafc' } } } }
                     });
 
-                    // GRÁFICO 2
                     new Chart(document.getElementById('chartCategorias').getContext('2d'), {
                         type: 'doughnut',
                         data: {
@@ -605,7 +683,6 @@ HTML_MAPA_DEMANDAS = """
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f8fafc' } } } }
                     });
 
-                    // GRÁFICO 3
                     new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {
                         type: 'bar',
                         data: {
@@ -619,7 +696,6 @@ HTML_MAPA_DEMANDAS = """
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f8fafc' } } }, scales: { x: { ticks: { color: '#f8fafc' } }, y: { ticks: { color: '#f8fafc' } } } }
                     });
 
-                    // GRÁFICO 4
                     new Chart(document.getElementById('chartUrgencia').getContext('2d'), {
                         type: 'radar',
                         data: {
@@ -644,6 +720,7 @@ HTML_MAPA_DEMANDAS = """
 </html>
 """
 
+# RADAR DE 150 EVENTOS EM GOIÁS (COM DUAL-MODE MAP)
 HTML_RADAR_EVENTOS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -671,7 +748,7 @@ HTML_RADAR_EVENTOS = """
         .btn-filter { background: #0c2415; color: #fef08a; border: 1px solid #22c55e; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; }
         .btn-filter:hover, .btn-filter.active { background: #7c3aed; color: #fff; border-color: #eab308; }
 
-        .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+        .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; position: relative; }
         .card-title { font-size: 17px; font-weight: 800; color: #c084fc; margin-bottom: 16px; border-left: 5px solid #eab308; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
 
         #mapEventos { width: 100%; height: 500px; min-height: 500px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; display: block; }
@@ -1171,9 +1248,8 @@ def api_chat():
     system_prompt = f"""
 Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
 
-VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIAL:
-- Mapa Tático de Queixas por Cidade Polo com 4 Gráficos Interativos e Barras de Progresso de Fallback Visual em HTML/CSS.
-- Pesquisa Oficial (Instituto Goiás Pesquisas): Wilder atinge 22,0% dos Votos Válidos, ultrapassa Marconi Perillo (21,9%) e avança para o 2º Turno contra Daniel Vilela (43,5%).
+VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM PINOS INTERATIVOS E DUAL-MODE (LEAFLET + VETORIAL DE GOIÁS):
+- Geolocalização com 8 Pinos Coloridos por Pauta com Popups Interativos (Goiânia, Aparecida, Anápolis, Rio Verde, Luziânia, Valparaíso, Itumbiara, Catalão).
 """
 
     if OPENROUTER_API_KEY:
@@ -1195,14 +1271,14 @@ VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIA
             pass
 
     p_lower = pergunta.lower()
-    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade", "google", "trends"]):
-        resp = f"🗺️ <strong>MAPA COLORIDO INTERATIVO & PAINEL DE 4 GRÁFICOS VISUAIS RESTAURADO</strong><br><br>" \
-               f"O painel visual conta com os scripts Leaflet e Chart.js locais e fallback de barras visuais HTML/CSS!<br><br>" \
-               f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & 4 GRÁFICOS VISUAIS</a>"
+    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade", "pino", "pinos"]):
+        resp = f"🗺️ <strong>MAPA COLORIDO DUAL-MODE COM PINOS INTERATIVOS ATIVOS</strong><br><br>" \
+               f"O sistema conta com o Mapa GIS e o Mapa Vetorial de Goiás com pinos coloridos pulsantes para todas as 8 cidades polo!<br><br>" \
+               f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & PINOS COLORIDOS</a>"
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
                f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% restaurado com o Mapa Colorido e os 4 Gráficos Visuais!"
+               f"O sistema está 100% restaurado com o Mapa Colorido e os Pinos Interativos!"
 
     return jsonify({"resposta": resp}), 200
 
