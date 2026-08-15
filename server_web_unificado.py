@@ -1238,13 +1238,13 @@ YOUTUBE — MÉTRICAS DE CANAIS:
 • Marconi Perillo: 84.600 inscritos | engajamento 3,8% (Alta polarização)
 
 ═══════════════════════════════════════════
-MAPEAMENTO DE QUEIXAS POPULARES E PÚBLICO JOVEM:
-• Luziânia: 45% reclamam de mobilidade para o DF e falta de lazer jovem.
-• Goiânia: 42% reclamam de filas do SUS e buscam 1º emprego (jovens periferia).
-• Valparaíso: 40% reclamam de saneamento e vulnerabilidade criminal jovem.
-• Aparecida de Goiânia: 38% reclamam de creches e falta de ensino técnico.
-• Anápolis: 35% reclamam de barreiras no 1º emprego (DAIA) e falta de moradia.
-• Rio Verde: 30% reclamam de gargalos em estradas e tecnologia agrotech.
+MAPEAMENTO DE QUEIXAS POPULARES E DEMOGRAFIA (Jovens e 35 a 70 anos):
+• Luziânia: 45% reclamam de exaustão no transporte para o DF (adultos) e falta de lazer (jovens).
+• Goiânia: 42% sofrem com cirurgias eletivas e falta de remédios (40-70 anos), além da busca pelo 1º emprego (jovens).
+• Valparaíso: 40% cobram obras de drenagem (adultos) e prevenção criminal para juventude nas periferias.
+• Aparecida de Goiânia: 38% pedem segurança patrimonial (adultos) e creches para mães jovens.
+• Anápolis: 35% reclamam de barreiras no 1º emprego (jovens) e dificuldade de recolocação nas indústrias (40+).
+• Rio Verde: 30% cobram médicos especialistas locais (50+) e tecnologia agrotech para reter jovens.
 
 ═══════════════════════════════════════════
 PLANO DE GOVERNO (RESUMO BASEADO NO PDF OFICIAL):
@@ -1287,10 +1287,10 @@ Responda sobre: {pergunta}"""
                 "Wilder Morais possui 6,4% de engajamento, consolidado no setor do Agro, mas com necessidade de aproximação ao público jovem. "
                 "Daniel Vilela (4,1%) possui base institucional forte. Marconi Perillo (3,8%) enfrenta alta polarização.<br><br>"
                 "👉 <a href='/dashboard' style='color:#10b981;font-weight:800;'>Ver auditoria completa do YouTube</a>")
-    elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "jovem", "emprego"]):
-        resp = ("🗺️ <strong>Dores Populares e Público Jovem:</strong><br><br>"
-                "Luziânia (45%): transporte para o DF e falta de lazer. Goiânia (42%): filas do SUS e busca por 1º emprego. "
-                "Aparecida (38%): vagas em creches e ensino técnico. Anápolis (35%): moradia e barreiras de emprego no DAIA.<br><br>"
+    elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "jovem", "emprego", "velho", "idoso", "remédio", "segurança", "idade"]):
+        resp = ("🗺️ <strong>Dores Populares (Jovens e 35-70 anos):</strong><br><br>"
+                "Luziânia (45%): exaustão no trânsito p/ Brasília. Goiânia (42%): cirurgias eletivas, remédios de alto custo e busca por 1º emprego. "
+                "Aparecida (38%): vagas em creches e segurança pública. Anápolis (35%): moradia e barreiras de recolocação para 40+.<br><br>"
                 "👉 <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Ver mapa interativo completo</a>")
     elif any(k in p_lower for k in ["evento", "festa", "agro", "romaria", "cavalgada", "exposição"]):
         resp = ("🎪 <strong>150 eventos mapeados em Goiás (Ago-Out 2026):</strong><br><br>"
@@ -1299,13 +1299,13 @@ Responda sobre: {pergunta}"""
                 "👉 <a href='/eventos' style='color:#10b981;font-weight:800;'>Abrir Radar de 150 Eventos</a>")
     elif any(k in p_lower for k in ["plano", "governo", "proposta", "propostas"]):
         resp = ("📄 <strong>Plano de Governo:</strong><br><br>"
-                "As principais propostas incluem a 'Fila Visível' na Saúde, 'Primeiro Salário' e 'Curso com Vaga' para os jovens, "
-                "e o 'Cartão Creche' para as mães trabalhadoras. O foco é geração de emprego e qualificação técnica.<br><br>"
+                "As propostas abrangem: 'Fila Visível' e 'Remédio em Casa' (foco em adultos e idosos), 'Primeiro Salário' e 'Curso com Vaga' (jovens), "
+                "e 'Cartão Creche' para mães. O foco é resolver problemas reais de todas as idades.<br><br>"
                 "👉 <a href='/plano_governo' style='color:#10b981;font-weight:800;'>Acessar base de dados</a>")
     else:
         resp = (f"🔰 <strong>Análise Estratégica: \"{pergunta}\"</strong><br><br>"
                 f"Daniel Vilela lidera as pesquisas (43,5%), enquanto Wilder Morais (22%) e Marconi Perillo (21,9%) disputam o 2º turno. "
-                f"O desafio central é comunicar propostas de geração de 1º emprego, saúde e infraestrutura para o público jovem e do Entorno.<br><br>"
+                f"O desafio central é unificar a mensagem de geração de 1º emprego (jovens) com a resolução de saúde e segurança (público 35 a 70 anos).<br><br>"
                 f"Para detalhes específicos, consulte o <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Radar de Notícias</a> ou o <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Mapa de Demandas</a>.")
 
     return jsonify({"resposta": resp}), 200

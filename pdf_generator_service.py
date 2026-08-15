@@ -307,11 +307,6 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
     {
         "candidato": "Marconi Perillo",
         "veiculo": "Poder Goiás",
-        "manchete": "Marconi volta a prometer mudanças na segurança pública após gestões marcadas por violência",
-        "data": "14/08/2026",
-        "tipo_noticia": "🔴 CRÍTICA",
-        "nivel_ameaca": "DESGASTE DE MARCONI 🟢",
-        "estrategia_defesa": "Apresentar a proposta de Segurança com Inteligência e Valorização Policial de Wilder para contrastar com promessas antigas.",
         "url_noticia": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOTzhVV2ViUkNiUWJYRGRycWhGdG51M2F5dVJhSEZyNDRBNkI4UEZWODdTSENqeFNQQVl1OGJkUEJudUhQUVdVZE95YVRNbW45YVoxXzNaQlhiSkdGUzJZSDFNVmVWZUdGY081cWlabFZtUmRhNC1JMDM3ZWxZTHcwdWxiUHM1TlhSQW03al82MUJwZFpwc2VCMlVaN0ZJZ1JHeHlqRm45cjk0Z3djYmx3UGlCMGZqZlMwWWh6SW5CV3FrQ0sx?oc=5",
         "url_google_news": "https://news.google.com/search?q=Marconi+Perillo+seguranca+Goias"
     }
@@ -327,10 +322,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔴 Vermelho (Saúde & Filas)",
         "percentual": "42%",
         "eleitores": "1.030.000",
-        "pauta_principal": "🏥 Saúde Pública e Emprego",
-        "demanda_especifica": "Filas no SUS e lentidão no atendimento primário. Alta procura por programas de 1º emprego para jovens.",
-        "video_recomendado": "Propostas para zerar filas e Geração de Emprego na Capital",
-        "gancho_3s": "Foco da Campanha: Fila visível do SUS e capacitação para jovens na Capital."
+        "pauta_principal": "🏥 Saúde Pública, Emprego Jovem e Remédios",
+        "demanda_especifica": "Jovens buscando 1º emprego. Eleitores (40-70 anos) sofrem com filas severas para cirurgias eletivas, exames complexos e falta de medicamentos contínuos nos Cais.",
+        "video_recomendado": "Fila Visível do SUS e Entrega de Remédio em Casa",
+        "gancho_3s": "Foco: Fila visível do SUS para todas as idades e Remédio em Casa."
     },
     {
         "cidade": "Aparecida de Goiânia",
@@ -338,13 +333,13 @@ MAPA_RECLAMACOES_DETALHADO = [
         "lat": -16.8233,
         "lon": -49.2439,
         "cor": "red",
-        "cor_nome": "🔴 Vermelho (Saúde & Creches)",
+        "cor_nome": "🔴 Vermelho (Saúde, Creches & Segurança)",
         "percentual": "38%",
         "eleitores": "345.000",
-        "pauta_principal": "🏫 Creches em Tempo Integral & Ensino Técnico",
-        "demanda_especifica": "Mães trabalhadoras sem vagas em creches e jovens carentes de qualificação técnica.",
-        "video_recomendado": "Cartão Creche e Cursos Profissionalizantes Integrados",
-        "gancho_3s": "Foco da Campanha: Vagas de creche garantidas e ensino técnico."
+        "pauta_principal": "🏫 Creches, Ensino Técnico & Segurança Patrimonial",
+        "demanda_especifica": "Falta de creches afeta mães jovens. Adultos (35-60) cobram asfalto de qualidade e policiamento ostensivo contra furtos a residências/comércios.",
+        "video_recomendado": "Cartão Creche e Policiamento Inteligente",
+        "gancho_3s": "Foco: Vagas de creche garantidas e segurança forte nos bairros."
     },
     {
         "cidade": "Anápolis",
@@ -355,10 +350,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔵 Azul (Emprego & DAIA)",
         "percentual": "35%",
         "eleitores": "290.000",
-        "pauta_principal": "🎓 Primeiro Emprego Jovem & Habitação Popular",
-        "demanda_especifica": "Jovens enfrentando barreiras para o primeiro emprego no polo industrial e déficit de moradia popular.",
-        "video_recomendado": "Programa Primeiro Salário e Ampliação Habitacional",
-        "gancho_3s": "Foco da Campanha: Programa 1º Salário subsidiado pelo Estado e moradias."
+        "pauta_principal": "🎓 Emprego Jovem & Recolocação 40+",
+        "demanda_especifica": "Déficit de moradia popular. Jovens sem 1º emprego e trabalhadores acima de 45 anos sofrendo discriminação/dificuldade de recolocação nas indústrias do DAIA.",
+        "video_recomendado": "Programa 1º Salário e Qualificação 40+",
+        "gancho_3s": "Foco: Emprego para o jovem e qualificação para quem tem mais de 40."
     },
     {
         "cidade": "Rio Verde",
@@ -369,10 +364,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🟢 Verde (Logística Agro & Pontes)",
         "percentual": "30%",
         "eleitores": "155.000",
-        "pauta_principal": "🌾 Logística do Agro & Agrotech para Juventude",
-        "demanda_especifica": "Gargalos em estradas vicinais e falta de integração tecnológica no campo para reter jovens.",
-        "video_recomendado": "Manutenção Viária e HUB de Inovação Agro",
-        "gancho_3s": "Foco da Campanha: Logística eficiente e capacitação técnica em agronegócio."
+        "pauta_principal": "🌾 Logística do Agro, Agrotech & Saúde Especializada",
+        "demanda_especifica": "Falta de integração Agrotech para jovens. Para os mais velhos, estradas esburacadas encarecem o frete e faltam médicos geriatras/especialistas locais.",
+        "video_recomendado": "Manutenção Viária e Especialistas no Interior",
+        "gancho_3s": "Foco: Estradas asfaltadas para escoar safra e médicos no interior."
     },
     {
         "cidade": "Luziânia",
@@ -380,13 +375,13 @@ MAPA_RECLAMACOES_DETALHADO = [
         "lat": -16.2525,
         "lon": -47.9500,
         "cor": "orange",
-        "cor_nome": "🟠 Laranja (Transporte & Asfalto)",
+        "cor_nome": "🟠 Laranja (Transporte & Custo de Vida)",
         "percentual": "45%",
         "eleitores": "132.000",
-        "pauta_principal": "🚗 Mobilidade Urbana & Custo de Vida",
-        "demanda_especifica": "Alto tempo de deslocamento para Brasília, passagens caras e ausência de opções de lazer para os jovens.",
-        "video_recomendado": "Integração do Transporte do Entorno & Praças da Juventude",
-        "gancho_3s": "Foco da Campanha: Integração tarifária metropolitana e infraestrutura de lazer."
+        "pauta_principal": "🚗 Mobilidade Integrada & Exaustão do Trabalhador",
+        "demanda_especifica": "Jovens sem lazer. Trabalhadores (35-65 anos) sofrem de exaustão extrema com até 4h diárias no trânsito para o DF, pagando passagens abusivas.",
+        "video_recomendado": "Integração Tarifária do Entorno e Subsídio de Transporte",
+        "gancho_3s": "Foco: Tarifa justa e devolução do tempo livre ao trabalhador do Entorno."
     },
     {
         "cidade": "Valparaíso de Goiás",
@@ -397,10 +392,10 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🟠 Laranja (Saneamento & Drenagem)",
         "percentual": "40%",
         "eleitores": "98.000",
-        "pauta_principal": "💧 Saneamento Básico & Prevenção Criminal Jovem",
-        "demanda_especifica": "Infraestrutura precária em bairros novos e vulnerabilidade de jovens nas periferias.",
-        "video_recomendado": "Obras de Drenagem e Segurança Comunitária Educativa",
-        "gancho_3s": "Foco da Campanha: Revitalização urbana e reforço policial preventivo com foco social."
+        "pauta_principal": "💧 Saneamento, Prevenção Jovem & Segurança Mulher",
+        "demanda_especifica": "Jovens vulneráveis nas periferias. Eleitorado adulto cobra drenagem de enchentes que destroem patrimônio e proteção ostensiva contra violência doméstica.",
+        "video_recomendado": "Drenagem Urbana e Delegacias da Mulher 24h",
+        "gancho_3s": "Foco: Fim dos alagamentos e rede de proteção à família/mulher."
     },
     {
         "cidade": "Itumbiara",
@@ -412,9 +407,9 @@ MAPA_RECLAMACOES_DETALHADO = [
         "percentual": "25%",
         "eleitores": "78.000",
         "pauta_principal": "🏥 Especialidades Médicas & Empreendedorismo",
-        "demanda_especifica": "Falta de especialistas médicos locais e alta demanda por microcrédito para jovens empreendedores.",
-        "video_recomendado": "Fortalecimento do Hospital Regional & Linha Primeira Renda",
-        "gancho_3s": "Foco da Campanha: Saúde descentralizada e crédito para jovens."
+        "demanda_especifica": "Jovens buscam crédito digital. Eleitores 50+ exigem tratamento de alta complexidade (oncologia/cardiologia) local para evitar viagens desgastantes a Goiânia.",
+        "video_recomendado": "Descentralização da Alta Complexidade e Linha Primeira Renda",
+        "gancho_3s": "Foco: Alta complexidade médica na cidade e fomento ao comércio."
     },
     {
         "cidade": "Catalão",
@@ -425,48 +420,48 @@ MAPA_RECLAMACOES_DETALHADO = [
         "cor_nome": "🔵 Azul (Cursos & Indústria)",
         "percentual": "28%",
         "eleitores": "74.000",
-        "pauta_principal": "🏭 Diversificação Industrial & Vagas Jovem",
-        "demanda_especifica": "Demanda reprimida por qualificação industrial específica para os jovens locais poderem atuar nas montadoras.",
-        "video_recomendado": "Programa 'Curso com Vaga' em Parceria com a Indústria",
-        "gancho_3s": "Foco da Campanha: Capacitação gratuita vinculada a vagas reais nas indústrias."
+        "pauta_principal": "🏭 Qualificação Industrial & Custo de Vida Família",
+        "demanda_especifica": "Jovens sem qualificação para montadoras. Chefes de família (35-60) reclamam da alta inflação local gerada pelos altos salários de executivos de fora.",
+        "video_recomendado": "Programa Curso com Vaga e Estímulo ao Comércio Local",
+        "gancho_3s": "Foco: Qualificação para os filhos da terra ganharem os melhores salários."
     }
 ]
 
 GOOGLE_TRENDS_GOIAS = [
     {
-        "termo_busca": "Pesquisa Eleitoral Goiás 2026 Wilder Morais 22%",
-        "volume_mensal": "112.000 buscas",
-        "tendencia": "🔥 ALTA EXTREMA (+180%)",
-        "interesse": "Eleitores buscando confirmação da subida de Wilder Morais nas pesquisas.",
-        "resposta_campanha": "Divulgação dos dados oficiais do Instituto Goiás Pesquisas nas redes e grupos de WhatsApp."
+        "termo_busca": "Vagas Primeiro Emprego Jovem Aprendiz Goiânia / Anápolis",
+        "volume_mensal": "115.000 buscas",
+        "tendencia": "🔥 ALTA EXTREMA (+150%)",
+        "interesse": "Jovens (16-24) buscando a primeira inserção no mercado de trabalho formal.",
+        "resposta_campanha": "Direcionar peças sobre o 'Primeiro Salário' no TikTok/Instagram Ads (Goiânia e DAIA)."
     },
     {
-        "termo_busca": "Concurso Público Goiás 2026",
-        "volume_mensal": "96.000 buscas",
-        "tendencia": "🔥 ALTA DIVERGENTE (+45%)",
-        "interesse": "Jovens e adultos buscando estabilidade no serviço público estadual.",
-        "resposta_campanha": "Proposta de concursos periódicos para Saúde, Educação e Segurança com valorização salarial."
-    },
-    {
-        "termo_busca": "Saúde Goiás / Agendamento Fila do SUS",
-        "volume_mensal": "88.000 buscas",
+        "termo_busca": "Fila do SUS cirurgia eletiva e Remédio de Alto Custo Goiás",
+        "volume_mensal": "108.000 buscas",
         "tendencia": "🔥 ALTA CRÍTICA (+60%)",
-        "interesse": "Cidadãos tentando consultar posição em exames e consultas especializadas.",
-        "resposta_campanha": "Apresentação do aplicativo 'Fila Visível' para acompanhamento transparente do SUS."
+        "interesse": "Público 40 a 70+ desesperado por tratamentos crônicos e cirurgias atrasadas.",
+        "resposta_campanha": "Impulsionar 'Fila Visível' e 'Remédio em Casa' no Facebook Ads/Grupos de WhatsApp."
     },
     {
-        "termo_busca": "Vagas Primeiro Emprego Goiânia / Anápolis",
-        "volume_mensal": "72.000 buscas",
+        "termo_busca": "Pesquisa Eleitoral Governador Goiás 2026",
+        "volume_mensal": "82.000 buscas",
+        "tendencia": "📈 CRESCENTE (+40%)",
+        "interesse": "Eleitorado médio e mídia acompanhando a evolução dos números no cenário pré-eleitoral.",
+        "resposta_campanha": "Atuar com estratégia de conteúdo focando no cenário de propostas e dados, mantendo postura analítica."
+    },
+    {
+        "termo_busca": "Transporte DF Entorno Preço Passagem e Exaustão",
+        "volume_mensal": "74.000 buscas",
+        "tendencia": "ESTÁVEL / ALTA",
+        "interesse": "Trabalhadores 30-60 anos esgotados pelo tempo de trânsito Luziânia/Valparaíso até Brasília.",
+        "resposta_campanha": "Conteúdo hyper-localizado propondo integração tarifária e devolução de tempo livre."
+    },
+    {
+        "termo_busca": "Vagas de emprego recolocação acima de 40 anos",
+        "volume_mensal": "52.000 buscas",
         "tendencia": "📈 CRESCENTE (+35%)",
-        "interesse": "Jovens de 18 a 25 anos buscando oportunidade sem exigência de experiência.",
-        "resposta_campanha": "Divulgação maciça do Programa 'Primeiro Salário' (Estado custeia salário inicial)."
-    },
-    {
-        "termo_busca": "Asfalto e Obras Entorno DF Luziânia Valparaíso",
-        "volume_mensal": "54.000 buscas",
-        "tendencia": "📈 CRESCENTE (+28%)",
-        "interesse": "Moradores cobrando transporte integrado e duplicação de vias.",
-        "resposta_campanha": "Plano Metropolitano Integrado de Mobilidade do Entorno."
+        "interesse": "Adultos e chefes de família enfrentando barreiras etárias no mercado de trabalho industrial e comércio.",
+        "resposta_campanha": "Promover programas de qualificação focados no público adulto (Agiliza e Empreende Goiás)."
     }
 ]
 
