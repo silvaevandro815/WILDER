@@ -149,6 +149,7 @@ HTML_CHAT_WIDGET = """
         .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn-nav { color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
         .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
+        .btn-eventos { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; border-color: #c084fc; font-weight: 800; }
         .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; font-weight: 800; }
         .btn-mapa { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border-color: #38bdf8; font-weight: 800; }
         .btn-dashboard { background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }
@@ -175,7 +176,6 @@ HTML_CHAT_WIDGET = """
     </style>
 </head>
 <body>
-    {% include 'alert_script' ignore missing %}
     <div class="header">
         <div class="brand">
             <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
@@ -185,10 +185,10 @@ HTML_CHAT_WIDGET = """
             </div>
         </div>
         <div class="nav-links">
+            <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
             <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa Colorido & 4 Gráficos</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar de Notícias & Pesquisas</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
-            <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 PDF 360°</a>
         </div>
     </div>
@@ -198,13 +198,13 @@ HTML_CHAT_WIDGET = """
             <img src="{{ wilder_avatar }}" alt="" class="msg-avatar">
             <div class="msg bot">
                 <strong>🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — WILDER MORAIS 2026</strong><br><br>
-                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Mapa Tático Colorido por Pauta</strong>, <strong>Painel de 4 Gráficos Visuais Interativos</strong>, Notícias Reais dos Candidatos e Pesquisas Eleitorais.<br><br>
+                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Radar de 150 Eventos em Goiás (Agosto, Setembro e Outubro 2026)</strong>, <strong>Mapa Tático Colorido por Pauta</strong>, <strong>4 Gráficos Interativos</strong> e Notícias Reais dos Candidatos.<br><br>
                 <strong>Faça uma consulta ou escolha um atalho de ação:</strong>
                 <div class="quick-actions">
+                    <span class="chip" onclick="window.location.href='/eventos'">🎪 Abrir Radar de 150 Eventos em Goiás</span>
                     <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa Colorido & 4 Gráficos</span>
-                    <span class="chip" onclick="perguntarRapido('Quais são os termos mais buscados pelos goianos no Google Trends?')">🔍 Buscas do Google Trends</span>
+                    <span class="chip" onclick="perguntarRapido('Quais são os principais eventos de Goiás no mês de Agosto?')">📅 Eventos de Agosto/2026</span>
                     <span class="chip" onclick="perguntarRapido('Quais são os dados da última pesquisa eleitoral do Instituto Goiás Pesquisas?')">📊 Pesquisa Eleitoral 22%</span>
-                    <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30s sobre o programa Primeiro Salário')">🎬 Roteiro de Reels 30s</span>
                 </div>
             </div>
         </div>
@@ -212,7 +212,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Consulte a IA sobre mapa de queixas, gráficos, pesquisas do Google, discursos ou notícias..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Consulte a IA sobre eventos, tráfego pago nos eventos, notícias, gráficos ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
@@ -264,7 +264,149 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# MAPA TÁTICO INTERATIVO COM 4 GRÁFICOS VISUAIS E TABELA DE BUSCAS DO GOOGLE TRENDS (TEMPLATE JINJA2 LIMPO E SEM CORRUPÇÃO)
+HTML_RADAR_EVENTOS = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de 150 Eventos em Goiás — Sala de Guerra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        
+        .header { background: linear-gradient(135deg, #4c1d95, #6d28d9, #15803d); padding: 16px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .brand-avatar { width: 50px; height: 50px; min-width: 50px; min-height: 50px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        
+        .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
+
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .btn-filter { background: #0c2415; color: #fef08a; border: 1px solid #22c55e; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .btn-filter:hover, .btn-filter.active { background: #7c3aed; color: #fff; border-color: #eab308; }
+
+        .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+        .card-title { font-size: 17px; font-weight: 800; color: #c084fc; margin-bottom: 16px; border-left: 5px solid #eab308; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        #mapEventos { width: 100%; height: 480px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #c084fc; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #7c3aed; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+
+        .badge-cat { background: #6d28d9; color: #fff; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+        .badge-pub { background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">🎪 RADAR DE 150 EVENTOS EM GOIÁS (AGOSTO, SETEMBRO E OUTUBRO 2026)</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Mapeamento de Festas, Exposições Agropecuárias, Romarias e Tráfego Pago Hiperlocalizado no Meta Ads</p>
+            </div>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+    </div>
+
+    <div class="container">
+        <div class="filter-bar">
+            <button class="btn-filter active" onclick="filtrarMes('todos')">🌐 Todos os Meses (150 Eventos)</button>
+            <button class="btn-filter" onclick="filtrarMes('Agosto/2026')">📅 Agosto / 2026</button>
+            <button class="btn-filter" onclick="filtrarMes('Setembro/2026')">📅 Setembro / 2026</button>
+            <button class="btn-filter" onclick="filtrarMes('Outubro/2026')">📅 Outubro / 2026</button>
+        </div>
+
+        <div class="map-section">
+            <div class="card-title">
+                <span>📍 MAPA DE GEOLOCALIZAÇÃO DOS EVENTOS & RAIO DE TRÁFEGO PAGO META ADS</span>
+                <span style="font-size:12px;color:#eab308;font-weight:bold;">150 EVENTOS MAPEADOS</span>
+            </div>
+            <div id="mapEventos"></div>
+        </div>
+
+        <div class="map-section">
+            <div class="card-title">
+                <span>📋 LISTAGEM COMPLETA DOS EVENTOS DE GOIÁS COM ESTIMATIVA DE PÚBLICO E ANÚNCIOS</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome do Evento & Cidade</th>
+                        <th>Data & Mês</th>
+                        <th>Categoria</th>
+                        <th>Público Estimado</th>
+                        <th>Tráfego Pago Meta Ads</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in eventos %}
+                    <tr class="item-evento {{ e.mes }}">
+                        <td><strong style="color:#fef08a;font-size:15px;">🎪 {{ e.nome }}</strong><br><span style="font-size:12px;color:#94a3b8;">📍 {{ e.cidade }} ({{ e.regiao }})</span></td>
+                        <td><strong style="color:#38bdf8;">📅 {{ e.data }}</strong><br><span style="font-size:11.5px;color:#cbd5e1;">{{ e.mes }}</span></td>
+                        <td><span class="badge-cat">{{ e.categoria }}</span></td>
+                        <td><span class="badge-pub">👥 {{ e.publico_estimado }}</span></td>
+                        <td><strong style="color:#eab308;">🎯 {{ e.raio_meta_ads }}</strong><br><span style="font-size:11.5px;color:#94a3b8;">{{ e.estrategia_trafego }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const map = L.map('mapEventos').setView([-16.6789, -49.2539], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap / Inteligência de Eventos Wilder Morais 2026'
+        }).addTo(map);
+
+        const dadosEventos = {{ eventos|tojson }};
+
+        dadosEventos.forEach(e => {
+            const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
+                '<h3 style="margin:0 0 4px 0;color:#c084fc;font-size:15px;">🎪 ' + e.nome + '</h3>' +
+                '<p style="margin:2px 0;color:#fef08a;font-size:12px;"><strong>Cidade:</strong> ' + e.cidade + ' (' + e.regiao + ')</p>' +
+                '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Data:</strong> ' + e.data + ' (' + e.mes + ')</p>' +
+                '<p style="margin:2px 0;color:#86efac;font-size:12px;"><strong>Público Estimado:</strong> ' + e.publico_estimado + '</p>' +
+                '<div style="margin-top:8px;background:#0c2415;padding:6px;border-radius:6px;border-left:3px solid #eab308;">' +
+                '<strong style="color:#fef08a;font-size:11.5px;">🎯 Meta Ads:</strong><br>' +
+                '<span style="color:#fff;font-size:11.5px;">' + e.raio_meta_ads + ' - ' + e.estrategia_trafego + '</span>' +
+                '</div></div>';
+
+            L.circle([e.lat, e.lon], {
+                color: '#7c3aed',
+                fillColor: '#a855f7',
+                fillOpacity: 0.5,
+                radius: 12000
+            }).addTo(map).bindPopup(popupContent);
+        });
+
+        function filtrarMes(mes) {
+            const items = document.querySelectorAll('.item-evento');
+            const btns = document.querySelectorAll('.btn-filter');
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (mes === 'todos' || item.classList.contains(mes)) {
+                    item.style.display = 'table-row';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+"""
+
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -325,7 +467,6 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <div class="container">
-        <!-- BARRA DE LEGENDA DAS CORES DO MAPA -->
         <div class="legend-bar">
             <span style="color:#fef08a;font-weight:800;font-size:14px;">🎨 CORES DAS PAUTAS NO MAPA:</span>
             <div class="legend-item"><span class="dot-red"></span> 🔴 Saúde & Filas SUS</div>
@@ -335,7 +476,6 @@ HTML_MAPA_DEMANDAS = """
             <div class="legend-item"><span class="dot-purple"></span> 🟣 Hospital Regional & Turismo</div>
         </div>
 
-        <!-- 1. MAPA LEAFLET.JS -->
         <div class="map-section">
             <div class="card-title">
                 <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE NOS PINOS)</span>
@@ -344,7 +484,6 @@ HTML_MAPA_DEMANDAS = """
             <div id="map"></div>
         </div>
 
-        <!-- 2. PAINEL DE 4 GRÁFICOS VISUAIS INTERATIVOS DIRETAMENTE ABAIXO DO MAPA -->
         <div class="charts-row-top">
             <div class="chart-box">
                 <div class="card-title">
@@ -377,7 +516,6 @@ HTML_MAPA_DEMANDAS = """
             </div>
         </div>
 
-        <!-- 3. TABELA DETALHADA DAS BUSCAS DO GOOGLE TRENDS EM GOIÁS -->
         <div class="map-section">
             <div class="card-title">
                 <span>🔍 GOOGLE TRENDS GOIÁS — DETALHAMENTO DE BUSCAS E RESPOSTA DA CAMPANHA</span>
@@ -406,7 +544,6 @@ HTML_MAPA_DEMANDAS = """
             </table>
         </div>
 
-        <!-- 4. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
         <div class="map-section">
             <div class="card-title">
                 <span>📋 DETALHAMENTO DAS 8 CIDADES POLO, ELEITORES TSE E VÍDEOS RECOMENDADOS</span>
@@ -565,7 +702,6 @@ HTML_MAPA_DEMANDAS = """
 </html>
 """
 
-# DASHBOARD EXECUTIVO
 HTML_DASHBOARD_METABASE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -624,7 +760,6 @@ HTML_DASHBOARD_METABASE = """
 </html>
 """
 
-# RADAR DE NOTÍCIAS
 HTML_RADAR_NOTICIAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -777,6 +912,14 @@ HTML_RADAR_NOTICIAS = """
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET, wilder_avatar=WILDER_AVATAR_B64)
 
+@app.route("/eventos", methods=["GET"])
+def eventos_radar_page():
+    return render_template_string(
+        HTML_RADAR_EVENTOS,
+        eventos=EVENTOS_GOIAS_2026,
+        wilder_avatar=WILDER_AVATAR_B64
+    )
+
 @app.route("/mapa_demandas", methods=["GET"])
 @app.route("/mapa", methods=["GET"])
 def mapa_demandas_page():
@@ -805,10 +948,6 @@ def dashboard_metabase_page():
         colegios=MAIORES_COLEGIOS_TSE,
         wilder_avatar=WILDER_AVATAR_B64
     )
-
-@app.route("/eventos", methods=["GET"])
-def eventos_radar_page():
-    return jsonify({"status": "ok", "eventos": EVENTOS_GOIAS_2026[:10]})
 
 @app.route("/plano_governo", methods=["GET"])
 @app.route("/primeira_semana", methods=["GET"])
@@ -850,10 +989,8 @@ def api_chat():
     system_prompt = f"""
 Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
 
-VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIAL:
-- Mapa Tático de Queixas por Cidade Polo com 4 Gráficos Interativos em Chart.js (Barras por Cidade, Rosca de Setores, Google Trends e Radar de Urgência por Região).
-- Google Trends Goiás (Concurso Público 96k, Saúde Fila SUS 88k, Primeiro Emprego 72k, Asfalto Entorno 54k, Crédito Jovem 45k).
-- Pesquisa Oficial (Instituto Goiás Pesquisas): Wilder atinge 22,0% dos Votos Válidos, ultrapassa Marconi Perillo (21,9%) e avança para o 2º Turno contra Daniel Vilela (43,5%).
+VOCÊ POSSUI O RADAR DE 150 EVENTOS EM GOIÁS (AGOSTO, SETEMBRO E OUTUBRO 2026):
+- Mapeamento de 150 Festas, Exposições Agropecuárias, Romarias e Convenções com Raio no Meta Ads (1km a 3km) para Tráfego Pago Hiperlocalizado.
 """
 
     if OPENROUTER_API_KEY:
@@ -875,14 +1012,14 @@ VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIA
             pass
 
     p_lower = pergunta.lower()
-    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade", "google", "trend", "trends", "busca"]):
-        resp = f"🗺️ <strong>MAPA COLORIDO INTERATIVO & PAINEL DE 4 GRÁFICOS VISUAIS RESTAURADO</strong><br><br>" \
-               f"O painel visual completo conta com Gráfico de Barras de Cidades, Gráfico de Rosca de Setores, Buscas do Google Trends em Goiás e Radar de Urgência por Região!<br><br>" \
-               f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & 4 GRÁFICOS VISUAIS</a>"
+    if any(k in p_lower for k in ["evento", "eventos", "festa", "agosto", "setembro", "outubro", "tráfego", "trafego", "meta"]):
+        resp = f"🎪 <strong>RADAR DE 150 EVENTOS EM GOIÁS RESTAURADO COM SUCESSO!</strong><br><br>" \
+               f"O sistema traz o mapeamento completo dos 150 eventos em Goiás nos meses de Agosto, Setembro e Outubro de 2026 com mapa interativo e raio no Meta Ads para Tráfego Pago!<br><br>" \
+               f"👉 <a href='/eventos' style='background:linear-gradient(135deg, #7c3aed, #6d28d9);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #c084fc;'>🎪 ABRIR RADAR DE 150 EVENTOS</a>"
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
                f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% restaurado com o Mapa Colorido e os 4 Gráficos Visuais!"
+               f"O sistema está 100% restaurado com o Radar de 150 Eventos em Goiás!"
 
     return jsonify({"resposta": resp}), 200
 
