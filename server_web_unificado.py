@@ -380,7 +380,7 @@ HTML_MAPA_DEMANDAS = """
             </div>
             
             <!-- REGRA DE OURO 1: Altura e Largura estritas inline para evitar height:0 -->
-            <div id="map" style="height: 500px; width: 100%; position: relative; z-index: 1; display: block; background-color: #0b0f19; border-radius: 12px;"></div>
+            <div id="map" style="height: 500px; width: 100%; position: relative; display: block; background-color: #0b0f19; border-radius: 12px;"></div>
         </div>
 
         <!-- 4 GRÁFICOS VISUAIS -->
@@ -483,7 +483,10 @@ HTML_MAPA_DEMANDAS = """
                     var dadosCidades = {{ reclamacoes|tojson }};
                     var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
 
-                    var geo = {{ goias_geojson|safe }};
+                    var geo = {{ goias_geojson|tojson }};
+                    if (typeof geo === 'string' && geo !== "null") {
+                        try { geo = JSON.parse(geo); } catch(e){}
+                    }
                     if (geo && geo.features) {
                         L.geoJSON(geo, {
                             style: function(f) {
@@ -620,7 +623,7 @@ HTML_MAPA_DEMANDAS = """
             0% { transform: scale(1); opacity: 0.5; }
             75%, 100% { transform: scale(2.4); opacity: 0; }
         }
-        .leaflet-container { background: #0b0f19 !important; z-index: 1; }
+        .leaflet-container { background: #0b0f19 !important; }
         #map { height: 500px !important; width: 100% !important; display: block !important; position: relative; }
     </style>
 </body>
@@ -802,7 +805,7 @@ HTML_RADAR_EVENTOS = """
     """ + PREMIUM_THEME_CSS + """
     <style>
         /* REGRA DE OURO 1 NO CSS GLOBAL: Forçando block e altura mínima rigorosa */
-        #mapEventos { width: 100% !important; height: 500px !important; display: block !important; border-radius: 12px; border: 1px solid var(--border-color); background-color: #0b0f19 !important; z-index: 1; }
+        #mapEventos { width: 100% !important; height: 500px !important; display: block !important; border-radius: 12px; border: 1px solid var(--border-color); background-color: #0b0f19 !important; }
         .badge-cat { background: var(--accent-purple); color: #fff; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-size: 11px; }
         .badge-pub { background: var(--accent-green); color: #fff; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-size: 11px; }
     </style>
@@ -891,7 +894,10 @@ HTML_RADAR_EVENTOS = """
 
                     var dadosEventos = {{ eventos|tojson }};
 
-                    var geo = {{ goias_geojson|safe }};
+                    var geo = {{ goias_geojson|tojson }};
+                    if (typeof geo === 'string' && geo !== "null") {
+                        try { geo = JSON.parse(geo); } catch(e){}
+                    }
                     if (geo && geo.features) {
                         L.geoJSON(geo, {
                             style: function(f) {
@@ -952,7 +958,7 @@ HTML_RADAR_EVENTOS = """
         }
     </script>
     <style>
-        .leaflet-container { background: #0b0f19 !important; z-index: 1; }
+        .leaflet-container { background: #0b0f19 !important; }
         #mapEventos { height: 500px !important; width: 100% !important; display: block !important; position: relative; }
     </style>
 </body>
@@ -1086,12 +1092,14 @@ def chat_home():
 
 @app.route("/eventos", methods=["GET"])
 def eventos_radar_page():
-    goias_geojson = "null"
+    import json
+    goias_geojson = None
     try:
         if os.path.exists('static/goias.geojson'):
             with open('static/goias.geojson', 'r', encoding='utf-8') as f:
-                goias_geojson = f.read()
-    except Exception:
+                goias_geojson = json.load(f)
+    except Exception as e:
+        print("Erro lendo geojson eventos:", e)
         pass
     return render_template_string(
         HTML_RADAR_EVENTOS,
@@ -1104,12 +1112,14 @@ def eventos_radar_page():
 @app.route("/mapa", methods=["GET"])
 def route_mapa():
     from pdf_generator_service import MAPA_RECLAMACOES_DETALHADO
-    goias_geojson = "null"
+    import json
+    goias_geojson = None
     try:
         if os.path.exists('static/goias.geojson'):
             with open('static/goias.geojson', 'r', encoding='utf-8') as f:
-                goias_geojson = f.read()
-    except Exception:
+                goias_geojson = json.load(f)
+    except Exception as e:
+        print("Erro lendo geojson:", e)
         pass
     return render_template_string(
         HTML_MAPA_DEMANDAS,
