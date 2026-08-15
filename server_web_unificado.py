@@ -180,105 +180,561 @@ HTML_CHAT_WIDGET = """
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QG Digital Eleitoral — Wilder Morais 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QG Digital — Wilder Morais 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     """ + PREMIUM_THEME_CSS + """
     <style>
-        .chat-app-wrapper { display: flex; flex-direction: column; height: calc(100vh - 75px); max-width: 1100px; margin: 0 auto; padding: 16px; }
-        .chat-history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding-right: 6px; margin-bottom: 16px; }
-        .msg-bubble-row { display: flex; gap: 12px; align-items: flex-start; width: 100%; }
-        .msg-avatar-img { width: 40px; height: 40px; min-width: 40px; min-height: 40px; border-radius: 50%; border: 2px solid var(--accent-gold); object-fit: cover; }
-        .msg-bubble { max-width: 85%; padding: 14px 18px; border-radius: 14px; font-size: 14px; line-height: 1.6; }
-        .msg-bubble.user-msg { background: linear-gradient(135deg, #059669, #10b981); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
-        .msg-bubble.bot-msg { background: var(--bg-card); color: #e2e8f0; border-bottom-left-radius: 4px; border: 1px solid var(--border-color); }
-        
-        .quick-chips-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-        .chip-btn { background: #1e293b; border: 1px solid var(--accent-green); color: var(--accent-gold); padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .chip-btn:hover { background: var(--accent-green); color: #fff; border-color: var(--accent-gold); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .chat-input-bar { display: flex; gap: 10px; background: var(--bg-card); padding: 12px; border-radius: 14px; border: 1px solid var(--accent-gold); }
-        .chat-input-bar input { flex: 1; background: #0b0f19; border: 1px solid var(--border-color); color: #fff; padding: 12px 16px; border-radius: 10px; font-size: 14px; outline: none; }
-        .chat-input-bar button { background: linear-gradient(135deg, #059669, #10b981); color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
+        body {
+            background: #060c18;
+            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
 
-        @media (max-width: 600px) {
-            .msg-bubble { max-width: 90%; font-size: 13.5px; }
-            .chat-input-bar { flex-direction: column; }
-            .chat-input-bar button { width: 100%; }
+        /* ── TOP BAR ───────────────────────────────────────────── */
+        .top-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(6,12,24,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(16,185,129,0.15);
+            padding: 10px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .top-bar-brand { display: flex; align-items: center; gap: 10px; }
+        .top-bar-brand img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #10b981; object-fit: cover; }
+        .top-bar-title { font-size: 14px; font-weight: 800; color: #f8fafc; line-height: 1.2; }
+        .top-bar-sub   { font-size: 10px; color: #10b981; font-weight: 600; letter-spacing: .5px; }
+        .live-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #ef4444;
+            box-shadow: 0 0 8px #ef4444;
+            animation: blink 1.2s ease-in-out infinite;
+            display: inline-block; margin-right: 4px;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+        .top-bar-nav { display: flex; gap: 6px; }
+        .nav-icon-btn {
+            background: #131b2e; border: 1px solid #1e293b;
+            color: #94a3b8; border-radius: 10px;
+            padding: 7px 11px; font-size: 12px; font-weight: 700;
+            text-decoration: none; cursor: pointer;
+            transition: all .2s; white-space: nowrap;
+        }
+        .nav-icon-btn:hover { background: #10b981; color: #fff; border-color: #10b981; }
+        .hamburger { display: none; background: #131b2e; border: 1px solid #1e293b; border-radius: 10px; padding: 8px 12px; color: #94a3b8; font-size: 16px; cursor: pointer; }
+
+        /* ── STORIES / MÓDULOS ─────────────────────────────────── */
+        .stories-bar {
+            display: flex; gap: 12px;
+            overflow-x: auto; padding: 14px 16px 10px;
+            scrollbar-width: none;
+        }
+        .stories-bar::-webkit-scrollbar { display: none; }
+        .story-item {
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            cursor: pointer; min-width: 64px; text-decoration: none;
+            flex-shrink: 0;
+        }
+        .story-ring {
+            width: 58px; height: 58px; border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, #f59e0b, #10b981, #3b82f6);
+            position: relative;
+        }
+        .story-ring-inner {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: #060c18; border: 2px solid #060c18;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+        .story-label { font-size: 10px; font-weight: 700; color: #94a3b8; text-align: center; max-width: 64px; line-height: 1.2; }
+
+        /* ── FEED DE CARDS ─────────────────────────────────────── */
+        .feed-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 12px 160px;
+        }
+        .feed-section-title {
+            font-size: 11px; font-weight: 800; color: #f59e0b;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 14px 4px 8px;
+            border-bottom: 1px solid #1e293b; margin-bottom: 12px;
+        }
+
+        /* cards de status / post */
+        .post-card {
+            background: #0d1525; border: 1px solid #1e293b;
+            border-radius: 16px; margin-bottom: 12px;
+            overflow: hidden; transition: border-color .2s;
+        }
+        .post-card:hover { border-color: #10b981; }
+        .post-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 14px 8px;
+        }
+        .post-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 2px solid #f59e0b; object-fit: cover; flex-shrink: 0;
+        }
+        .post-author { font-size: 13px; font-weight: 800; color: #f8fafc; }
+        .post-time   { font-size: 11px; color: #64748b; }
+        .post-badge {
+            margin-left: auto; font-size: 10px; font-weight: 800;
+            padding: 3px 8px; border-radius: 20px;
+        }
+        .badge-live { background: #ef44441a; color: #ef4444; border: 1px solid #ef444440; }
+        .badge-new  { background: #10b9811a; color: #10b981; border: 1px solid #10b98140; }
+        .badge-hot  { background: #f59e0b1a; color: #f59e0b; border: 1px solid #f59e0b40; }
+
+        .post-body { padding: 4px 14px 12px; }
+        .post-text { font-size: 13.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 10px; }
+        .post-metric-row {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .metric-pill {
+            background: #131b2e; border: 1px solid #1e293b;
+            border-radius: 8px; padding: 6px 10px;
+            font-size: 11px; font-weight: 700;
+        }
+        .metric-pill .mp-val { color: #f8fafc; font-size: 14px; font-weight: 800; display: block; }
+        .metric-pill .mp-lbl { color: #64748b; }
+
+        /* Botão de ação do card */
+        .post-action-btn {
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            margin: 4px 14px 14px;
+            padding: 10px; border-radius: 10px; cursor: pointer;
+            font-size: 12.5px; font-weight: 800; text-decoration: none;
+            border: 1px solid #1e293b; background: #131b2e;
+            color: #10b981; transition: all .2s;
+        }
+        .post-action-btn:hover { background: #10b981; color: #fff; border-color: #10b981; }
+
+        /* ── QUICK ASK CHIPS (acima do chat bar) ────────────────── */
+        .quick-ask-bar {
+            position: fixed; bottom: 68px; left: 0; right: 0; z-index: 200;
+            display: flex; gap: 7px; overflow-x: auto; padding: 8px 12px;
+            background: linear-gradient(to top, rgba(6,12,24,1) 60%, transparent);
+            scrollbar-width: none;
+        }
+        .quick-ask-bar::-webkit-scrollbar { display: none; }
+        .qa-chip {
+            background: #131b2e; border: 1px solid #10b98160;
+            color: #10b981; font-size: 11.5px; font-weight: 700;
+            padding: 7px 13px; border-radius: 20px; white-space: nowrap;
+            cursor: pointer; flex-shrink: 0; transition: all .2s;
+        }
+        .qa-chip:hover { background: #10b981; color: #fff; }
+
+        /* ── CHAT BAR (FIXO NO FUNDO como WhatsApp) ────────────── */
+        .chat-bar-fixed {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+            background: rgba(6,12,24,0.98);
+            border-top: 1px solid rgba(16,185,129,0.25);
+            padding: 10px 12px 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .chat-bar-input {
+            flex: 1; background: #131b2e;
+            border: 1.5px solid #1e293b; color: #f8fafc;
+            padding: 11px 16px; border-radius: 24px;
+            font-size: 14px; outline: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: border-color .2s;
+        }
+        .chat-bar-input:focus { border-color: #10b981; }
+        .chat-bar-input::placeholder { color: #475569; }
+        .chat-bar-send {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: none; color: #fff; font-size: 18px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: transform .15s;
+        }
+        .chat-bar-send:hover { transform: scale(1.08); }
+
+        /* ── CHAT MESSAGES OVERLAY ─────────────────────────────── */
+        .chat-overlay {
+            display: none;
+            position: fixed; inset: 0; z-index: 400;
+            background: rgba(6,12,24,0.97);
+            flex-direction: column;
+        }
+        .chat-overlay.open { display: flex; }
+        .chat-overlay-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #1e293b;
+            background: #060c18;
+        }
+        .chat-back-btn {
+            background: #131b2e; border: 1px solid #1e293b;
+            color: #10b981; border-radius: 10px; padding: 7px 12px;
+            font-size: 13px; font-weight: 800; cursor: pointer;
+        }
+        .chat-overlay-title { font-size: 14px; font-weight: 800; color: #f8fafc; }
+        .chat-messages {
+            flex: 1; overflow-y: auto;
+            padding: 16px; display: flex; flex-direction: column; gap: 12px;
+            padding-bottom: 80px;
+        }
+        .msg-row { display: flex; gap: 10px; align-items: flex-end; }
+        .msg-row.user { justify-content: flex-end; }
+        .msg-av { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #f59e0b; object-fit: cover; flex-shrink: 0; }
+        .msg-bbl {
+            max-width: 80%; padding: 12px 16px; border-radius: 18px;
+            font-size: 14px; line-height: 1.6;
+        }
+        .msg-bbl.bot { background: #0d1525; color: #e2e8f0; border: 1px solid #1e293b; border-bottom-left-radius: 4px; }
+        .msg-bbl.usr { background: linear-gradient(135deg, #059669, #10b981); color: #fff; border-bottom-right-radius: 4px; }
+        .chat-input-row {
+            position: sticky; bottom: 0;
+            display: flex; gap: 8px; padding: 10px 12px 14px;
+            background: rgba(6,12,24,0.98); border-top: 1px solid #1e293b;
+        }
+        .ci-input {
+            flex: 1; background: #131b2e; border: 1.5px solid #1e293b;
+            color: #f8fafc; padding: 11px 16px; border-radius: 24px;
+            font-size: 14px; outline: none; font-family: inherit;
+        }
+        .ci-input:focus { border-color: #10b981; }
+        .ci-send {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: none; color: #fff; font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── MOBILE NAV (drawer) ───────────────────────────────── */
+        .mobile-drawer {
+            display: none; position: fixed; inset: 0; z-index: 500;
+            background: rgba(0,0,0,.6);
+        }
+        .mobile-drawer.open { display: flex; justify-content: flex-end; }
+        .drawer-panel {
+            background: #0d1525; border-left: 1px solid #1e293b;
+            width: 260px; padding: 20px 16px;
+            display: flex; flex-direction: column; gap: 10px;
+            animation: slideIn .2s ease;
+        }
+        @keyframes slideIn { from{transform:translateX(100%)} to{transform:translateX(0)} }
+        .drawer-close {
+            align-self: flex-end; background: none; border: none;
+            color: #94a3b8; font-size: 22px; cursor: pointer; margin-bottom: 8px;
+        }
+        .drawer-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 14px; border-radius: 12px; border: 1px solid #1e293b;
+            background: #131b2e; color: #e2e8f0; text-decoration: none;
+            font-size: 13.5px; font-weight: 700; transition: all .2s;
+        }
+        .drawer-link:hover { background: #10b981; color: #fff; border-color: #10b981; }
+
+        @media (max-width: 768px) {
+            .top-bar-nav { display: none; }
+            .hamburger { display: block; }
         }
     </style>
 </head>
 <body>
-    <div class="app-header">
-        <div class="brand-container">
-            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
+
+    <!-- ── TOP BAR ──────────────────────────────────────────────────────── -->
+    <div class="top-bar">
+        <div class="top-bar-brand">
+            <img src="{{ wilder_avatar }}" alt="Wilder">
             <div>
-                <h1 class="brand-title">QG DIGITAL — WILDER MORAIS</h1>
-                <p class="brand-subtitle">● Central de Inteligência Estratégica 2026</p>
+                <div class="top-bar-title">QG DIGITAL</div>
+                <div class="top-bar-sub"><span class="live-dot"></span>WILDER MORAIS 2026 · AO VIVO</div>
             </div>
         </div>
-        <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
-        <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
-            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
-            <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
-            <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
-            <a href="/download_pdf" target="_blank" class="btn-nav-link">📄 PDF 360°</a>
-        </div>
+        <nav class="top-bar-nav">
+            <a href="/dashboard"    class="nav-icon-btn">📊 YouTube</a>
+            <a href="/mapa_demandas" class="nav-icon-btn">🗺️ Mapa</a>
+            <a href="/eventos"      class="nav-icon-btn">🎪 Eventos</a>
+            <a href="/radar_noticias" class="nav-icon-btn">🚨 Notícias</a>
+            <a href="/download_pdf" target="_blank" class="nav-icon-btn">📄 PDF 360°</a>
+        </nav>
+        <button class="hamburger" onclick="toggleDrawer()">☰</button>
     </div>
 
-    <div class="chat-app-wrapper">
-        <div class="chat-history" id="chat">
-            <div class="msg-bubble-row">
-                <img src="{{ wilder_avatar }}" alt="" class="msg-avatar-img">
-                <div class="msg-bubble bot-msg">
-                    <strong style="color:var(--accent-green);">🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — GOIÁS 2026</strong><br><br>
-                    Seja bem-vindo(a) à QG Digital Executiva. O sistema está 100% responsivo para smartphone, tablet e desktop.<br><br>
-                    <strong>Escolha uma consulta rápida ou envie sua dúvida:</strong>
-                    <div class="quick-chips-grid">
-                        <span class="chip-btn" onclick="window.location.href='/dashboard'">📺 Gestão & Auditoria YouTube Real</span>
-                        <span class="chip-btn" onclick="window.location.href='/mapa_demandas'">🗺️ Mapa Colorido & 4 Gráficos</span>
-                        <span class="chip-btn" onclick="window.location.href='/eventos'">🎪 Radar de 150 Eventos em Goiás</span>
-                        <span class="chip-btn" onclick="perguntarRapido('Quais são os dados da última pesquisa do Instituto Goiás Pesquisas?')">📊 Pesquisa Eleitoral 22%</span>
-                    </div>
+    <!-- ── STORIES (módulos como Instagram) ─────────────────────────────── -->
+    <div class="stories-bar">
+        <a href="/dashboard" class="story-item">
+            <div class="story-ring"><div class="story-ring-inner">📊</div></div>
+            <span class="story-label">YouTube</span>
+        </a>
+        <a href="/mapa_demandas" class="story-item">
+            <div class="story-ring" style="background:linear-gradient(135deg,#ef4444,#f97316)"><div class="story-ring-inner">🗺️</div></div>
+            <span class="story-label">Mapa Goiás</span>
+        </a>
+        <a href="/eventos" class="story-item">
+            <div class="story-ring" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)"><div class="story-ring-inner">🎪</div></div>
+            <span class="story-label">150 Eventos</span>
+        </a>
+        <a href="/radar_noticias" class="story-item">
+            <div class="story-ring" style="background:linear-gradient(135deg,#ef4444,#8b5cf6)"><div class="story-ring-inner">🚨</div></div>
+            <span class="story-label">Notícias</span>
+        </a>
+        <a href="/plano_governo" class="story-item">
+            <div class="story-ring" style="background:linear-gradient(135deg,#10b981,#06b6d4)"><div class="story-ring-inner">📋</div></div>
+            <span class="story-label">Plano Gov.</span>
+        </a>
+        <a href="/download_pdf" target="_blank" class="story-item">
+            <div class="story-ring" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><div class="story-ring-inner">📄</div></div>
+            <span class="story-label">PDF 360°</span>
+        </a>
+    </div>
+
+    <!-- ── FEED ──────────────────────────────────────────────────────────── -->
+    <div class="feed-wrapper" id="feedWrapper">
+
+        <div class="feed-section-title">📡 INTELIGÊNCIA EM TEMPO REAL</div>
+
+        <!-- Card 1: Pesquisa -->
+        <div class="post-card">
+            <div class="post-header">
+                <img src="{{ wilder_avatar }}" class="post-avatar">
+                <div>
+                    <div class="post-author">QG Digital · Pesquisa</div>
+                    <div class="post-time">Atualizado agora</div>
+                </div>
+                <span class="post-badge badge-live">🔴 AO VIVO</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    📊 <strong style="color:#f59e0b">Goiás Pesquisas / Mais Goiás:</strong> Daniel Vilela lidera com <strong style="color:#ef4444">37,2%</strong>. Wilder Morais e Marconi Perillo <strong style="color:#10b981">empatados em 2º lugar</strong> — janela real de crescimento para o segundo turno.
+                </div>
+                <div class="post-metric-row">
+                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">22%</span><span class="mp-lbl">Wilder Intenção</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#ef4444">37%</span><span class="mp-lbl">Vilela Liderança</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#f59e0b">+18K</span><span class="mp-lbl">Inscritos/mês YT</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6">6.4%</span><span class="mp-lbl">Engajamento</span></div>
+                </div>
+            </div>
+            <a href="/radar_noticias" class="post-action-btn">📊 Ver análise completa de pesquisas →</a>
+        </div>
+
+        <!-- Card 2: Mapa de Dores -->
+        <div class="post-card">
+            <div class="post-header">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#f97316);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🗺️</div>
+                <div>
+                    <div class="post-author">Mapa de Demandas · 8 Cidades Polo</div>
+                    <div class="post-time">246 municípios mapeados</div>
+                </div>
+                <span class="post-badge badge-hot">🔥 TOP</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    As <strong style="color:#f59e0b">8 cidades polo de Goiás</strong> estão mapeadas com suas dores principais: <strong style="color:#ef4444">Saúde &amp; Filas do SUS (42%)</strong>, <strong style="color:#f97316">Transporte &amp; Asfalto (28%)</strong>, Logística Agro e Emprego Jovem. Mapa interativo colorido por pauta.
+                </div>
+                <div class="post-metric-row">
+                    <div class="metric-pill"><span class="mp-val">1.03M</span><span class="mp-lbl">Eleitores Goiânia</span></div>
+                    <div class="metric-pill"><span class="mp-val">345K</span><span class="mp-lbl">Eleitores Aparecida</span></div>
+                    <div class="metric-pill"><span class="mp-val">290K</span><span class="mp-lbl">Eleitores Anápolis</span></div>
+                </div>
+            </div>
+            <a href="/mapa_demandas" class="post-action-btn">🗺️ Abrir mapa interativo de Goiás →</a>
+        </div>
+
+        <!-- Card 3: YouTube -->
+        <div class="post-card">
+            <div class="post-header">
+                <div style="width:36px;height:36px;border-radius:50%;background:#dc2626;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">▶</div>
+                <div>
+                    <div class="post-author">Auditoria YouTube Real</div>
+                    <div class="post-time">Dados buscados ao vivo</div>
+                </div>
+                <span class="post-badge badge-new">✨ REAL</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    Canal <strong style="color:#10b981">@WilderMoraisGoias</strong> monitorado em tempo real. Vídeo em destaque: <em style="color:#f59e0b">"PL confirma Wilder Morais &amp; Ana Paula"</em> com alto engajamento positivo no setor Agro e Entorno DF.
+                </div>
+                <div class="post-metric-row">
+                    <div class="metric-pill"><span class="mp-val" style="color:#dc2626">124K</span><span class="mp-lbl">Inscritos Canal</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">+18K</span><span class="mp-lbl">Crescimento/mês</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#f59e0b">88K</span><span class="mp-lbl">Views Semanais</span></div>
+                </div>
+            </div>
+            <a href="/dashboard" class="post-action-btn">📺 Ver auditoria completa dos candidatos →</a>
+        </div>
+
+        <!-- Card 4: Eventos -->
+        <div class="post-card">
+            <div class="post-header">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🎪</div>
+                <div>
+                    <div class="post-author">Radar de Eventos · Goiás 2026</div>
+                    <div class="post-time">150 eventos mapeados</div>
+                </div>
+                <span class="post-badge badge-hot">🎯 ADS</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    <strong style="color:#8b5cf6">150 eventos estratégicos</strong> em Goiás com raio de Meta Ads calculado. Feiras agro, festividades regionais e eventos religiosos — janelas de impacto máximo para tráfego pago.
+                </div>
+                <div class="post-metric-row">
+                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6">150</span><span class="mp-lbl">Eventos Mapeados</span></div>
+                    <div class="metric-pill"><span class="mp-val">246</span><span class="mp-lbl">Municípios</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">Meta Ads</span><span class="mp-lbl">Raio Calculado</span></div>
+                </div>
+            </div>
+            <a href="/eventos" class="post-action-btn">🎪 Ver radar de 150 eventos →</a>
+        </div>
+
+        <!-- Card 5: Plano de Governo -->
+        <div class="post-card">
+            <div class="post-header">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📋</div>
+                <div>
+                    <div class="post-author">Plano de Governo Wilder</div>
+                    <div class="post-time">Resumo Executivo 2026</div>
+                </div>
+                <span class="post-badge badge-new">📌 FIXADO</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    As principais propostas do plano de governo: <strong style="color:#10b981">Saúde</strong> — Hospitais Regionais e UPAs 24h. <strong style="color:#3b82f6">Emprego</strong> — Primeiro Emprego Jovem e incentivo ao DAIA. <strong style="color:#f59e0b">Agro</strong> — Logística e desburocratização. Acesse o plano completo integrado com IA.
+                </div>
+            </div>
+            <a href="/plano_governo" class="post-action-btn">📋 Consultar plano de governo com IA →</a>
+        </div>
+
+        <div class="feed-section-title" style="margin-top:8px;">🤖 PERGUNTAS FREQUENTES AO QG</div>
+
+        <!-- Card IA -->
+        <div class="post-card" style="border-color:#10b98140;">
+            <div class="post-header">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤖</div>
+                <div>
+                    <div class="post-author">IA do QG Digital</div>
+                    <div class="post-time">Gemini Flash · Responde 24h</div>
+                </div>
+                <span class="post-badge badge-live">● ONLINE</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text" style="margin-bottom:12px;">
+                    Pergunte qualquer coisa sobre a campanha, dados de pesquisa, YouTube, mapa de dores ou Google Trends de Goiás. A IA tem acesso a <strong style="color:#10b981">todo o contexto estratégico do QG Digital</strong>.
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Quais as propostas de Wilder para Saúde?')">💊 Propostas Saúde</span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('O que o goiano pesquisa sobre o Wilder no Google?')">🔍 Google Trends</span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Qual a situação nas pesquisas eleitorais de Goiás?')">📊 Pesquisas</span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Quais vídeos devemos gravar para o YouTube?')">🎬 Estratégia YT</span>
                 </div>
             </div>
         </div>
 
-        <div class="chat-input-bar">
-            <input type="text" id="pergunta" placeholder="Consulte a IA sobre dados do YouTube, mapa de queixas ou notícias..." onkeypress="if(event.key==='Enter') enviar()">
-            <button onclick="enviar()">Consultar IA</button>
+    </div>
+
+    <!-- ── QUICK CHIPS BARRA FLUTUANTE ───────────────────────────────────── -->
+    <div class="quick-ask-bar">
+        <span class="qa-chip" onclick="abrirChat()">💬 Consultar IA</span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('Situação atual das pesquisas?')">📊 Pesquisas</span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('Quais as principais dores do povo goiano?')">📍 Dores do Povo</span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('O que o goiano pesquisa sobre o Wilder no Google?')">🔍 Google Trends</span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('Quais eventos acontecem em Goiás nos próximos meses?')">🎪 Eventos</span>
+    </div>
+
+    <!-- ── CHAT BAR FIXO NO RODAPÉ ───────────────────────────────────────── -->
+    <div class="chat-bar-fixed">
+        <input class="chat-bar-input" id="chatBarInput" placeholder="Pergunte ao QG Digital..." onkeypress="if(event.key==='Enter') enviarRapido()" onclick="abrirChat()">
+        <button class="chat-bar-send" onclick="enviarRapido()">➤</button>
+    </div>
+
+    <!-- ── CHAT OVERLAY (abre ao clicar) ────────────────────────────────── -->
+    <div class="chat-overlay" id="chatOverlay">
+        <div class="chat-overlay-header">
+            <button class="chat-back-btn" onclick="fecharChat()">← Voltar</button>
+            <img src="{{ wilder_avatar }}" style="width:32px;height:32px;border-radius:50%;border:2px solid #f59e0b;object-fit:cover;">
+            <div class="chat-overlay-title">QG Digital IA · <span style="color:#10b981;">● Online</span></div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg-row">
+                <img src="{{ wilder_avatar }}" class="msg-av">
+                <div class="msg-bbl bot">
+                    <strong style="color:#10b981;">🔰 QG DIGITAL — INTELIGÊNCIA ELEITORAL</strong><br><br>
+                    Olá! Sou a IA do QG Digital Eleitoral de Wilder Morais. Tenho acesso completo a dados de YouTube, mapa de demandas populares, Google Trends de Goiás, pesquisas eleitorais e muito mais.<br><br>
+                    <strong>Como posso ajudar a campanha agora?</strong>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-row">
+            <input class="ci-input" id="ciInput" placeholder="Digite sua pergunta..." onkeypress="if(event.key==='Enter') enviar()">
+            <button class="ci-send" onclick="enviar()">➤</button>
+        </div>
+    </div>
+
+    <!-- ── MOBILE DRAWER ─────────────────────────────────────────────────── -->
+    <div class="mobile-drawer" id="mobileDrawer" onclick="if(event.target===this)fecharDrawer()">
+        <div class="drawer-panel">
+            <button class="drawer-close" onclick="fecharDrawer()">✕</button>
+            <a href="/dashboard"      class="drawer-link">📊 Gestão YouTube Real</a>
+            <a href="/mapa_demandas"  class="drawer-link">🗺️ Mapa Colorido &amp; Gráficos</a>
+            <a href="/eventos"        class="drawer-link">🎪 Radar de 150 Eventos</a>
+            <a href="/radar_noticias" class="drawer-link">🚨 Pesquisas &amp; Notícias</a>
+            <a href="/plano_governo"  class="drawer-link">📋 Plano de Governo</a>
+            <a href="/download_pdf" target="_blank" class="drawer-link">📄 PDF 360° Completo</a>
         </div>
     </div>
 
     <script>
-        function perguntarRapido(texto) {
-            document.getElementById('pergunta').value = texto;
-            enviar();
+        const AVATAR = "{{ wilder_avatar }}";
+
+        // ── Drawer mobile
+        function toggleDrawer() { document.getElementById('mobileDrawer').classList.toggle('open'); }
+        function fecharDrawer() { document.getElementById('mobileDrawer').classList.remove('open'); }
+
+        // ── Chat overlay
+        function abrirChat() { document.getElementById('chatOverlay').classList.add('open'); document.getElementById('ciInput').focus(); }
+        function fecharChat() { document.getElementById('chatOverlay').classList.remove('open'); }
+
+        function abrirChatComPergunta(texto) {
+            abrirChat();
+            document.getElementById('ciInput').value = texto;
+            setTimeout(enviar, 200);
         }
 
+        // ── Envio pelo chat bar fixo do feed
+        function enviarRapido() {
+            const val = document.getElementById('chatBarInput').value.trim();
+            if (val) {
+                abrirChat();
+                document.getElementById('ciInput').value = val;
+                document.getElementById('chatBarInput').value = '';
+                setTimeout(enviar, 200);
+            } else {
+                abrirChat();
+            }
+        }
+
+        // ── Envio da mensagem
         async function enviar() {
-            const input = document.getElementById('pergunta');
-            const chat = document.getElementById('chat');
+            const input = document.getElementById('ciInput');
+            const msgs  = document.getElementById('chatMessages');
             const pergunta = input.value.trim();
             if (!pergunta) return;
 
-            chat.innerHTML += `
-                <div class="msg-bubble-row" style="justify-content:flex-end;">
-                    <div class="msg-bubble user-msg">${pergunta}</div>
-                </div>
-            `;
+            // Bubble do usuário
+            const userRow = document.createElement('div');
+            userRow.className = 'msg-row user';
+            userRow.innerHTML = `<div class="msg-bbl usr">${pergunta}</div>`;
+            msgs.appendChild(userRow);
             input.value = '';
-            chat.scrollTop = chat.scrollHeight;
+            msgs.scrollTop = msgs.scrollHeight;
 
+            // Bubble de loading
             const botRow = document.createElement('div');
-            botRow.className = 'msg-bubble-row';
-            botRow.innerHTML = `
-                <img src="{{ wilder_avatar }}" alt="" class="msg-avatar-img">
-                <div class="msg-bubble bot-msg"><strong>[QG DIGITAL IA] Processando consulta...</strong></div>
-            `;
-            chat.appendChild(botRow);
-            chat.scrollTop = chat.scrollHeight;
+            botRow.className = 'msg-row';
+            botRow.innerHTML = `<img src="${AVATAR}" class="msg-av"><div class="msg-bbl bot"><em style="color:#64748b;">Processando...</em></div>`;
+            msgs.appendChild(botRow);
+            msgs.scrollTop = msgs.scrollHeight;
 
             try {
                 const res = await fetch('/api/chat', {
@@ -287,16 +743,17 @@ HTML_CHAT_WIDGET = """
                     body: JSON.stringify({ pergunta })
                 });
                 const data = await res.json();
-                botRow.querySelector('.msg-bubble.bot-msg').innerHTML = data.resposta;
-            } catch (err) {
-                botRow.querySelector('.msg-bubble.bot-msg').innerHTML = '<strong>Erro na consulta com a Central de Inteligência.</strong>';
+                botRow.querySelector('.msg-bbl.bot').innerHTML = data.resposta;
+            } catch(e) {
+                botRow.querySelector('.msg-bbl.bot').innerHTML = '<strong>Erro na consulta com o QG Digital.</strong>';
             }
-            chat.scrollTop = chat.scrollHeight;
+            msgs.scrollTop = msgs.scrollHeight;
         }
     </script>
 </body>
 </html>
 """
+
 
 # ROUTE HTML: MAPA DEMANDAS COLORIDO & 4 GRÁFICOS
 HTML_MAPA_DEMANDAS = """
