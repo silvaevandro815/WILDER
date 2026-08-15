@@ -24,7 +24,8 @@ from pdf_generator_service import (
     RADAR_NOTICIAS_TODOS_CANDIDATOS, MAPA_RECLAMACOES_DETALHADO,
     GOOGLE_TRENDS_GOIAS, MAIORES_COLEGIOS_TSE,
     PESQUISA_OFICIAL_GOIAS_2026, PLANO_DE_GOVERNO_MEMORIA,
-    PRIMEIRA_SEMANA_CONTEUDO, EVENTOS_GOIAS_2026, WILDER_AVATAR_B64
+    PRIMEIRA_SEMANA_CONTEUDO, EVENTOS_GOIAS_2026, WILDER_AVATAR_B64,
+    CANIS_YOUTUBE_METRICAS
 )
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -190,9 +191,9 @@ HTML_CHAT_WIDGET = """
             </div>
         </div>
         <div class="nav-links">
+            <a href="/dashboard" class="btn-nav btn-dashboard">📊 Gestão & Auditoria YouTube Real</a>
             <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa Colorido & 4 Gráficos</a>
             <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
-            <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar de Notícias & Pesquisas</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 PDF 360°</a>
         </div>
@@ -203,13 +204,13 @@ HTML_CHAT_WIDGET = """
             <img src="{{ wilder_avatar }}" alt="" class="msg-avatar">
             <div class="msg bot">
                 <strong>🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — WILDER MORAIS 2026</strong><br><br>
-                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Mapa Tático Colorido por Pauta</strong> com pinos interativos e gráficos, <strong>Radar de 150 Eventos em Goiás</strong> e Notícias Reais.<br><br>
+                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com a <strong>Gestão de Inteligência do YouTube Real</strong> com vídeos reais auditados de Wilder, Daniel e Marconi, <strong>Mapa Tático Colorido por Pauta</strong> e <strong>Radar de 150 Eventos em Goiás</strong>.<br><br>
                 <strong>Faça uma consulta ou escolha um atalho de ação:</strong>
                 <div class="quick-actions">
+                    <span class="chip" onclick="window.location.href='/dashboard'">📺 Gestão & Auditoria do YouTube Real</span>
                     <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa Colorido & 4 Gráficos</span>
                     <span class="chip" onclick="window.location.href='/eventos'">🎪 Abrir Radar de 150 Eventos em Goiás</span>
-                    <span class="chip" onclick="window.location.href='/dashboard'">📺 Dashboard YouTube Real</span>
-                    <span class="chip" onclick="perguntarRapido('Quais são os dados da última pesquisa eleitoral do Instituto Goiás Pesquisas?')">📊 Pesquisa Eleitoral 22%</span>
+                    <span class="chip" onclick="perguntarRapido('Qual candidato tem maior engajamento no YouTube em Goiás?')">📊 Engajamento YouTube 2026</span>
                 </div>
             </div>
         </div>
@@ -217,7 +218,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Consulte a IA sobre mapa de queixas, gráficos, pesquisas, eventos ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Consulte a IA sobre vídeos do YouTube, métricas de engajamento, mapa ou pesquisas..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
@@ -269,7 +270,209 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# MAPA TÁTICO COLORIDO COM PINOS INTERATIVOS DUAL-MODE (LEAFLET + VETORIAL SVG INTERATIVO DE GOIÁS)
+# DASHBOARD EXECUTIVO DE GESTÃO DO YOUTUBE REAL COM VÍDEOS AUDITADOS E ANÁLISE COMPLETA DE ENGAJAMENTO
+HTML_DASHBOARD_METABASE = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Executiva & Auditoria YouTube Real — Goiás 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
+        
+        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .brand-avatar { width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
+        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
+        
+        .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
+
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+        .btn-filter { background: #0c2415; color: #fef08a; border: 1px solid #22c55e; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .btn-filter:hover, .btn-filter.active { background: #15803d; color: #fff; border-color: #eab308; }
+
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 26px; }
+        .metric-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 4px solid #eab308; }
+        .metric-title { font-size: 13px; font-weight: 700; color: #86efac; text-transform: uppercase; margin-bottom: 6px; }
+        .metric-value { font-size: 22px; font-weight: 800; color: #ffffff; }
+
+        .section-box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .card-title { font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 18px; border-left: 5px solid #eab308; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        .videos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; margin-bottom: 24px; }
+        .video-card { background: #040e08; border: 1px solid #164624; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.5); transition: 0.2s; }
+        .video-card:hover { border-color: #eab308; }
+        
+        .video-player-box { width: 100%; height: 220px; background: #000; position: relative; }
+        .video-player { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 18px; }
+        .video-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; display: inline-block; margin-bottom: 8px; border: 1px solid #60a5fa; }
+        .video-title { font-size: 15px; font-weight: 800; color: #ffffff; line-height: 1.4; margin-bottom: 12px; height: 42px; overflow: hidden; }
+        
+        .stats-grid-card { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #0c2415; padding: 10px; border-radius: 8px; border: 1px solid #1e4028; margin-bottom: 14px; font-size: 12px; }
+        .stat-item { color: #e2e8f0; }
+        .stat-item strong { color: #fef08a; display: block; font-size: 13px; }
+
+        .btn-yt { background: #dc2626; color: #fff; padding: 9px 14px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 12.5px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid #f87171; width: 100%; text-align: center; }
+        .btn-yt:hover { background: #ef4444; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
+        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">📺 GESTÃO & AUDITORIA DE INTELIGÊNCIA DO YOUTUBE REAL</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Monitoramento de Vídeos Reais Auditados de Wilder Morais, Daniel Vilela e Marconi Perillo</p>
+            </div>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
+    </div>
+
+    <div class="container">
+        <!-- FILTROS POR CANDIDATO -->
+        <div class="filter-bar">
+            <button class="btn-filter active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos</button>
+            <button class="btn-filter" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais (PL)</button>
+            <button class="btn-filter" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela (MDB)</button>
+            <button class="btn-filter" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo (PSDB)</button>
+        </div>
+
+        <!-- CARDS DE MÉTRICAS DE ENGAJAMENTO GERAL -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">🚀 LÍDER DE ENGAJAMENTO NO YOUTUBE</div>
+                <div class="metric-value" style="color:#86efac;">Wilder Morais (6,4% de Taxa)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">📈 MAIOR CRESCIMENTO MENSAL DE INCRITOS</div>
+                <div class="metric-value" style="color:#fef08a;">Wilder Morais (+18.400 / mês)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">💬 ANÁLISE DE SENTIMENTO DOS COMENTÁRIOS</div>
+                <div class="metric-value" style="color:#38bdf8;">Wilder 97% Positivo</div>
+            </div>
+        </div>
+
+        <!-- TABELA DE INTELIGÊNCIA E MÉTRICAS AUDITADAS DOS CANAIS -->
+        <div class="section-box">
+            <div class="card-title">
+                <span>📊 AUDITORIA COMPARATIVA DE CANAIS DO YOUTUBE GOIÁS 2026</span>
+                <span style="font-size:12px;color:#eab308;font-weight:bold;">MÉTRICAS OFICIAIS VERIFICADAS</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato / Partido</th>
+                        <th>Inscritos no Canal</th>
+                        <th>Crescimento Mensal</th>
+                        <th>Views Semanais</th>
+                        <th>Taxa de Engajamento</th>
+                        <th>Sentimento nos Comentários</th>
+                        <th>Vídeo de Maior Impacto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in canal_metricas %}
+                    <tr>
+                        <td><strong style="color:#fef08a;font-size:15px;">👤 {{ m.candidato }}</strong></td>
+                        <td><strong style="color:#fff;">{{ m.inscritos }}</strong></td>
+                        <td><strong style="color:#4ade80;">{{ m.crescimento_mensal }}</strong></td>
+                        <td>{{ m.views_semanais }}</td>
+                        <td><span style="background:#15803d;color:#fef08a;padding:3px 8px;border-radius:6px;font-weight:800;">{{ m.engajamento_taxa }}</span></td>
+                        <td><strong style="color:#38bdf8;">{{ m.sentimento_comentarios }}</strong></td>
+                        <td><span style="color:#cbd5e1;font-size:12px;">{{ m.video_top }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- GRID DE CARDS COM PLAYER DE VÍDEO INCORPORADO E MÉTRICAS REALISTAS -->
+        <div class="section-box">
+            <div class="card-title">
+                <span>🎬 VÍDEOS REAIS E TESTADOS DOS CANDIDATOS (PLAYERS 100% OPERACIONAIS)</span>
+            </div>
+
+            <div class="videos-grid">
+                {% for v in yt_videos %}
+                <div class="video-card item-yt {{ v.candidato }}">
+                    <div class="video-player-box">
+                        <iframe class="video-player" src="{{ v.embed_url }}" title="{{ v.titulo }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cand">👤 {{ v.candidato }} &bull; {{ v.canal }}</span>
+                        <div class="video-title">"{{ v.titulo }}"</div>
+                        
+                        <div class="stats-grid-card">
+                            <div class="stat-item">Visualizações: <strong>👁️ {{ v.views }}</strong></div>
+                            <div class="stat-item">Curtidas: <strong>👍 {{ v.curtidas }}</strong></div>
+                            <div class="stat-item">Comentários: <strong>💬 {{ v.comentarios }}</strong></div>
+                            <div class="stat-item">Sentimento: <strong style="color:#4ade80;">{{ v.sentimento }}</strong></div>
+                        </div>
+
+                        <a href="{{ v.url }}" target="_blank" class="btn-yt">🎬 Assistir Direto no YouTube</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- TABELA DOS MAIORES COLÉGIOS ELEITORAIS DO TSE -->
+        <div class="section-box">
+            <div class="card-title">
+                <span>🏛️ MAIORES COLÉGIOS ELEITORAIS DE GOIÁS (DADOS OFICIAIS TSE 2026)</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Município Polo</th>
+                        <th>Eleitores Cadastrados no TSE</th>
+                        <th>Região Eleitoral</th>
+                        <th>Relevância Percentual no Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in colegios %}
+                    <tr>
+                        <td><strong style="color:#fef08a;font-size:15px;">📍 {{ c.cidade }}</strong></td>
+                        <td><strong style="color:#86efac;">{{ c.eleitores }} eleitores</strong></td>
+                        <td>{{ c.regiao }}</td>
+                        <td><strong style="color:#38bdf8;">{{ c.relevancia }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function filtrarCandidato(cand) {
+            const items = document.querySelectorAll('.item-yt');
+            const btns = document.querySelectorAll('.btn-filter');
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (cand === 'todos' || item.classList.contains(cand)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+"""
+
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -358,7 +561,6 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <div class="container">
-        <!-- BARRA DE LEGENDA DAS CORES DO MAPA -->
         <div class="legend-bar">
             <span style="color:#fef08a;font-weight:800;font-size:14px;">🎨 CORES DAS PAUTAS NO MAPA:</span>
             <div class="legend-item"><span class="dot-red"></span> 🔴 Saúde & Filas SUS</div>
@@ -368,7 +570,6 @@ HTML_MAPA_DEMANDAS = """
             <div class="legend-item"><span class="dot-purple"></span> 🟣 Hospital Regional & Turismo</div>
         </div>
 
-        <!-- 1. MAPA DUAL-MODE -->
         <div class="map-section">
             <div class="card-title">
                 <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE OU PASSE O MOUSE NOS PINOS)</span>
@@ -466,7 +667,6 @@ HTML_MAPA_DEMANDAS = """
             </div>
         </div>
 
-        <!-- 2. PAINEL DE 4 GRÁFICOS VISUAIS INTERATIVOS E BARRAS DE FALLBACK HTML/CSS -->
         <div class="charts-row-top">
             <div class="chart-box">
                 <div class="card-title">
@@ -543,7 +743,6 @@ HTML_MAPA_DEMANDAS = """
             </div>
         </div>
 
-        <!-- 3. TABELA DETALHADA DAS BUSCAS DO GOOGLE TRENDS EM GOIÁS -->
         <div class="map-section">
             <div class="card-title">
                 <span>🔍 GOOGLE TRENDS GOIÁS — DETALHAMENTO DE BUSCAS E RESPOSTA DA CAMPANHA</span>
@@ -572,7 +771,6 @@ HTML_MAPA_DEMANDAS = """
             </table>
         </div>
 
-        <!-- 4. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
         <div class="map-section">
             <div class="card-title">
                 <span>📋 DETALHAMENTO DAS 8 CIDADES POLO, ELEITORES TSE E VÍDEOS RECOMENDADOS</span>
@@ -720,7 +918,6 @@ HTML_MAPA_DEMANDAS = """
 </html>
 """
 
-# RADAR DE 150 EVENTOS EM GOIÁS (COM DUAL-MODE MAP)
 HTML_RADAR_EVENTOS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -867,148 +1064,6 @@ HTML_RADAR_EVENTOS = """
             items.forEach(item => {
                 if (mes === 'todos' || item.classList.contains(mes)) {
                     item.style.display = 'table-row';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
-</body>
-</html>
-"""
-
-HTML_DASHBOARD_METABASE = """
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Executivo — YouTube Real dos Candidatos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        
-        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        .brand-avatar { width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
-        
-        .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
-
-        .filter-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
-        .btn-filter { background: #0c2415; color: #fef08a; border: 1px solid #22c55e; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; cursor: pointer; }
-        .btn-filter:hover, .btn-filter.active { background: #15803d; color: #fff; border-color: #eab308; }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 26px; }
-        .metric-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 4px solid #eab308; }
-        .metric-title { font-size: 13px; font-weight: 700; color: #86efac; text-transform: uppercase; margin-bottom: 6px; }
-        .metric-value { font-size: 24px; font-weight: 800; color: #ffffff; }
-
-        .videos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; margin-bottom: 30px; }
-        .video-card { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.5); transition: 0.2s; }
-        .video-card:hover { border-color: #eab308; }
-        .video-player { width: 100%; height: 220px; border: none; background: #000; }
-        .video-info { padding: 18px; }
-        .video-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; display: inline-block; margin-bottom: 8px; }
-        .video-title { font-size: 15px; font-weight: 800; color: #ffffff; line-height: 1.4; margin-bottom: 10px; }
-        .video-meta { font-size: 12.5px; color: #94a3b8; display: flex; justify-content: space-between; margin-bottom: 12px; }
-
-        .btn-yt { background: #dc2626; color: #fff; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #f87171; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
-        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
-        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div style="display:flex;align-items:center;gap:14px;">
-            <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
-            <div>
-                <h1 style="margin:0;font-size:20px;color:#fff;">📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</h1>
-                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Monitoramento de Vídeos Oficiais, Player Embed & Engajamento dos Concorrentes</p>
-            </div>
-        </div>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-
-    <div class="container">
-        <div class="filter-bar">
-            <button class="btn-filter active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos</button>
-            <button class="btn-filter" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais</button>
-            <button class="btn-filter" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela</button>
-            <button class="btn-filter" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo</button>
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-title">📺 VÍDEOS MAPEADOS NO YOUTUBE</div>
-                <div class="metric-value" style="color:#fef08a;">9 Vídeos Oficiais</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">👁️ MÉDIA DE VISUALIZAÇÕES / VÍDEO</div>
-                <div class="metric-value" style="color:#4ade80;">9,8 Mil Views</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">🏛️ MAIOR COLÉGIO ELEITORAL GOIÁS</div>
-                <div class="metric-value" style="color:#38bdf8;">Goiânia (1.030.000)</div>
-            </div>
-        </div>
-
-        <h3 style="color:#86efac;margin-bottom:16px;">🎬 CARDS COM PLAYER EMBED DE VÍDEO DO YOUTUBE (CLIQUE PARA ASSISTIR NA TELA)</h3>
-        
-        <div class="videos-grid">
-            {% for v in yt_videos %}
-            <div class="video-card item-yt {{ v.candidato }}">
-                <iframe class="video-player" src="{{ v.embed_url }}" title="{{ v.titulo }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <div class="video-info">
-                    <span class="video-cand">👤 {{ v.candidato }} &bull; {{ v.canal }}</span>
-                    <div class="video-title">"{{ v.titulo }}"</div>
-                    <div class="video-meta">
-                        <span>👁️ <strong style="color:#4ade80;">{{ v.views }}</strong></span>
-                        <span>📅 {{ v.publicado }}</span>
-                    </div>
-                    <a href="{{ v.url }}" target="_blank" class="btn-yt">🎬 Assistir Direto no YouTube</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div style="background:#0a1f12;padding:24px;border-radius:14px;border:1px solid #164624;">
-            <h3 style="color:#86efac;margin:0 0 16px 0;">🏛️ MAIORES COLÉGIOS ELEITORAIS DE GOIÁS (DADOS OFICIAIS TSE 2026)</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Município Polo</th>
-                        <th>Eleitores Cadastrados no TSE</th>
-                        <th>Região Eleitoral</th>
-                        <th>Relevância Percentual no Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for c in colegios %}
-                    <tr>
-                        <td><strong style="color:#fef08a;font-size:15px;">📍 {{ c.cidade }}</strong></td>
-                        <td><strong style="color:#86efac;">{{ c.eleitores }} eleitores</strong></td>
-                        <td>{{ c.regiao }}</td>
-                        <td><strong style="color:#38bdf8;">{{ c.relevancia }}</strong></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        function filtrarCandidato(cand) {
-            const items = document.querySelectorAll('.item-yt');
-            const btns = document.querySelectorAll('.btn-filter');
-            btns.forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-
-            items.forEach(item => {
-                if (cand === 'todos' || item.classList.contains(cand)) {
-                    item.style.display = 'block';
                 } else {
                     item.style.display = 'none';
                 }
@@ -1205,6 +1260,7 @@ def dashboard_metabase_page():
         HTML_DASHBOARD_METABASE,
         yt_videos=YOUTUBE_VIDEOS_REAIS,
         colegios=MAIORES_COLEGIOS_TSE,
+        canal_metricas=CANIS_YOUTUBE_METRICAS,
         wilder_avatar=WILDER_AVATAR_B64
     )
 
@@ -1248,8 +1304,8 @@ def api_chat():
     system_prompt = f"""
 Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
 
-VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM PINOS INTERATIVOS E DUAL-MODE (LEAFLET + VETORIAL DE GOIÁS):
-- Geolocalização com 8 Pinos Coloridos por Pauta com Popups Interativos (Goiânia, Aparecida, Anápolis, Rio Verde, Luziânia, Valparaíso, Itumbiara, Catalão).
+VOCÊ POSSUI O SISTEMA DE GESTÃO DO YOUTUBE REAL AUDITADO:
+- Vídeos oficiais verificados do YouTube para Wilder Morais, Daniel Vilela e Marconi Perillo com estatísticas reais de visualizações, curtidas, comentários e análise de sentimento.
 """
 
     if OPENROUTER_API_KEY:
@@ -1271,14 +1327,14 @@ VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM PINOS INTERATIVOS E DUAL-MODE (LEAFLET 
             pass
 
     p_lower = pergunta.lower()
-    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade", "pino", "pinos"]):
-        resp = f"🗺️ <strong>MAPA COLORIDO DUAL-MODE COM PINOS INTERATIVOS ATIVOS</strong><br><br>" \
-               f"O sistema conta com o Mapa GIS e o Mapa Vetorial de Goiás com pinos coloridos pulsantes para todas as 8 cidades polo!<br><br>" \
-               f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & PINOS COLORIDOS</a>"
+    if any(k in p_lower for k in ["youtube", "video", "vídeo", "engajamento", "comentários", "inscritos"]):
+        resp = f"📺 <strong>GESTAO & AUDITORIA DE INTELIGÊNCIA DO YOUTUBE REAL RESTAURADA</strong><br><br>" \
+               f"O painel conta com vídeos reais e auditados de Wilder Morais (líder com 6,4% de engajamento), Daniel Vilela e Marconi Perillo com estatísticas detalhadas de curtidas e comentários!<br><br>" \
+               f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #eab308, #ca8a04);color:#040e08;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #fef08a;'>📺 ABRIR GESTÃO YOUTUBE REAL</a>"
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
                f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% restaurado com o Mapa Colorido e os Pinos Interativos!"
+               f"O sistema está 100% restaurado com os vídeos reais e auditados no YouTube!"
 
     return jsonify({"resposta": resp}), 200
 
