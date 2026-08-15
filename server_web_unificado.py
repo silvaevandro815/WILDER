@@ -555,12 +555,37 @@ HTML_MAPA_DEMANDAS = """
                     var map = L.map('map', { zoomControl: true, scrollWheelZoom: true })
                                 .setView([-16.6789, -49.2539], 7);
 
-                    // OSM - tile mais confiável e sem bloqueios em produção
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         maxZoom: 18,
                         subdomains: ['a','b','c'],
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(map);
+
+                    var dadosCidades = {{ reclamacoes|tojson }};
+                    var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
+
+                    // Carrega GeoJSON para pintar os municípios no mapa (Coroplético OpenSource)
+                    fetch('/static/goias.geojson')
+                        .then(r => r.json())
+                        .then(geo => {
+                            L.geoJSON(geo, {
+                                style: function(f) {
+                                    var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                                    var corFill = '#1e293b';
+                                    var opac = 0.2;
+                                    var w = 1;
+                                    dadosCidades.forEach(function(c) {
+                                        var cNome = c.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                                        if (nome === cNome || (nome === 'aparecida de goiania' && cNome === 'aparecida de goiania')) {
+                                            corFill = colorMap[c.cor] || '#10b981';
+                                            opac = 0.65;
+                                            w = 2;
+                                        }
+                                    });
+                                    return { fillColor: corFill, weight: w, opacity: 1, color: '#334155', fillOpacity: opac };
+                                }
+                            }).addTo(map);
+                        }).catch(e => console.error("Erro GeoJSON:", e));
 
                     // Forçar redraw múltiplas vezes para garantir render
                     [200, 600, 1400, 2500].forEach(function(ms) {
@@ -570,9 +595,6 @@ HTML_MAPA_DEMANDAS = """
                     // Esconder SVG fallback se Leaflet carregou
                     var svgCont = document.getElementById('svgGoiasContainer');
                     if (svgCont) svgCont.style.display = 'none';
-
-                    var dadosCidades = {{ reclamacoes|tojson }};
-                    var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
 
                     dadosCidades.forEach(function(c) {
                         var cor = colorMap[c.cor] || '#10b981';
@@ -951,11 +973,30 @@ HTML_RADAR_EVENTOS = """
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(mapEv);
 
+                    var dadosEventos = {{ eventos|tojson }};
+
+                    // Carrega GeoJSON para dar cor ao estado (Coroplético OpenSource)
+                    fetch('/static/goias.geojson')
+                        .then(r => r.json())
+                        .then(geo => {
+                            L.geoJSON(geo, {
+                                style: function(f) {
+                                    var nome = f.properties.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                                    var hasEvent = dadosEventos.some(e => e.cidade.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nome);
+                                    return { 
+                                        fillColor: hasEvent ? '#8b5cf6' : '#1e293b', 
+                                        weight: hasEvent ? 2 : 1, 
+                                        opacity: 1, 
+                                        color: '#334155', 
+                                        fillOpacity: hasEvent ? 0.4 : 0.2 
+                                    };
+                                }
+                            }).addTo(mapEv);
+                        }).catch(e => console.error("Erro GeoJSON:", e));
+
                     [200, 600, 1400, 2500].forEach(function(ms) {
                         setTimeout(function() { mapEv.invalidateSize(true); }, ms);
                     });
-
-                    var dadosEventos = {{ eventos|tojson }};
                     dadosEventos.forEach(function(e) {
                         var popup = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:200px;">'
                             + '<h4 style="margin:0 0 4px 0;color:#8b5cf6;font-size:14px;">🎪 ' + e.nome + '</h4>'
