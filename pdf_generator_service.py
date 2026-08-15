@@ -462,6 +462,13 @@ GOOGLE_TRENDS_GOIAS = [
         "tendencia": "📈 CRESCENTE (+35%)",
         "interesse": "Adultos e chefes de família enfrentando barreiras etárias no mercado de trabalho industrial e comércio.",
         "resposta_campanha": "Promover programas de qualificação focados no público adulto (Agiliza e Empreende Goiás)."
+    },
+    {
+        "termo_busca": "Perguntas Frequentes sobre Wilder Morais no Google",
+        "volume_mensal": "88.500 buscas",
+        "tendencia": "🔥 ALTA EXTREMA",
+        "interesse": "Eleitores buscando conhecer o perfil do candidato, sua vice Ana Paula Rezende, seu patrimônio, ligação com o Agro e propostas para saúde/emprego.",
+        "resposta_campanha": "Criar vídeos curtos (Shorts/Reels) respondendo diretamente às perguntas: 'Quem é Wilder?', 'O que Wilder vai fazer pela Saúde?', 'Qual a profissão de Wilder?'."
     }
 ]
 

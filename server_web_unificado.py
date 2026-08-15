@@ -1247,6 +1247,16 @@ MAPEAMENTO DE QUEIXAS POPULARES E DEMOGRAFIA (Jovens e 35 a 70 anos):
 • Rio Verde: 30% cobram médicos especialistas locais (50+) e tecnologia agrotech para reter jovens.
 
 ═══════════════════════════════════════════
+COMPORTAMENTO DIGITAL NO GOOGLE TRENDS (O que os Goianos mais pesquisam):
+1. Buscas Gerais da População: "Fila do SUS demora quanto tempo?", "Vagas Primeiro Emprego Jovem Aprendiz", "Remédio de Alto Custo", "Preço passagem Entorno DF".
+2. Perguntas MAIS FEITAS sobre Wilder Morais no Google:
+   - "Quais as propostas de Wilder Morais para Saúde e Emprego?"
+   - "Quem é Ana Paula Rezende, a vice de Wilder?"
+   - "Qual a porcentagem de Wilder nas pesquisas de 2026?"
+   - "Wilder Morais apoia o agronegócio e a indústria?"
+   - "Qual o patrimônio e a profissão (Engenheiro) de Wilder Morais?"
+
+═══════════════════════════════════════════
 PLANO DE GOVERNO (RESUMO BASEADO NO PDF OFICIAL):
 {plano_governo_texto}
 
@@ -1287,6 +1297,14 @@ Responda sobre: {pergunta}"""
                 "Wilder Morais possui 6,4% de engajamento, consolidado no setor do Agro, mas com necessidade de aproximação ao público jovem. "
                 "Daniel Vilela (4,1%) possui base institucional forte. Marconi Perillo (3,8%) enfrenta alta polarização.<br><br>"
                 "👉 <a href='/dashboard' style='color:#10b981;font-weight:800;'>Ver auditoria completa do YouTube</a>")
+    elif any(k in p_lower for k in ["google", "trends", "perguntas", "internet", "goiano", "pesquisam"]):
+        resp = ("🔍 <strong>Comportamento no Google Trends:</strong><br><br>"
+                "As perguntas mais frequentes no Google sobre o candidato são:<br>"
+                "1. Quais as propostas de Wilder para Saúde e Emprego?<br>"
+                "2. Quem é Ana Paula Rezende (vice)?<br>"
+                "3. Qual a porcentagem de Wilder nas pesquisas?<br>"
+                "4. Relação com o Agro e Profissão (Engenheiro).<br><br>"
+                "Já nas buscas gerais, os goianos procuram massivamente por 'Fila do SUS', '1º Emprego Jovem' e 'Remédio de Alto Custo'.")
     elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "jovem", "emprego", "velho", "idoso", "remédio", "segurança", "idade"]):
         resp = ("🗺️ <strong>Dores Populares (Jovens e 35-70 anos):</strong><br><br>"
                 "Luziânia (45%): exaustão no trânsito p/ Brasília. Goiânia (42%): cirurgias eletivas, remédios de alto custo e busca por 1º emprego. "
