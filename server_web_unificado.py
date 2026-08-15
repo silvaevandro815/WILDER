@@ -307,8 +307,9 @@ HTML_MAPA_DEMANDAS = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa Tático Interativo & Gráficos — Goiás 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/leaflet.css" />
-    <script src="/static/leaflet.js"></script>
+    <!-- Leaflet CSS & JS - Validado OpenSource via CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/static/chart.js"></script>
     """ + PREMIUM_THEME_CSS + """
     <style>
@@ -564,8 +565,8 @@ HTML_MAPA_DEMANDAS = """
                     var dadosCidades = {{ reclamacoes|tojson }};
                     var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
 
-                    // Carrega GeoJSON para pintar os municípios no mapa (Coroplético OpenSource)
-                    fetch('/static/goias.geojson')
+                    // Carrega GeoJSON para pintar os municípios no mapa (Coroplético OpenSource validado)
+                    fetch('https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-52-mun.json')
                         .then(r => r.json())
                         .then(geo => {
                             L.geoJSON(geo, {
@@ -880,8 +881,9 @@ HTML_RADAR_EVENTOS = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radar de 150 Eventos em Goiás — QG Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/leaflet.css" />
-    <script src="/static/leaflet.js"></script>
+    <!-- Leaflet CSS & JS - Validado OpenSource via CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     """ + PREMIUM_THEME_CSS + """
     <style>
         #mapEventos { width: 100%; height: 480px; border-radius: 12px; border: 1px solid var(--border-color); background: #000; }
@@ -975,8 +977,8 @@ HTML_RADAR_EVENTOS = """
 
                     var dadosEventos = {{ eventos|tojson }};
 
-                    // Carrega GeoJSON para dar cor ao estado (Coroplético OpenSource)
-                    fetch('/static/goias.geojson')
+                    // Carrega GeoJSON para dar cor ao estado (Coroplético OpenSource validado)
+                    fetch('https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-52-mun.json')
                         .then(r => r.json())
                         .then(geo => {
                             L.geoJSON(geo, {
