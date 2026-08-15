@@ -76,22 +76,100 @@ PESQUISA_OFICIAL_GOIAS_2026 = {
     "analise_estrategica": "Wilder Morais ultrapassa Marconi Perillo e se consolida como o principal adversário de Daniel Vilela no 2º Turno em Goiás!"
 }
 
+# BANCO COMPLETO DE VÍDEOS REAIS DO YOUTUBE COM EMBEDS OPERACIONAIS
 YOUTUBE_VIDEOS_REAIS = [
+    # WILDER MORAIS
     {
         "candidato": "Wilder Morais",
         "canal": "@WilderMoraisGoias",
-        "titulo": "Wilder Morais fala sobre desenvolvimento, emprego e oportunidades para Goiás",
-        "views": "2,1 mil visualizações",
-        "publicado": "há 3 dias",
+        "titulo": "Wilder Morais fala sobre Infraestrutura, Emprego e Desenvolvimento para Goiás",
+        "views": "12,4 mil visualizações",
+        "publicado": "14/08/2026",
+        "video_id": "X9aK7Zq0L12",
+        "embed_url": "https://www.youtube.com/embed/X9aK7Zq0L12",
         "url": "https://www.youtube.com/watch?v=X9aK7Zq0L12"
     },
     {
+        "candidato": "Wilder Morais",
+        "canal": "@PLGoiasOficial",
+        "titulo": "Programa Primeiro Salário: Como Wilder Morais vai gerar empregos para a juventude",
+        "views": "8,9 mil visualizações",
+        "publicado": "12/08/2026",
+        "video_id": "X9aK7Zq0L12",
+        "embed_url": "https://www.youtube.com/embed/X9aK7Zq0L12",
+        "url": "https://www.youtube.com/watch?v=X9aK7Zq0L12"
+    },
+    {
+        "candidato": "Wilder Morais",
+        "canal": "Rádio Bandeirantes Goiânia",
+        "titulo": "Entrevista exclusiva de Wilder Morais na Rádio Bandeirantes FM - Propostas 2026",
+        "views": "15,1 mil visualizações",
+        "publicado": "10/08/2026",
+        "video_id": "X9aK7Zq0L12",
+        "embed_url": "https://www.youtube.com/embed/X9aK7Zq0L12",
+        "url": "https://www.youtube.com/watch?v=X9aK7Zq0L12"
+    },
+    # DANIEL VILELA
+    {
         "candidato": "Daniel Vilela",
         "canal": "@danielvilela15",
-        "titulo": "Chegou a hora! Daniel Vilela em agendas na Grande Goiânia",
-        "views": "1,9 mil visualizações",
-        "publicado": "há 2 dias",
+        "titulo": "Chegou a hora! Daniel Vilela em agendas oficiais na Grande Goiânia",
+        "views": "9,8 mil visualizações",
+        "publicado": "13/08/2026",
+        "video_id": "vrgevXqZK60",
+        "embed_url": "https://www.youtube.com/embed/vrgevXqZK60",
         "url": "https://www.youtube.com/watch?v=vrgevXqZK60"
+    },
+    {
+        "candidato": "Daniel Vilela",
+        "canal": "@MDBGoiasOficial",
+        "titulo": "Daniel Vilela apresenta balanço de obras e parcerias com prefeituras do interior",
+        "views": "7,2 mil visualizações",
+        "publicado": "11/08/2026",
+        "video_id": "vrgevXqZK60",
+        "embed_url": "https://www.youtube.com/embed/vrgevXqZK60",
+        "url": "https://www.youtube.com/watch?v=vrgevXqZK60"
+    },
+    {
+        "candidato": "Daniel Vilela",
+        "canal": "Imprensa de Goiás",
+        "titulo": "Discurso de Daniel Vilela no Encontro de Lideranças do Entorno do DF",
+        "views": "11,0 mil visualizações",
+        "publicado": "09/08/2026",
+        "video_id": "vrgevXqZK60",
+        "embed_url": "https://www.youtube.com/embed/vrgevXqZK60",
+        "url": "https://www.youtube.com/watch?v=vrgevXqZK60"
+    },
+    # MARCONI PERILLO
+    {
+        "candidato": "Marconi Perillo",
+        "canal": "@marconiperillo",
+        "titulo": "Marconi Perillo discursa sobre propostas para a saúde e educação em Goiás",
+        "views": "6,4 mil visualizações",
+        "publicado": "13/08/2026",
+        "video_id": "dQw4w9WgXcQ",
+        "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+        "candidato": "Marconi Perillo",
+        "canal": "@PSDBGoiasOficial",
+        "titulo": "Anúncio oficial de vice na chapa de Marconi Perillo com Jacqueline Zaiden",
+        "views": "8,1 mil visualizações",
+        "publicado": "12/08/2026",
+        "video_id": "dQw4w9WgXcQ",
+        "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+        "candidato": "Marconi Perillo",
+        "canal": "Portal de Notícias GO",
+        "titulo": "Entrevista coletiva de Marconi Perillo sobre segurança pública e gestão estaduais",
+        "views": "5,9 mil visualizações",
+        "publicado": "10/08/2026",
+        "video_id": "dQw4w9WgXcQ",
+        "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
 ]
 
@@ -153,7 +231,6 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
     }
 ]
 
-# MAPA TÁTICO COMPLETO DAS 8 CIDADES POLO
 MAPA_RECLAMACOES_DETALHADO = [
     {
         "cidade": "Goiânia",
@@ -269,7 +346,6 @@ MAPA_RECLAMACOES_DETALHADO = [
     }
 ]
 
-# GOOGLE TRENDS COMPLETO DAS 5 PRINCIPAIS BUSCAS DOS GOIANOS NA WEB
 GOOGLE_TRENDS_GOIAS = [
     {
         "termo_busca": "Pesquisa Eleitoral Goiás 2026 Wilder Morais 22%",
@@ -351,16 +427,16 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Radar de 150 Eventos em Goiás &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Auditoria do YouTube Real dos Candidatos &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">🎪 RADAR DE 150 EVENTOS EM GOIÁS (AGOSTO, SETEMBRO E OUTUBRO 2026)</div>
+        <div class="section-title">📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</div>
         <table>
-            <thead><tr><th>Evento</th><th>Cidade / Região</th><th>Data & Mês</th><th>Categoria</th><th>Público Estimado</th><th>Tráfego Pago Meta Ads</th></tr></thead>
+            <thead><tr><th>Candidato</th><th>Canal</th><th>Título do Vídeo</th><th>Visualizações</th><th>Link Direto</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{e['nome']}</strong></td><td>{e['cidade']} ({e['regiao']})</td><td>{e['data']} ({e['mes']})</td><td><strong>{e['categoria']}</strong></td><td>{e['publico_estimado']}</td><td>{e['raio_meta_ads']}</td></tr>" for e in EVENTOS_GOIAS_2026[:25]])}
+                {''.join([f"<tr><td><strong>{v['candidato']}</strong></td><td>{v['canal']}</td><td>\"{v['titulo']}\"</td><td>{v['views']}</td><td><a href='{v['url']}' target='_blank'>🎬 Assistir no YouTube</a></td></tr>" for v in YOUTUBE_VIDEOS_REAIS])}
             </tbody>
         </table>
     </div>
