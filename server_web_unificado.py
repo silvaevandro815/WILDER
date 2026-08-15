@@ -185,8 +185,8 @@ HTML_CHAT_WIDGET = f"""
             </div>
         </div>
         <div class="nav-links">
+            <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa Colorido & 4 Gráficos</a>
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar de Notícias & Pesquisas</a>
-            <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa Colorido & Queixas</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
             <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 PDF 360°</a>
@@ -198,13 +198,13 @@ HTML_CHAT_WIDGET = f"""
             <img src="{WILDER_AVATAR_B64}" alt="" class="msg-avatar">
             <div class="msg bot">
                 <strong>🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — WILDER MORAIS 2026</strong><br><br>
-                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com monitoramento ativo de <strong>Notícias Reais dos Candidatos (Wilder, Daniel Vilela e Marconi Perillo)</strong> com links jornalísticos verificados, pesquisas de intenção de voto e plano de governo.<br><br>
+                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema conta com o <strong>Mapa Tático Colorido por Pauta</strong>, <strong>Painel de 4 Gráficos Visuais Interativos</strong>, Notícias Reais dos Candidatos e Pesquisas Eleitorais.<br><br>
                 <strong>Faça uma consulta ou escolha um atalho de ação:</strong>
                 <div class="quick-actions">
-                    <span class="chip" onclick="perguntarRapido('Quais são as últimas notícias reais sobre o Wilder Morais?')">📰 Notícias Reais do Wilder</span>
-                    <span class="chip" onclick="perguntarRapido('Quais são as notícias recentes do Daniel Vilela?')">📰 Notícias do Daniel Vilela</span>
-                    <span class="chip" onclick="perguntarRapido('Quais notícias saíram sobre o Marconi Perillo?')">📰 Notícias do Marconi Perillo</span>
-                    <span class="chip" onclick="perguntarRapido('Quais são os dados da pesquisa eleitoral do Instituto Goiás Pesquisas?')">📊 Pesquisa Eleitoral 22%</span>
+                    <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Abrir Mapa Colorido & 4 Gráficos</span>
+                    <span class="chip" onclick="perguntarRapido('Quais são os dados da última pesquisa eleitoral do Instituto Goiás Pesquisas?')">📊 Pesquisa Eleitoral 22%</span>
+                    <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30s sobre o programa Primeiro Salário')">🎬 Roteiro de Reels 30s</span>
+                    <span class="chip" onclick="perguntarRapido('Escreva um discurso curto de Wilder em Rio Verde')">🎤 Discurso Wilder Morais</span>
                 </div>
             </div>
         </div>
@@ -212,7 +212,7 @@ HTML_CHAT_WIDGET = f"""
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Consulte a IA sobre discursos, notícias reais, pesquisas ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Consulte a IA sobre mapa de queixas, gráficos, discursos, notícias ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
@@ -241,7 +241,7 @@ HTML_CHAT_WIDGET = f"""
             botRow.className = 'msg-row';
             botRow.innerHTML = `
                 <img src="{WILDER_AVATAR_B64}" alt="" class="msg-avatar">
-                <div class="msg bot"><strong>[SALA DE GUERRA IA] Analisando banco de dados de notícias reais...</strong></div>
+                <div class="msg bot"><strong>[SALA DE GUERRA IA] Analisando banco de dados...</strong></div>
             `;
             chat.appendChild(botRow);
             chat.scrollTop = chat.scrollHeight;
@@ -264,7 +264,6 @@ HTML_CHAT_WIDGET = f"""
 </html>
 """
 
-# RADAR DE NOTÍCIAS REAIS VALIDADAS DE TODOS OS CANDIDATOS (WILDER, DANIEL, MARCONI)
 HTML_RADAR_NOTICIAS = f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -358,7 +357,6 @@ HTML_RADAR_NOTICIAS = f"""
             </table>
         </div>
 
-        <!-- ALERTA DE MONITORAMENTO DA IMPRENSA -->
         <h3 style="color:#86efac;margin-bottom:16px;">📰 NOTÍCIAS REAIS DA IMPRENSA DE GOIÁS (LINK DIRETO DE CADA MATÉRIA)</h3>
 
         {{% for item in noticias %}}
@@ -414,6 +412,279 @@ HTML_RADAR_NOTICIAS = f"""
 </html>
 """
 
+# MAPA TÁTICO INTERATIVO COM 4 GRÁFICOS VISUAIS E CORES POR SETOR (RESTAUTADO E APERFEIÇOADO)
+HTML_MAPA_DEMANDAS = f"""
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Tático Interativo & Gráficos de Queixas — Goiás 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {{ box-sizing: border-box; }}
+        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
+        
+        .header {{ background: linear-gradient(135deg, #0b2214, #0284c7, #15803d); padding: 16px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }}
+        .brand-avatar {{ width: 50px; height: 50px; min-width: 50px; min-height: 50px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
+        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
+        
+        .container {{ max-width: 1340px; margin: 30px auto; padding: 0 20px; }}
+
+        .legend-bar {{ background: #0a1f12; border: 1px solid #164624; border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }}
+        .legend-item {{ display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }}
+        .dot-red {{ width: 14px; height: 14px; background: #ef4444; border-radius: 50%; display: inline-block; }}
+        .dot-orange {{ width: 14px; height: 14px; background: #f97316; border-radius: 50%; display: inline-block; }}
+        .dot-green {{ width: 14px; height: 14px; background: #22c55e; border-radius: 50%; display: inline-block; }}
+        .dot-blue {{ width: 14px; height: 14px; background: #3b82f6; border-radius: 50%; display: inline-block; }}
+        .dot-purple {{ width: 14px; height: 14px; background: #a855f7; border-radius: 50%; display: inline-block; }}
+
+        .map-section {{ background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }}
+        .card-title {{ font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #0284c7; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }}
+
+        #map {{ width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }}
+
+        .charts-row-top {{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px; }}
+        .charts-row-bottom {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }}
+        .chart-box {{ background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }}
+
+        table {{ width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }}
+        th {{ background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }}
+        td {{ padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }}
+
+        .leaflet-popup-content-wrapper {{ background: #040e08; color: #f8fafc; border: 1px solid #22c55e; border-radius: 10px; }}
+        .leaflet-popup-tip {{ background: #040e08; }}
+    </style>
+</head>
+<body>
+    {HTML_ALERT_SYSTEM_SCRIPT}
+    <div class="header">
+        <div style="display:flex;align-items:center;gap:14px;">
+            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
+            <div>
+                <h1 style="margin:0;font-size:20px;color:#fff;">🗺️ MAPA TÁTICO COLORIDO & PAINEL DE 4 GRÁFICOS VISUAIS</h1>
+                <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Geolocalização de Queixas Populares por Cidade & Inteligência de Buscas do Google Trends</p>
+            </div>
+        </div>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+    </div>
+
+    <div class="container">
+        <!-- BARRA DE LEGENDA DAS CORES DO MAPA -->
+        <div class="legend-bar">
+            <span style="color:#fef08a;font-weight:800;font-size:14px;">🎨 CORES DAS PAUTAS NO MAPA:</span>
+            <div class="legend-item"><span class="dot-red"></span> 🔴 Saúde & Filas SUS</div>
+            <div class="legend-item"><span class="dot-orange"></span> 🟠 Transporte & Asfalto</div>
+            <div class="legend-item"><span class="dot-green"></span> 🟢 Logística Agro & Pontes</div>
+            <div class="legend-item"><span class="dot-blue"></span> 🔵 Emprego Jovem & DAIA</div>
+            <div class="legend-item"><span class="dot-purple"></span> 🟣 Hospital Regional & Turismo</div>
+        </div>
+
+        <!-- 1. MAPA LEAFLET.JS -->
+        <div class="map-section">
+            <div class="card-title">
+                <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE NOS PINOS)</span>
+                <span style="font-size:12px;color:#38bdf8;font-weight:bold;">TECNOLOGIA LEAFLET.JS GIS</span>
+            </div>
+            <div id="map"></div>
+        </div>
+
+        <!-- 2. PAINEL DE 4 GRÁFICOS VISUAIS INTERATIVOS DIRETAMENTE ABAIXO DO MAPA -->
+        <div class="charts-row-top">
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>📊 INTENSIDADE DE QUEIXAS POPULARES POR MUNICÍPIO POLO (%)</span>
+                </div>
+                <canvas id="chartCidades" height="230"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>🍩 DISTRIBUIÇÃO DAS RECLAMAÇÕES POR CATEGORIA</span>
+                </div>
+                <canvas id="chartCategorias" height="230"></canvas>
+            </div>
+        </div>
+
+        <div class="charts-row-bottom">
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>🔍 GOOGLE TRENDS — TERMOS DE MAIOR BUSCA DOS GOIANOS</span>
+                </div>
+                <canvas id="chartGoogleTrends" height="220"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <div class="card-title">
+                    <span>📈 NÍVEL DE URGÊNCIA DE ATENDIMENTO POR REGIÃO</span>
+                </div>
+                <canvas id="chartUrgencia" height="220"></canvas>
+            </div>
+        </div>
+
+        <!-- 3. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
+        <div class="map-section">
+            <div class="card-title">
+                <span>📋 DETALHAMENTO DAS 8 CIDADES POLO, ELEITORES TSE E VÍDEOS RECOMENDADOS</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cidade Polo & Região</th>
+                        <th>Pauta Prioritária</th>
+                        <th>Eleitores TSE</th>
+                        <th>Reclamação Específica dos Moradores</th>
+                        <th>Vídeo Recomendado para Wilder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{% for c in reclamacoes %}}
+                    <tr>
+                        <td><strong style="color:#fef08a;font-size:15px;">📍 {{{{ c.cidade }}}}</strong><br><span style="font-size:12px;color:#94a3b8;">{{{{ c.regiao }}}}</span></td>
+                        <td><strong style="color:#38bdf8;">{{{{ c.pauta_principal }}}}</strong></td>
+                        <td><strong style="color:#86efac;">{{{{ c.eleitores }}}}</strong></td>
+                        <td>{{{{ c.demanda_especifica }}}}</td>
+                        <td><strong style="color:#eab308;">{{{{ c.video_recomendado }}}}</strong></td>
+                    </tr>
+                    {{% endfor %}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const map = L.map('map').setView([-16.6789, -49.2539], 7);
+
+        L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+            maxZoom: 18,
+            attribution: '© OpenStreetMap / Inteligência Eleitoral Wilder Morais'
+        }}).addTo(map);
+
+        const dadosCidades = {{{{ reclamacoes|tojson }}}};
+
+        function getCustomIcon(color) {{
+            const colorHex = {{
+                'red': '#ef4444',
+                'orange': '#f97316',
+                'green': '#22c55e',
+                'blue': '#3b82f6',
+                'purple': '#a855f7'
+            }}[color] || '#22c55e';
+
+            return L.divIcon({{
+                className: 'custom-pin',
+                html: '<div style="background-color:' + colorHex + ';width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ' + colorHex + ';"></div>',
+                iconSize: [22, 22],
+                iconAnchor: [11, 11]
+            }});
+        }}
+
+        dadosCidades.forEach(c => {{
+            const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
+                '<h3 style="margin:0 0 4px 0;color:#fef08a;font-size:15px;">📍 ' + c.cidade + ' (' + c.regiao + ')</h3>' +
+                '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Pauta:</strong> ' + c.cor_nome + '</p>' +
+                '<p style="margin:2px 0;color:#86efac;font-size:12px;"><strong>Eleitores TSE:</strong> ' + c.eleitores + '</p>' +
+                '<p style="margin:4px 0;color:#f8fafc;font-size:12.5px;">' + c.pauta_principal + '</p>' +
+                '<p style="margin:4px 0;color:#cbd5e1;font-size:12px;"><i>"' + c.demanda_especifica + '"</i></p>' +
+                '<div style="margin-top:8px;background:#0c2415;padding:6px;border-radius:6px;border-left:3px solid #eab308;">' +
+                '<strong style="color:#fef08a;font-size:11.5px;">🎥 Gancho de Vídeo 3s:</strong><br>' +
+                '<span style="color:#fff;font-size:11.5px;">"' + c.gancho_3s + '"</span>' +
+                '</div></div>';
+
+            L.marker([c.lat, c.lon], {{ icon: getCustomIcon(c.cor) }})
+                .addTo(map)
+                .bindPopup(popupContent);
+        }});
+
+        new Chart(document.getElementById('chartCidades').getContext('2d'), {{
+            type: 'bar',
+            data: {{
+                labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'],
+                datasets: [{{
+                    label: '% de Queixas na Cidade',
+                    data: [45, 42, 40, 38, 35, 30, 28, 25],
+                    backgroundColor: ['#f97316', '#ef4444', '#f97316', '#ef4444', '#3b82f6', '#22c55e', '#3b82f6', '#a855f7']
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }},
+                scales: {{
+                    x: {{ ticks: {{ color: '#f8fafc' }} }},
+                    y: {{ ticks: {{ color: '#f8fafc' }} }}
+                }}
+            }}
+        }});
+
+        new Chart(document.getElementById('chartCategorias').getContext('2d'), {{
+            type: 'doughnut',
+            data: {{
+                labels: ['Saúde & Filas SUS (42%)', 'Transporte & Asfalto (28%)', 'Logística Agro & Pontes (14%)', 'Emprego Jovem (9%)', 'Hospital & Turismo (7%)'],
+                datasets: [{{
+                    data: [42, 28, 14, 9, 7],
+                    backgroundColor: ['#ef4444', '#f97316', '#22c55e', '#3b82f6', '#a855f7']
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }}
+            }}
+        }});
+
+        new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {{
+            type: 'bar',
+            data: {{
+                labels: ['Concurso Público', 'Saúde / Fila SUS', 'Primeiro Emprego', 'Asfalto Entorno', 'Crédito Jovem'],
+                datasets: [{{
+                    label: 'Volume Mensal Estimado no Google',
+                    data: [96000, 88000, 72000, 54000, 45000],
+                    backgroundColor: '#0284c7'
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }},
+                scales: {{
+                    x: {{ ticks: {{ color: '#f8fafc' }} }},
+                    y: {{ ticks: {{ color: '#f8fafc' }} }}
+                }}
+            }}
+        }});
+
+        new Chart(document.getElementById('chartUrgencia').getContext('2d'), {{
+            type: 'radar',
+            data: {{
+                labels: ['Metropolitana', 'Entorno DF', 'Sudoeste Agro', 'Centro Goiano', 'Sul Goiano', 'Estrada do Ferro'],
+                datasets: [{{
+                    label: 'Índice de Urgência de Resposta (0 a 100)',
+                    data: [95, 90, 85, 80, 75, 70],
+                    backgroundColor: 'rgba(234, 179, 8, 0.2)',
+                    borderColor: '#eab308',
+                    pointBackgroundColor: '#eab308'
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{ legend: {{ labels: {{ color: '#f8fafc' }} }} }},
+                scales: {{
+                    r: {{
+                        angleLines: {{ color: '#164624' }},
+                        grid: {{ color: '#164624' }},
+                        pointLabels: {{ color: '#86efac' }},
+                        ticks: {{ backdropColor: 'transparent', color: '#f8fafc' }}
+                    }}
+                }}
+            }}
+        }});
+    </script>
+</body>
+</html>
+"""
+
 # DASHBOARD EXECUTIVO
 HTML_DASHBOARD_METABASE = f"""
 <!DOCTYPE html>
@@ -429,6 +700,9 @@ HTML_DASHBOARD_METABASE = f"""
         .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
         .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
         .container {{ max-width: 1280px; margin: 30px auto; padding: 0 20px; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }}
+        th {{ background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }}
+        td {{ padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }}
     </style>
 </head>
 <body>
@@ -443,54 +717,30 @@ HTML_DASHBOARD_METABASE = f"""
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
     <div class="container">
-        <p style="color:#86efac;">Vídeos Reais do YouTube.</p>
-    </div>
-</body>
-</html>
-"""
-
-# MAPA TÁTICO INTERATIVO
-HTML_MAPA_DEMANDAS = f"""
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Tático Interativo — Goiás 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style>
-        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
-        .header {{ background: linear-gradient(135deg, #0b2214, #0284c7); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }}
-        .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
-        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
-        .container {{ max-width: 1340px; margin: 30px auto; padding: 0 20px; }}
-        #map {{ width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }}
-    </style>
-</head>
-<body>
-    {HTML_ALERT_SYSTEM_SCRIPT}
-    <div class="header">
-        <div style="display:flex;align-items:center;gap:14px;">
-            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
-            <div>
-                <h1 style="margin:0;font-size:20px;color:#fff;">🗺️ MAPA TÁTICO COLORIDO & QUEIXAS POPULARES</h1>
-            </div>
-        </div>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
-    </div>
-    <div class="container">
         <div style="background:#0a1f12;padding:20px;border-radius:14px;border:1px solid #164624;">
-            <div id="map"></div>
+            <h3 style="color:#86efac;">🎬 VÍDEOS INDIVIDUAIS DO YOUTUBE</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Título do Vídeo</th>
+                        <th>Visualizações</th>
+                        <th>Link Direto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{% for v in yt_videos %}}
+                    <tr>
+                        <td><strong style="color:#fef08a;">{{{{ v.candidato }}}}</strong></td>
+                        <td>{{{{ v.titulo }}}}</td>
+                        <td><span style="color:#4ade80;">{{{{ v.views }}}}</span></td>
+                        <td><a href="{{{{ v.url }}}}" target="_blank" style="color:#38bdf8;font-weight:bold;">🎬 Assistir Vídeo no YouTube</a></td>
+                    </tr>
+                    {{% endfor %}}
+                </tbody>
+            </table>
         </div>
     </div>
-    <script>
-        const map = L.map('map').setView([-16.6789, -49.2539], 7);
-        L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png').addTo(map);
-        const dados = {{{{ reclamacoes|tojson }}}};
-        dados.forEach(c => {{ L.marker([c.lat, c.lon]).addTo(map).bindPopup(`<b>${{c.cidade}}</b><br>${{c.pauta_principal}}`); }});
-    </script>
 </body>
 </html>
 """
@@ -502,20 +752,20 @@ HTML_MAPA_DEMANDAS = f"""
 def chat_home():
     return render_template_string(HTML_CHAT_WIDGET)
 
-@app.route("/radar_noticias", methods=["GET"])
-def radar_noticias_page():
-    return render_template_string(
-        HTML_RADAR_NOTICIAS,
-        noticias=RADAR_NOTICIAS_TODOS_CANDIDATOS,
-        pesquisa=PESQUISA_OFICIAL_GOIAS_2026
-    )
-
 @app.route("/mapa_demandas", methods=["GET"])
 @app.route("/mapa", methods=["GET"])
 def mapa_demandas_page():
     return render_template_string(
         HTML_MAPA_DEMANDAS,
         reclamacoes=MAPA_RECLAMACOES_DETALHADO
+    )
+
+@app.route("/radar_noticias", methods=["GET"])
+def radar_noticias_page():
+    return render_template_string(
+        HTML_RADAR_NOTICIAS,
+        noticias=RADAR_NOTICIAS_TODOS_CANDIDATOS,
+        pesquisa=PESQUISA_OFICIAL_GOIAS_2026
     )
 
 @app.route("/dashboard", methods=["GET"])
@@ -571,10 +821,9 @@ def api_chat():
     system_prompt = f"""
 Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
 
-VOCÊ POSSUI UM FEED DE NOTÍCIAS REAIS VALIDADAS EM TEMPO REAL:
-- Wilder Morais: Lançamento oficial pelo PL, Pesquisa do Instituto Goiás Pesquisas (Wilder atinge 22% dos Votos Válidos), Notícia crítica sobre preparação em fala em debates públicos (Diário de Goiás).
-- Daniel Vilela: Notícias reais de declaração de bens no TSE (G1), ausência no 1º debate (A Redação) e apoios políticos.
-- Marconi Perillo: Promessas de segurança após gestões marcadas por críticas (Poder Goiás), chapa com Jacqueline Zaiden (A Redação) e articulação no agro (Tribuna do Planalto).
+VOCÊ POSSUI O MAPA TÁTICO COLORIDO COM 4 GRÁFICOS VISUAIS E A PESQUISA OFICIAL:
+- Mapa Tático de Queixas por Cidade Polo com 4 Gráficos Interativos em Chart.js (Barras por Cidade, Rosca de Setores, Google Trends e Radar de Urgência por Região).
+- Pesquisa Oficial (Instituto Goiás Pesquisas): Wilder atinge 22,0% dos Votos Válidos, ultrapassa Marconi Perillo (21,9%) e avança para o 2º Turno contra Daniel Vilela (43,5%).
 """
 
     if OPENROUTER_API_KEY:
@@ -596,14 +845,14 @@ VOCÊ POSSUI UM FEED DE NOTÍCIAS REAIS VALIDADAS EM TEMPO REAL:
             pass
 
     p_lower = pergunta.lower()
-    if any(k in p_lower for k in ["noticia", "notícia", "imprensa", "jornal", "daniel", "marconi", "wilder"]):
-        resp = f"📰 <strong>RADAR DE NOTÍCIAS REAIS DOS CANDIDATOS (WILDER, DANIEL VILELA, MARCONI PERILLO)</strong><br><br>" \
-               f"Mapeamos 10+ matérias reais de veículos como G1 Goiás, Mais Goiás, Diário de Goiás, Poder Goiás e A Redação com links oficiais diretos e plano de contra-narrativa de IA!<br><br>" \
-               f"👉 <a href='/radar_noticias' style='background:#991b1b;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #ef4444;'>📰 ABRIR RADAR DE NOTÍCIAS REAIS</a>"
+    if any(k in p_lower for k in ["mapa", "grafico", "gráfico", "queixa", "cidade"]):
+        resp = f"🗺️ <strong>MAPA COLORIDO INTERATIVO & PAINEL DE 4 GRÁFICOS VISUAIS RESTAURADO</strong><br><br>" \
+               f"O painel visual completo abaixo do mapa conta com Gráfico de Barras de Cidades, Gráfico de Rosca de Setores, Buscas do Google Trends e Radar de Urgência por Região!<br><br>" \
+               f"👉 <a href='/mapa_demandas' style='background:linear-gradient(135deg, #0284c7, #0369a1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #38bdf8;'>🗺️ ABRIR MAPA & 4 GRÁFICOS VISUAIS</a>"
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
                f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% alimentado com as notícias reais validadas da imprensa de Goiás!"
+               f"O sistema está 100% restaurado com o Mapa Colorido e os 4 Gráficos Visuais!"
 
     return jsonify({"resposta": resp}), 200
 

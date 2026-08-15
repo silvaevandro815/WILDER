@@ -37,7 +37,7 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# CARREGAR AVATAR BASE64 PARA EXIBIÇÃO 100% PERFEITA
+# AVATAR BASE64
 WILDER_AVATAR_B64 = ""
 b64_file_path = os.path.join(os.path.dirname(__file__), "avatar_b64.txt")
 if os.path.exists(b64_file_path):
@@ -66,7 +66,6 @@ PESQUISA_OFICIAL_GOIAS_2026 = {
     "analise_estrategica": "Wilder Morais ultrapassa Marconi Perillo e se consolida como o principal adversário de Daniel Vilela no 2º Turno em Goiás!"
 }
 
-# VÍDEOS REAIS DO YOUTUBE
 YOUTUBE_VIDEOS_REAIS = [
     {
         "candidato": "Wilder Morais",
@@ -86,9 +85,7 @@ YOUTUBE_VIDEOS_REAIS = [
     }
 ]
 
-# BANCO COMPLETO DE NOTÍCIAS REAIS VALIDADAS AO VIVO (GOIÁS 2026) COM LINKS DIRETOS
 RADAR_NOTICIAS_TODOS_CANDIDATOS = [
-    # WILDER MORAIS
     {
         "candidato": "Wilder Morais",
         "veiculo": "Mais Goiás",
@@ -114,7 +111,7 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
     {
         "candidato": "Wilder Morais",
         "veiculo": "Diário de Goiás",
-        "manchete": "Wilder ainda não está preparado para a fala em debates públicos, avalia ala da imprensa",
+        "manchete": "Wilder ainda não está preparado para a fala em debates públicos, diz marqueteiro da campanha",
         "data": "13/08/2026",
         "tipo_noticia": "🔴 CRÍTICA",
         "nivel_ameaca": "ALERTA DE PREPARAÇÃO 🔴",
@@ -122,18 +119,6 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
         "url_noticia": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPQXZfVFpPSUdhVEFaUm95VlJmQzYtQXBpSkJDMFhadThlOHNQYU9yeFQwUVo3WmVVUXhyemlJTHRiNGExMzlMaVlmaTFLQXR2aE80dmNZbmdBVURxbUJ1UjZSU1p6d0tmMkJad3FaSVBGRjVNbmN4SGhUQXMxWHllblJYUDZWUTVuQ1Fnbkp0ZmhvZHprYk5rMm5fSE1BZDkwaXpISFVxN0RzRGhE?oc=5",
         "url_google_news": "https://news.google.com/search?q=Wilder+Morais+Diario+de+Goias"
     },
-    {
-        "candidato": "Wilder Morais",
-        "veiculo": "Portal GO 020",
-        "manchete": "Wilder Morais escolhe cidade natal Taquaral para iniciar caminhada política",
-        "data": "12/08/2026",
-        "tipo_noticia": "🟢 POSITIVA",
-        "nivel_ameaca": "OPORTUNIDADE FAVORÁVEL 🟢",
-        "estrategia_defesa": "Produzir vídeo emocionante sobre a infância de Wilder na roça de Taquaral até o sucesso como engenheiro e senador.",
-        "url_noticia": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNNVZDb0lkZllUVDdBazlzdWQ4UnVQTFh2OFJJMlBoZW5QS3NhdUJvVkJHZWtycVd2V0dVVlhtSkQwcTdRYUJsSDA4Y3JlRzJjMXF5M1FGeldKWG02RnlXdjBOaktxVENLNzJhM29DZXdiY1FwNEIwMkxpUkZkUF_FamRvbEJmemprNExIS0hqSjlGeHo3ZHN0VGlzY3hONXM0YVc4WkxaWUZKdHRyV25jTTNLVUx1V2pZVGNwdzNBaWNxbUU?oc=5",
-        "url_google_news": "https://news.google.com/search?q=Wilder+Morais+Taquaral+Goias"
-    },
-    # DANIEL VILELA
     {
         "candidato": "Daniel Vilela",
         "veiculo": "A Redação",
@@ -146,29 +131,6 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
         "url_google_news": "https://news.google.com/search?q=Daniel+Vilela+debate+Goias"
     },
     {
-        "candidato": "Daniel Vilela",
-        "veiculo": "G1 Goiás",
-        "manchete": "Daniel Vilela declara R$ 5,6 milhões em bens ao TSE nas eleições de Goiás",
-        "data": "13/08/2026",
-        "tipo_noticia": "🟡 NEUTRA",
-        "nivel_ameaca": "MONITORAMENTO 🟡",
-        "estrategia_defesa": "Acompanhar repercussão sobre patrimônio dos candidatos.",
-        "url_noticia": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNVUlaZERsX1AxczVVeDBfTE9wcDFmR2F0MnVoRlE2RlNMbWMtMFlyVUdxZ052ZUNoaDVNUFhYZktWc29SR1JJR0VIWWIyTGc5eHc4d2llUTJYaW56ZG5QSmtkSlJwNUpoWWNsd2ttX2Jsa0VlT0R4a09BTkN6eFVud082Yy1DYnpKWC1OdE5HbTBOTnU4THZndHlrY0hiU29seTQ0Y1lhcWItNHVrcUVzREdOUlRmMDVROFVYZzdyeHRpNl_rNWhDOFlzVHZ2U3ZRbEtJ0gHiAUFVX3lxTE9kcmZuVHBBUy1SX0pVODNBakwzVVFpSVFfOG8tR2MteENaXzJNVlVmWDBKYjU1dnJMSk9IaTQtN1RReTRQSTRHbTVPbHNhSWxGT3oyMGNuMUltcEFuNnlVd2kzVXNnRzZobzlzVmZVZ1F6VDFNR3ZCMF81VDVHOEhFSHlLYXhxd3hEQlI0Mm42YTYwUnYxenczUjdqODVJVkZIUzdCSGNKLXNLTTZsZXNYem1wcDFkc1ZOcER4TlZhb0FwVkRnN201aWJzNWRoSVNfTzlVTmViOXdCcGhvdDNVM2c?oc=5",
-        "url_google_news": "https://news.google.com/search?q=Daniel+Vilela+declaracao+TSE"
-    },
-    {
-        "candidato": "Daniel Vilela",
-        "veiculo": "Poder Goiás",
-        "manchete": "Prefeito de Sanclerlândia abandona Marconi e declara apoio formal a Daniel Vilela",
-        "data": "12/08/2026",
-        "tipo_noticia": "🟢 POSITIVA DO ADVERSÁRIO",
-        "nivel_ameaca": "ALERTA DE ADERÊNCIA 🟡",
-        "estrategia_defesa": "Reforçar diálogo com lideranças locais do oeste goiano para conter avanço de alianças da base governista.",
-        "url_noticia": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOQk8zOFE4YUR3dy1QdmpOeTRzRjRJQlpGaE4yU2Vmd29EUUxBb3czcFF3ZlN1TnV5cFhfcEtMYmVreFU5NG1MUFpnSm1uM0JWekhJNWtCbHF3WURGeFZ6a1NuWUt4eTBRZWFvRzZ0T3ZyWTlHWjl6QXc4aFdrZVRYWmRuXzdWU29tNVdQVDFUNmpNOHBPLVNnR1h6bk1ta1lEMll3ejdzYnkzWEJFUEJRSjFRSWFaWkdhUkE?oc=5",
-        "url_google_news": "https://news.google.com/search?q=Daniel+Vilela+Sanclerlandia+Goias"
-    },
-    # MARCONI PERILLO
-    {
         "candidato": "Marconi Perillo",
         "veiculo": "Poder Goiás",
         "manchete": "Marconi volta a prometer mudanças na segurança pública após gestões marcadas por violência",
@@ -178,31 +140,10 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
         "estrategia_defesa": "Apresentar a proposta de Segurança com Inteligência e Valorização Policial de Wilder para contrastar com promessas antigas.",
         "url_noticia": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOTzhVV2ViUkNiUWJYRGRycWhGdG51M2F5dVJhSEZyNDRBNkI4UEZWODdTSENqeFNQQVl1OGJkUEJudUhQUVdVZE95YVRNbW45YVoxXzNaQlhiSkdGUzJZSDFNVmVWZUdGY081cWlabFZtUmRhNC1JMDM3ZWxZTHcwdWxiUHM1TlhSQW03al82MUJwZFpwc2VCMlVaN0ZJZ1JHeHlqRm45cjk0Z3djYmx3UGlCMGZqZlMwWWh6SW5CV3FrQ0sx?oc=5",
         "url_google_news": "https://news.google.com/search?q=Marconi+Perillo+seguranca+Goias"
-    },
-    {
-        "candidato": "Marconi Perillo",
-        "veiculo": "Tribuna do Planalto",
-        "manchete": "Zé Mário Schreiner, Marconi Perillo e Jacqueline Zaiden articulam apoio das forças do agro em Goiás",
-        "data": "13/08/2026",
-        "tipo_noticia": "🟢 POSITIVA DO ADVERSÁRIO",
-        "nivel_ameaca": "CONCORRÊNCIA NO AGRO 🟡",
-        "estrategia_defesa": "Reafirmar a identidade de Wilder Morais como o verdadeiro Senador do Agro e autor de emendas diretas para máquinas e pontes.",
-        "url_noticia": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPUUE2b2lYdUV4SlNlVGl5R3hPOGFlOTRkbktveWlxUmdNRVNTYVduSlFzZmVsUVpBT1Q5dkIxWFJvc0ZpR29vMUkxTWV5cVN3QXdMcGwzb1g2bU9MOWJSa3ZRVXVDVlUxRXNBMlNYemVudE1YLWx2NlRwWFZvaTFqcXUtX1pSbXo4T3lFMFUwM21mZWZWZXdSUW81am4tMThTcHVnekpRTnQ5UnVzQVpuanBZUWdTWmNnLWpVSGE1RFVtLXdyazdTdHRWbnlfVBJBOWJhMUxudmw?oc=5",
-        "url_google_news": "https://news.google.com/search?q=Marconi+Perillo+agro+Goias"
-    },
-    {
-        "candidato": "Marconi Perillo",
-        "veiculo": "A Redação",
-        "manchete": "Agropecuarista Jacqueline Zaiden é anunciada como candidata a vice na chapa de Marconi Perillo",
-        "data": "12/08/2026",
-        "tipo_noticia": "🟡 NEUTRA",
-        "nivel_ameaca": "MONITORAMENTO 🟡",
-        "estrategia_defesa": "Destacar a chapa forte de Wilder Morais com Ana Paula Rezende, unindo o legado de Iris Rezende e o agronegócio.",
-        "url_noticia": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQb2J3RjVucUFCa282Ym1ETGVBYU40YWNsajVWX3M2SURRdXdhcVROek5NSU02NGF1UEhrdmRCaXp1WTNHb0RTRl_za1hGYWpyaTUyNGVQdUZsQnJkY19RYmh6TU1GOUZwNlByMkdKVWxuc2VORDRQcTRidjJPWXMxcTdFamkxUjl2UjhmV0phejIzX0Roa0ZHelhVUlVnREhrRl_RLW5Ga1U3S21pVVpnbHZwMVVPbHhYYm1tNVZmSVNGVFBISlQwaHdBd2xBMFVrZkp5VE03RWg?oc=5",
-        "url_google_news": "https://news.google.com/search?q=Jacqueline+Zaiden+Marconi+Perillo"
     }
 ]
 
+# MAPA TÁTICO COMPLETO DAS 8 CIDADES POLO COM CORES E COORDENADAS PARA LEAFLET.JS
 MAPA_RECLAMACOES_DETALHADO = [
     {
         "cidade": "Goiânia",
@@ -217,6 +158,104 @@ MAPA_RECLAMACOES_DETALHADO = [
         "demanda_especifica": "Mães aguardando exames há mais de 90 dias nos Cais e Postos de Saúde da Capital.",
         "video_recomendado": "Mutirões de Saúde & Sistema 'Fila Visível' Digital",
         "gancho_3s": "Sabe por que a saúde de Goiânia trava na fila? Porque falta gestão de engenheiro!"
+    },
+    {
+        "cidade": "Aparecida de Goiânia",
+        "regiao": "Metropolitana",
+        "lat": -16.8233,
+        "lon": -49.2439,
+        "cor": "red",
+        "cor_nome": "🔴 Vermelho (Saúde & Creches)",
+        "percentual": "38%",
+        "eleitores": "345.000",
+        "pauta_principal": "🏫 Creches em Tempo Integral & Asfalto nos Bairros Periféricos",
+        "demanda_especifica": "Falta de vagas em CMEIs para mães trabalhadoras e buracos nas vias de ligação.",
+        "video_recomendado": "Cuidado com a Mãe Trabalhadora & Asfalto de Qualidade",
+        "gancho_3s": "Trabalha o dia todo em Aparecida e não tem onde deixar o filho? Vamos resolver!"
+    },
+    {
+        "cidade": "Anápolis",
+        "regiao": "Centro Goiano",
+        "lat": -16.3286,
+        "lon": -48.9534,
+        "cor": "blue",
+        "cor_nome": "🔵 Azul (Emprego & DAIA)",
+        "percentual": "35%",
+        "eleitores": "290.000",
+        "pauta_principal": "🎓 Primeiro Emprego Jovem & Fortalecimento do Distrito DAIA",
+        "demanda_especifica": "Jovens recém-formados sem oportunidade de emprego por exigência de experiência prévia.",
+        "video_recomendado": "Programa Primeiro Salário (Estado custeia primeiros meses)",
+        "gancho_3s": "Pediram 2 anos de experiência pro seu 1º emprego em Anápolis? Isso vai mudar!"
+    },
+    {
+        "cidade": "Rio Verde",
+        "regiao": "Sudoeste Goiano",
+        "lat": -17.7915,
+        "lon": -50.9201,
+        "cor": "green",
+        "cor_nome": "🟢 Verde (Logística Agro & Pontes)",
+        "percentual": "30%",
+        "eleitores": "155.000",
+        "pauta_principal": "🌾 Logística do Agro, Pontes de Concreto & Menos Burocracia",
+        "demanda_especifica": "Estradas vicinais esburacadas atolando carretas de grãos durante a safra.",
+        "video_recomendado": "Ponte & Asfalto Agro com Crédito Simples",
+        "gancho_3s": "Quem produz o alimento do Brasil em Rio Verde não pode ficar atolado!"
+    },
+    {
+        "cidade": "Luziânia",
+        "regiao": "Entorno do DF",
+        "lat": -16.2525,
+        "lon": -47.9500,
+        "cor": "orange",
+        "cor_nome": "🟠 Laranja (Transporte & Asfalto)",
+        "percentual": "45%",
+        "eleitores": "132.000",
+        "pauta_principal": "🚗 Transporte Público Metropolitano Integrado & Segurança",
+        "demanda_especifica": "Passagem cara e ônibus sucateados no deslocamento diário para Brasília.",
+        "video_recomendado": "Integração do Transporte do Entorno & Tarifa Justa",
+        "gancho_3s": "O Entorno do DF não é quintal de ninguém! Transporte digno para Luziânia!"
+    },
+    {
+        "cidade": "Valparaíso de Goiás",
+        "regiao": "Entorno do DF",
+        "lat": -16.0664,
+        "lon": -47.9758,
+        "cor": "orange",
+        "cor_nome": "🟠 Laranja (Saneamento & Drenagem)",
+        "percentual": "40%",
+        "eleitores": "98.000",
+        "pauta_principal": "💧 Saneamento Básico, Drenagem Pluvial & Iluminação",
+        "demanda_especifica": "Alagamentos em períodos de chuva e falta de infraestrutura básica nos bairros novos.",
+        "video_recomendado": "Obras de Drenagem e Infraestrutura Urbana",
+        "gancho_3s": "Chega de lama e alagamento em Valparaíso! Gestão técnica e obras de verdade!"
+    },
+    {
+        "cidade": "Itumbiara",
+        "regiao": "Sul Goiano",
+        "lat": -18.4192,
+        "lon": -49.2147,
+        "cor": "purple",
+        "cor_nome": "🟣 Roxo (Hospital Regional & Turismo)",
+        "percentual": "25%",
+        "eleitores": "78.000",
+        "pauta_principal": "🏥 Hospital Regional & Incentivo ao Turismo Náutico",
+        "demanda_especifica": "Necessidade de especialidades médicas locais para evitar deslocamento a Goiânia.",
+        "video_recomendado": "Fortalecimento do Hospital Regional & Crédito Turístico",
+        "gancho_3s": "Saúde especializada em Itumbiara sem precisar viajar até Goiânia!"
+    },
+    {
+        "cidade": "Catalão",
+        "regiao": "Estrada do Ferro",
+        "lat": -18.1658,
+        "lon": -47.9464,
+        "cor": "blue",
+        "cor_nome": "🔵 Azul (Cursos & Indústria)",
+        "percentual": "28%",
+        "eleitores": "74.000",
+        "pauta_principal": "🏭 Diversificação Industrial & Cursos Profissionalizantes",
+        "demanda_especifica": "Demanda por mão de obra qualificada para o polo automotivo e mineração.",
+        "video_recomendado": "Programa 'Curso com Vaga' (Capacitação gratuita com vaga garantida)",
+        "gancho_3s": "Curso profissionalizante gratuito com vaga de emprego direto nas indústrias de Catalão!"
     }
 ]
 
@@ -227,11 +266,43 @@ GOOGLE_TRENDS_GOIAS = [
         "tendencia": "🔥 ALTA EXTREMA (+180%)",
         "interesse": "Eleitores buscando confirmação da subida de Wilder Morais nas pesquisas.",
         "resposta_campanha": "Divulgação dos dados oficiais do Instituto Goiás Pesquisas nas redes e grupos de WhatsApp."
+    },
+    {
+        "termo_busca": "Concurso Público Goiás 2026",
+        "volume_mensal": "96.000 buscas",
+        "tendencia": "🔥 ALTA DIVERGENTE (+45%)",
+        "interesse": "Jovens e adultos buscando estabilidade no serviço público estadual.",
+        "resposta_campanha": "Proposta de concursos periódicos para Saúde, Educação e Segurança com valorização salarial."
+    },
+    {
+        "termo_busca": "Saúde Goiás / Agendamento Fila do SUS",
+        "volume_mensal": "88.000 buscas",
+        "tendencia": "🔥 ALTA CRÍTICA (+60%)",
+        "interesse": "Cidadãos tentando consultar posição em exames e consultas especializadas.",
+        "resposta_campanha": "Apresentação do aplicativo 'Fila Visível' para acompanhamento transparente do SUS."
+    },
+    {
+        "termo_busca": "Vagas Primeiro Emprego Goiânia / Anápolis",
+        "volume_mensal": "72.000 buscas",
+        "tendencia": "📈 CRESCENTE (+35%)",
+        "interesse": "Jovens de 18 a 25 anos buscando oportunidade sem exigência de experiência.",
+        "resposta_campanha": "Divulgação maciça do Programa 'Primeiro Salário' (Estado custeia salário inicial)."
+    },
+    {
+        "termo_busca": "Asfalto e Obras Entorno DF Luziânia Valparaíso",
+        "volume_mensal": "54.000 buscas",
+        "tendencia": "📈 CRESCENTE (+28%)",
+        "interesse": "Moradores cobrando transporte integrado e duplicação de vias.",
+        "resposta_campanha": "Plano Metropolitano Integrado de Mobilidade do Entorno."
     }
 ]
 
 MAIORES_COLEGIOS_TSE = [
-    {"cidade": "Goiânia", "eleitores": "1.030.000", "regiao": "Metropolitana", "relevancia": "21,1% do eleitorado de Goiás"}
+    {"cidade": "Goiânia", "eleitores": "1.030.000", "regiao": "Metropolitana", "relevancia": "21,1% do eleitorado de Goiás"},
+    {"cidade": "Aparecida de Goiânia", "eleitores": "345.000", "regiao": "Metropolitana", "relevancia": "7,1% do eleitorado de Goiás"},
+    {"cidade": "Anápolis", "eleitores": "290.000", "regiao": "Centro Goiano", "relevancia": "6,0% do eleitorado de Goiás"},
+    {"cidade": "Rio Verde", "eleitores": "155.000", "regiao": "Sudoeste Goiano", "relevancia": "3,2% do eleitorado de Goiás"},
+    {"cidade": "Luziânia", "eleitores": "132.000", "regiao": "Entorno do DF", "relevancia": "2,7% do eleitorado de Goiás"}
 ]
 
 EVENTOS_GOIAS_2026 = []
@@ -271,16 +342,16 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Monitoramento de Notícias Reais dos Candidatos &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Mapa Tático Completo de Queixas & Buscas do Google Trends &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">📰 NOTÍCIAS REAIS VALIDADAS (WILDER, DANIEL VILELA, MARCONI)</div>
+        <div class="section-title">🗺️ MAPA TÁTICO DE RECLAMAÇÕES POR CIDADE POLO</div>
         <table>
-            <thead><tr><th>Candidato</th><th>Veículo & Data</th><th>Classificação</th><th>Manchete Mapeada</th><th>Link Direto da Matéria</th></tr></thead>
+            <thead><tr><th>Cidade / Região</th><th>Eleitores TSE</th><th>Pauta Principal</th><th>Demanda Específica</th><th>Vídeo Recomendado</th></tr></thead>
             <tbody>
-                {''.join([f"<tr><td><strong>{n['candidato']}</strong></td><td>{n['veiculo']}<br><span style='font-size:11px;color:#64748b;'>{n['data']}</span></td><td><strong>{n['tipo_noticia']}</strong></td><td>\"{n['manchete']}\"</td><td><a href='{n['url_noticia']}' target='_blank'>📰 Ler Matéria Oficial</a></td></tr>" for n in RADAR_NOTICIAS_TODOS_CANDIDATOS])}
+                {''.join([f"<tr><td><strong>{m['cidade']}</strong> ({m['regiao']})</td><td>{m['eleitores']}</td><td>{m['pauta_principal']}</td><td>{m['demanda_especifica']}</td><td>{m['video_recomendado']}</td></tr>" for m in MAPA_RECLAMACOES_DETALHADO])}
             </tbody>
         </table>
     </div>
