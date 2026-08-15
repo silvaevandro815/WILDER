@@ -174,14 +174,14 @@ PREMIUM_THEME_CSS = """
 </script>
 """
 
-# ROUTE HTML: CHAT INTERATIVO SALA DE GUERRA
+# ROUTE HTML: CHAT INTERATIVO QG DIGITAL
 HTML_CHAT_WIDGET = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala de Guerra Eleitoral — Wilder Morais 2026</title>
+    <title>QG Digital Eleitoral — Wilder Morais 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     """ + PREMIUM_THEME_CSS + """
     <style>
@@ -213,7 +213,7 @@ HTML_CHAT_WIDGET = """
         <div class="brand-container">
             <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
             <div>
-                <h1 class="brand-title">SALA DE GUERRA — WILDER MORAIS</h1>
+                <h1 class="brand-title">QG DIGITAL — WILDER MORAIS</h1>
                 <p class="brand-subtitle">● Central de Inteligência Estratégica 2026</p>
             </div>
         </div>
@@ -233,7 +233,7 @@ HTML_CHAT_WIDGET = """
                 <img src="{{ wilder_avatar }}" alt="" class="msg-avatar-img">
                 <div class="msg-bubble bot-msg">
                     <strong style="color:var(--accent-green);">🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — GOIÁS 2026</strong><br><br>
-                    Seja bem-vindo(a) à Sala de Guerra Executiva. O sistema está 100% responsivo para smartphone, tablet e desktop.<br><br>
+                    Seja bem-vindo(a) à QG Digital Executiva. O sistema está 100% responsivo para smartphone, tablet e desktop.<br><br>
                     <strong>Escolha uma consulta rápida ou envie sua dúvida:</strong>
                     <div class="quick-chips-grid">
                         <span class="chip-btn" onclick="window.location.href='/dashboard'">📺 Gestão & Auditoria YouTube Real</span>
@@ -275,7 +275,7 @@ HTML_CHAT_WIDGET = """
             botRow.className = 'msg-bubble-row';
             botRow.innerHTML = `
                 <img src="{{ wilder_avatar }}" alt="" class="msg-avatar-img">
-                <div class="msg-bubble bot-msg"><strong>[SALA DE GUERRA IA] Processando consulta...</strong></div>
+                <div class="msg-bubble bot-msg"><strong>[QG DIGITAL IA] Processando consulta...</strong></div>
             `;
             chat.appendChild(botRow);
             chat.scrollTop = chat.scrollHeight;
@@ -353,7 +353,7 @@ HTML_MAPA_DEMANDAS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 Sala de Guerra Chat</a>
+            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
             <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
             <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
             <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
@@ -733,7 +733,7 @@ HTML_DASHBOARD_METABASE = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 Sala de Guerra Chat</a>
+            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
             <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
             <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
             <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
@@ -856,7 +856,7 @@ HTML_RADAR_EVENTOS = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de 150 Eventos em Goiás — Sala de Guerra</title>
+    <title>Radar de 150 Eventos em Goiás — QG Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/leaflet.css" />
     <script src="/static/leaflet.js"></script>
@@ -878,7 +878,7 @@ HTML_RADAR_EVENTOS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 Sala de Guerra Chat</a>
+            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
             <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
             <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
             <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
@@ -1033,7 +1033,7 @@ HTML_RADAR_NOTICIAS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 Sala de Guerra Chat</a>
+            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
             <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
             <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
             <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
@@ -1120,7 +1120,7 @@ HTML_RADAR_NOTICIAS = """
 </html>
 """
 
-# ROUTING DAS TELAS DA SALA DE GUERRA MILITAR
+# ROUTING DAS TELAS DA QG DIGITAL MILITAR
 
 @app.route("/", methods=["GET"])
 @app.route("/chat", methods=["GET"])
@@ -1312,5 +1312,5 @@ Responda sobre: {pergunta}"""
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
-    print(f"🚀 Sala de Guerra Militar (Pentágono Eleitoral Wilder Morais) rodando na porta {porta}...")
+    print(f"🚀 QG Digital Militar (Pentágono Eleitoral Wilder Morais) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)

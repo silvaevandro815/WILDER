@@ -489,7 +489,7 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Dossiê Mestre 360° — Sala de Guerra Wilder Morais</title>
+    <title>Dossiê Mestre 360° — QG Digital Wilder Morais</title>
     <style>
         @page {{ size: A4; margin: 15mm; }}
         body {{ font-family: 'Segoe UI', Helvetica, Arial, sans-serif; color: #0f172a; background: #ffffff; margin: 0; padding: 20px; line-height: 1.5; }}
@@ -507,7 +507,7 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
 
     <div class="header">
         <div>
-            <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
+            <h1>⚔️ DOSSIÊ MILITAR 360° — QG DIGITAL</h1>
             <p>Auditoria de Vídeos Reais do YouTube &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
     </div>

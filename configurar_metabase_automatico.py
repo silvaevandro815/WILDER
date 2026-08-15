@@ -77,7 +77,7 @@ def montar_dashboard_guerra_completo(token: str, url: str, user: str, password: 
     
     endpoint_dash = f"{url.rstrip('/')}/api/dashboard"
     payload_dash = {
-        "name": "🏛️ SALA DE GUERRA — WILDER MORAIS 2026",
+        "name": "🏛️ QG DIGITAL — WILDER MORAIS 2026",
         "description": "Painel de Inteligência Eleitoral em Tempo Real (Cidades, Redes, Notícias e IA)",
         "parameters": []
     }
