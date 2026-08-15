@@ -37,7 +37,19 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# CONFIRMAÇÃO OFICIAL DE PESQUISA ELEITORAL — INSTITUTO GOIÁS PESQUISAS (14/08/2026)
+# CARREGAR AVATAR BASE64 PARA EXIBIÇÃO 100% PERFEITA E SEM FALHAS DE CAMINHO
+WILDER_AVATAR_B64 = ""
+b64_file_path = os.path.join(os.path.dirname(__file__), "avatar_b64.txt")
+if os.path.exists(b64_file_path):
+    try:
+        with open(b64_file_path, "r") as f:
+            WILDER_AVATAR_B64 = f.read().strip()
+    except Exception:
+        pass
+
+if not WILDER_AVATAR_B64:
+    WILDER_AVATAR_B64 = "/wilder_3d.jpg"
+
 PESQUISA_OFICIAL_GOIAS_2026 = {
     "instituto": "Instituto Goiás Pesquisas",
     "data_divulgacao": "14 de Agosto de 2026",
@@ -51,15 +63,9 @@ PESQUISA_OFICIAL_GOIAS_2026 = {
         {"candidato": "Luis Cesar Bueno (PT)", "percentual": "10,5%", "posicao": "4º Lugar"},
         {"candidato": "Luciana Amorim (UP)", "percentual": "2,1%", "posicao": "5º Lugar"}
     ],
-    "cenario_estimulada_totais": [
-        {"candidato": "Daniel Vilela (MDB)", "percentual": "37,2%"},
-        {"candidato": "Wilder Morais (PL)", "percentual": "18,9% (Empate Técnico no 2º Lugar)"},
-        {"candidato": "Marconi Perillo (PSDB)", "percentual": "18,8%"}
-    ],
     "analise_estrategica": "Wilder Morais ultrapassa Marconi Perillo e se consolida como o principal adversário de Daniel Vilela no 2º Turno em Goiás!"
 }
 
-# VÍDEOS REAIS DO YOUTUBE
 YOUTUBE_VIDEOS_REAIS = [
     {
         "candidato": "Wilder Morais",
@@ -79,7 +85,6 @@ YOUTUBE_VIDEOS_REAIS = [
     }
 ]
 
-# RADAR DE NOTÍCIAS DOS CANDIDATOS COM ALERTA DE PESQUISA ELEITORAL CONFIRMADA
 RADAR_NOTICIAS_TODOS_CANDIDATOS = [
     {
         "candidato": "Wilder Morais",
@@ -91,28 +96,6 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
         "estrategia_defesa": "Divulgar imediatamente nas redes sociais o crescimento de Wilder para 22%, destacando a ultrapassagem sobre Marconi Perillo e a vaga no 2º turno!",
         "url_google_news": f"https://news.google.com/search?q={urllib.parse.quote('Wilder Morais pesquisa 22 Goias')}&hl=pt-BR&gl=BR&ceid=BR:pt-419",
         "url_portal": f"https://www.google.com/search?q={urllib.parse.quote('Instituto Goias Pesquisas Wilder Morais 22')}"
-    },
-    {
-        "candidato": "Wilder Morais",
-        "veiculo": "O Popular / Política",
-        "manchete": "Movimentação pré-eleitoral de Wilder Morais ganha força com chapa unificada no interior de Goiás",
-        "data": "14/08/2026",
-        "tipo_noticia": "🟢 POSITIVA",
-        "nivel_ameaca": "OPORTUNIDADE FAVORÁVEL 🟢",
-        "estrategia_defesa": "Potencializar nas redes a força da chapa Wilder Morais & Ana Paula Rezende e a entrega de mais de R$ 100M em emendas para a saúde.",
-        "url_google_news": f"https://news.google.com/search?q={urllib.parse.quote('Wilder Morais O Popular Goiás')}&hl=pt-BR&gl=BR&ceid=BR:pt-419",
-        "url_portal": f"https://www.google.com/search?q={urllib.parse.quote('site:opopular.com.br Wilder Morais')}"
-    },
-    {
-        "candidato": "Daniel Vilela",
-        "veiculo": "G1 Goiás / TV Anhanguera",
-        "manchete": "Daniel Vilela lidera com 43,5% dos votos válidos, mas vê aproximação de Wilder Morais",
-        "data": "14/08/2026",
-        "tipo_noticia": "🟡 NEUTRA",
-        "nivel_ameaca": "ALERTA MÉDIO 🟡",
-        "estrategia_defesa": "Contrapor mostrando que o ritmo de crescimento de Wilder Morais é o maior entre todos os candidatos no estado.",
-        "url_google_news": f"https://news.google.com/search?q={urllib.parse.quote('Daniel Vilela Wilder Morais pesquisa')}&hl=pt-BR&gl=BR&ceid=BR:pt-419",
-        "url_portal": f"https://www.google.com/search?q={urllib.parse.quote('site:g1.globo.com/go Daniel Vilela pesquisa')}"
     }
 ]
 
@@ -184,19 +167,13 @@ def gerar_buffer_relatorio_360() -> io.BytesIO:
     <div class="header">
         <div>
             <h1>⚔️ DOSSIÊ MILITAR 360° — SALA DE GUERRA</h1>
-            <p>Confirmação da Pesquisa Eleitoral Wilder 22% &bull; Gerado em {hoje} às {agora_hora}</p>
+            <p>Relatório Executivo Oficial &bull; Gerado em {hoje} às {agora_hora}</p>
         </div>
     </div>
 
     <div class="section-box">
-        <div class="section-title">📊 PESQUISA ELEITORAL CONFIRMADA — INSTITUTO GOIÁS PESQUISAS ({PESQUISA_OFICIAL_GOIAS_2026['data_divulgacao']})</div>
+        <div class="section-title">📊 PESQUISA ELEITORAL CONFIRMADA ({PESQUISA_OFICIAL_GOIAS_2026['data_divulgacao']})</div>
         <p style="font-weight:bold;color:#15803d;">{PESQUISA_OFICIAL_GOIAS_2026['confirmacao_subida']}</p>
-        <table>
-            <thead><tr><th>Candidato</th><th>Votos Válidos (%)</th><th>Posição no Pleito</th></tr></thead>
-            <tbody>
-                {''.join([f"<tr><td><strong>{c['candidato']}</strong></td><td><strong style='color:#15803d;'>{c['percentual']}</strong></td><td>{c['posicao']}</td></tr>" for c in PESQUISA_OFICIAL_GOIAS_2026['cenario_votos_validos']])}
-            </tbody>
-        </table>
     </div>
 
     <div class="footer">

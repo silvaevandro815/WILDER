@@ -24,7 +24,7 @@ from pdf_generator_service import (
     RADAR_NOTICIAS_TODOS_CANDIDATOS, MAPA_RECLAMACOES_DETALHADO,
     GOOGLE_TRENDS_GOIAS, MAIORES_COLEGIOS_TSE,
     PESQUISA_OFICIAL_GOIAS_2026, PLANO_DE_GOVERNO_MEMORIA,
-    PRIMEIRA_SEMANA_CONTEUDO, EVENTOS_GOIAS_2026
+    PRIMEIRA_SEMANA_CONTEUDO, EVENTOS_GOIAS_2026, WILDER_AVATAR_B64
 )
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -52,7 +52,6 @@ if is_supabase_configurado:
 
 app = Flask(__name__, static_folder="static")
 
-# ROTA DEDICADA PARA SERVIR A FOTO 3D DE PERFIL DO WILDER
 @app.route("/wilder_3d.jpg")
 @app.route("/static/wilder_3d.jpg")
 def serve_wilder_avatar():
@@ -76,43 +75,43 @@ HTML_PROTECTION_SCRIPT = """
 </script>
 """
 
-# COMPONENTE DE TOAST POPUP COM O AVATAR 3D DO WILDER
-HTML_ALERT_SYSTEM_SCRIPT = """
+# COMPONENTE DE TOAST POPUP COM REDIMENSIONAMENTO PERFEITO E BASE64 GARANTIDO
+HTML_ALERT_SYSTEM_SCRIPT = f"""
 <style>
-    @keyframes pulseAlert {
-        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-        70% { box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-    }
+    @keyframes pulseAlert {{
+        0% {{ box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }}
+        70% {{ box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }}
+        100% {{ box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }}
+    }}
 
-    .toast-alert-container {
+    .toast-alert-container {{
         position: fixed;
-        top: 20px;
+        top: 80px;
         right: 20px;
         z-index: 99999;
-        max-width: 440px;
-        width: 92%;
+        max-width: 420px;
+        width: 90%;
         background: linear-gradient(135deg, #0b2214, #15803d);
         border: 2px solid #eab308;
         border-radius: 16px;
-        padding: 16px 20px;
+        padding: 16px 18px;
         color: #ffffff;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        animation: pulseAlert 2s infinite;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        animation: pulseAlert 2.5s infinite;
         display: block;
-    }
+    }}
 
-    .toast-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .toast-badge { background: #eab308; color: #040e08; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
-    .toast-close { background: transparent; border: none; color: #fef08a; font-size: 20px; font-weight: bold; cursor: pointer; }
+    .toast-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }}
+    .toast-badge {{ background: #eab308; color: #040e08; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; }}
+    .toast-close {{ background: transparent; border: none; color: #fef08a; font-size: 20px; font-weight: bold; cursor: pointer; }}
     
-    .toast-content-wrapper { display: flex; gap: 14px; align-items: center; }
-    .toast-avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; box-shadow: 0 4px 12px rgba(234,179,8,0.5); }
+    .toast-content-wrapper {{ display: flex; gap: 12px; align-items: center; }}
+    .toast-avatar {{ width: 54px; height: 54px; min-width: 54px; min-height: 54px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; box-shadow: 0 4px 12px rgba(234,179,8,0.5); }}
     
-    .toast-title { font-size: 15px; font-weight: 800; color: #fef08a; margin: 0 0 4px 0; }
-    .toast-body { font-size: 12.5px; color: #e2e8f0; line-height: 1.4; margin-bottom: 8px; }
-    .toast-btn { background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none; display: inline-block; }
-    .toast-btn:hover { background: #16a34a; color: #fff; border-color: #eab308; }
+    .toast-title {{ font-size: 14.5px; font-weight: 800; color: #fef08a; margin: 0 0 4px 0; line-height: 1.3; }}
+    .toast-body {{ font-size: 12px; color: #e2e8f0; line-height: 1.4; margin-bottom: 8px; }}
+    .toast-btn {{ background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 800; text-decoration: none; display: inline-block; }}
+    .toast-btn:hover {{ background: #16a34a; color: #fff; border-color: #eab308; }}
 </style>
 
 <div id="toastAlert" class="toast-alert-container">
@@ -121,7 +120,7 @@ HTML_ALERT_SYSTEM_SCRIPT = """
         <button class="toast-close" onclick="document.getElementById('toastAlert').style.display='none';">✕</button>
     </div>
     <div class="toast-content-wrapper">
-        <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="toast-avatar">
+        <img src="{WILDER_AVATAR_B64}" alt="" class="toast-avatar">
         <div>
             <div class="toast-title">WILDER SALTA PARA 22% NOS VOTOS VÁLIDOS!</div>
             <div class="toast-body">
@@ -133,8 +132,8 @@ HTML_ALERT_SYSTEM_SCRIPT = """
 </div>
 """ + HTML_PROTECTION_SCRIPT
 
-# INTERFACE MILITAR PENTÁGONO VERDE E AMARELO COM FOTO 3D DE PERFIL
-HTML_CHAT_WIDGET = """
+# INTERFACE MILITAR PENTÁGONO VERDE E AMARELO 100% NATURAL E CORRIGIDA
+HTML_CHAT_WIDGET = f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -143,51 +142,51 @@ HTML_CHAT_WIDGET = """
     <title>SALA DE GUERRA ELEITORAL — WILDER MORAIS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #040e08; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        * {{ box-sizing: border-box; }}
+        body {{ font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #040e08; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }}
         
-        .header { background: linear-gradient(135deg, #0b2214, #15803d, #16a34a); padding: 12px 28px; border-bottom: 3px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 6px 25px rgba(22,163,74,0.4); }
-        .brand { display: flex; align-items: center; gap: 14px; }
-        .brand-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; box-shadow: 0 4px 15px rgba(234,179,8,0.6); }
-        .brand-text h1 { margin: 0; font-size: 19px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.4); letter-spacing: 0.5px; }
-        .brand-text p { margin: 2px 0 0 0; font-size: 12px; color: #fef08a; font-weight: 700; }
+        .header {{ background: linear-gradient(135deg, #0b2214, #15803d, #16a34a); padding: 12px 28px; border-bottom: 3px solid #eab308; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 6px 25px rgba(22,163,74,0.4); }}
+        .brand {{ display: flex; align-items: center; gap: 14px; }}
+        .brand-avatar {{ width: 52px; height: 52px; min-width: 52px; min-height: 52px; border-radius: 50%; border: 2.5px solid #eab308; object-fit: cover; flex-shrink: 0; box-shadow: 0 4px 15px rgba(234,179,8,0.6); display: inline-block; }}
+        .brand-text h1 {{ margin: 0; font-size: 19px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.4); letter-spacing: 0.5px; }}
+        .brand-text p {{ margin: 2px 0 0 0; font-size: 12px; color: #fef08a; font-weight: 700; }}
         
-        .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
-        .btn-nav { color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
-        .btn-nav:hover { background: #16a34a; border-color: #eab308; color: #fff; }
-        .btn-alert { background: #991b1b; border-color: #ef4444; color: #fecdd3; font-weight: 800; }
-        .btn-mapa { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border-color: #38bdf8; font-weight: 800; }
-        .btn-dashboard { background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }
-        .btn-pdf { background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }
+        .nav-links {{ display: flex; gap: 8px; flex-wrap: wrap; }}
+        .btn-nav {{ color: #f8fafc; text-decoration: none; font-size: 12.5px; font-weight: 700; background: #0c2415; padding: 8px 14px; border-radius: 8px; border: 1px solid #22c55e; transition: 0.2s; display: flex; align-items: center; gap: 6px; }}
+        .btn-nav:hover {{ background: #16a34a; border-color: #eab308; color: #fff; }}
+        .btn-alert {{ background: #991b1b; border-color: #ef4444; color: #fecdd3; font-weight: 800; }}
+        .btn-mapa {{ background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border-color: #38bdf8; font-weight: 800; }}
+        .btn-dashboard {{ background: linear-gradient(135deg, #eab308, #ca8a04); color: #040e08; border-color: #fef08a; font-weight: 800; }}
+        .btn-pdf {{ background: linear-gradient(135deg, #15803d, #16a34a); border-color: #eab308; color: #fef08a; }}
         
-        .chat-box { flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }
-        .msg-row { display: flex; gap: 12px; align-items: flex-start; width: 100%; }
-        .msg-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .msg { max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }
-        .user { background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; border: 1px solid #22c55e; }
-        .bot { background: #0a1f12; color: #e2e8f0; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
-        .bot strong { color: #86efac; }
+        .chat-box {{ flex: 1; padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 1100px; margin: 0 auto; width: 100%; }}
+        .msg-row {{ display: flex; gap: 14px; align-items: flex-start; width: 100%; }}
+        .msg-avatar {{ width: 46px; height: 46px; min-width: 46px; min-height: 46px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.5); display: inline-block; }}
+        .msg {{ max-width: 88%; padding: 18px 22px; border-radius: 14px; font-size: 14.5px; line-height: 1.6; }}
+        .user {{ background: linear-gradient(135deg, #15803d, #16a34a); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; border: 1px solid #22c55e; }}
+        .bot {{ background: #0a1f12; color: #e2e8f0; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }}
+        .bot strong {{ color: #86efac; }}
 
-        .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-        .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-        .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
+        .quick-actions {{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }}
+        .chip {{ background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }}
+        .chip:hover {{ background: #16a34a; color: #fff; border-color: #eab308; }}
 
-        .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
-        .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
-        input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #22c55e; background: #040e08; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
-        input:focus { border-color: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.25); }
-        button { padding: 14px 28px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; border: 1px solid #eab308; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 14px rgba(22,163,74,0.4); }
-        button:hover { background: #16a34a; color: #fff; }
+        .input-container {{ background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }}
+        .input-box {{ max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }}
+        input {{ flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid #22c55e; background: #040e08; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }}
+        input:focus {{ border-color: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.25); }}
+        button {{ padding: 14px 28px; background: linear-gradient(135deg, #15803d, #16a34a); color: #fef08a; border: 1px solid #eab308; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 14px rgba(22,163,74,0.4); }}
+        button:hover {{ background: #16a34a; color: #fff; }}
     </style>
 </head>
 <body>
-    """ + HTML_ALERT_SYSTEM_SCRIPT + """
+    {HTML_ALERT_SYSTEM_SCRIPT}
     <div class="header">
         <div class="brand">
-            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Perfil Oficial & Inteligência Estratégica da Campanha</p>
+                <p>● Central de Inteligência Estratégica & Comunicação de Campanha</p>
             </div>
         </div>
         <div class="nav-links">
@@ -201,15 +200,16 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg-row">
-            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="msg-avatar">
+            <img src="{WILDER_AVATAR_B64}" alt="" class="msg-avatar">
             <div class="msg bot">
-                <strong>🔰 FOTO 3D DE PERFIL DO WILDER MORAIS INTEGRADA EM TODO O SISTEMA!</strong><br><br>
-                Personalizamos a interface com o avatar 3D do Wilder Morais nos cabeçalhos, respostas da IA, notificações e relatórios do sistema!<br><br>
-                <strong>Faça uma consulta ou escolha um atalho:</strong>
+                <strong>🔰 CENTRAL DE INTELIGÊNCIA ELEITORAL — WILDER MORAIS 2026</strong><br><br>
+                Seja bem-vindo(a) à Sala de Guerra Oficial. O sistema está 100% atualizado com os dados das pesquisas de intenção de voto (Wilder 22,0% dos Votos Válidos), Notícias da Imprensa, Plano de Governo e Radar de 150 Eventos em Goiás.<br><br>
+                <strong>Faça uma consulta ou escolha um atalho de ação:</strong>
                 <div class="quick-actions">
                     <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30s sobre o programa Primeiro Salário')">🎬 Roteiro de Reels 30s</span>
                     <span class="chip" onclick="perguntarRapido('Quais são os dados da última pesquisa do Instituto Goiás Pesquisas?')">📊 Dados da Pesquisa 22%</span>
                     <span class="chip" onclick="perguntarRapido('Escreva um discurso curto de Wilder em Rio Verde')">🎤 Discurso Wilder Morais</span>
+                    <span class="chip" onclick="perguntarRapido('Quais são as principais pautas do Plano de Governo Goiás Para Quem Faz?')">📘 Plano de Governo</span>
                 </div>
             </div>
         </div>
@@ -217,18 +217,18 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Consulte a IA de campanha sobre discursos, posts, pesquisas ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Consulte a IA sobre discursos, posts, pesquisas ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
 
     <script>
-        function perguntarRapido(texto) {
+        function perguntarRapido(texto) {{
             document.getElementById('pergunta').value = texto;
             enviar();
-        }
+        }}
 
-        async function enviar() {
+        async function enviar() {{
             const input = document.getElementById('pergunta');
             const chat = document.getElementById('chat');
             const pergunta = input.value.trim();
@@ -236,7 +236,7 @@ HTML_CHAT_WIDGET = """
 
             chat.innerHTML += `
                 <div class="msg-row" style="justify-content:flex-end;">
-                    <div class="msg user">${pergunta}</div>
+                    <div class="msg user">${{pergunta}}</div>
                 </div>
             `;
             input.value = '';
@@ -245,32 +245,32 @@ HTML_CHAT_WIDGET = """
             const botRow = document.createElement('div');
             botRow.className = 'msg-row';
             botRow.innerHTML = `
-                <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="msg-avatar">
+                <img src="{WILDER_AVATAR_B64}" alt="" class="msg-avatar">
                 <div class="msg bot"><strong>[SALA DE GUERRA IA] Analisando banco de dados e gerando resposta...</strong></div>
             `;
             chat.appendChild(botRow);
             chat.scrollTop = chat.scrollHeight;
 
-            try {
-                const res = await fetch('/api/chat', {
+            try {{
+                const res = await fetch('/api/chat', {{
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pergunta })
-                });
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{ pergunta }})
+                }});
                 const data = await res.json();
                 botRow.querySelector('.msg.bot').innerHTML = data.resposta;
-            } catch (err) {
+            }} catch (err) {{
                 botRow.querySelector('.msg.bot').innerHTML = '<strong>Erro de comunicação com a IA da Sala de Guerra.</strong>';
-            }
+            }}
             chat.scrollTop = chat.scrollHeight;
-        }
+        }}
     </script>
 </body>
 </html>
 """
 
-# DASHBOARD EXECUTIVO COM AVATAR 3D DO WILDER NO HEADER
-HTML_DASHBOARD_METABASE = """
+# DASHBOARD EXECUTIVO
+HTML_DASHBOARD_METABASE = f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -279,21 +279,21 @@ HTML_DASHBOARD_METABASE = """
     <title>Dashboard Executivo — YouTube Real & Eleitorado TSE</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .brand-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
-        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
-        th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
-        td { padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
+        .header {{ background: linear-gradient(135deg, #0b2214, #15803d, #eab308); padding: 14px 36px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }}
+        .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
+        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
+        .container {{ max-width: 1280px; margin: 30px auto; padding: 0 20px; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }}
+        th {{ background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }}
+        td {{ padding: 12px; border-bottom: 1px solid #14351f; color: #e2e8f0; }}
     </style>
 </head>
 <body>
-    """ + HTML_ALERT_SYSTEM_SCRIPT + """
+    {HTML_ALERT_SYSTEM_SCRIPT}
     <div class="header">
         <div style="display:flex;align-items:center;gap:14px;">
-            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
             <div>
                 <h1 style="margin:0;font-size:20px;color:#fff;">📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</h1>
                 <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Painel de Monitoramento Oficial de Vídeos de Wilder Morais e Concorrentes</p>
@@ -314,14 +314,14 @@ HTML_DASHBOARD_METABASE = """
                     </tr>
                 </thead>
                 <tbody>
-                    {% for v in yt_videos %}
+                    {{% for v in yt_videos %}}
                     <tr>
-                        <td><strong style="color:#fef08a;">{{ v.candidato }}</strong></td>
-                        <td>{{ v.titulo }}</td>
-                        <td><span style="color:#4ade80;">{{ v.views }}</span></td>
-                        <td><a href="{{ v.url }}" target="_blank" style="color:#38bdf8;font-weight:bold;">🎬 Assistir Vídeo no YouTube</a></td>
+                        <td><strong style="color:#fef08a;">{{{{ v.candidato }}}}</strong></td>
+                        <td>{{{{ v.titulo }}}}</td>
+                        <td><span style="color:#4ade80;">{{{{ v.views }}}}</span></td>
+                        <td><a href="{{{{ v.url }}}}" target="_blank" style="color:#38bdf8;font-weight:bold;">🎬 Assistir Vídeo no YouTube</a></td>
                     </tr>
-                    {% endfor %}
+                    {{% endfor %}}
                 </tbody>
             </table>
         </div>
@@ -330,8 +330,8 @@ HTML_DASHBOARD_METABASE = """
 </html>
 """
 
-# RADAR DE NOTÍCIAS COM AVATAR 3D DO WILDER
-HTML_RADAR_NOTICIAS = """
+# RADAR DE NOTÍCIAS
+HTML_RADAR_NOTICIAS = f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -340,20 +340,20 @@ HTML_RADAR_NOTICIAS = """
     <title>Radar Anti-Crise de Notícias — Sala de Guerra</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .brand-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
-        .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-        .card-pesquisa { background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; }
-        .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; }
+        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
+        .header {{ background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }}
+        .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
+        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }}
+        .container {{ max-width: 1280px; margin: 30px auto; padding: 0 20px; }}
+        .card-pesquisa {{ background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; }}
+        .card-noticia {{ background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; }}
     </style>
 </head>
 <body>
-    """ + HTML_ALERT_SYSTEM_SCRIPT + """
+    {HTML_ALERT_SYSTEM_SCRIPT}
     <div class="header">
         <div style="display:flex;align-items:center;gap:14px;">
-            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
             <div>
                 <h1 style="margin:0;font-size:20px;color:#fff;">📰 RADAR DE NOTÍCIAS & PESQUISAS ELEITORAIS</h1>
                 <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Alertas Automáticos de Levantamentos e Notícias com Links Auditáveis</p>
@@ -364,26 +364,26 @@ HTML_RADAR_NOTICIAS = """
 
     <div class="container">
         <div class="card-pesquisa">
-            <h2 style="margin:0 0 10px 0;color:#fff;">🚀 {{ pesquisa.confirmacao_subida }}</h2>
-            <p style="color:#a7f3d0;"><strong>Divulgação:</strong> {{ pesquisa.data_divulgacao }} | <strong>Instituto:</strong> {{ pesquisa.instituto }}</p>
+            <h2 style="margin:0 0 10px 0;color:#fff;">🚀 {{{{ pesquisa.confirmacao_subida }}}}</h2>
+            <p style="color:#a7f3d0;"><strong>Divulgação:</strong> {{{{ pesquisa.data_divulgacao }}}} | <strong>Instituto:</strong> {{{{ pesquisa.instituto }}}}</p>
         </div>
 
-        {% for item in noticias %}
+        {{% for item in noticias %}}
         <div class="card-noticia">
-            <strong style="color:#86efac;">{{ item.candidato }} &bull; {{ item.veiculo }}</strong>
-            <h3 style="color:#fff;margin:8px 0;">"{{ item.manchete }}"</h3>
+            <strong style="color:#86efac;">{{{{ item.candidato }}}} &bull; {{{{ item.veiculo }}}}</strong>
+            <h3 style="color:#fff;margin:8px 0;">"{{{{ item.manchete }}}}"</h3>
             <div style="margin-top:10px;display:flex;gap:10px;">
-                <a href="{{ item.url_google_news }}" target="_blank" style="color:#38bdf8;font-weight:bold;">🔍 Auditar no Google News</a>
+                <a href="{{{{ item.url_google_news }}}}" target="_blank" style="color:#38bdf8;font-weight:bold;">🔍 Auditar no Google News</a>
             </div>
         </div>
-        {% endfor %}
+        {{% endfor %}}
     </div>
 </body>
 </html>
 """
 
-# MAPA TÁTICO INTERATIVO COM AVATAR 3D DO WILDER
-HTML_MAPA_DEMANDAS = """
+# MAPA TÁTICO INTERATIVO
+HTML_MAPA_DEMANDAS = f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -394,19 +394,19 @@ HTML_MAPA_DEMANDAS = """
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        .header { background: linear-gradient(135deg, #0b2214, #0284c7); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
-        .brand-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; }
-        .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
-        .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
-        #map { width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+        body {{ font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }}
+        .header {{ background: linear-gradient(135deg, #0b2214, #0284c7); padding: 14px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }}
+        .brand-avatar {{ width: 48px; height: 48px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 2px solid #eab308; object-fit: cover; flex-shrink: 0; display: inline-block; }}
+        .btn-voltar {{ color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }}
+        .container {{ max-width: 1340px; margin: 30px auto; padding: 0 20px; }}
+        #map {{ width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }}
     </style>
 </head>
 <body>
-    """ + HTML_ALERT_SYSTEM_SCRIPT + """
+    {HTML_ALERT_SYSTEM_SCRIPT}
     <div class="header">
         <div style="display:flex;align-items:center;gap:14px;">
-            <img src="/wilder_3d.jpg" alt="Wilder Morais 3D" class="brand-avatar">
+            <img src="{WILDER_AVATAR_B64}" alt="" class="brand-avatar">
             <div>
                 <h1 style="margin:0;font-size:20px;color:#fff;">🗺️ MAPA TÁTICO COLORIDO & QUEIXAS POPULARES</h1>
                 <p style="margin:2px 0 0 0;color:#fef08a;font-size:12px;">● Geolocalização de Demandas e Pautas por Município Polo de Goiás</p>
@@ -421,9 +421,9 @@ HTML_MAPA_DEMANDAS = """
     </div>
     <script>
         const map = L.map('map').setView([-16.6789, -49.2539], 7);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        const dados = {{ reclamacoes|tojson }};
-        dados.forEach(c => { L.marker([c.lat, c.lon]).addTo(map).bindPopup(`<b>${c.cidade}</b><br>${c.pauta_principal}`); });
+        L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png').addTo(map);
+        const dados = {{{{ reclamacoes|tojson }}}};
+        dados.forEach(c => {{ L.marker([c.lat, c.lon]).addTo(map).bindPopup(`<b>${{c.cidade}}</b><br>${{c.pauta_principal}}`); }});
     </script>
 </body>
 </html>
@@ -495,7 +495,6 @@ def relatorio_pdf_download():
         print(f"[ERRO DOWNLOAD PDF] Falha ao gerar buffer: {e}")
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
-# API DO CHAT DE IA COM SUPORTE AO PERFIL 3D DO WILDER
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     data = request.json or {}
@@ -537,7 +536,7 @@ CONHECIMENTO COMPLETO DA CAMPANHA:
     else:
         resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
                f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% calibrado com os dados da pesquisa de 22%, o Plano de Governo e a nova identidade visual!"
+               f"O sistema está 100% calibrado com os dados da pesquisa de 22%, o Plano de Governo e o Radar de Eventos de Goiás!"
 
     return jsonify({"resposta": resp}), 200
 
