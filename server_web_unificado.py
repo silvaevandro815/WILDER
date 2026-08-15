@@ -52,6 +52,117 @@ if is_supabase_configurado:
 
 app = Flask(__name__)
 
+# COMPONENTE REUTILIZÁVEL DE ALERTA VISUAL FLUTUANTE (POPUP & TOAST ANIMADO)
+HTML_ALERT_SYSTEM_SCRIPT = """
+<!-- SISTEMA DE ALERTAS E NOTIFICAÇÕES VISUAIS DE ALTA RELEVÂNCIA -->
+<style>
+    @keyframes pulseAlert {
+        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    .toast-alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 99999;
+        max-width: 420px;
+        width: 90%;
+        background: linear-gradient(135deg, #0b2214, #15803d);
+        border: 2px solid #eab308;
+        border-radius: 14px;
+        padding: 18px 20px;
+        color: #ffffff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        animation: pulseAlert 2s infinite;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .toast-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .toast-badge {
+        background: #eab308;
+        color: #040e08;
+        font-weight: 800;
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .toast-close {
+        background: transparent;
+        border: none;
+        color: #fef08a;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+    }
+
+    .toast-title {
+        font-size: 15.5px;
+        font-weight: 800;
+        color: #fef08a;
+        margin: 0 0 6px 0;
+    }
+
+    .toast-body {
+        font-size: 13px;
+        color: #e2e8f0;
+        line-height: 1.5;
+        margin-bottom: 12px;
+    }
+
+    .toast-btn {
+        background: #040e08;
+        color: #86efac;
+        border: 1px solid #22c55e;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.2s;
+    }
+
+    .toast-btn:hover {
+        background: #16a34a;
+        color: #fff;
+        border-color: #eab308;
+    }
+</style>
+
+<div id="toastAlert" class="toast-alert-container">
+    <div class="toast-header">
+        <span class="toast-badge">🚨 NOTIFICAÇÃO DE ALTA RELEVÂNCIA</span>
+        <button class="toast-close" onclick="fecharAlerta()">✕</button>
+    </div>
+    <div class="toast-title">🚀 WILDER MORAIS SALTA PARA 22% NAS PESQUISAS!</div>
+    <div class="toast-body">
+        O Instituto Goiás Pesquisas confirma: <strong>Wilder atinge 22,0% dos votos válidos</strong>, ultrapassa Marconi Perillo e se consolida na disputa do 2º Turno em Goiás!
+    </div>
+    <a href="/radar_noticias" class="toast-btn">📊 Ver Detalhes no Radar de Notícias</a>
+</div>
+
+<script>
+    function fecharAlerta() {
+        const toast = document.getElementById('toastAlert');
+        if (toast) toast.style.display = 'none';
+    }
+</script>
+"""
+
 # INTERFACE MILITAR PENTÁGONO VERDE E AMARELO (SALA DE GUERRA)
 HTML_CHAT_WIDGET = """
 <!DOCTYPE html>
@@ -85,9 +196,6 @@ HTML_CHAT_WIDGET = """
         .bot { background: #0a1f12; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #164624; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
         .bot strong { color: #86efac; }
 
-        .banner-pesquisa { background: linear-gradient(135deg, #15803d, #166534); border: 2px solid #eab308; border-radius: 12px; padding: 16px; margin-bottom: 14px; color: #fff; box-shadow: 0 4px 15px rgba(234,179,8,0.3); }
-        .banner-title { font-size: 16px; font-weight: 800; color: #fef08a; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-
         .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
         .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
@@ -102,12 +210,13 @@ HTML_CHAT_WIDGET = """
     </style>
 </head>
 <body>
+    """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
         <div class="brand">
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Alerta de Pesquisas Eleitorais & Monitoramento de Votos Válidos</p>
+                <p>● Central de Alertas e Notificações Visuais em Tempo Real</p>
             </div>
         </div>
         <div class="nav-links">
@@ -120,22 +229,11 @@ HTML_CHAT_WIDGET = """
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <div class="banner-pesquisa">
-                <div class="banner-title">🚀 CONFIRMAÇÃO DE PESQUISA ELEITORAL — 14 DE AGOSTO DE 2026!</div>
-                <p style="margin:4px 0 8px 0;font-size:14px;line-height:1.5;">
-                    <strong>É 100% VERDADE!</strong> O levantamento do <strong>Instituto Goiás Pesquisas</strong> (campo realizado de 10 a 12/08/2026) confirma que nos <strong>Votos Válidos</strong>:<br>
-                    • 🥇 <strong>Daniel Vilela (MDB):</strong> 43,5%<br>
-                    • 🥈 <strong>Wilder Morais (PL):</strong> <strong>22,0%</strong> (CRESCIMENTO EXPRESSIVO! Wilder salta para 22%)<br>
-                    • 🥉 <strong>Marconi Perillo (PSDB):</strong> 21,9%<br>
-                    Wilder ultrapassa Marconi Perillo e se consolida isolado na disputa de 2º Turno em Goiás!
-                </p>
-            </div>
-
-            <strong>🔔 ALERTA DE PESQUISAS ATIVADO NO SISTEMA:</strong><br>
-            A plataforma continuará emitindo alertas automáticos toda vez que um novo registro de pesquisa eleitoral for publicado em Goiás!<br><br>
+            <strong>🔔 SISTEMA DE NOTIFICAÇÕES E ALERTAS VISUAIS EM TEMPO REAL ATIVADO!</strong><br><br>
+            Sempre que uma notícia relevante ou levantamento eleitoral (como o crescimento de Wilder para 22%) for publicado, o sistema emitirá um <strong>Toast Popup Animado</strong> no canto superior da tela com aviso de alta prioridade!<br><br>
             <strong>Escolha uma área de análise:</strong>
             <div class="quick-actions">
-                <span class="chip chip-alert" onclick="window.location.href='/radar_noticias'">🚨 Ver Pesquisa & Notícias no Radar</span>
+                <span class="chip chip-alert" onclick="window.location.href='/radar_noticias'">🚨 Ver Notícias & Pesquisas no Radar</span>
                 <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Mapa Colorido & 4 Gráficos</span>
                 <span class="chip" onclick="window.location.href='/dashboard'">📺 Dashboard YouTube Real</span>
             </div>
@@ -144,7 +242,7 @@ HTML_CHAT_WIDGET = """
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'pesquisa eleitoral', 'wilder 22%', 'notícias')..." onkeypress="if(event.key==='Enter') enviar()">
+            <input type="text" id="pergunta" placeholder="Digite (ex: 'pesquisa eleitoral', 'notificação', 'notícias')..." onkeypress="if(event.key==='Enter') enviar()">
             <button onclick="enviar()">Executar Ordem</button>
         </div>
     </div>
@@ -157,7 +255,7 @@ HTML_CHAT_WIDGET = """
             if (!pergunta) return;
 
             const pLower = pergunta.toLowerCase();
-            if (pLower.includes('pesquisa') || pLower.includes('22%') || pLower.includes('voto') || pLower.includes('noticia')) {
+            if (pLower.includes('pesquisa') || pLower.includes('alerta') || pLower.includes('notificacao') || pLower.includes('notificação')) {
                 window.location.href = '/radar_noticias';
                 return;
             }
@@ -168,7 +266,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Auditando pesquisa eleitoral...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando alertas...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -190,14 +288,14 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# RADAR DE NOTÍCIAS COM CARD DE PESQUISA ELEITORAL CONFIRMADA (WILDER 22%)
+# RADAR DE NOTÍCIAS COM SISTEMA DE ALERTAS
 HTML_RADAR_NOTICIAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar Anti-Crise de Notícias & Pesquisas Eleitorais</title>
+    <title>Radar Anti-Crise de Notícias & Alertas Visuais</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -216,8 +314,6 @@ HTML_RADAR_NOTICIAS = """
 
         .badge-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; border: 1px solid #60a5fa; }
         .badge-pos { background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-        .badge-neu { background: #eab308; color: #000; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-        .badge-cri { background: #dc2626; color: #fff; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
 
         .links-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
         .btn-gnews { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #60a5fa; display: inline-flex; align-items: center; gap: 6px; }
@@ -231,10 +327,11 @@ HTML_RADAR_NOTICIAS = """
     </style>
 </head>
 <body>
+    """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
         <div>
-            <h1>📰 RADAR DE NOTÍCIAS & SISTEMA DE ALERTA DE PESQUISAS</h1>
-            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Alertas Automáticos de Levantamentos Eleitorais e Links Auditáveis de Imprensa</p>
+            <h1>📰 RADAR DE NOTÍCIAS & ALERTA VISUAL DE ALTA RELEVÂNCIA</h1>
+            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Alertas Automáticos de Notícias e Pesquisas Eleitorais com Notificação Visual</p>
         </div>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
@@ -273,7 +370,6 @@ HTML_RADAR_NOTICIAS = """
             </div>
         </div>
 
-        <!-- LISTA DE NOTÍCIAS -->
         {% for item in noticias %}
         <div class="card-noticia {% if 'POSITIVA' in item.tipo_noticia or 'PESQUISA' in item.tipo_noticia %}card-pos{% elif 'CRÍTICA' in item.tipo_noticia %}card-danger{% endif %}">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
@@ -325,6 +421,7 @@ HTML_MAPA_DEMANDAS = """
     </style>
 </head>
 <body>
+    """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
         <h1>🗺️ MAPA TÁTICO & GRÁFICOS VISUAIS INTERATIVOS</h1>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
@@ -362,6 +459,7 @@ HTML_DASHBOARD_METABASE = """
     </style>
 </head>
 <body>
+    """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
         <h1>📺 AUDITORIA DO YOUTUBE REAL</h1>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
@@ -448,23 +546,19 @@ def api_chat():
 
     p_lower = pergunta.lower()
 
-    # Roteador de Pesquisas Eleitorais
-    if any(k in p_lower for k in ["pesquisa", "22%", "22", "voto", "votos", "subiu"]):
+    # Roteador de Alertas
+    if any(k in p_lower for k in ["alerta", "notificação", "notificacao", "aviso", "pop-up", "popup"]):
         return jsonify({
-            "resposta": f"🚀 <strong>PESQUISA ELEITORAL CONFIRMADA! (INSTITUTO GOIÁS PESQUISAS — 14/08/2026)</strong><br><br>"
-                        f"<strong>É 100% VERDADE!</strong> Nos Votos Válidos:<br>"
-                        f"• Daniel Vilela: 43,5%<br>"
-                        f"• <strong>Wilder Morais: 22,0%</strong> 🚀 (Crescimento de 16% para 22%)<br>"
-                        f"• Marconi Perillo: 21,9%<br><br>"
-                        f"Wilder ultrapassa Marconi Perillo e se consolida na disputa do 2º Turno!<br><br>"
-                        f"👉 <a href='/radar_noticias' style='background:#15803d;color:#fef08a;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #eab308;'>📊 VER DETALHES DA PESQUISA NO RADAR</a>"
+            "resposta": f"🔔 <strong>SISTEMA DE NOTIFICAÇÕES E ALERTAS VISUAIS DE ALTA PRIORIDADE ATIVADO!</strong><br><br>"
+                        f"Um Toast Popup com animação de pulso luminoso e botão de fechar foi integrado em todas as telas da plataforma para alertar a equipe imediatamente quando surgirem notícias positivas ou pesquisas de destaque!<br><br>"
+                        f"👉 <a href='/radar_noticias' style='background:#15803d;color:#fef08a;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #eab308;'>🔔 VER ALERTA VISUAL NO RADAR</a>"
         }), 200
 
     # Fallback via OpenRouter
     if OPENROUTER_API_KEY:
         system_prompt = (
             "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
-            "Você confirma a pesquisa do Instituto Goiás Pesquisas (14/08/2026) em que Wilder Morais atinge 22,0% dos votos válidos, ultrapassando Marconi Perillo (21,9%) e avançando para o 2º Turno contra Daniel Vilela (43,5%)."
+            "Seu sistema agora conta com um Sistema de Alertas e Notificações Visuais Flutuantes (Toast Popups animados) ativado em todas as páginas da plataforma."
         )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
@@ -484,8 +578,8 @@ def api_chat():
 
     return jsonify({
         "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
-                    f"Pesquisa confirmada: Wilder Morais atinge 22,0% dos Votos Válidos!<br><br>"
-                    f"👉 <a href='/radar_noticias' style='background:#15803d;color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;'>📊 VER PESQUISA NO RADAR</a>"
+                    f"Sistema de Notificações Visuais Flutuantes ativo.<br><br>"
+                    f"👉 <a href='/radar_noticias' style='background:#15803d;color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;'>🔔 VER ALERTAS</a>"
     }), 200
 
 if __name__ == "__main__":
