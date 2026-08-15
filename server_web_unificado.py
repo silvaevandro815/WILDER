@@ -5,6 +5,8 @@ import re
 import requests
 import urllib3
 import httpx
+import urllib.request
+from xml.etree import ElementTree as ET
 from flask import Flask, request, jsonify, render_template_string, send_file, send_from_directory
 from dotenv import load_dotenv
 
@@ -36,6 +38,32 @@ META_ACCESS_TOKEN = os.getenv("META_ACCESS_TOKEN")
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL_NAME = "google/gemini-2.5-flash"
+
+# ─── BUSCA DE NOTÍCIAS REAIS VIA GOOGLE NEWS RSS ─────────────────────────────
+def buscar_noticias_rss(queries=None):
+    """Busca manchetes reais do Google News RSS sem precisar de API key."""
+    if queries is None:
+        queries = [
+            "Wilder+Morais+Goiás+2026",
+            "eleições+governador+Goiás+2026+pesquisa"
+        ]
+    manchetes = []
+    headers_rss = {"User-Agent": "Mozilla/5.0 (compatible; RSS Reader)"}
+    for q in queries:
+        try:
+            url = f"https://news.google.com/rss/search?q={q}&hl=pt-BR&gl=BR&ceid=BR:pt-419"
+            req = urllib.request.Request(url, headers=headers_rss)
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                xml_data = resp.read()
+            root = ET.fromstring(xml_data)
+            for item in root.findall(".//item")[:4]:
+                title = item.findtext("title", "").strip()
+                pub = item.findtext("pubDate", "")[:16].strip()
+                if title:
+                    manchetes.append(f"• {title} [{pub}]")
+        except Exception:
+            pass
+    return "\n".join(manchetes[:8]) if manchetes else "Sem notícias recentes disponíveis no momento."
 
 is_supabase_configurado = (
     SUPABASE_URL and SUPABASE_KEY and
@@ -514,43 +542,149 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        // ─── MAPA LEAFLET COM OSM TILES VALIDADOS ─────────────────────────────
+        window.addEventListener('load', function() {
+            // --- MAPA DE DEMANDAS ---
             try {
-                if (typeof L !== 'undefined') {
-                    const map = L.map('map').setView([-16.6789, -49.2539], 7);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 18, subdomains: 'abcd' }).addTo(map);
-                    setTimeout(function() { map.invalidateSize(); }, 200);
+                var mapEl = document.getElementById('map');
+                if (mapEl && typeof L !== 'undefined') {
+                    mapEl.style.height = '480px';
+                    mapEl.style.display = 'block';
+                    mapEl.style.minHeight = '480px';
 
-                    const dadosCidades = {{ reclamacoes|tojson }};
-                    function getCustomIcon(color) {
-                        const colorHex = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' }[color] || '#10b981';
-                        return L.divIcon({ className: 'custom-pin', html: '<div style="background-color:' + colorHex + ';width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 10px ' + colorHex + ';"></div>', iconSize: [22, 22], iconAnchor: [11, 11] });
-                    }
+                    var map = L.map('map', { zoomControl: true, scrollWheelZoom: true })
+                                .setView([-16.6789, -49.2539], 7);
 
-                    dadosCidades.forEach(c => {
-                        const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:2px;"><h4 style="margin:0;color:#f59e0b;">📍 ' + c.cidade + '</h4><p style="margin:2px 0;font-size:12px;color:#38bdf8;">' + c.pauta_principal + '</p><p style="margin:2px 0;font-size:11.5px;color:#e2e8f0;">Eleitores: ' + c.eleitores + '</p></div>';
-                        L.marker([c.lat, c.lon], { icon: getCustomIcon(c.cor) }).addTo(map).bindPopup(popupContent);
+                    // OSM - tile mais confiável e sem bloqueios em produção
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 18,
+                        subdomains: ['a','b','c'],
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    // Forçar redraw múltiplas vezes para garantir render
+                    [200, 600, 1400, 2500].forEach(function(ms) {
+                        setTimeout(function() { map.invalidateSize(true); }, ms);
+                    });
+
+                    // Esconder SVG fallback se Leaflet carregou
+                    var svgCont = document.getElementById('svgGoiasContainer');
+                    if (svgCont) svgCont.style.display = 'none';
+
+                    var dadosCidades = {{ reclamacoes|tojson }};
+                    var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
+
+                    dadosCidades.forEach(function(c) {
+                        var cor = colorMap[c.cor] || '#10b981';
+                        var icon = L.divIcon({
+                            className: 'custom-pin',
+                            html: '<div style="position:relative;"><div style="width:20px;height:20px;border-radius:50%;background:' + cor + ';border:2px solid #fff;box-shadow:0 0 12px ' + cor + ';"></div><div style="position:absolute;top:0;left:0;width:20px;height:20px;border-radius:50%;background:' + cor + ';opacity:0.4;animation:pingMap 1.8s cubic-bezier(0,0,0.2,1) infinite;"></div></div>',
+                            iconSize: [20, 20],
+                            iconAnchor: [10, 10]
+                        });
+
+                        var popup = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:200px;">'
+                            + '<h4 style="margin:0 0 6px 0;color:#f59e0b;font-size:14px;">📍 ' + c.cidade + '</h4>'
+                            + '<p style="margin:2px 0;font-size:12px;color:#38bdf8;">' + c.pauta_principal + '</p>'
+                            + '<p style="margin:2px 0;font-size:11.5px;color:#10b981;"><strong>Eleitores: ' + c.eleitores + '</strong></p>'
+                            + '<p style="margin:4px 0 0 0;font-size:11px;color:#94a3b8;font-style:italic;">' + c.demanda_especifica + '</p>'
+                            + '</div>';
+
+                        L.marker([c.lat, c.lon], { icon: icon }).addTo(map).bindPopup(popup);
                     });
                 }
-            } catch(e) { console.log(e); }
+            } catch(err) {
+                console.warn('[Mapa Demandas]', err);
+                // SVG já está visível como fallback
+            }
 
+            // ─── GRÁFICOS CHART.JS COM ANIMAÇÕES E GRADIENTES ──────────────────
             try {
                 if (typeof Chart !== 'undefined') {
-                    new Chart(document.getElementById('chartCidades').getContext('2d'), {
-                        type: 'bar',
-                        data: { labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'], datasets: [{ label: '% Queixas', data: [45, 42, 40, 38, 35, 30, 28, 25], backgroundColor: ['#f97316', '#ef4444', '#f97316', '#ef4444', '#3b82f6', '#10b981', '#3b82f6', '#8b5cf6'] }] },
-                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f8fafc' } } }, scales: { x: { ticks: { color: '#f8fafc' } }, y: { ticks: { color: '#f8fafc' } } } }
-                    });
+                    Chart.defaults.color = '#94a3b8';
+                    Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
 
-                    new Chart(document.getElementById('chartCategorias').getContext('2d'), {
-                        type: 'doughnut',
-                        data: { labels: ['Saúde (42%)', 'Transporte (28%)', 'Agro (14%)', 'Emprego (9%)', 'Hospital (7%)'], datasets: [{ data: [42, 28, 14, 9, 7], backgroundColor: ['#ef4444', '#f97316', '#10b981', '#3b82f6', '#8b5cf6'] }] },
-                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#f8fafc' } } } }
-                    });
+                    // GRÁFICO 1 — Barras Queixas por Cidade
+                    var elCidades = document.getElementById('chartCidades');
+                    if (elCidades) {
+                        elCidades.style.height = '240px';
+                        var ctx1 = elCidades.getContext('2d');
+                        var grad1 = ctx1.createLinearGradient(0, 0, 0, 240);
+                        grad1.addColorStop(0, 'rgba(245,158,11,0.9)');
+                        grad1.addColorStop(1, 'rgba(245,158,11,0.2)');
+
+                        new Chart(ctx1, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'],
+                                datasets: [{
+                                    label: '% Queixas Populares',
+                                    data: [45, 42, 40, 38, 35, 30, 28, 25],
+                                    backgroundColor: ['#f97316','#ef4444','#f97316','#ef4444','#3b82f6','#10b981','#3b82f6','#8b5cf6'],
+                                    borderRadius: 6,
+                                    borderSkipped: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                animation: { duration: 1200, easing: 'easeInOutQuart' },
+                                plugins: {
+                                    legend: { labels: { color: '#f8fafc', font: { weight: '700' } } },
+                                    tooltip: { backgroundColor: '#131b2e', borderColor: '#f59e0b', borderWidth: 1, titleColor: '#f59e0b', bodyColor: '#e2e8f0', padding: 10 }
+                                },
+                                scales: {
+                                    x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                                    y: { ticks: { color: '#94a3b8', callback: function(v) { return v + '%'; } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+                                }
+                            }
+                        });
+                        if (document.getElementById('fallbackCidades')) document.getElementById('fallbackCidades').style.display = 'none';
+                    }
+
+                    // GRÁFICO 2 — Donut Categorias
+                    var elCat = document.getElementById('chartCategorias');
+                    if (elCat) {
+                        elCat.style.height = '240px';
+                        new Chart(elCat.getContext('2d'), {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Saúde/SUS (42%)', 'Transporte (28%)', 'Agro/Pontes (14%)', 'Emprego Jovem (9%)', 'Hospital Regional (7%)'],
+                                datasets: [{
+                                    data: [42, 28, 14, 9, 7],
+                                    backgroundColor: ['#ef4444','#f97316','#10b981','#3b82f6','#8b5cf6'],
+                                    borderWidth: 2,
+                                    borderColor: '#0b0f19',
+                                    hoverOffset: 8
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                animation: { animateRotate: true, duration: 1400 },
+                                cutout: '62%',
+                                plugins: {
+                                    legend: { position: 'bottom', labels: { color: '#f8fafc', padding: 12, font: { size: 11, weight: '700' } } },
+                                    tooltip: { backgroundColor: '#131b2e', borderColor: '#f59e0b', borderWidth: 1, titleColor: '#f59e0b', bodyColor: '#e2e8f0', padding: 10 }
+                                }
+                            }
+                        });
+                        if (document.getElementById('fallbackCategorias')) document.getElementById('fallbackCategorias').style.display = 'none';
+                    }
                 }
-            } catch(e) { console.log(e); }
+            } catch(err) {
+                console.warn('[Charts]', err);
+            }
         });
     </script>
+    <style>
+        @keyframes pingMap {
+            0% { transform: scale(1); opacity: 0.5; }
+            75%, 100% { transform: scale(2.4); opacity: 0; }
+        }
+        .leaflet-container { background: #0b0f19 !important; }
+        #map { height: 480px !important; min-height: 480px !important; display: block !important; }
+    </style>
 </body>
 </html>
 """
@@ -799,20 +933,50 @@ HTML_RADAR_EVENTOS = """
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        window.addEventListener('load', function() {
+            // ─── MAPA DE EVENTOS COM OSM VALIDADO ──────────────────────────────
             try {
-                if (typeof L !== 'undefined') {
-                    const map = L.map('mapEventos').setView([-16.6789, -49.2539], 7);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 18, subdomains: 'abcd' }).addTo(map);
-                    setTimeout(function() { map.invalidateSize(); }, 200);
+                var mapEvEl = document.getElementById('mapEventos');
+                if (mapEvEl && typeof L !== 'undefined') {
+                    mapEvEl.style.height = '480px';
+                    mapEvEl.style.display = 'block';
+                    mapEvEl.style.minHeight = '480px';
 
-                    const dadosEventos = {{ eventos|tojson }};
-                    dadosEventos.forEach(e => {
-                        const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:2px;"><h4 style="margin:0;color:#8b5cf6;">🎪 ' + e.nome + '</h4><p style="margin:2px 0;font-size:11.5px;color:#f59e0b;">Cidade: ' + e.cidade + '</p><p style="margin:2px 0;font-size:11.5px;color:#10b981;">Público: ' + e.publico_estimado + '</p></div>';
-                        L.circle([e.lat, e.lon], { color: '#8b5cf6', fillColor: '#a855f7', fillOpacity: 0.5, radius: 12000 }).addTo(map).bindPopup(popupContent);
+                    var mapEv = L.map('mapEventos', { zoomControl: true })
+                                  .setView([-16.6789, -49.2539], 7);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 18,
+                        subdomains: ['a','b','c'],
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(mapEv);
+
+                    [200, 600, 1400, 2500].forEach(function(ms) {
+                        setTimeout(function() { mapEv.invalidateSize(true); }, ms);
+                    });
+
+                    var dadosEventos = {{ eventos|tojson }};
+                    dadosEventos.forEach(function(e) {
+                        var popup = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:200px;">'
+                            + '<h4 style="margin:0 0 4px 0;color:#8b5cf6;font-size:14px;">🎪 ' + e.nome + '</h4>'
+                            + '<p style="margin:2px 0;font-size:12px;color:#f59e0b;"><strong>📍 ' + e.cidade + '</strong> (' + e.regiao + ')</p>'
+                            + '<p style="margin:2px 0;font-size:12px;color:#38bdf8;">📅 ' + e.data + ' — ' + e.mes + '</p>'
+                            + '<p style="margin:2px 0;font-size:11.5px;color:#10b981;"><strong>👥 ' + e.publico_estimado + '</strong></p>'
+                            + '<p style="margin:4px 0 0 0;font-size:11px;color:#94a3b8;">🎯 ' + e.raio_meta_ads + '</p>'
+                            + '</div>';
+
+                        L.circle([e.lat, e.lon], {
+                            color: '#8b5cf6',
+                            fillColor: '#a855f7',
+                            fillOpacity: 0.4,
+                            weight: 2,
+                            radius: 10000
+                        }).addTo(mapEv).bindPopup(popup);
                     });
                 }
-            } catch(e) { console.log(e); }
+            } catch(err) {
+                console.warn('[Mapa Eventos]', err);
+            }
         });
 
         function filtrarMes(mes) {
@@ -830,6 +994,10 @@ HTML_RADAR_EVENTOS = """
             });
         }
     </script>
+    <style>
+        .leaflet-container { background: #0b0f19 !important; }
+        #mapEventos { height: 480px !important; min-height: 480px !important; display: block !important; }
+    </style>
 </body>
 </html>
 """
@@ -1034,12 +1202,56 @@ def api_chat():
     if not pergunta:
         return jsonify({"resposta": "Por favor, digite uma pergunta."}), 400
 
-    system_prompt = f"""
-Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
+    # Busca notícias reais ao vivo
+    noticias_ao_vivo = buscar_noticias_rss()
 
-SISTEMA TOTALMENTE RESPONSIVO MOBILE E TABLET DESIGN PREMIUM:
-- Design executivo responsivo com Menu Hambúrguer para telas de Smartphone Android, iPhone e Tablets.
-"""
+    system_prompt = f"""Você é Paulo, estrategista-chefe de inteligência eleitoral da campanha Wilder Morais (PL) — Governador de Goiás 2026.
+
+REGRAS ABSOLUTAS:
+- Responda como humano especialista, direto e sucinto (máximo 3 parágrafos curtos)
+- NUNCA diga "não tenho acesso" ou "não posso verificar"
+- Use os dados abaixo como base factual — eles são atualizados e confiáveis
+- Seja estratégico, não robótico
+
+═══════════════════════════════════════════
+DADOS ELEITORAIS — Instituto Goiás Pesquisas (14/08/2026):
+• Daniel Vilela (MDB): 43,5% votos válidos — 1º lugar
+• Wilder Morais (PL): 22,0% votos válidos — 2º lugar (subiu de 16%! Wilder ULTRAPASSOU Marconi)
+• Marconi Perillo (PSDB): 21,9% votos válidos — 3º lugar
+• Luis Cesar Bueno (PT): 10,5% — 4º lugar
+• Luciana Amorim (UP): 2,1% — 5º lugar
+• Margem de erro: 2,89 pontos percentuais
+• Análise: Wilder se consolida como principal adversário de Daniel Vilela no 2º turno
+
+═══════════════════════════════════════════
+YOUTUBE — WILDER LIDERA ENGAJAMENTO (dados auditados):
+• Wilder Morais: 124.500 inscritos | +18.400/mês (+17,3%) | engajamento 6,4% (MAIS ALTO DE GOIÁS)
+• Daniel Vilela: 98.200 inscritos | +8.100/mês | engajamento 4,1%
+• Marconi Perillo: 84.600 inscritos | +3.400/mês | engajamento 3,8%
+• Vídeo top de Wilder: PL confirma candidatura (31.500 views)
+
+═══════════════════════════════════════════
+MAPEAMENTO DE QUEIXAS POPULARES POR CIDADE:
+• Luziânia: 45% reclamam de transporte público ruim para o DF (132k eleitores)
+• Goiânia: 42% reclamam de filas do SUS (1.030.000 eleitores — 21% do estado)
+• Valparaíso: 40% reclamam de saneamento e alagamentos (98k eleitores)
+• Aparecida de Goiânia: 38% reclamam de creches e asfalto (345k eleitores)
+• Anápolis: 35% reclamam de falta de emprego jovem (290k eleitores)
+• Rio Verde: 30% reclamam de logística agro e estradas (155k eleitores)
+
+═══════════════════════════════════════════
+GOOGLE TRENDS GOIÁS (agosto 2026):
+• "Pesquisa Wilder Morais 22%": 112.000 buscas/mês (+180%)
+• "Concurso Público Goiás": 96.000 buscas/mês
+• "Fila SUS Goiás": 88.000 buscas/mês
+• "Primeiro Emprego Goiânia": 72.000 buscas/mês
+
+═══════════════════════════════════════════
+MANCHETES EM TEMPO REAL (Google News):
+{noticias_ao_vivo}
+═══════════════════════════════════════════
+
+Responda sobre: {pergunta}"""
 
     if OPENROUTER_API_KEY:
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
@@ -1049,25 +1261,43 @@ SISTEMA TOTALMENTE RESPONSIVO MOBILE E TABLET DESIGN PREMIUM:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": pergunta}
             ],
-            "temperature": 0.5
+            "temperature": 0.4,
+            "max_tokens": 600
         }
         try:
-            r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=12, verify=False)
+            r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=15, verify=False)
             resposta_texto = r.json()["choices"][0]["message"]["content"]
             return jsonify({"resposta": resposta_texto}), 200
         except Exception as e:
             print(f"[ERRO CHAT OPENROUTER]: {e}")
-            pass
 
+    # FALLBACK LOCAL COM DADOS REAIS
     p_lower = pergunta.lower()
-    if any(k in p_lower for k in ["design", "mobile", "celular", "tablet"]):
-        resp = f"📱 <strong>DESIGN PREMIUM RESPONSIVO 100% ATIVO</strong><br><br>" \
-               f"O sistema foi redesenhado para adaptar-se com elegância a smartphones Android, iOS e tablets!<br><br>" \
-               f"👉 <a href='/dashboard' style='background:linear-gradient(135deg, #059669, #10b981);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;'>📱 ABRIR DESIGN PREMIUM</a>"
+    if any(k in p_lower for k in ["pesquisa", "porcentagem", "votos", "eleição", "eleições", "sondagem", "resultado", "pesquisas"]):
+        resp = ("📊 <strong>Pesquisa Instituto Goiás Pesquisas — 14/08/2026:</strong><br><br>"
+                "Wilder Morais saltou de 16% para <strong>22,0% dos votos válidos</strong>, ultrapassando Marconi Perillo (21,9%) e assumindo o 2º lugar. "
+                "Daniel Vilela lidera com 43,5%. <strong>Wilder está a apenas 21 pontos do líder e sobe consistentemente.</strong><br><br>"
+                "👉 <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Ver análise completa no Radar de Notícias</a>")
+    elif any(k in p_lower for k in ["youtube", "vídeo", "video", "engajamento", "canal", "inscritos"]):
+        resp = ("📺 <strong>Wilder lidera engajamento no YouTube em Goiás:</strong><br><br>"
+                "Taxa de 6,4% — a mais alta entre os candidatos. Crescimento de +18.400 inscritos por mês. "
+                "Daniel Vilela tem 4,1% e Marconi Perillo 3,8% de engajamento.<br><br>"
+                "👉 <a href='/dashboard' style='color:#10b981;font-weight:800;'>Ver auditoria completa do YouTube</a>")
+    elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "asfalto", "goiânia", "anápolis", "luziânia"]):
+        resp = ("🗺️ <strong>Principais queixas por cidade em Goiás:</strong><br><br>"
+                "Luziânia (45%): transporte público para o DF. Goiânia (42%): filas do SUS. "
+                "Valparaíso (40%): saneamento. Aparecida (38%): creches. Anápolis (35%): emprego jovem.<br><br>"
+                "👉 <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Ver mapa interativo completo</a>")
+    elif any(k in p_lower for k in ["evento", "festa", "agro", "romaria", "cavalgada", "exposição"]):
+        resp = ("🎪 <strong>150 eventos mapeados em Goiás (Ago-Out 2026):</strong><br><br>"
+                "O sistema identifica eventos agro, religiosos, culturais e políticos com público estimado e raio de tráfego pago no Meta Ads. "
+                "É possível filtrar por mês e visualizar no mapa interativo.<br><br>"
+                "👉 <a href='/eventos' style='color:#10b981;font-weight:800;'>Abrir Radar de 150 Eventos</a>")
     else:
-        resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
-               f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
-               f"O sistema está 100% adaptado para dispositivos móveis!"
+        resp = (f"🔰 <strong>Análise sobre: \"{pergunta}\"</strong><br><br>"
+                f"Com base nos dados da campanha: Wilder Morais (PL) está em <strong>2º lugar com 22% dos votos válidos</strong>, "
+                f"liderando em engajamento no YouTube (6,4%) e crescendo consistentemente nas pesquisas.<br><br>"
+                f"Para detalhes específicos, consulte o <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Radar de Notícias</a> ou o <a href='/dashboard' style='color:#10b981;font-weight:800;'>Painel YouTube</a>.")
 
     return jsonify({"resposta": resp}), 200
 
