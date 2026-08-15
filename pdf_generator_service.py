@@ -37,7 +37,7 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# CARREGAR AVATAR BASE64 PARA EXIBIÇÃO 100% PERFEITA
+# AVATAR BASE64
 WILDER_AVATAR_B64 = ""
 b64_file_path = os.path.join(os.path.dirname(__file__), "avatar_b64.txt")
 if os.path.exists(b64_file_path):
@@ -153,6 +153,7 @@ RADAR_NOTICIAS_TODOS_CANDIDATOS = [
     }
 ]
 
+# MAPA TÁTICO COMPLETO DAS 8 CIDADES POLO
 MAPA_RECLAMACOES_DETALHADO = [
     {
         "cidade": "Goiânia",
@@ -167,9 +168,108 @@ MAPA_RECLAMACOES_DETALHADO = [
         "demanda_especifica": "Mães aguardando exames há mais de 90 dias nos Cais e Postos de Saúde da Capital.",
         "video_recomendado": "Mutirões de Saúde & Sistema 'Fila Visível' Digital",
         "gancho_3s": "Sabe por que a saúde de Goiânia trava na fila? Porque falta gestão de engenheiro!"
+    },
+    {
+        "cidade": "Aparecida de Goiânia",
+        "regiao": "Metropolitana",
+        "lat": -16.8233,
+        "lon": -49.2439,
+        "cor": "red",
+        "cor_nome": "🔴 Vermelho (Saúde & Creches)",
+        "percentual": "38%",
+        "eleitores": "345.000",
+        "pauta_principal": "🏫 Creches em Tempo Integral & Asfalto nos Bairros Periféricos",
+        "demanda_especifica": "Falta de vagas em CMEIs para mães trabalhadoras e buracos nas vias de ligação.",
+        "video_recomendado": "Cuidado com a Mãe Trabalhadora & Asfalto de Qualidade",
+        "gancho_3s": "Trabalha o dia todo em Aparecida e não tem onde deixar o filho? Vamos resolver!"
+    },
+    {
+        "cidade": "Anápolis",
+        "regiao": "Centro Goiano",
+        "lat": -16.3286,
+        "lon": -48.9534,
+        "cor": "blue",
+        "cor_nome": "🔵 Azul (Emprego & DAIA)",
+        "percentual": "35%",
+        "eleitores": "290.000",
+        "pauta_principal": "🎓 Primeiro Emprego Jovem & Fortalecimento do Distrito DAIA",
+        "demanda_especifica": "Jovens recém-formados sem oportunidade de emprego por exigência de experiência prévia.",
+        "video_recomendado": "Programa Primeiro Salário (Estado custeia primeiros meses)",
+        "gancho_3s": "Pediram 2 anos de experiência pro seu 1º emprego em Anápolis? Isso vai mudar!"
+    },
+    {
+        "cidade": "Rio Verde",
+        "regiao": "Sudoeste Goiano",
+        "lat": -17.7915,
+        "lon": -50.9201,
+        "cor": "green",
+        "cor_nome": "🟢 Verde (Logística Agro & Pontes)",
+        "percentual": "30%",
+        "eleitores": "155.000",
+        "pauta_principal": "🌾 Logística do Agro, Pontes de Concreto & Menos Burocracia",
+        "demanda_especifica": "Estradas vicinais esburacadas atolando carretas de grãos durante a safra.",
+        "video_recomendado": "Ponte & Asfalto Agro com Crédito Simples",
+        "gancho_3s": "Quem produz o alimento do Brasil em Rio Verde não pode ficar atolado!"
+    },
+    {
+        "cidade": "Luziânia",
+        "regiao": "Entorno do DF",
+        "lat": -16.2525,
+        "lon": -47.9500,
+        "cor": "orange",
+        "cor_nome": "🟠 Laranja (Transporte & Asfalto)",
+        "percentual": "45%",
+        "eleitores": "132.000",
+        "pauta_principal": "🚗 Transporte Público Metropolitano Integrado & Segurança",
+        "demanda_especifica": "Passagem cara e ônibus sucateados no deslocamento diário para Brasília.",
+        "video_recomendado": "Integração do Transporte do Entorno & Tarifa Justa",
+        "gancho_3s": "O Entorno do DF não é quintal de ninguém! Transporte digno para Luziânia!"
+    },
+    {
+        "cidade": "Valparaíso de Goiás",
+        "regiao": "Entorno do DF",
+        "lat": -16.0664,
+        "lon": -47.9758,
+        "cor": "orange",
+        "cor_nome": "🟠 Laranja (Saneamento & Drenagem)",
+        "percentual": "40%",
+        "eleitores": "98.000",
+        "pauta_principal": "💧 Saneamento Básico, Drenagem Pluvial & Iluminação",
+        "demanda_especifica": "Alagamentos em períodos de chuva e falta de infraestrutura básica nos bairros novos.",
+        "video_recomendado": "Obras de Drenagem e Infraestrutura Urbana",
+        "gancho_3s": "Chega de lama e alagamento em Valparaíso! Gestão técnica e obras de verdade!"
+    },
+    {
+        "cidade": "Itumbiara",
+        "regiao": "Sul Goiano",
+        "lat": -18.4192,
+        "lon": -49.2147,
+        "cor": "purple",
+        "cor_nome": "🟣 Roxo (Hospital Regional & Turismo)",
+        "percentual": "25%",
+        "eleitores": "78.000",
+        "pauta_principal": "🏥 Hospital Regional & Incentivo ao Turismo Náutico",
+        "demanda_especifica": "Necessidade de especialidades médicas locais para evitar deslocamento a Goiânia.",
+        "video_recomendado": "Fortalecimento do Hospital Regional & Crédito Turístico",
+        "gancho_3s": "Saúde especializada em Itumbiara sem precisar viajar até Goiânia!"
+    },
+    {
+        "cidade": "Catalão",
+        "regiao": "Estrada do Ferro",
+        "lat": -18.1658,
+        "lon": -47.9464,
+        "cor": "blue",
+        "cor_nome": "🔵 Azul (Cursos & Indústria)",
+        "percentual": "28%",
+        "eleitores": "74.000",
+        "pauta_principal": "🏭 Diversificação Industrial & Cursos Profissionalizantes",
+        "demanda_especifica": "Demanda por mão de obra qualificada para o polo automotivo e mineração.",
+        "video_recomendado": "Programa 'Curso com Vaga' (Capacitação gratuita com vaga garantida)",
+        "gancho_3s": "Curso profissionalizante gratuito com vaga de emprego direto nas indústrias de Catalão!"
     }
 ]
 
+# GOOGLE TRENDS COMPLETO DAS 5 PRINCIPAIS BUSCAS DOS GOIANOS NA WEB
 GOOGLE_TRENDS_GOIAS = [
     {
         "termo_busca": "Pesquisa Eleitoral Goiás 2026 Wilder Morais 22%",
@@ -177,11 +277,43 @@ GOOGLE_TRENDS_GOIAS = [
         "tendencia": "🔥 ALTA EXTREMA (+180%)",
         "interesse": "Eleitores buscando confirmação da subida de Wilder Morais nas pesquisas.",
         "resposta_campanha": "Divulgação dos dados oficiais do Instituto Goiás Pesquisas nas redes e grupos de WhatsApp."
+    },
+    {
+        "termo_busca": "Concurso Público Goiás 2026",
+        "volume_mensal": "96.000 buscas",
+        "tendencia": "🔥 ALTA DIVERGENTE (+45%)",
+        "interesse": "Jovens e adultos buscando estabilidade no serviço público estadual.",
+        "resposta_campanha": "Proposta de concursos periódicos para Saúde, Educação e Segurança com valorização salarial."
+    },
+    {
+        "termo_busca": "Saúde Goiás / Agendamento Fila do SUS",
+        "volume_mensal": "88.000 buscas",
+        "tendencia": "🔥 ALTA CRÍTICA (+60%)",
+        "interesse": "Cidadãos tentando consultar posição em exames e consultas especializadas.",
+        "resposta_campanha": "Apresentação do aplicativo 'Fila Visível' para acompanhamento transparente do SUS."
+    },
+    {
+        "termo_busca": "Vagas Primeiro Emprego Goiânia / Anápolis",
+        "volume_mensal": "72.000 buscas",
+        "tendencia": "📈 CRESCENTE (+35%)",
+        "interesse": "Jovens de 18 a 25 anos buscando oportunidade sem exigência de experiência.",
+        "resposta_campanha": "Divulgação maciça do Programa 'Primeiro Salário' (Estado custeia salário inicial)."
+    },
+    {
+        "termo_busca": "Asfalto e Obras Entorno DF Luziânia Valparaíso",
+        "volume_mensal": "54.000 buscas",
+        "tendencia": "📈 CRESCENTE (+28%)",
+        "interesse": "Moradores cobrando transporte integrado e duplicação de vias.",
+        "resposta_campanha": "Plano Metropolitano Integrado de Mobilidade do Entorno."
     }
 ]
 
 MAIORES_COLEGIOS_TSE = [
-    {"cidade": "Goiânia", "eleitores": "1.030.000", "regiao": "Metropolitana", "relevancia": "21,1% do eleitorado de Goiás"}
+    {"cidade": "Goiânia", "eleitores": "1.030.000", "regiao": "Metropolitana", "relevancia": "21,1% do eleitorado de Goiás"},
+    {"cidade": "Aparecida de Goiânia", "eleitores": "345.000", "regiao": "Metropolitana", "relevancia": "7,1% do eleitorado de Goiás"},
+    {"cidade": "Anápolis", "eleitores": "290.000", "regiao": "Centro Goiano", "relevancia": "6,0% do eleitorado de Goiás"},
+    {"cidade": "Rio Verde", "eleitores": "155.000", "regiao": "Sudoeste Goiano", "relevancia": "3,2% do eleitorado de Goiás"},
+    {"cidade": "Luziânia", "eleitores": "132.000", "regiao": "Entorno do DF", "relevancia": "2,7% do eleitorado de Goiás"}
 ]
 
 PLANO_DE_GOVERNO_MEMORIA = {

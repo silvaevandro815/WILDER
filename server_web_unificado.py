@@ -264,6 +264,7 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
+# RADAR DE 150 EVENTOS EM GOIÁS (COM CARREGAMENTO GARANTIDO DO MAPA E TABELA)
 HTML_RADAR_EVENTOS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -292,7 +293,7 @@ HTML_RADAR_EVENTOS = """
         .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
         .card-title { font-size: 17px; font-weight: 800; color: #c084fc; margin-bottom: 16px; border-left: 5px solid #eab308; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        #mapEventos { width: 100%; height: 480px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+        #mapEventos { width: 100%; height: 500px; min-height: 500px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; display: block; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
         th { background: #040e08; color: #c084fc; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #7c3aed; }
@@ -360,32 +361,37 @@ HTML_RADAR_EVENTOS = """
     </div>
 
     <script>
-        const map = L.map('mapEventos').setView([-16.6789, -49.2539], 7);
+        document.addEventListener("DOMContentLoaded", function() {
+            const map = L.map('mapEventos').setView([-16.6789, -49.2539], 7);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '© OpenStreetMap / Inteligência de Eventos Wilder Morais 2026'
-        }).addTo(map);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 18,
+                subdomains: 'abcd',
+                attribution: '© OpenStreetMap / CartoDB / Inteligência de Eventos Wilder Morais 2026'
+            }).addTo(map);
 
-        const dadosEventos = {{ eventos|tojson }};
+            setTimeout(function() { map.invalidateSize(); }, 400);
 
-        dadosEventos.forEach(e => {
-            const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
-                '<h3 style="margin:0 0 4px 0;color:#c084fc;font-size:15px;">🎪 ' + e.nome + '</h3>' +
-                '<p style="margin:2px 0;color:#fef08a;font-size:12px;"><strong>Cidade:</strong> ' + e.cidade + ' (' + e.regiao + ')</p>' +
-                '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Data:</strong> ' + e.data + ' (' + e.mes + ')</p>' +
-                '<p style="margin:2px 0;color:#86efac;font-size:12px;"><strong>Público Estimado:</strong> ' + e.publico_estimado + '</p>' +
-                '<div style="margin-top:8px;background:#0c2415;padding:6px;border-radius:6px;border-left:3px solid #eab308;">' +
-                '<strong style="color:#fef08a;font-size:11.5px;">🎯 Meta Ads:</strong><br>' +
-                '<span style="color:#fff;font-size:11.5px;">' + e.raio_meta_ads + ' - ' + e.estrategia_trafego + '</span>' +
-                '</div></div>';
+            const dadosEventos = {{ eventos|tojson }};
 
-            L.circle([e.lat, e.lon], {
-                color: '#7c3aed',
-                fillColor: '#a855f7',
-                fillOpacity: 0.5,
-                radius: 12000
-            }).addTo(map).bindPopup(popupContent);
+            dadosEventos.forEach(e => {
+                const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
+                    '<h3 style="margin:0 0 4px 0;color:#c084fc;font-size:15px;">🎪 ' + e.nome + '</h3>' +
+                    '<p style="margin:2px 0;color:#fef08a;font-size:12px;"><strong>Cidade:</strong> ' + e.cidade + ' (' + e.regiao + ')</p>' +
+                    '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Data:</strong> ' + e.data + ' (' + e.mes + ')</p>' +
+                    '<p style="margin:2px 0;color:#86efac;font-size:12px;"><strong>Público Estimado:</strong> ' + e.publico_estimado + '</p>' +
+                    '<div style="margin-top:8px;background:#0c2415;padding:6px;border-radius:6px;border-left:3px solid #eab308;">' +
+                    '<strong style="color:#fef08a;font-size:11.5px;">🎯 Meta Ads:</strong><br>' +
+                    '<span style="color:#fff;font-size:11.5px;">' + e.raio_meta_ads + ' - ' + e.estrategia_trafego + '</span>' +
+                    '</div></div>';
+
+                L.circle([e.lat, e.lon], {
+                    color: '#7c3aed',
+                    fillColor: '#a855f7',
+                    fillOpacity: 0.5,
+                    radius: 12000
+                }).addTo(map).bindPopup(popupContent);
+            });
         });
 
         function filtrarMes(mes) {
@@ -407,6 +413,7 @@ HTML_RADAR_EVENTOS = """
 </html>
 """
 
+# MAPA TÁTICO INTERATIVO COM 4 GRÁFICOS VISUAIS E TABELA DE BUSCAS DO GOOGLE TRENDS (RENDERIZAÇÃO GARANTIDA)
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -440,11 +447,11 @@ HTML_MAPA_DEMANDAS = """
         .map-section { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; margin-bottom: 24px; }
         .card-title { font-size: 17px; font-weight: 800; color: #86efac; margin-bottom: 16px; border-left: 5px solid #0284c7; padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        #map { width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+        #map { width: 100%; height: 520px; min-height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; display: block; }
 
         .charts-row-top { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 24px; }
         .charts-row-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-        .chart-box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .chart-box { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); min-height: 300px; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
         th { background: #040e08; color: #86efac; padding: 12px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
@@ -467,6 +474,7 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <div class="container">
+        <!-- BARRA DE LEGENDA DAS CORES DO MAPA -->
         <div class="legend-bar">
             <span style="color:#fef08a;font-weight:800;font-size:14px;">🎨 CORES DAS PAUTAS NO MAPA:</span>
             <div class="legend-item"><span class="dot-red"></span> 🔴 Saúde & Filas SUS</div>
@@ -476,6 +484,7 @@ HTML_MAPA_DEMANDAS = """
             <div class="legend-item"><span class="dot-purple"></span> 🟣 Hospital Regional & Turismo</div>
         </div>
 
+        <!-- 1. MAPA LEAFLET.JS -->
         <div class="map-section">
             <div class="card-title">
                 <span>📍 MAPA DE GOIÁS COM PINOS COLORIDOS POR PAUTA (CLIQUE NOS PINOS)</span>
@@ -484,19 +493,20 @@ HTML_MAPA_DEMANDAS = """
             <div id="map"></div>
         </div>
 
+        <!-- 2. PAINEL DE 4 GRÁFICOS VISUAIS INTERATIVOS DIRETAMENTE ABAIXO DO MAPA -->
         <div class="charts-row-top">
             <div class="chart-box">
                 <div class="card-title">
                     <span>📊 INTENSIDADE DE QUEIXAS POPULARES POR MUNICÍPIO POLO (%)</span>
                 </div>
-                <canvas id="chartCidades" height="230"></canvas>
+                <canvas id="chartCidades" style="max-height:260px;width:100%;"></canvas>
             </div>
 
             <div class="chart-box">
                 <div class="card-title">
                     <span>🍩 DISTRIBUIÇÃO DAS RECLAMAÇÕES POR CATEGORIA</span>
                 </div>
-                <canvas id="chartCategorias" height="230"></canvas>
+                <canvas id="chartCategorias" style="max-height:260px;width:100%;"></canvas>
             </div>
         </div>
 
@@ -505,17 +515,18 @@ HTML_MAPA_DEMANDAS = """
                 <div class="card-title">
                     <span>🔍 GOOGLE TRENDS — TERMOS DE MAIOR BUSCA DOS GOIANOS</span>
                 </div>
-                <canvas id="chartGoogleTrends" height="220"></canvas>
+                <canvas id="chartGoogleTrends" style="max-height:260px;width:100%;"></canvas>
             </div>
 
             <div class="chart-box">
                 <div class="card-title">
                     <span>📈 NÍVEL DE URGÊNCIA DE ATENDIMENTO POR REGIÃO</span>
                 </div>
-                <canvas id="chartUrgencia" height="220"></canvas>
+                <canvas id="chartUrgencia" style="max-height:260px;width:100%;"></canvas>
             </div>
         </div>
 
+        <!-- 3. TABELA DETALHADA DAS BUSCAS DO GOOGLE TRENDS EM GOIÁS -->
         <div class="map-section">
             <div class="card-title">
                 <span>🔍 GOOGLE TRENDS GOIÁS — DETALHAMENTO DE BUSCAS E RESPOSTA DA CAMPANHA</span>
@@ -544,6 +555,7 @@ HTML_MAPA_DEMANDAS = """
             </table>
         </div>
 
+        <!-- 4. TABELA DETALHADA DAS CIDADES E QUEIXAS -->
         <div class="map-section">
             <div class="card-title">
                 <span>📋 DETALHAMENTO DAS 8 CIDADES POLO, ELEITORES TSE E VÍDEOS RECOMENDADOS</span>
@@ -574,134 +586,149 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <script>
-        const map = L.map('map').setView([-16.6789, -49.2539], 7);
+        document.addEventListener("DOMContentLoaded", function() {
+            // INICIALIZAÇÃO DO MAPA LEAFLET.JS
+            const map = L.map('map').setView([-16.6789, -49.2539], 7);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '© OpenStreetMap / Inteligência Eleitoral Wilder Morais'
-        }).addTo(map);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 18,
+                subdomains: 'abcd',
+                attribution: '© OpenStreetMap / CartoDB / Inteligência Eleitoral Wilder Morais'
+            }).addTo(map);
 
-        const dadosCidades = {{ reclamacoes|tojson }};
+            setTimeout(function() { map.invalidateSize(); }, 400);
 
-        function getCustomIcon(color) {
-            const colorHex = {
-                'red': '#ef4444',
-                'orange': '#f97316',
-                'green': '#22c55e',
-                'blue': '#3b82f6',
-                'purple': '#a855f7'
-            }[color] || '#22c55e';
+            const dadosCidades = {{ reclamacoes|tojson }};
 
-            return L.divIcon({
-                className: 'custom-pin',
-                html: '<div style="background-color:' + colorHex + ';width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ' + colorHex + ';"></div>',
-                iconSize: [22, 22],
-                iconAnchor: [11, 11]
+            function getCustomIcon(color) {
+                const colorHex = {
+                    'red': '#ef4444',
+                    'orange': '#f97316',
+                    'green': '#22c55e',
+                    'blue': '#3b82f6',
+                    'purple': '#a855f7'
+                }[color] || '#22c55e';
+
+                return L.divIcon({
+                    className: 'custom-pin',
+                    html: '<div style="background-color:' + colorHex + ';width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ' + colorHex + ';"></div>',
+                    iconSize: [22, 22],
+                    iconAnchor: [11, 11]
+                });
+            }
+
+            dadosCidades.forEach(c => {
+                const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
+                    '<h3 style="margin:0 0 4px 0;color:#fef08a;font-size:15px;">📍 ' + c.cidade + ' (' + c.regiao + ')</h3>' +
+                    '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Pauta:</strong> ' + c.cor_nome + '</p>' +
+                    '<p style="margin:2px 0;color:#86efac;font-size:12px;"><strong>Eleitores TSE:</strong> ' + c.eleitores + '</p>' +
+                    '<p style="margin:4px 0;color:#f8fafc;font-size:12.5px;">' + c.pauta_principal + '</p>' +
+                    '<p style="margin:4px 0;color:#cbd5e1;font-size:12px;"><i>"' + c.demanda_especifica + '"</i></p>' +
+                    '<div style="margin-top:8px;background:#0c2415;padding:6px;border-radius:6px;border-left:3px solid #eab308;">' +
+                    '<strong style="color:#fef08a;font-size:11.5px;">🎥 Gancho de Vídeo 3s:</strong><br>' +
+                    '<span style="color:#fff;font-size:11.5px;">"' + c.gancho_3s + '"</span>' +
+                    '</div></div>';
+
+                L.marker([c.lat, c.lon], { icon: getCustomIcon(c.cor) })
+                    .addTo(map)
+                    .bindPopup(popupContent);
             });
-        }
 
-        dadosCidades.forEach(c => {
-            const popupContent = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;padding:4px;">' +
-                '<h3 style="margin:0 0 4px 0;color:#fef08a;font-size:15px;">📍 ' + c.cidade + ' (' + c.regiao + ')</h3>' +
-                '<p style="margin:2px 0;color:#38bdf8;font-size:12px;"><strong>Pauta:</strong> ' + c.cor_nome + '</p>' +
-                '<p style="margin:2px 0;color:#86efac;font-size:12px;"><strong>Eleitores TSE:</strong> ' + c.eleitores + '</p>' +
-                '<p style="margin:4px 0;color:#f8fafc;font-size:12.5px;">' + c.pauta_principal + '</p>' +
-                '<p style="margin:4px 0;color:#cbd5e1;font-size:12px;"><i>"' + c.demanda_especifica + '"</i></p>' +
-                '<div style="margin-top:8px;background:#0c2415;padding:6px;border-radius:6px;border-left:3px solid #eab308;">' +
-                '<strong style="color:#fef08a;font-size:11.5px;">🎥 Gancho de Vídeo 3s:</strong><br>' +
-                '<span style="color:#fff;font-size:11.5px;">"' + c.gancho_3s + '"</span>' +
-                '</div></div>';
-
-            L.marker([c.lat, c.lon], { icon: getCustomIcon(c.cor) })
-                .addTo(map)
-                .bindPopup(popupContent);
-        });
-
-        new Chart(document.getElementById('chartCidades').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'],
-                datasets: [{
-                    label: '% de Queixas na Cidade',
-                    data: [45, 42, 40, 38, 35, 30, 28, 25],
-                    backgroundColor: ['#f97316', '#ef4444', '#f97316', '#ef4444', '#3b82f6', '#22c55e', '#3b82f6', '#a855f7']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { color: '#f8fafc' } } },
-                scales: {
-                    x: { ticks: { color: '#f8fafc' } },
-                    y: { ticks: { color: '#f8fafc' } }
-                }
-            }
-        });
-
-        new Chart(document.getElementById('chartCategorias').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Saúde & Filas SUS (42%)', 'Transporte & Asfalto (28%)', 'Logística Agro & Pontes (14%)', 'Emprego Jovem (9%)', 'Hospital & Turismo (7%)'],
-                datasets: [{
-                    data: [42, 28, 14, 9, 7],
-                    backgroundColor: ['#ef4444', '#f97316', '#22c55e', '#3b82f6', '#a855f7']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { color: '#f8fafc' } } }
-            }
-        });
-
-        new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: ['Concurso Público', 'Saúde / Fila SUS', 'Primeiro Emprego', 'Asfalto Entorno', 'Crédito Jovem'],
-                datasets: [{
-                    label: 'Volume Mensal Estimado no Google',
-                    data: [96000, 88000, 72000, 54000, 45000],
-                    backgroundColor: '#0284c7'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { color: '#f8fafc' } } },
-                scales: {
-                    x: { ticks: { color: '#f8fafc' } },
-                    y: { ticks: { color: '#f8fafc' } }
-                }
-            }
-        });
-
-        new Chart(document.getElementById('chartUrgencia').getContext('2d'), {
-            type: 'radar',
-            data: {
-                labels: ['Metropolitana', 'Entorno DF', 'Sudoeste Agro', 'Centro Goiano', 'Sul Goiano', 'Estrada do Ferro'],
-                datasets: [{
-                    label: 'Índice de Urgência de Resposta (0 a 100)',
-                    data: [95, 90, 85, 80, 75, 70],
-                    backgroundColor: 'rgba(234, 179, 8, 0.2)',
-                    borderColor: '#eab308',
-                    pointBackgroundColor: '#eab308'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { labels: { color: '#f8fafc' } } },
-                scales: {
-                    r: {
-                        angleLines: { color: '#164624' },
-                        grid: { color: '#164624' },
-                        pointLabels: { color: '#86efac' },
-                        ticks: { backdropColor: 'transparent', color: '#f8fafc' }
+            // GRÁFICO 1: BARRAS POR CIDADE
+            new Chart(document.getElementById('chartCidades').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Luziânia', 'Goiânia', 'Valparaíso', 'Aparecida', 'Anápolis', 'Rio Verde', 'Catalão', 'Itumbiara'],
+                    datasets: [{
+                        label: '% de Queixas na Cidade',
+                        data: [45, 42, 40, 38, 35, 30, 28, 25],
+                        backgroundColor: ['#f97316', '#ef4444', '#f97316', '#ef4444', '#3b82f6', '#22c55e', '#3b82f6', '#a855f7']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#f8fafc' } } },
+                    scales: {
+                        x: { ticks: { color: '#f8fafc' } },
+                        y: { ticks: { color: '#f8fafc' } }
                     }
                 }
-            }
+            });
+
+            // GRÁFICO 2: DOUGHNUT POR CATEGORIA
+            new Chart(document.getElementById('chartCategorias').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Saúde & Filas SUS (42%)', 'Transporte & Asfalto (28%)', 'Logística Agro & Pontes (14%)', 'Emprego Jovem (9%)', 'Hospital & Turismo (7%)'],
+                    datasets: [{
+                        data: [42, 28, 14, 9, 7],
+                        backgroundColor: ['#ef4444', '#f97316', '#22c55e', '#3b82f6', '#a855f7']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#f8fafc' } } }
+                }
+            });
+
+            // GRÁFICO 3: GOOGLE TRENDS BUSCAS
+            new Chart(document.getElementById('chartGoogleTrends').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Concurso Público', 'Saúde / Fila SUS', 'Primeiro Emprego', 'Asfalto Entorno', 'Crédito Jovem'],
+                    datasets: [{
+                        label: 'Volume Mensal Estimado no Google',
+                        data: [96000, 88000, 72000, 54000, 45000],
+                        backgroundColor: '#0284c7'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#f8fafc' } } },
+                    scales: {
+                        x: { ticks: { color: '#f8fafc' } },
+                        y: { ticks: { color: '#f8fafc' } }
+                    }
+                }
+            });
+
+            // GRÁFICO 4: RADAR DE URGÊNCIA POR REGIÃO
+            new Chart(document.getElementById('chartUrgencia').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: ['Metropolitana', 'Entorno DF', 'Sudoeste Agro', 'Centro Goiano', 'Sul Goiano', 'Estrada do Ferro'],
+                    datasets: [{
+                        label: 'Índice de Urgência de Resposta (0 a 100)',
+                        data: [95, 90, 85, 80, 75, 70],
+                        backgroundColor: 'rgba(234, 179, 8, 0.2)',
+                        borderColor: '#eab308',
+                        pointBackgroundColor: '#eab308'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#f8fafc' } } },
+                    scales: {
+                        r: {
+                            angleLines: { color: '#164624' },
+                            grid: { color: '#164624' },
+                            pointLabels: { color: '#86efac' },
+                            ticks: { backdropColor: 'transparent', color: '#f8fafc' }
+                        }
+                    }
+                }
+            });
         });
     </script>
 </body>
 </html>
 """
 
+# DASHBOARD EXECUTIVO
 HTML_DASHBOARD_METABASE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
