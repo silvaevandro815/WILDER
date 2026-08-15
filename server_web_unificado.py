@@ -373,93 +373,14 @@ HTML_MAPA_DEMANDAS = """
         </div>
 
         <!-- MAPA DUAL MODE -->
-        <div class="card-panel">
+        <div class="card-panel" style="position: relative;">
             <div class="card-panel-title">
-                <span>📍 MAPA DE GEOLOCALIZAÇÃO COM PINOS COLORIDOS POR PAUTA</span>
-                <span style="font-size:11.5px;color:var(--accent-cyan);">GEOLOCALIZAÇÃO DAS 8 CIDADES POLO</span>
+                <span>📍 MAPA INTERATIVO (ÁREAS COROPLÉTICAS)</span>
+                <span style="font-size:11.5px;color:var(--accent-cyan);">GEOLOCALIZAÇÃO</span>
             </div>
             
-            <div id="map"></div>
-
-            <div id="svgGoiasContainer" class="goias-svg-wrapper" style="margin-top:14px;">
-                <svg width="100%" height="100%" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
-                    <path d="M 220,90 L 380,60 L 580,90 L 680,180 L 720,300 L 640,440 L 480,480 L 320,440 L 200,320 L 160,200 Z" fill="#0d1527" stroke="rgba(16,185,129,0.3)" stroke-width="2" />
-                    <polygon points="610,240 650,240 650,270 610,270" fill="#0b0f19" stroke="var(--accent-gold)" stroke-width="1.5" stroke-dasharray="3,3" />
-                    <text x="630" y="260" font-size="10" fill="var(--accent-gold)" font-weight="bold" text-anchor="middle">DF</text>
-                </svg>
-
-                <div class="pin-node" style="top: 48%; left: 49%;">
-                    <div class="pin-circle" style="background:#ef4444;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Goiânia (Metropolitana)</strong><br>
-                        <span style="color:var(--accent-cyan);">🔴 Saúde Pública & Filas SUS</span><br>
-                        <span>Eleitores TSE: 1.030.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 54%; left: 51%;">
-                    <div class="pin-circle" style="background:#ef4444;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Aparecida de Goiânia</strong><br>
-                        <span style="color:var(--accent-cyan);">🔴 Saúde & Creches Integrais</span><br>
-                        <span>Eleitores TSE: 345.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 42%; left: 54%;">
-                    <div class="pin-circle" style="background:#3b82f6;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Anápolis (Centro Goiano)</strong><br>
-                        <span style="color:var(--accent-cyan);">🔵 Emprego Jovem & DAIA</span><br>
-                        <span>Eleitores TSE: 290.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 72%; left: 34%;">
-                    <div class="pin-circle" style="background:#10b981;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Rio Verde (Sudoeste Agro)</strong><br>
-                        <span style="color:var(--accent-cyan);">🟢 Logística Agro & Pontes</span><br>
-                        <span>Eleitores TSE: 155.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 40%; left: 68%;">
-                    <div class="pin-circle" style="background:#f97316;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Luziânia (Entorno DF)</strong><br>
-                        <span style="color:var(--accent-cyan);">🟠 Transporte & Asfalto</span><br>
-                        <span>Eleitores TSE: 132.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 37%; left: 71%;">
-                    <div class="pin-circle" style="background:#f97316;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Valparaíso de Goiás</strong><br>
-                        <span style="color:var(--accent-cyan);">🟠 Saneamento & Drenagem</span><br>
-                        <span>Eleitores TSE: 98.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 80%; left: 50%;">
-                    <div class="pin-circle" style="background:#8b5cf6;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Itumbiara (Sul Goiano)</strong><br>
-                        <span style="color:var(--accent-cyan);">🟣 Hospital Regional & Turismo</span><br>
-                        <span>Eleitores TSE: 78.000</span>
-                    </div>
-                </div>
-
-                <div class="pin-node" style="top: 75%; left: 66%;">
-                    <div class="pin-circle" style="background:#3b82f6;">📍</div>
-                    <div class="pin-tooltip">
-                        <strong style="color:var(--accent-gold);">📍 Catalão (Estrada do Ferro)</strong><br>
-                        <span style="color:var(--accent-cyan);">🔵 Cursos & Indústria</span><br>
-                        <span>Eleitores TSE: 74.000</span>
-                    </div>
-                </div>
-            </div>
+            <!-- REGRA DE OURO 1: Altura e Largura estritas inline para evitar height:0 -->
+            <div id="map" style="height: 500px; width: 100%; position: relative; z-index: 1; display: block; background-color: #0b0f19; border-radius: 12px;"></div>
         </div>
 
         <!-- 4 GRÁFICOS VISUAIS -->
@@ -502,12 +423,12 @@ HTML_MAPA_DEMANDAS = """
                         </tr>
                     </thead>
                     <tbody>
-                        {% for g in google_trends %}
+                        {% for t in google_trends %}
                         <tr>
-                            <td><strong style="color:var(--accent-gold);">🔍 {{ g.termo_busca }}</strong></td>
-                            <td><strong style="color:var(--accent-cyan);">{{ g.volume_mensal }}</strong></td>
-                            <td><strong style="color:#ef4444;">{{ g.tendencia }}</strong></td>
-                            <td><strong style="color:var(--accent-green);">{{ g.resposta_campanha }}</strong></td>
+                            <td><strong style="color:var(--accent-cyan);">{{ t.termo_busca }}</strong></td>
+                            <td><strong style="color:var(--accent-gold);">{{ t.volume_mensal }}</strong></td>
+                            <td>{{ t.tendencia }}</td>
+                            <td><span style="color:var(--text-secondary);font-size:12px;">{{ t.resposta_campanha }}</span></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -543,16 +464,13 @@ HTML_MAPA_DEMANDAS = """
     </div>
 
     <script>
-        // ─── MAPA LEAFLET COM OSM TILES VALIDADOS ─────────────────────────────
-        window.addEventListener('load', function() {
+        // REGRA DE OURO 3: Garantir ciclo de vida com DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
             // --- MAPA DE DEMANDAS ---
             try {
                 var mapEl = document.getElementById('map');
                 if (mapEl && typeof L !== 'undefined') {
-                    mapEl.style.height = '480px';
-                    mapEl.style.display = 'block';
-                    mapEl.style.minHeight = '480px';
-
+                    
                     var map = L.map('map', { zoomControl: true, scrollWheelZoom: true })
                                 .setView([-16.6789, -49.2539], 7);
 
@@ -565,7 +483,6 @@ HTML_MAPA_DEMANDAS = """
                     var dadosCidades = {{ reclamacoes|tojson }};
                     var colorMap = { 'red': '#ef4444', 'orange': '#f97316', 'green': '#10b981', 'blue': '#3b82f6', 'purple': '#8b5cf6' };
 
-                    // Carrega GeoJSON para pintar os municípios no mapa (Coroplético OpenSource validado)
                     var geo = {{ goias_geojson|safe }};
                     if (geo && geo.features) {
                         L.geoJSON(geo, {
@@ -587,12 +504,11 @@ HTML_MAPA_DEMANDAS = """
                         }).addTo(map);
                     }
 
-                    // Forçar redraw múltiplas vezes para garantir render
+                    // REGRA DE OURO 4: O truque de recalcular o tamanho após inicialização
                     [200, 600, 1400, 2500].forEach(function(ms) {
                         setTimeout(function() { map.invalidateSize(true); }, ms);
                     });
 
-                    // Esconder SVG fallback se Leaflet carregou
                     var svgCont = document.getElementById('svgGoiasContainer');
                     if (svgCont) svgCont.style.display = 'none';
 
@@ -704,8 +620,8 @@ HTML_MAPA_DEMANDAS = """
             0% { transform: scale(1); opacity: 0.5; }
             75%, 100% { transform: scale(2.4); opacity: 0; }
         }
-        .leaflet-container { background: #0b0f19 !important; }
-        #map { height: 480px !important; min-height: 480px !important; display: block !important; }
+        .leaflet-container { background: #0b0f19 !important; z-index: 1; }
+        #map { height: 500px !important; width: 100% !important; display: block !important; position: relative; }
     </style>
 </body>
 </html>
@@ -877,7 +793,7 @@ HTML_RADAR_EVENTOS = """
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Radar de 150 Eventos em Goiás — QG Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Leaflet CSS & JS - Cloudflare CDN (Mais Estável e sem bloqueio de integridade) -->
@@ -885,7 +801,8 @@ HTML_RADAR_EVENTOS = """
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     """ + PREMIUM_THEME_CSS + """
     <style>
-        #mapEventos { width: 100%; height: 480px; border-radius: 12px; border: 1px solid var(--border-color); background: #000; }
+        /* REGRA DE OURO 1 NO CSS GLOBAL: Forçando block e altura mínima rigorosa */
+        #mapEventos { width: 100% !important; height: 500px !important; display: block !important; border-radius: 12px; border: 1px solid var(--border-color); background-color: #0b0f19 !important; z-index: 1; }
         .badge-cat { background: var(--accent-purple); color: #fff; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-size: 11px; }
         .badge-pub { background: var(--accent-green); color: #fff; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-size: 11px; }
     </style>
@@ -956,14 +873,12 @@ HTML_RADAR_EVENTOS = """
     </div>
 
     <script>
-        window.addEventListener('load', function() {
+        // REGRA DE OURO 3: Garantir ciclo de vida com DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
             // ─── MAPA DE EVENTOS COM OSM VALIDADO ──────────────────────────────
             try {
                 var mapEvEl = document.getElementById('mapEventos');
                 if (mapEvEl && typeof L !== 'undefined') {
-                    mapEvEl.style.height = '480px';
-                    mapEvEl.style.display = 'block';
-                    mapEvEl.style.minHeight = '480px';
 
                     var mapEv = L.map('mapEventos', { zoomControl: true })
                                   .setView([-16.6789, -49.2539], 7);
@@ -976,7 +891,6 @@ HTML_RADAR_EVENTOS = """
 
                     var dadosEventos = {{ eventos|tojson }};
 
-                    // Carrega GeoJSON para dar cor ao estado (Coroplético OpenSource validado)
                     var geo = {{ goias_geojson|safe }};
                     if (geo && geo.features) {
                         L.geoJSON(geo, {
@@ -994,9 +908,11 @@ HTML_RADAR_EVENTOS = """
                         }).addTo(mapEv);
                     }
 
-                    [200, 600, 1400, 2500].forEach(function(ms) {
-                        setTimeout(function() { mapEv.invalidateSize(true); }, ms);
-                    });
+                    // REGRA DE OURO 4: O truque de recalcular o tamanho após inicialização
+                    setTimeout(function() { mapEv.invalidateSize(true); }, 200);
+                    setTimeout(function() { mapEv.invalidateSize(true); }, 800);
+                    setTimeout(function() { mapEv.invalidateSize(true); }, 2000);
+
                     dadosEventos.forEach(function(e) {
                         var popup = '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;min-width:200px;">'
                             + '<h4 style="margin:0 0 4px 0;color:#8b5cf6;font-size:14px;">🎪 ' + e.nome + '</h4>'
@@ -1036,8 +952,8 @@ HTML_RADAR_EVENTOS = """
         }
     </script>
     <style>
-        .leaflet-container { background: #0b0f19 !important; }
-        #mapEventos { height: 480px !important; min-height: 480px !important; display: block !important; }
+        .leaflet-container { background: #0b0f19 !important; z-index: 1; }
+        #mapEventos { height: 500px !important; width: 100% !important; display: block !important; position: relative; }
     </style>
 </body>
 </html>
