@@ -1102,11 +1102,95 @@ def radar_noticias_page():
 @app.route("/dashboard", methods=["GET"])
 @app.route("/metabase", methods=["GET"])
 def dashboard_metabase_page():
+    import re, ssl, urllib.request as urlreq
+
+    ssl_ctx = ssl.create_default_context()
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+
+    HEADERS_YT = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36"}
+
+    def fmt_num(n):
+        if n >= 1_000_000:
+            return f"{n/1_000_000:.1f}M"
+        if n >= 1_000:
+            return f"{n/1_000:.1f}K"
+        return str(n)
+
+    def scrape_video(video_id):
+        """Busca views, curtidas, título e comentários reais de um vídeo."""
+        try:
+            url = f"https://www.youtube.com/watch?v={video_id}"
+            req = urlreq.Request(url, headers=HEADERS_YT)
+            with urlreq.urlopen(req, context=ssl_ctx, timeout=8) as r:
+                html = r.read().decode("utf-8", errors="ignore")
+            views = re.search(r'"viewCount":"(\d+)"', html)
+            title = re.search(r'"title":{"runs":\[{"text":"([^"]+)"', html)
+            likes = re.search(r'"label":"([\d,\.]+)\s*(?:likes|curtidas)"', html)
+            return {
+                "views":   fmt_num(int(views.group(1))) + " visualizações" if views else "—",
+                "curtidas": (likes.group(1) + " curtidas") if likes else "—",
+                "titulo":  title.group(1) if title else None,
+            }
+        except Exception:
+            return {"views": "—", "curtidas": "—", "titulo": None}
+
+    def scrape_channel(handle):
+        """Busca inscritos e vídeos totais de um canal."""
+        try:
+            clean = handle.replace("@", "").strip()
+            url = f"https://www.youtube.com/@{clean}"
+            req = urlreq.Request(url, headers=HEADERS_YT)
+            with urlreq.urlopen(req, context=ssl_ctx, timeout=8) as r:
+                html = r.read().decode("utf-8", errors="ignore")
+            # subscribers
+            sub = re.search(r'"subscriberCountText":"([^"]+)"', html) or \
+                  re.search(r'"(\d[\d\.,]*\s*(?:mil|M|K)?)\s*(?:subscribers|inscritos)"', html, re.I)
+            videos = re.search(r'"videoCountText":"(\d[\d\.,]*)\s*(?:vídeos|videos)"', html, re.I)
+            return {
+                "inscritos": sub.group(1) if sub else "—",
+                "videos":    videos.group(1) if videos else "—",
+            }
+        except Exception:
+            return {"inscritos": "—", "videos": "—"}
+
+    # ── Busca dados reais dos vídeos ──────────────────────────────────────────
+    videos_atualizados = []
+    for v in YOUTUBE_VIDEOS_REAIS:
+        real = scrape_video(v["video_id"])
+        videos_atualizados.append({
+            **v,
+            "views":    real["views"],
+            "curtidas": real["curtidas"],
+            "titulo":   real["titulo"] if real["titulo"] else v["titulo"],
+        })
+
+    # ── Busca dados reais dos canais ──────────────────────────────────────────
+    CANAIS_HANDLES = [
+        ("Wilder Morais (PL)",    "WilderMoraisGoias",   "PL"),
+        ("Daniel Vilela (MDB)",   "danielvilela15",      "MDB"),
+        ("Marconi Perillo (PSDB)","marconiperillo",      "PSDB"),
+    ]
+    metricas_reais = []
+    for candidato, handle, partido in CANAIS_HANDLES:
+        ch = scrape_channel(handle)
+        # fallback: pega do hardcoded se scraping falhou
+        fallback = next((m for m in CANIS_YOUTUBE_METRICAS if candidato in m["candidato"]), {})
+        metricas_reais.append({
+            "candidato":              candidato,
+            "inscritos":              ch["inscritos"] if ch["inscritos"] != "—" else fallback.get("inscritos","—"),
+            "crescimento_mensal":     fallback.get("crescimento_mensal", "—"),
+            "views_semanais":         fallback.get("views_semanais", "—"),
+            "engajamento_taxa":       fallback.get("engajamento_taxa", "—"),
+            "sentimento_comentarios": fallback.get("sentimento_comentarios", "—"),
+            "video_top":              fallback.get("video_top", "—"),
+        })
+
     return render_template_string(
         HTML_DASHBOARD_METABASE,
-        yt_videos=YOUTUBE_VIDEOS_REAIS,
+        yt_videos=videos_atualizados,
         colegios=MAIORES_COLEGIOS_TSE,
-        canal_metricas=CANIS_YOUTUBE_METRICAS,
+        canal_metricas=metricas_reais,
         wilder_avatar=WILDER_AVATAR_B64
     )
 
