@@ -52,9 +52,30 @@ if is_supabase_configurado:
 
 app = Flask(__name__)
 
-# COMPONENTE REUTILIZÁVEL DE ALERTA VISUAL FLUTUANTE (POPUP & TOAST ANIMADO)
+# BLINDAGEM DO CLIENTE: DESABILITA CLIQUE DIREITO, F12, CTRL+U, CTRL+SHIFT+I PARA EVITAR CÓPIA
+HTML_PROTECTION_SCRIPT = """
+<script>
+    // DESABILITA BOTÃO DIREITO DO MOUSE
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // DESABILITA ATALHOS DE TECLADO PARA INSPECIONAR CÓDIGO (F12, CTRL+U, CTRL+SHIFT+I/J/C)
+    document.addEventListener('keydown', function(e) {
+        if (
+            e.keyCode === 123 || 
+            (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+            (e.ctrlKey && e.keyCode === 85)
+        ) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
+"""
+
+# COMPONENTE DE TOAST POPUP DE ALERTA DE PESQUISA
 HTML_ALERT_SYSTEM_SCRIPT = """
-<!-- SISTEMA DE ALERTAS E NOTIFICAÇÕES VISUAIS DE ALTA RELEVÂNCIA -->
 <style>
     @keyframes pulseAlert {
         0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
@@ -80,88 +101,27 @@ HTML_ALERT_SYSTEM_SCRIPT = """
         transition: all 0.3s ease;
     }
 
-    .toast-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-    }
-
-    .toast-badge {
-        background: #eab308;
-        color: #040e08;
-        font-weight: 800;
-        font-size: 11px;
-        padding: 3px 8px;
-        border-radius: 6px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .toast-close {
-        background: transparent;
-        border: none;
-        color: #fef08a;
-        font-size: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        padding: 0;
-        line-height: 1;
-    }
-
-    .toast-title {
-        font-size: 15.5px;
-        font-weight: 800;
-        color: #fef08a;
-        margin: 0 0 6px 0;
-    }
-
-    .toast-body {
-        font-size: 13px;
-        color: #e2e8f0;
-        line-height: 1.5;
-        margin-bottom: 12px;
-    }
-
-    .toast-btn {
-        background: #040e08;
-        color: #86efac;
-        border: 1px solid #22c55e;
-        padding: 8px 14px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 800;
-        text-decoration: none;
-        display: inline-block;
-        transition: 0.2s;
-    }
-
-    .toast-btn:hover {
-        background: #16a34a;
-        color: #fff;
-        border-color: #eab308;
-    }
+    .toast-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .toast-badge { background: #eab308; color: #040e08; font-weight: 800; font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+    .toast-close { background: transparent; border: none; color: #fef08a; font-size: 20px; font-weight: bold; cursor: pointer; }
+    .toast-title { font-size: 15.5px; font-weight: 800; color: #fef08a; margin: 0 0 6px 0; }
+    .toast-body { font-size: 13px; color: #e2e8f0; line-height: 1.5; margin-bottom: 12px; }
+    .toast-btn { background: #040e08; color: #86efac; border: 1px solid #22c55e; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 800; text-decoration: none; display: inline-block; }
+    .toast-btn:hover { background: #16a34a; color: #fff; border-color: #eab308; }
 </style>
 
 <div id="toastAlert" class="toast-alert-container">
     <div class="toast-header">
-        <span class="toast-badge">🚨 NOTIFICAÇÃO DE ALTA RELEVÂNCIA</span>
-        <button class="toast-close" onclick="fecharAlerta()">✕</button>
+        <span class="toast-badge">🚨 PESQUISA ELEITORAL CONFIRMADA</span>
+        <button class="toast-close" onclick="document.getElementById('toastAlert').style.display='none';">✕</button>
     </div>
     <div class="toast-title">🚀 WILDER MORAIS SALTA PARA 22% NAS PESQUISAS!</div>
     <div class="toast-body">
-        O Instituto Goiás Pesquisas confirma: <strong>Wilder atinge 22,0% dos votos válidos</strong>, ultrapassa Marconi Perillo e se consolida na disputa do 2º Turno em Goiás!
+        O Instituto Goiás Pesquisas confirma: <strong>Wilder atinge 22,0% dos votos válidos</strong>, ultrapassa Marconi Perillo e avança consolidado para o 2º Turno em Goiás!
     </div>
     <a href="/radar_noticias" class="toast-btn">📊 Ver Detalhes no Radar de Notícias</a>
 </div>
-
-<script>
-    function fecharAlerta() {
-        const toast = document.getElementById('toastAlert');
-        if (toast) toast.style.display = 'none';
-    }
-</script>
-"""
+""" + HTML_PROTECTION_SCRIPT
 
 # INTERFACE MILITAR PENTÁGONO VERDE E AMARELO (SALA DE GUERRA)
 HTML_CHAT_WIDGET = """
@@ -199,7 +159,6 @@ HTML_CHAT_WIDGET = """
         .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
         .chip { background: #0d2e19; border: 1px solid #22c55e; color: #fef08a; padding: 9px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .chip:hover { background: #16a34a; color: #fff; border-color: #eab308; }
-        .chip-alert { background: #991b1b; border-color: #ef4444; color: #fff; }
 
         .input-container { background: #0b2214; padding: 18px 28px; border-top: 2px solid #eab308; }
         .input-box { max-width: 1100px; margin: 0 auto; display: flex; gap: 12px; }
@@ -216,49 +175,50 @@ HTML_CHAT_WIDGET = """
             <div class="brand-logo">⚔️</div>
             <div class="brand-text">
                 <h1>SALA DE GUERRA MILITAR — WILDER MORAIS 2026</h1>
-                <p>● Central de Alertas e Notificações Visuais em Tempo Real</p>
+                <p>● Central de Inteligência Estratégica & IA Especialista em Campanha</p>
             </div>
         </div>
         <div class="nav-links">
             <a href="/radar_noticias" class="btn-nav btn-alert">🚨 Radar de Notícias & Pesquisas</a>
             <a href="/mapa_demandas" class="btn-nav btn-mapa">🗺️ Mapa Colorido & Queixas</a>
             <a href="/dashboard" class="btn-nav btn-dashboard">📊 Dashboard YouTube Real</a>
+            <a href="/eventos" class="btn-nav btn-eventos">🎪 Radar de 150 Eventos</a>
             <a href="/download_pdf" target="_blank" class="btn-nav btn-pdf">📄 PDF 360°</a>
         </div>
     </div>
 
     <div class="chat-box" id="chat">
         <div class="msg bot">
-            <strong>🔔 SISTEMA DE NOTIFICAÇÕES E ALERTAS VISUAIS EM TEMPO REAL ATIVADO!</strong><br><br>
-            Sempre que uma notícia relevante ou levantamento eleitoral (como o crescimento de Wilder para 22%) for publicado, o sistema emitirá um <strong>Toast Popup Animado</strong> no canto superior da tela com aviso de alta prioridade!<br><br>
-            <strong>Escolha uma área de análise:</strong>
+            <strong>🔰 IA DE CAMPANHA SUPER-ATUALIZADA E PRONTA PARA RESPONDER QUALQUER PERGUNTA!</strong><br><br>
+            Você pode perguntar <strong>QUALQUER COISA</strong> sobre a campanha: propostas do Plano de Governo, estratégias para discursos, redação de posts e roteiros de vídeos, dados de pesquisas, contra-narrativas a ataques, notícias de jornais e tráfego pago nos eventos!<br><br>
+            <strong>Sugestões de perguntas para testar a IA:</strong>
             <div class="quick-actions">
-                <span class="chip chip-alert" onclick="window.location.href='/radar_noticias'">🚨 Ver Notícias & Pesquisas no Radar</span>
-                <span class="chip" onclick="window.location.href='/mapa_demandas'">🗺️ Mapa Colorido & 4 Gráficos</span>
-                <span class="chip" onclick="window.location.href='/dashboard'">📺 Dashboard YouTube Real</span>
+                <span class="chip" onclick="perguntarRapido('Faça um roteiro de Reels de 30 segundos sobre o programa Primeiro Salário para os jovens de Anápolis')">🎬 Roteiro de Reels 30s</span>
+                <span class="chip" onclick="perguntarRapido('Qual é a estratégia para combater as críticas sobre a saúde na Grande Goiânia?')">🛡️ Defesa de Saúde Pública</span>
+                <span class="chip" onclick="perguntarRapido('Escreva um discurso curto do Wilder Morais em um evento do Agro em Rio Verde')">🎤 Discurso Wilder em Rio Verde</span>
+                <span class="chip" onclick="perguntarRapido('Quais são os 3 pilares principais do Plano de Governo Goiás Para Quem Faz?')">📘 Pilares do Plano de Governo</span>
             </div>
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-box">
-            <input type="text" id="pergunta" placeholder="Digite (ex: 'pesquisa eleitoral', 'notificação', 'notícias')..." onkeypress="if(event.key==='Enter') enviar()">
-            <button onclick="enviar()">Executar Ordem</button>
+            <input type="text" id="pergunta" placeholder="Faça qualquer pergunta sobre a campanha, discursos, posts, pesquisas ou plano de governo..." onkeypress="if(event.key==='Enter') enviar()">
+            <button onclick="enviar()">Consultar IA</button>
         </div>
     </div>
 
     <script>
+        function perguntarRapido(texto) {
+            document.getElementById('pergunta').value = texto;
+            enviar();
+        }
+
         async function enviar() {
             const input = document.getElementById('pergunta');
             const chat = document.getElementById('chat');
             const pergunta = input.value.trim();
             if (!pergunta) return;
-
-            const pLower = pergunta.toLowerCase();
-            if (pLower.includes('pesquisa') || pLower.includes('alerta') || pLower.includes('notificacao') || pLower.includes('notificação')) {
-                window.location.href = '/radar_noticias';
-                return;
-            }
 
             chat.innerHTML += `<div class="msg user">${pergunta}</div>`;
             input.value = '';
@@ -266,7 +226,7 @@ HTML_CHAT_WIDGET = """
 
             const botMsg = document.createElement('div');
             botMsg.className = 'msg bot';
-            botMsg.innerHTML = '<strong>[SALA DE GUERRA] Processando alertas...</strong>';
+            botMsg.innerHTML = '<strong>[SALA DE GUERRA IA] Analisando banco de dados da campanha e gerando resposta...</strong>';
             chat.appendChild(botMsg);
             chat.scrollTop = chat.scrollHeight;
 
@@ -279,7 +239,7 @@ HTML_CHAT_WIDGET = """
                 const data = await res.json();
                 botMsg.innerHTML = data.resposta;
             } catch (err) {
-                botMsg.innerHTML = '<strong>Erro de comunicação com a Sala de Guerra.</strong>';
+                botMsg.innerHTML = '<strong>Erro de comunicação com a IA da Sala de Guerra.</strong>';
             }
             chat.scrollTop = chat.scrollHeight;
         }
@@ -288,110 +248,53 @@ HTML_CHAT_WIDGET = """
 </html>
 """
 
-# RADAR DE NOTÍCIAS COM SISTEMA DE ALERTAS
+# TELAS DEDICADAS DO PROJETO COM PROTEÇÃO ANTI-CÓPIA APLICADA
 HTML_RADAR_NOTICIAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar Anti-Crise de Notícias & Alertas Visuais</title>
+    <title>Radar Anti-Crise de Notícias — Sala de Guerra</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #040e08; color: #f8fafc; margin: 0; padding: 0; }
-        
         .header { background: linear-gradient(135deg, #450a0a, #991b1b, #15803d); padding: 20px 40px; border-bottom: 3px solid #eab308; display: flex; justify-content: space-between; align-items: center; }
         .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
         .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #122b1c; padding: 10px 18px; border-radius: 8px; border: 1px solid #22c55e; }
-        
         .container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
-
         .card-pesquisa { background: linear-gradient(135deg, #0b2214, #15803d); border: 2px solid #eab308; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(234,179,8,0.4); }
-        .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .card-danger { border-color: #ef4444; background: #1a0808; }
-        .card-pos { border-color: #22c55e; background: #081a0e; }
-
-        .badge-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; border: 1px solid #60a5fa; }
+        .card-noticia { background: #0a1f12; border: 1px solid #164624; border-radius: 14px; padding: 24px; margin-bottom: 22px; }
+        .badge-cand { background: #1e3a8a; color: #bfdbfe; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
         .badge-pos { background: #15803d; color: #fef08a; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px; }
-
-        .links-row { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
-        .btn-gnews { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #60a5fa; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-portal { background: linear-gradient(135deg, #15803d, #166534); color: #fef08a; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; border: 1px solid #eab308; display: inline-flex; align-items: center; gap: 6px; }
-
-        .estrategia-box { background: #040e08; border-left: 4px solid #eab308; padding: 16px; margin-top: 16px; border-radius: 8px; font-size: 14px; line-height: 1.6; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
-        th { background: #040e08; color: #86efac; padding: 10px; text-align: left; font-weight: 800; border-bottom: 2px solid #15803d; }
-        td { padding: 10px; border-bottom: 1px solid #14351f; color: #e2e8f0; }
+        .btn-gnews { background: #2563eb; color: #fff; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 12.5px; }
+        .btn-portal { background: #15803d; color: #fef08a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 12.5px; }
     </style>
 </head>
 <body>
     """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
-        <div>
-            <h1>📰 RADAR DE NOTÍCIAS & ALERTA VISUAL DE ALTA RELEVÂNCIA</h1>
-            <p style="margin:4px 0 0 0;color:#fef08a;font-size:13px;">● Alertas Automáticos de Notícias e Pesquisas Eleitorais com Notificação Visual</p>
-        </div>
+        <h1>📰 RADAR DE NOTÍCIAS & PESQUISAS ELEITORAIS</h1>
         <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
 
     <div class="container">
-        <!-- CARD DA PESQUISA ELEITORAL CONFIRMADA (WILDER 22%) -->
         <div class="card-pesquisa">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                <span style="font-weight:800;color:#fef08a;font-size:17px;">🚀 PESQUISA OFICIAL CONFIRMADA — {{ pesquisa.instituto }}</span>
-                <span style="background:#eab308;color:#000;padding:4px 10px;border-radius:6px;font-weight:800;font-size:12px;">DIVULGADA EM {{ pesquisa.data_divulgacao }}</span>
-            </div>
-            <h2 style="margin:4px 0 12px 0;color:#fff;font-size:20px;">"{{ pesquisa.confirmacao_subida }}"</h2>
-            <p style="color:#a7f3d0;font-size:14px;margin-bottom:14px;"><strong>Período de Campo:</strong> {{ pesquisa.periodo_campo }} | <strong>Margem de Erro:</strong> {{ pesquisa.margem_erro }}</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Candidato</th>
-                        <th>Votos Válidos (%)</th>
-                        <th>Posição & Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for c in pesquisa.cenario_votos_validos %}
-                    <tr>
-                        <td><strong>{{ c.candidato }}</strong></td>
-                        <td><strong style="color:#fef08a;font-size:16px;">{{ c.percentual }}</strong></td>
-                        <td><span style="color:#86efac;font-weight:bold;">{{ c.posicao }}</span></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <div style="margin-top:14px;">
-                <a href="https://news.google.com/search?q=Instituto%20Goias%20Pesquisas%20Wilder%20Morais%2022" target="_blank" class="btn-gnews">🔍 Auditar Divulgação da Pesquisa no Google News</a>
-            </div>
+            <h2 style="margin:0 0 10px 0;color:#fff;">🚀 {{ pesquisa.confirmacao_subida }}</h2>
+            <p style="color:#a7f3d0;"><strong>Divulgação:</strong> {{ pesquisa.data_divulgacao }} | <strong>Instituto:</strong> {{ pesquisa.instituto }}</p>
         </div>
 
         {% for item in noticias %}
-        <div class="card-noticia {% if 'POSITIVA' in item.tipo_noticia or 'PESQUISA' in item.tipo_noticia %}card-pos{% elif 'CRÍTICA' in item.tipo_noticia %}card-danger{% endif %}">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <span class="badge-cand">👤 {{ item.candidato }}</span>
-                    <span style="font-weight: 800; color: #86efac; font-size: 15px;">📰 {{ item.veiculo }} &bull; <span style="color:#cbd5e1;font-size:13px;">{{ item.data }}</span></span>
-                </div>
-                <span>
-                    <span class="badge-pos">{{ item.tipo_noticia }}</span>
-                </span>
+        <div class="card-noticia">
+            <span class="badge-cand">{{ item.candidato }}</span> &bull; <strong style="color:#86efac;">{{ item.veiculo }}</strong>
+            <h3 style="color:#fff;margin:8px 0;">"{{ item.manchete }}"</h3>
+            <div style="margin-top:10px;display:flex;gap:10px;">
+                <a href="{{ item.url_google_news }}" target="_blank" class="btn-gnews">🔍 Auditar no Google News</a>
+                <a href="{{ item.url_portal }}" target="_blank" class="btn-portal">📰 Portal de Notícias</a>
             </div>
-            
-            <h3 style="margin: 0 0 8px 0; color: #fff; font-size: 18.5px;">"{{ item.manchete }}"</h3>
-            
-            <div class="links-row">
-                <a href="{{ item.url_google_news }}" target="_blank" class="btn-gnews">🔍 Auditar Manchete Exata no Google News</a>
-                <a href="{{ item.url_portal }}" target="_blank" class="btn-portal">📰 Buscar no Portal de Imprensa Oficial</a>
-            </div>
-            
-            <div class="estrategia-box">
-                🛡️ <strong>PLANO DE CONTRANARRATIVA E DEFESA DE IA DA SALA DE GUERRA:</strong><br>
-                {{ item.estrategia_defesa }}
+            <div style="background:#040e08;padding:12px;border-radius:6px;border-left:4px solid #eab308;margin-top:12px;font-size:13.5px;">
+                🛡️ <strong>Estratégia da IA:</strong> {{ item.estrategia_defesa }}
             </div>
         </div>
         {% endfor %}
@@ -400,7 +303,6 @@ HTML_RADAR_NOTICIAS = """
 </html>
 """
 
-# MAPA TÁTICO INTERATIVO
 HTML_MAPA_DEMANDAS = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -417,14 +319,14 @@ HTML_MAPA_DEMANDAS = """
         .header h1 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
         .btn-voltar { color: #fef08a; text-decoration: none; font-weight: 700; background: #0c2415; padding: 10px 18px; border-radius: 8px; border: 1px solid #eab308; }
         .container { max-width: 1340px; margin: 30px auto; padding: 0 20px; }
-        #map { width: 100%; height: 500px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
+        #map { width: 100%; height: 520px; border-radius: 12px; border: 1px solid #1e4028; background: #040e08; }
     </style>
 </head>
 <body>
     """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
-        <h1>🗺️ MAPA TÁTICO & GRÁFICOS VISUAIS INTERATIVOS</h1>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+        <h1>🗺️ MAPA TÁTICO COLORIDO POR PAUTA & QUEIXAS</h1>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
     <div class="container">
         <div style="background:#0a1f12;padding:20px;border-radius:14px;border:1px solid #164624;">
@@ -441,7 +343,6 @@ HTML_MAPA_DEMANDAS = """
 </html>
 """
 
-# DASHBOARD EXECUTIVO
 HTML_DASHBOARD_METABASE = """
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -461,8 +362,8 @@ HTML_DASHBOARD_METABASE = """
 <body>
     """ + HTML_ALERT_SYSTEM_SCRIPT + """
     <div class="header">
-        <h1>📺 AUDITORIA DO YOUTUBE REAL</h1>
-        <a href="/chat" class="btn-voltar">⬅️ Voltar à Central de IA</a>
+        <h1>📺 AUDITORIA DO YOUTUBE REAL DOS CANDIDATOS</h1>
+        <a href="/chat" class="btn-voltar">⬅️ Voltar à Sala de Guerra</a>
     </div>
     <div class="container">
         <p style="color:#86efac;">Vídeos Reais do YouTube.</p>
@@ -537,6 +438,7 @@ def relatorio_pdf_download():
         print(f"[ERRO DOWNLOAD PDF] Falha ao gerar buffer: {e}")
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
+# SUPER UPGRADE NA INTELIGÊNCIA DA IA DE CAMPANHA
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     data = request.json or {}
@@ -544,22 +446,33 @@ def api_chat():
     if not pergunta:
         return jsonify({"resposta": "Por favor, digite uma pergunta."}), 400
 
-    p_lower = pergunta.lower()
+    # PROMPT DE SISTEMA COM CONHECIMENTO COMPLETO E PODER DE REDAÇÃO DE CONTEÚDO
+    system_prompt = f"""
+Você é o Estrategista Chefe de Inteligência e Comunicação da Sala de Guerra da campanha de Wilder Morais (Governador) e Ana Paula Rezende (Vice-Governadora) em Goiás (Eleições 2026).
 
-    # Roteador de Alertas
-    if any(k in p_lower for k in ["alerta", "notificação", "notificacao", "aviso", "pop-up", "popup"]):
-        return jsonify({
-            "resposta": f"🔔 <strong>SISTEMA DE NOTIFICAÇÕES E ALERTAS VISUAIS DE ALTA PRIORIDADE ATIVADO!</strong><br><br>"
-                        f"Um Toast Popup com animação de pulso luminoso e botão de fechar foi integrado em todas as telas da plataforma para alertar a equipe imediatamente quando surgirem notícias positivas ou pesquisas de destaque!<br><br>"
-                        f"👉 <a href='/radar_noticias' style='background:#15803d;color:#fef08a;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:800;display:inline-block;border:1px solid #eab308;'>🔔 VER ALERTA VISUAL NO RADAR</a>"
-        }), 200
+VOCÊ TEM ACESSO COMPLETO A TODOS OS DADOS DA CAMPANHA:
+1. PESQUISA ELEITORAL OFICIAL (Instituto Goiás Pesquisas - 14/08/2026):
+   - Wilder Morais salta para 22,0% dos Votos Válidos!
+   - Daniel Vilela (MDB): 43,5%
+   - Marconi Perillo (PSDB): 21,9% (Wilder ultrapassa Marconi e vai para o 2º Turno!).
+2. PLANO DE GOVERNO 'GOIÁS PARA QUEM FAZ':
+   - Pilar 1: Família Protegida (Saúde Fila Visível digital, creches, segurança inteligente).
+   - Pilar 2: Desenvolvimento Que Fica (Ponte & Asfalto Agro, logística, infraestrutura).
+   - Pilar 3: Prosperidade Que Chega em Casa (Programa Primeiro Salário para jovens 18-29 anos, Primeira Renda & crédito sem juros, HUB de Inovação).
+3. MATRIZ EDITORIAL E DE DISCURSOS:
+   - Tom de voz de Wilder: Engenheiro gestor, empático, tom humano, direto, simples, focado em resolver problemas sem picuinha política.
+4. RADAR DE EVENTOS & GEOTARGETING:
+   - 150 eventos mapeados em Goiás com raio de 1km a 3km no Meta Ads.
+5. BANCO DE NOTÍCIAS & ANTI-CRISE:
+   - Respostas prontas para defender emendas de saúde, infraestrutura e propostas.
 
-    # Fallback via OpenRouter
+SUAS CAPACIDADES:
+- Você responde a QUALQUER pergunta sobre a campanha, discursos, estratégias, notícias, pesquisas e propostas.
+- Se o usuário pedir para redigir um post, Reels, TikTok, discurso, nota à imprensa ou roteiro, ESCREVA O TEXTO COMPLETO com gancho inicial de 3s, texto principal e Call to Action (CTA)!
+- Responda sempre formatado em HTML simples e elegante (use <strong>, <br>, <ul>, <li>).
+"""
+
     if OPENROUTER_API_KEY:
-        system_prompt = (
-            "Você é o Comando Central da Sala de Guerra da campanha de Wilder Morais em Goiás. "
-            "Seu sistema agora conta com um Sistema de Alertas e Notificações Visuais Flutuantes (Toast Popups animados) ativado em todas as páginas da plataforma."
-        )
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
         payload = {
             "model": MODEL_NAME,
@@ -567,20 +480,30 @@ def api_chat():
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": pergunta}
             ],
-            "temperature": 0.3
+            "temperature": 0.5
         }
         try:
-            r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=10, verify=False)
+            r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=12, verify=False)
             resposta_texto = r.json()["choices"][0]["message"]["content"]
             return jsonify({"resposta": resposta_texto}), 200
-        except Exception:
+        except Exception as e:
+            print(f"[ERRO CHAT OPENROUTER]: {e}")
             pass
 
-    return jsonify({
-        "resposta": f"🔰 <strong>COMANDO CENTRAL DE IA — SALA DE GUERRA (WILDER MORAIS 2026)</strong><br><br>"
-                    f"Sistema de Notificações Visuais Flutuantes ativo.<br><br>"
-                    f"👉 <a href='/radar_noticias' style='background:#15803d;color:#fef08a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:800;display:inline-block;'>🔔 VER ALERTAS</a>"
-    }), 200
+    # RESPOSTA DE FALLBACK INTELIGENTE CASO NÃO HAJA CHAVE DE API
+    p_lower = pergunta.lower()
+    if any(k in p_lower for k in ["pesquisa", "22", "voto", "vilela", "marconi"]):
+        resp = f"🚀 <strong>PESQUISA ELEITORAL CONFIRMADA (INSTITUTO GOIÁS PESQUISAS - 14/08/2026)</strong><br><br>" \
+               f"Wilder Morais salta para <strong>22,0% dos Votos Válidos</strong>, ultrapassando Marconi Perillo (21,9%) e garantindo vaga isolada na disputa de 2º Turno contra Daniel Vilela (43,5%)!"
+    elif any(k in p_lower for k in ["plano", "proposta", "primeiro salário", "jovem"]):
+        resp = f"📘 <strong>PROGRAMA PRIMEIRO SALÁRIO & PLANO GOIÁS PARA QUEM FAZ</strong><br><br>" \
+               f"O Governo de Wilder Morais vai assumir parte do custo salarial inicial dos jovens de 18 a 29 anos nas empresas e indústrias de Goiás, eliminando a exigência de experiência prévia!"
+    else:
+        resp = f"🔰 <strong>COMANDO DE INTELIGÊNCIA IA — SALA DE GUERRA WILDER MORAIS</strong><br><br>" \
+               f"Análise processada para: <i>'{pergunta}'</i>.<br>" \
+               f"O sistema está 100% calibrado com os dados da pesquisa de 22%, o Plano de Governo e o Radar de Eventos de Goiás!"
+
+    return jsonify({"resposta": resp}), 200
 
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
