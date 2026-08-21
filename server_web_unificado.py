@@ -78,8 +78,14 @@ if is_supabase_configurado:
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY, options=options)
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
-
 app = Flask(__name__, static_folder="static")
+
+# Inicialização do Motor de Monitoramento Autônomo (APScheduler em background)
+try:
+    import live_engine
+    live_engine.iniciar_scheduler()
+except Exception as e:
+    print(f"[AVISO] Falha ao iniciar live_engine: {e}")
 
 @app.route("/wilder_3d.jpg")
 @app.route("/static/wilder_3d.jpg")
@@ -492,6 +498,33 @@ HTML_CHAT_WIDGET = """
 
     <!-- ── FEED ──────────────────────────────────────────────────────────── -->
     <div class="feed-wrapper" id="feedWrapper">
+
+        <!-- CARD 0: STATUS DO MOTOR AO VIVO -->
+        <div class="post-card" style="border: 1px solid rgba(16,185,129,0.35); background: linear-gradient(135deg, #0a1829, #0d1525);">
+            <div class="post-header">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">⚡</div>
+                <div>
+                    <div class="post-author" style="color:#10b981;">MOTOR AUTÔNOMO QG DIGITAL</div>
+                    <div class="post-time">Auto-atualização ativa a cada 30 min • {{ status_motor.timestamp_servidor }}</div>
+                </div>
+                <span class="post-badge badge-new" style="background:#10b98125;color:#10b981;border-color:#10b98160;">🟢 100% ONLINE</span>
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    📡 <strong style="color:#f8fafc;">Central de Inteligência Ativa:</strong> Robôs em background monitoram continuamente notícias da imprensa goiana, dados do YouTube e tendências do eleitorado sem necessidade de deploys manuais.
+                </div>
+                <div class="post-metric-row">
+                    <div class="metric-pill"><span class="mp-val" style="color:#10b981;">{{ status_motor.fontes.noticias.total }}</span><span class="mp-lbl">Notícias RSS ({{ status_motor.fontes.noticias.atualizado }})</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#ef4444;">{{ status_motor.fontes.yt_videos.total }}</span><span class="mp-lbl">Vídeos YT ({{ status_motor.fontes.yt_videos.atualizado }})</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#f59e0b;">{{ status_motor.fontes.yt_canais.total }}</span><span class="mp-lbl">Canais ({{ status_motor.fontes.yt_canais.atualizado }})</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6;">{{ status_motor.fontes.tendencias.total }}</span><span class="mp-lbl">Buscas ({{ status_motor.fontes.tendencias.atualizado }})</span></div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;padding:0 14px 14px;">
+                <a href="/radar_noticias" class="post-action-btn" style="flex:1;margin:0;">📰 Ver {{ status_motor.fontes.noticias.total }} Notícias ao Vivo →</a>
+                <a href="/api/status" target="_blank" class="post-action-btn" style="flex:0 0 auto;margin:0;background:#0b0f19;color:#94a3b8;border-color:#1e293b;">📊 API Status</a>
+            </div>
+        </div>
 
         <div class="feed-section-title">📡 INTELIGÊNCIA EM TEMPO REAL</div>
 
@@ -1130,9 +1163,28 @@ HTML_DASHBOARD_METABASE = """
     </div>
 
     <div class="main-container">
+        <!-- BANNER MOTOR AO VIVO -->
+        <div style="background:linear-gradient(135deg, rgba(220,38,38,0.15), rgba(16,185,129,0.1));border:1px solid rgba(220,38,38,0.3);border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;box-shadow:0 0 10px #ef4444;display:inline-block;animation:blink 1.2s infinite;"></span>
+                <div>
+                    <span style="font-weight:800;color:#f87171;font-size:13.5px;">AUDITORIA YOUTUBE AO VIVO — MOTOR AUTÔNOMO</span>
+                    <div style="font-size:11.5px;color:#94a3b8;">Vídeos atualizados: <strong style="color:#10b981;">{{ status_motor.fontes.yt_videos.atualizado }}</strong> • Canais: <strong style="color:#f59e0b;">{{ status_motor.fontes.yt_canais.atualizado }}</strong> • <strong style="color:#38bdf8;">{{ yt_videos|length }} vídeos monitorados</strong></div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button onclick="forcarAtualizacaoYT(this)" style="background:#dc2626;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:0.2s;">
+                    🔄 Auditar Agora
+                </button>
+                <a href="/api/status" target="_blank" style="background:#131b2e;color:#94a3b8;border:1px solid #1e293b;padding:8px 12px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                    📊 Status JSON
+                </a>
+            </div>
+        </div>
+
         <!-- FILTROS CANDIDATO -->
         <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos</button>
+            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos ({{ yt_videos|length }})</button>
             <button class="btn-nav-link" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais (PL)</button>
             <button class="btn-nav-link" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela (MDB)</button>
             <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo (PSDB)</button>
@@ -1232,6 +1284,21 @@ HTML_DASHBOARD_METABASE = """
                     item.style.display = 'none';
                 }
             });
+        }
+
+        async function forcarAtualizacaoYT(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Auditando...';
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/forcar_atualizacao', { method: 'POST' });
+                const data = await res.json();
+                btn.innerHTML = '✅ Auditado!';
+                setTimeout(() => { window.location.reload(); }, 1500);
+            } catch(e) {
+                btn.innerHTML = '❌ Erro ao auditar';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
+            }
         }
     </script>
 </body>
@@ -1442,8 +1509,26 @@ HTML_RADAR_NOTICIAS = """
     </div>
 
     <div class="main-container">
+        <div style="background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.1));border:1px solid rgba(16,185,129,0.3);border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span style="width:10px;height:10px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981;display:inline-block;animation:blink 1.2s infinite;"></span>
+                <div>
+                    <span style="font-weight:800;color:#10b981;font-size:13.5px;">MOTOR DE MONITORAMENTO AUTÔNOMO AO VIVO</span>
+                    <div style="font-size:11.5px;color:#94a3b8;">Última coleta: <strong style="color:#f59e0b;">{{ status_motor.fontes.noticias.atualizado }}</strong> • Próximo ciclo automático em 30 min • <strong style="color:#38bdf8;">{{ noticias|length }} notícias monitoradas</strong></div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button onclick="forcarAtualizacaoNoticias(this)" style="background:#10b981;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:0.2s;">
+                    🔄 Atualizar Agora
+                </button>
+                <a href="/api/status" target="_blank" style="background:#131b2e;color:#94a3b8;border:1px solid #1e293b;padding:8px 12px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                    📊 Status JSON
+                </a>
+            </div>
+        </div>
+
         <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos</button>
+            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos ({{ noticias|length }})</button>
             <button class="btn-nav-link" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais</button>
             <button class="btn-nav-link" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela</button>
             <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo</button>
@@ -1516,6 +1601,21 @@ HTML_RADAR_NOTICIAS = """
                 }
             });
         }
+
+        async function forcarAtualizacaoNoticias(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Coletando...';
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/forcar_atualizacao', { method: 'POST' });
+                const data = await res.json();
+                btn.innerHTML = '✅ Atualizado!';
+                setTimeout(() => { window.location.reload(); }, 1500);
+            } catch(e) {
+                btn.innerHTML = '❌ Erro ao atualizar';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
+            }
+        }
     </script>
 </body>
 </html>
@@ -1526,7 +1626,14 @@ HTML_RADAR_NOTICIAS = """
 @app.route("/", methods=["GET"])
 @app.route("/chat", methods=["GET"])
 def chat_home():
-    return render_template_string(HTML_CHAT_WIDGET, wilder_avatar=WILDER_AVATAR_B64)
+    status_motor = live_engine.get_status()
+    noticias_vivas = live_engine.get_noticias()
+    return render_template_string(
+        HTML_CHAT_WIDGET,
+        wilder_avatar=WILDER_AVATAR_B64,
+        status_motor=status_motor,
+        noticias_vivas=noticias_vivas
+    )
 
 @app.route("/eventos", methods=["GET"])
 def eventos_radar_page():
@@ -1549,107 +1656,56 @@ def route_mapa():
 
 @app.route("/radar_noticias", methods=["GET"])
 def radar_noticias_page():
+    noticias_vivas = live_engine.get_noticias()
+    status_motor = live_engine.get_status()
     return render_template_string(
         HTML_RADAR_NOTICIAS,
-        noticias=RADAR_NOTICIAS_TODOS_CANDIDATOS,
+        noticias=noticias_vivas,
         pesquisa=PESQUISA_OFICIAL_GOIAS_2026,
-        wilder_avatar=WILDER_AVATAR_B64
+        wilder_avatar=WILDER_AVATAR_B64,
+        status_motor=status_motor
     )
 
 @app.route("/dashboard", methods=["GET"])
 @app.route("/metabase", methods=["GET"])
 def dashboard_metabase_page():
-    import re, ssl, urllib.request as urlreq
-
-    ssl_ctx = ssl.create_default_context()
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
-
-    HEADERS_YT = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36"}
-
-    def fmt_num(n):
-        if n >= 1_000_000:
-            return f"{n/1_000_000:.1f}M"
-        if n >= 1_000:
-            return f"{n/1_000:.1f}K"
-        return str(n)
-
-    def scrape_video(video_id):
-        """Busca views, curtidas, título e comentários reais de um vídeo."""
-        try:
-            url = f"https://www.youtube.com/watch?v={video_id}"
-            req = urlreq.Request(url, headers=HEADERS_YT)
-            with urlreq.urlopen(req, context=ssl_ctx, timeout=8) as r:
-                html = r.read().decode("utf-8", errors="ignore")
-            views = re.search(r'"viewCount":"(\d+)"', html)
-            title = re.search(r'"title":{"runs":\[{"text":"([^"]+)"', html)
-            likes = re.search(r'"label":"([\d,\.]+)\s*(?:likes|curtidas)"', html)
-            return {
-                "views":   fmt_num(int(views.group(1))) + " visualizações" if views else "—",
-                "curtidas": (likes.group(1) + " curtidas") if likes else "—",
-                "titulo":  title.group(1) if title else None,
-            }
-        except Exception:
-            return {"views": "—", "curtidas": "—", "titulo": None}
-
-    def scrape_channel(handle):
-        """Busca inscritos e vídeos totais de um canal."""
-        try:
-            clean = handle.replace("@", "").strip()
-            url = f"https://www.youtube.com/@{clean}"
-            req = urlreq.Request(url, headers=HEADERS_YT)
-            with urlreq.urlopen(req, context=ssl_ctx, timeout=8) as r:
-                html = r.read().decode("utf-8", errors="ignore")
-            # subscribers
-            sub = re.search(r'"subscriberCountText":"([^"]+)"', html) or \
-                  re.search(r'"(\d[\d\.,]*\s*(?:mil|M|K)?)\s*(?:subscribers|inscritos)"', html, re.I)
-            videos = re.search(r'"videoCountText":"(\d[\d\.,]*)\s*(?:vídeos|videos)"', html, re.I)
-            return {
-                "inscritos": sub.group(1) if sub else "—",
-                "videos":    videos.group(1) if videos else "—",
-            }
-        except Exception:
-            return {"inscritos": "—", "videos": "—"}
-
-    # ── Busca dados reais dos vídeos ──────────────────────────────────────────
-    videos_atualizados = []
-    for v in YOUTUBE_VIDEOS_REAIS:
-        real = scrape_video(v["video_id"])
-        videos_atualizados.append({
-            **v,
-            "views":    real["views"],
-            "curtidas": real["curtidas"],
-            "titulo":   real["titulo"] if real["titulo"] else v["titulo"],
-        })
-
-    # ── Busca dados reais dos canais ──────────────────────────────────────────
-    CANAIS_HANDLES = [
-        ("Wilder Morais (PL)",    "WilderMoraisGoias",   "PL"),
-        ("Daniel Vilela (MDB)",   "danielvilela15",      "MDB"),
-        ("Marconi Perillo (PSDB)","marconiperillo",      "PSDB"),
-    ]
-    metricas_reais = []
-    for candidato, handle, partido in CANAIS_HANDLES:
-        ch = scrape_channel(handle)
-        # fallback: pega do hardcoded se scraping falhou
-        fallback = next((m for m in CANIS_YOUTUBE_METRICAS if candidato in m["candidato"]), {})
-        metricas_reais.append({
-            "candidato":              candidato,
-            "inscritos":              ch["inscritos"] if ch["inscritos"] != "—" else fallback.get("inscritos","—"),
-            "crescimento_mensal":     fallback.get("crescimento_mensal", "—"),
-            "views_semanais":         fallback.get("views_semanais", "—"),
-            "engajamento_taxa":       fallback.get("engajamento_taxa", "—"),
-            "sentimento_comentarios": fallback.get("sentimento_comentarios", "—"),
-            "video_top":              fallback.get("video_top", "—"),
-        })
-
+    yt_videos_vivos = live_engine.get_yt_videos()
+    canal_metricas_vivas = live_engine.get_yt_canais()
+    status_motor = live_engine.get_status()
     return render_template_string(
         HTML_DASHBOARD_METABASE,
-        yt_videos=videos_atualizados,
+        yt_videos=yt_videos_vivos,
         colegios=MAIORES_COLEGIOS_TSE,
-        canal_metricas=metricas_reais,
-        wilder_avatar=WILDER_AVATAR_B64
+        canal_metricas=canal_metricas_vivas,
+        wilder_avatar=WILDER_AVATAR_B64,
+        status_motor=status_motor
     )
+
+# ─── ROTAS DE API DO MOTOR AUTÔNOMO ──────────────────────────────────────────
+@app.route("/api/status", methods=["GET"])
+def api_status_motor():
+    return jsonify(live_engine.get_status())
+
+@app.route("/api/noticias", methods=["GET"])
+def api_noticias_ao_vivo():
+    return jsonify({"noticias": live_engine.get_noticias(), "total": len(live_engine.get_noticias())})
+
+@app.route("/api/tendencias", methods=["GET"])
+def api_tendencias_ao_vivo():
+    return jsonify({"tendencias": live_engine.get_tendencias(), "total": len(live_engine.get_tendencias())})
+
+@app.route("/api/forcar_atualizacao", methods=["POST", "GET"])
+def api_forcar_atualizacao():
+    import threading
+    threading.Thread(target=live_engine.atualizar_noticias, daemon=True).start()
+    threading.Thread(target=live_engine.atualizar_tendencias, daemon=True).start()
+    threading.Thread(target=live_engine.atualizar_yt_videos, daemon=True).start()
+    threading.Thread(target=live_engine.atualizar_yt_canais, daemon=True).start()
+    return jsonify({
+        "status": "sucesso",
+        "mensagem": "Ciclo completo de atualização autônoma disparado em background!",
+        "timestamp": live_engine._agora_str()
+    })
 
 @app.route("/plano_governo", methods=["GET"])
 @app.route("/primeira_semana", methods=["GET"])
