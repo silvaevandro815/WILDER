@@ -1,6 +1,7 @@
 .git
 .gitignore
 .env
+.env.*
 .venv
 venv
 __pycache__
@@ -8,11 +9,31 @@ __pycache__
 *.pyo
 *.pyd
 .pytest_cache
+
+# Mídias pesadas e gravações
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.avi
+*.mkv
+*.webm
 *.psd
 *.jfif
-*.mp4
 *.zip
 *.tar
 *.gz
+
+# Pastas de campanha e mídias
+CAMPANHA
+CAMPANHA/*
 erros do coolify
-CAMPANHA/fotos wilder
+erros do coolify/*
+prinst desing ruim
+prinst desing ruim/*
+
+# Arquivos temporários de teste e debug
+debug_full.html
+test_map.html
+test_*.py
+inspect_*.py
