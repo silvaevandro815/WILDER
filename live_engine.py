@@ -367,17 +367,36 @@ def _fmt_num(n):
 def _scrape_video(vid):
     try:
         req = urllib.request.Request(f"https://www.youtube.com/watch?v={vid}", headers=_HEADERS)
-        with urllib.request.urlopen(req, context=_SSL_CTX, timeout=10) as r:
+        with urllib.request.urlopen(req, context=_SSL_CTX, timeout=12) as r:
             html = r.read().decode("utf-8", "ignore")
-        views = re.search(r'"viewCount":"(\d+)"', html)
-        title = re.search(r'"title":\{"runs":\[\{"text":"([^"]+)"', html)
-        likes = re.search(r'"label":"([\d,\.]+)\s*(?:likes|curtidas)"', html)
+
+        title = None
+        views = None
+        m_player = re.search(r'ytInitialPlayerResponse\s*=\s*(\{.+?\});(?:var|window|\s*</script>)', html)
+        if m_player:
+            try:
+                p_data = json.loads(m_player.group(1))
+                v_details = p_data.get('videoDetails', {})
+                title = v_details.get('title')
+                views = v_details.get('viewCount')
+            except Exception:
+                pass
+
+        likes = "0"
+        m_like = re.search(r'"iconName":"LIKE","title":"([^"]+)"', html) or re.search(r'"valueIfIndifferent":"([^"]+)"', html)
+        if m_like:
+            likes = m_like.group(1)
+
+        if not views:
+            m_views = re.search(r'"viewCount":\s*"(\d+)"', html)
+            if m_views: views = m_views.group(1)
+
         return {
-            "views": _fmt_num(views.group(1)) + " visualizações" if views else "—",
-            "curtidas": likes.group(1) + " curtidas" if likes else "—",
-            "titulo": title.group(1) if title else None,
+            "views": f"{int(views):,}".replace(",", ".") + " visualizações" if (views and str(views).isdigit()) else "—",
+            "curtidas": f"{likes} curtidas" if likes else "—",
+            "titulo": title
         }
-    except Exception:
+    except Exception as e:
         return {"views": "—", "curtidas": "—", "titulo": None}
 
 def atualizar_yt_videos():

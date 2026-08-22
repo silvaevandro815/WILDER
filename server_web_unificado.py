@@ -3659,10 +3659,11 @@ DADOS ELEITORAIS — Instituto Goiás Pesquisas (14/08/2026):
 • Luciana Amorim (UP): 2,1%
 
 ═══════════════════════════════════════════
-YOUTUBE — MÉTRICAS DE CANAIS:
-• Wilder Morais: 124.500 inscritos | engajamento 6,4% (Forte no Agro, fraco entre jovens)
-• Daniel Vilela: 98.200 inscritos | engajamento 4,1% (Forte institucional, alvo de críticas no Entorno)
-• Marconi Perillo: 84.600 inscritos | engajamento 3,8% (Alta polarização)
+YOUTUBE — MÉTRICAS AUDITADAS REAIS DOS CANAIS:
+• Wilder Morais: 711 inscritos (Canal oficial em fase inicial de crescimento) | Vídeo da Convenção: 103 views, 6 curtidas | Recado Agro: 3,4k views
+• Daniel Vilela: 976 inscritos | Convenção: 3,9k views, 117 curtidas
+• Marconi Perillo: 2.130 inscritos | Melhores momentos debate: 3,1k views, 55 curtidas
+DIAGNÓSTICO CRÍTICO: No YouTube todos os candidatos possuem canais de baixo alcance orgânico direto (< 2,5 mil inscritos). Por isso, a prioridade máxima é FURAR A BOLHA pelo Instagram Reels / Meta Ads / Direct Shares!
 
 ═══════════════════════════════════════════
 MAPEAMENTO DE QUEIXAS POPULARES E DEMOGRAFIA (Jovens e 35 a 70 anos):
@@ -3720,9 +3721,11 @@ Responda sobre: {pergunta}"""
                 "disputando a vaga para o 2º turno. O cenário mostra forte competição no eleitorado de centro-direita.<br><br>"
                 "👉 <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Ver análise completa no Radar de Notícias</a>")
     elif any(k in p_lower for k in ["youtube", "vídeo", "video", "engajamento", "canal", "inscritos"]):
-        resp = ("📺 <strong>Métricas de YouTube em Goiás:</strong><br><br>"
-                "Wilder Morais possui 6,4% de engajamento, consolidado no setor do Agro, mas com necessidade de aproximação ao público jovem. "
-                "Daniel Vilela (4,1%) possui base institucional forte. Marconi Perillo (3,8%) enfrenta alta polarização.<br><br>"
+        resp = ("📺 <strong>Métricas Reais Auditadas do YouTube (Goiás 2026):</strong><br><br>"
+                "• <strong>Wilder Morais (PL):</strong> 711 inscritos no canal oficial. Vídeo da Convenção Estadual com 103 visualizações e 6 curtidas. Recado ao Agro com 3.464 visualizações.<br>"
+                "• <strong>Daniel Vilela (MDB):</strong> 976 inscritos. Convenção com 3.906 visualizações e 117 curtidas.<br>"
+                "• <strong>Marconi Perillo (PSDB):</strong> 2.130 inscritos. Debate Band com 3.132 visualizações e 55 curtidas.<br><br>"
+                "💡 <em>Diagnóstico Estratégico:</em> O alcance direto no YouTube é restrito para todos os candidatos. A estratégia mestra para furar a bolha é a distribuição no Instagram/Meta Ads.<br><br>"
                 "👉 <a href='/dashboard' style='color:#10b981;font-weight:800;'>Ver auditoria completa do YouTube</a>")
     elif any(k in p_lower for k in ["google", "trends", "perguntas", "internet", "goiano", "pesquisam"]):
         resp = ("🔍 <strong>Comportamento no Google Trends:</strong><br><br>"
