@@ -1443,19 +1443,19 @@ HTML_DASHBOARD_METABASE = """
             <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo (PSDB)</button>
         </div>
 
-        <!-- CARDS MÉTRICAS -->
+        <!-- CARDS MÉTRICAS AUDITADAS E NEUTRAS -->
         <div class="metrics-grid-row">
             <div class="metric-stat-card">
-                <div class="metric-stat-title">🚀 LÍDER DE ENGAJAMENTO</div>
-                <div class="metric-stat-value" style="color:var(--accent-green);">Wilder Morais (6,4% Taxa)</div>
+                <div class="metric-stat-title">🏛️ MAIOR CANAL (INSCRITOS REAIS)</div>
+                <div class="metric-stat-value" style="color:var(--accent-cyan);">Marconi Perillo (2.130 inscritos)</div>
             </div>
             <div class="metric-stat-card">
-                <div class="metric-stat-title">📈 MAIOR CRESCIMENTO MENSAL</div>
-                <div class="metric-stat-value" style="color:var(--accent-gold);">Wilder Morais (+18.400 / mês)</div>
+                <div class="metric-stat-title">📊 VÍDEO COM MAIOR AUDIÊNCIA</div>
+                <div class="metric-stat-value" style="color:var(--accent-gold);">Debate BandNews (9.565 visualizações)</div>
             </div>
             <div class="metric-stat-card">
-                <div class="metric-stat-title">💬 COMENTÁRIOS POSITIVOS</div>
-                <div class="metric-stat-value" style="color:var(--accent-cyan);">Wilder 97% Aprovação</div>
+                <div class="metric-stat-title">🎯 CANAIS OFICIAIS MONITORADOS</div>
+                <div class="metric-stat-value" style="color:var(--accent-green);">Wilder: 711 • Daniel: 976 • Marconi: 2.130</div>
             </div>
         </div>
 
