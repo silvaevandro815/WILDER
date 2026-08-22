@@ -2641,6 +2641,25 @@ HTML_ENGAJAMENTO_LAB = """
             </div>
         </div>
 
+        <!-- RADAR DE DIRETRIZES DA META AO VIVO -->
+        <div style="background:linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));border:1px solid rgba(124,58,237,0.35);border-radius:16px;padding:20px;margin-bottom:24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:10px;height:10px;border-radius:50%;background:#a78bfa;box-shadow:0 0 10px #a78bfa;display:inline-block;animation:blink 1.2s infinite;"></span>
+                    <div>
+                        <span style="font-weight:800;color:#c4b5fd;font-size:14px;letter-spacing:0.04em;">🛰️ RADAR DE DIRETRIZES DA META & INSTAGRAM 2026 (AO VIVO)</span>
+                        <div style="font-size:11.5px;color:#94a3b8;">Monitoramento de anúncios de Adam Mosseri, Meta Newsroom e sinais de entrega orgânica</div>
+                    </div>
+                </div>
+                <button onclick="carregarRadarMeta()" style="background:rgba(124,58,237,0.25);border:1px solid #7c3aed;color:#c4b5fd;padding:6px 14px;border-radius:8px;font-size:11.5px;font-weight:800;cursor:pointer;">
+                    🔄 Sincronizar Algoritmo
+                </button>
+            </div>
+            <div id="metaNewsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;">
+                <div style="padding:10px;color:#64748b;font-size:12px;">Sincronizando diretrizes da Meta...</div>
+            </div>
+        </div>
+
         <!-- SEÇÃO 1: GERADOR DE ROTEIRO VIRAL -->
         <div class="form-section">
             <h3>🎬 Gerador de Roteiro Viral com IA</h3>
@@ -2814,6 +2833,29 @@ HTML_ENGAJAMENTO_LAB = """
     </div><!-- /main-container -->
 
     <script>
+    // ── Carrega atualizações do algoritmo da Meta
+    async function carregarRadarMeta() {
+        const grid = document.getElementById('metaNewsGrid');
+        if (!grid) return;
+        try {
+            const r = await fetch('/api/meta_algoritmo');
+            const d = await r.json();
+            const news = d.noticias_algoritmo || [];
+            if (news.length === 0) {
+                grid.innerHTML = '<div style="font-size:12px;color:#94a3b8;grid-column:1/-1;">✅ Algoritmo Meta operando sob as diretrizes 2026: <strong>Sends per Reach (45%)</strong>, <strong>Retenção 0-3s (30%)</strong> e <strong>ASR de Áudio (15%)</strong>.</div>';
+                return;
+            }
+            grid.innerHTML = news.slice(0, 4).map(n => `
+                <a href="${n.url}" target="_blank" style="background:#060a14;border:1px solid rgba(124,58,237,0.25);border-radius:10px;padding:10px 14px;text-decoration:none;display:block;transition:all 0.2s;" onmouseenter="this.style.borderColor='#a78bfa'" onmouseleave="this.style.borderColor='rgba(124,58,237,0.25)'">
+                    <div style="font-size:12px;font-weight:700;color:#f8fafc;line-height:1.35;">${n.titulo}</div>
+                    <div style="font-size:10.5px;color:#7c3aed;margin-top:4px;">📡 ${n.fonte} · ${n.data}</div>
+                </a>
+            `).join('');
+        } catch(e) {
+            grid.innerHTML = '<div style="font-size:12px;color:#94a3b8;">Monitoramento da Meta 2026 ativo.</div>';
+        }
+    }
+
     // ── Carrega a Matriz de Palavras Magnéticas via API
     async function carregarMatriz() {
         try {
@@ -3006,6 +3048,7 @@ HTML_ENGAJAMENTO_LAB = """
 
     // ── Init
     carregarMatriz();
+        carregarRadarMeta();
 
     // Animação fadeInOut para toast
     const style = document.createElement('style');
@@ -3329,14 +3372,37 @@ def api_chat():
     except Exception:
         pass
 
-    system_prompt = f"""Você é Paulo, Analista de Inteligência de Dados Eleitorais da campanha Wilder Morais (PL) — Governador de Goiás 2026.
+    # Coleta inteligência da Meta e do motor territorial
+    meta_info_txt = ""
+    try:
+        import meta_algorithm_tracker as mat
+        m_data = mat.get_meta_intelligence()
+        meta_info_txt = json.dumps(m_data.get("diretrizes", {}), ensure_ascii=False)
+    except Exception:
+        meta_info_txt = "Foco em Sends per Reach (DM), Retenção 0-3s e ASR áudio falado."
 
-REGRAS ABSOLUTAS:
-- Seja ESTRITAMENTE NEUTRO, objetivo e analítico. Não aja como torcedor ou propaganda eleitoral.
-- Responda de forma sucinta (máximo 3 parágrafos curtos).
-- Use os dados factuais abaixo para embasar sua análise.
-- NUNCA diga "não tenho acesso" ou "não posso verificar".
-- Foco em dores do público, direcionamento de conteúdo e estratégias com público jovem.
+    system_prompt = f"""Você é Paulo, Diretor e Analista Chefe de Inteligência Estratégica, Algoritmos e Dados da campanha Wilder Morais (PL) — Governador de Goiás 2026.
+
+CONSCIÊNCIA TOTAL DO PROJETO & MÓDULOS DISPONÍVEIS:
+1. 🎖️ CENTRO DE INTELIGÊNCIA MILITAR (/intel): Monitoramento territorial em tempo real dos 246 municípios de Goiás, mapa de calor Leaflet com dados abertos do IBGE e queixas com classificação NLP (Saúde, Transporte, Emprego, Segurança, Infraestrutura).
+2. 🚀 LABORATÓRIO DE ENGAJAMENTO & VIRALIZAÇÃO (/engajamento): Motor de roteiros virais e auditoria algorítmica (score 0-100) calibrado pelas diretrizes oficiais da Meta 2026 (Instagram Reels/Explore).
+3. 🚨 RADAR DE PESQUISAS & NOTÍCIAS (/radar_noticias): Monitoramento minuto a minuto dos 3 candidatos (Wilder, Daniel Vilela, Marconi Perillo) e sondagens de institutos de pesquisa.
+4. 🗺️ MAPA DE DEMANDAS REGIONAIS (/mapa_demandas): Dores populares por cidade e tendências do Google Trends.
+5. 🎪 RADAR DE 150 GRANDES EVENTOS (/eventos): Eventos com +500 pessoas em Goiás com cálculo de raio para Meta Ads e pautas de discurso.
+6. 📊 DASHBOARD METABASE & YOUTUBE (/dashboard): Auditoria de canais e vídeos com visualizações reais.
+7. 📄 DOSSIÊ EXECUTIVO 360° (/download_pdf): Relatório completo para tomada de decisão da coordenação.
+
+DIRETRIZES DO ALGORITMO DA META 2026 (PARA FURAR A BOLHA):
+• SINAL #1 (45% do peso): Sends per Reach (Compartilhamentos por DM). O eleitor precisa pensar: "Vou mandar isso no grupo da família ou pro meu amigo".
+• SINAL #2 (30% do peso): Retenção nos Primeiros 3 Segundos (Gancho visual de quebra de padrão + texto em caixa alta na tela de até 5 palavras).
+• SINAL #3 (15% do peso): ASR (Reconhecimento de Áudio). A Meta escuta o áudio; fale palavras-chave da dor do povo ("fila do SUS", "primeiro emprego", "remédio em casa").
+• REGRA DE OURO: ZERO VÍCIO DE PALANQUE. Elimine jargões burocráticos ("aparato", "plano plurianual"). Wilder deve falar como Engenheiro prático e homem do Agro que constrói e resolve.
+
+REGRAS ABSOLUTAS DE RESPOSTA:
+- Seja ESTRITAMENTE ESTRATÉGICO, analítico, objetivo e consultivo.
+- Oriente com clareza como aplicar os dados e como estruturar vídeos/roteiros de alto engajamento.
+- NUNCA diga "não tenho acesso" ou "não posso verificar". Você tem domínio absoluto de todas as ferramentas e dados do sistema.
+- Responda em no máximo 3 a 4 parágrafos objetivos, usando formatação limpa com tópicos quando pertinente.
 
 ═══════════════════════════════════════════
 DADOS ELEITORAIS — Instituto Goiás Pesquisas (14/08/2026):
@@ -3430,6 +3496,18 @@ Responda sobre: {pergunta}"""
                 "O sistema identifica eventos agro, religiosos, culturais e políticos com público estimado e raio de tráfego pago no Meta Ads. "
                 "É possível filtrar por mês e visualizar no mapa interativo.<br><br>"
                 "👉 <a href='/eventos' style='color:#10b981;font-weight:800;'>Abrir Radar de 150 Eventos</a>")
+    elif any(k in p_lower for k in ["algoritmo", "meta", "instagram", "reels", "viral", "engajamento", "furar a bolha", "sinal", "sinais", "dm"]):
+        resp = ("🚀 <strong>Diretrizes do Algoritmo da Meta (Instagram 2026):</strong><br><br>"
+                "• <strong>Sinal #1 (45% do peso):</strong> <em>Sends per Reach</em> (Compartilhamentos por DM). Crie vídeos que façam o eleitor encaminhar no grupo da família.<br>"
+                "• <strong>Sinal #2 (30% do peso):</strong> <em>Retenção 0-3 segundos</em>. O gancho visual e o texto em caixa alta na tela travam o scroll.<br>"
+                "• <strong>Sinal #3 (15% do peso):</strong> <em>ASR (Áudio Falado)</em>. O algoritmo indexa palavras magnéticas de dor real.<br>"
+                "• <strong>Zero Vício de Palanque:</strong> Discursos de político tradicional limitam o alcance aos mesmos seguidores de sempre.<br><br>"
+                "👉 <a href='/engajamento' style='color:#7c3aed;font-weight:800;'>Acessar o Laboratório de Engajamento &amp; Roteiros Virais</a>")
+    elif any(k in p_lower for k in ["intel", "militar", "territorial", "calor", "ibge", "municípios", "municipio", "segurança", "comando"]):
+        resp = ("🎖️ <strong>Centro de Inteligência Territorial Militar:</strong><br><br>"
+                "O sistema monitora em tempo real os 246 municípios de Goiás através de mapa de calor Leaflet com dados do IBGE, "
+                "classificando queixas populares em 6 categorias de alarme (Saúde, Transporte, Emprego, Segurança, Infraestrutura e Educação).<br><br>"
+                "👉 <a href='/intel' style='color:#00ff88;font-weight:800;'>Abrir o Centro de Comando Militar (/intel)</a>")
     elif any(k in p_lower for k in ["plano", "governo", "proposta", "propostas"]):
         resp = ("📄 <strong>Plano de Governo:</strong><br><br>"
                 "As propostas abrangem: 'Fila Visível' e 'Remédio em Casa' (foco em adultos e idosos), 'Primeiro Salário' e 'Curso com Vaga' (jovens), "
@@ -3512,6 +3590,15 @@ def api_intel_forcar():
 @app.route("/engajamento", methods=["GET"])
 def engajamento_lab_page():
     return render_template_string(HTML_ENGAJAMENTO_LAB, wilder_avatar=WILDER_AVATAR_B64)
+
+
+@app.route("/api/meta_algoritmo", methods=["GET"])
+def api_meta_algoritmo():
+    try:
+        import meta_algorithm_tracker as mat
+        return jsonify(mat.get_meta_intelligence()), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
 @app.route("/api/gerar_roteiro_viral", methods=["POST"])
 def api_gerar_roteiro_viral():

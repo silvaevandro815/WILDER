@@ -25,6 +25,7 @@ def test_flask_routes():
         "/api/eventos_grandes",
         "/api/tendencias",
         "/api/palavras_magneticas",
+        "/api/meta_algoritmo",
         # APIs DO MOTOR INTEL TERRITORIAL
         "/api/intel_queixas",
         "/api/intel_mapa",
@@ -70,6 +71,20 @@ def test_flask_routes():
     print(f"  [🟢 OK] POST /api/auditar_roteiro -> {res_aud.status_code} (Score: {data_aud.get('score_viral', '?')}/100)")
     assert res_aud.status_code == 200
 
+    # Teste do Chat da IA (Paulo com consciência do Algoritmo da Meta e do Projeto)
+    payload_chat_meta = {
+        "pergunta": "Como o algoritmo do Instagram entrega meus vídeos e como furar a bolha em Goiás?"
+    }
+    res_chat = client.post("/api/chat", data=json.dumps(payload_chat_meta), content_type="application/json")
+    print(f"  [🟢 OK] POST /api/chat (Meta Algoritmo) -> {res_chat.status_code}")
+    assert res_chat.status_code == 200
+
+    # Validação do retorno de inteligência da Meta
+    res_meta = client.get("/api/meta_algoritmo")
+    data_meta = json.loads(res_meta.data)
+    assert "diretrizes" in data_meta, "Chave 'diretrizes' ausente em /api/meta_algoritmo"
+    print(f"  [🟢 OK] Radar Meta 2026: Status {data_meta.get('status','?')}")
+
     # Validação do retorno de pesquisas
     res_pesq = client.get("/api/pesquisas")
     data_pesq = json.loads(res_pesq.data)
@@ -89,7 +104,7 @@ def test_flask_routes():
     print(f"  [🟢 OK] Radar de Eventos: {data_ev.get('total',0)} eventos cadastrados")
 
     print("")
-    print(f"🎉 SUCESSO ABSOLUTO: TODAS AS {ok + 4} ROTAS E APIS RESPONDERAM 100% OPERACIONAIS!")
+    print(f"🎉 SUCESSO ABSOLUTO: TODAS AS {ok + 5} ROTAS E APIS RESPONDERAM 100% OPERACIONAIS!")
 
 if __name__ == "__main__":
     test_flask_routes()

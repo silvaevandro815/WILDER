@@ -610,6 +610,20 @@ def iniciar_scheduler():
         except Exception as e_intel:
             print(f"[MOTOR] Aviso Intel Territorial: {e_intel}")
 
+        # Integração do Rastreador de Algoritmo da Meta
+        try:
+            import meta_algorithm_tracker
+            scheduler.add_job(
+                meta_algorithm_tracker.atualizar_radar_meta,
+                "interval", hours=3,
+                id="meta_algoritmo",
+                name="Radar Algoritmo Meta & Instagram",
+                max_instances=1, coalesce=True
+            )
+            print("[MOTOR] 🛰️ Rastreador de Algoritmo da Meta integrado ao scheduler master.")
+        except Exception as e_meta:
+            print(f"[MOTOR] Aviso Rastreador Meta: {e_meta}")
+
         scheduler.start()
         _scheduler_started = True
 
@@ -619,6 +633,7 @@ def iniciar_scheduler():
         print("  • Pesquisas Eleitorais ao Vivo:     45 min")
         print("  • Google Trends (Dores & Queixas):  2 horas")
         print("  • Grandes Eventos (+500 pessoas):   4 horas")
+        print("  • Radar Algoritmo Meta 2026:        3 horas")
         print("  • YouTube Vídeos & Canais:          2h / 6h")
         print("  • Intel Territorial & IBGE:         2h / 24h")
         print("=" * 65)
@@ -628,6 +643,11 @@ def iniciar_scheduler():
         threading.Thread(target=atualizar_pesquisas_eleitorais, daemon=True, name="boot-pesquisas").start()
         threading.Thread(target=atualizar_tendencias,           daemon=True, name="boot-tendencias").start()
         threading.Thread(target=atualizar_eventos_grandes,      daemon=True, name="boot-eventos").start()
+        try:
+            import meta_algorithm_tracker
+            threading.Thread(target=meta_algorithm_tracker.atualizar_radar_meta, daemon=True, name="boot-meta").start()
+        except Exception:
+            pass
 
         def _boot_yt():
             time.sleep(4)
