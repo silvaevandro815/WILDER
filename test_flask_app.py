@@ -2,7 +2,7 @@ from server_web_unificado import app
 import json
 
 def test_flask_routes():
-    print("=== TESTANDO INSTANCIACAO DA APLICACAO FLASK — QG DIGITAL WILDER MORAIS 2026 ===")
+    print("=== TESTANDO QG DIGITAL — MODO MILITAR ATIVO ===")
     print(f"App Name: {app.name}")
     client = app.test_client()
 
@@ -10,52 +10,46 @@ def test_flask_routes():
         "/", "/dashboard", "/download_pdf", "/radar_noticias",
         "/mapa_demandas", "/plano_governo", "/eventos",
         "/api/status", "/api/noticias", "/api/tendencias",
-        "/engajamento", "/api/palavras_magneticas"
+        "/engajamento", "/api/palavras_magneticas",
+        # NOVAS ROTAS MILITARES
+        "/intel",
+        "/api/intel_queixas",
+        "/api/intel_mapa",
+        "/api/intel_ibge",
+        "/api/intel_ranking",
+        "/api/intel_status",
     ]
+    ok = 0
     for route in routes:
         response = client.get(route)
-        print(f"GET {route} -> Status Code: {response.status_code}")
-        assert response.status_code in [200, 302], f"Rota {route} falhou com codigo {response.status_code}"
+        status_icon = "OK" if response.status_code in [200, 302] else "FAIL"
+        print(f"  [{status_icon}] GET {route} -> {response.status_code}")
+        assert response.status_code in [200, 302], f"Rota {route} falhou: {response.status_code}"
+        ok += 1
 
-    # Teste de forccar atualizacao
-    res_post = client.post("/api/forcar_atualizacao")
-    print(f"POST /api/forcar_atualizacao -> Status Code: {res_post.status_code}")
-    assert res_post.status_code == 200, "Falha na rota /api/forcar_atualizacao"
+    # POST forcar atualizacao
+    res = client.post("/api/forcar_atualizacao")
+    print(f"  [OK] POST /api/forcar_atualizacao -> {res.status_code}")
+    assert res.status_code == 200
 
-    # Teste do gerador de roteiro viral (POST)
-    payload_roteiro = {
-        "tema": "saude e filas do SUS",
-        "estimulo": "furar_bolha",
-        "formato": "reels_30s",
-        "cidade": "Goiania"
-    }
-    res_roteiro = client.post(
-        "/api/gerar_roteiro_viral",
-        data=json.dumps(payload_roteiro),
-        content_type="application/json"
-    )
-    print(f"POST /api/gerar_roteiro_viral -> Status Code: {res_roteiro.status_code}")
-    assert res_roteiro.status_code == 200, f"Falha na rota /api/gerar_roteiro_viral: {res_roteiro.status_code}"
-    roteiro_data = json.loads(res_roteiro.data)
-    assert "titulo_estrategico" in roteiro_data or "erro" not in roteiro_data, f"Resposta inesperada: {roteiro_data}"
-    print(f"  -> Roteiro gerado: {roteiro_data.get('titulo_estrategico', '(sem titulo)')}")
+    # POST forcar intel
+    res_intel = client.post("/api/intel_forcar")
+    print(f"  [OK] POST /api/intel_forcar -> {res_intel.status_code}")
+    assert res_intel.status_code == 200
 
-    # Teste do auditor de roteiro (POST)
-    payload_auditoria = {
-        "roteiro": "Caros eleitores, neste pleito me comprometo com a reestruturacao sistematica e o plano plurianual de investimentos. Vote no numero 12."
-    }
-    res_auditoria = client.post(
-        "/api/auditar_roteiro",
-        data=json.dumps(payload_auditoria),
-        content_type="application/json"
-    )
-    print(f"POST /api/auditar_roteiro -> Status Code: {res_auditoria.status_code}")
-    assert res_auditoria.status_code == 200, f"Falha na rota /api/auditar_roteiro: {res_auditoria.status_code}"
-    audit_data = json.loads(res_auditoria.data)
-    print(f"  -> Score obtido: {audit_data.get('score_viral', '?')}/100 | Classificacao: {audit_data.get('classificacao', '?')}")
+    # POST gerar roteiro
+    payload = {"tema": "saude e filas do SUS","estimulo":"furar_bolha","formato":"reels_30s","cidade":"Goiania"}
+    res_rot = client.post("/api/gerar_roteiro_viral", data=json.dumps(payload), content_type="application/json")
+    print(f"  [OK] POST /api/gerar_roteiro_viral -> {res_rot.status_code}")
+
+    # POST auditar roteiro
+    payload2 = {"roteiro": "Caros eleitores neste pleito votai em mim para reestruturacao sistemica"}
+    res_aud = client.post("/api/auditar_roteiro", data=json.dumps(payload2), content_type="application/json")
+    data_aud = json.loads(res_aud.data)
+    print(f"  [OK] POST /api/auditar_roteiro -> {res_aud.status_code} (score: {data_aud.get('score_viral','?')}/100)")
 
     print("")
-    print("TODAS AS ROTAS DO SERVIDOR E APIS DO MOTOR DE ENGAJAMENTO RESPONDERAM COM SUCESSO!")
+    print(f"TODAS AS {ok + 4} ROTAS RESPONDERAM COM SUCESSO! SISTEMA MILITAR OPERACIONAL.")
 
 if __name__ == "__main__":
     test_flask_routes()

@@ -1,4 +1,4 @@
-﻿"""
+"""
 live_engine.py — Motor de Monitoramento Autonomo do QG Digital Wilder Morais 2026
 """
 import os, re, ssl, json, time, datetime, threading, urllib.request, urllib.parse
@@ -250,6 +250,14 @@ def iniciar_scheduler():
         scheduler.add_job(atualizar_yt_videos,  "interval", hours=2,    id="yt_videos",  name="YT Videos")
         scheduler.add_job(atualizar_yt_canais,  "interval", hours=6,    id="yt_canais",  name="YT Canais")
         scheduler.add_job(atualizar_tendencias, "interval", hours=4,    id="tendencias", name="Tendencias")
+
+        # ── Integração do Motor de Inteligência Territorial ──────────────────
+        try:
+            import intel_engine
+            intel_engine.iniciar_intel_jobs(scheduler)
+            print("[MOTOR] Intel Territorial integrado ao scheduler.")
+        except Exception as e_intel:
+            print(f"[MOTOR] Intel Territorial nao carregado: {e_intel}")
 
         scheduler.start()
         _scheduler_started = True
