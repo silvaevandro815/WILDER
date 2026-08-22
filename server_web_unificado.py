@@ -936,6 +936,23 @@ HTML_MAPA_DEMANDAS = """
                     </tbody>
                 </table>
             </div>
+
+            {% if noticias_pesquisas %}
+            <div style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(245,158,11,0.35);">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:var(--accent-gold);box-shadow:0 0 8px var(--accent-gold);display:inline-block;animation:blink 1.2s infinite;"></span>
+                    <span style="font-size:12px;font-weight:800;color:var(--accent-gold);letter-spacing:0.06em;text-transform:uppercase;">SONDAGENS & NOTÍCIAS DE PESQUISAS DETECTADAS AO VIVO:</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;">
+                    {% for np in noticias_pesquisas %}
+                    <a href="{{ np.url }}" target="_blank" style="background:#0b0f19;border:1px solid #1e293b;border-radius:10px;padding:10px 14px;text-decoration:none;display:block;transition:all 0.2s;" onmouseenter="this.style.borderColor='var(--accent-gold)'" onmouseleave="this.style.borderColor='#1e293b'">
+                        <div style="font-size:12.5px;font-weight:700;color:#f8fafc;line-height:1.4;">{{ np.manchete }}</div>
+                        <div style="font-size:11px;color:#64748b;margin-top:6px;">📰 {{ np.veiculo }} · {{ np.data }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         <div class="card-panel">
@@ -1348,10 +1365,12 @@ HTML_RADAR_EVENTOS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
-            <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
-            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
-            <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
+            <a href="/" class="btn-nav-link">🏠 Home QG</a>
+            <a href="/dashboard" class="btn-nav-link">📊 YouTube</a>
+            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Demandas</a>
+            <a href="/radar_noticias" class="btn-nav-link">🚨 Notícias</a>
+            <a href="/engajamento" class="btn-nav-link" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;">🚀 Viral Lab</a>
+            <a href="/intel" class="btn-nav-link" style="background:linear-gradient(135deg,#0f172a,#1e3a4a);border-color:#00ff88;color:#00ff88;">🎖️ Intel</a>
         </div>
     </div>
 
@@ -3165,9 +3184,10 @@ def chat_home():
 
 @app.route("/eventos", methods=["GET"])
 def eventos_radar_page():
+    eventos_vivos = live_engine.get_eventos()
     return render_template_string(
         HTML_RADAR_EVENTOS,
-        eventos=EVENTOS_GOIAS_2026,
+        eventos=eventos_vivos,
         wilder_avatar=WILDER_AVATAR_B64
     )
 
@@ -3185,11 +3205,13 @@ def route_mapa():
 @app.route("/radar_noticias", methods=["GET"])
 def radar_noticias_page():
     noticias_vivas = live_engine.get_noticias()
+    pesquisas_vivas = live_engine.get_pesquisas()
     status_motor = live_engine.get_status()
     return render_template_string(
         HTML_RADAR_NOTICIAS,
         noticias=noticias_vivas,
-        pesquisa=PESQUISA_OFICIAL_GOIAS_2026,
+        pesquisa=pesquisas_vivas.get("consolidado", PESQUISA_OFICIAL_GOIAS_2026),
+        noticias_pesquisas=pesquisas_vivas.get("noticias", []),
         wilder_avatar=WILDER_AVATAR_B64,
         status_motor=status_motor
     )
@@ -3216,22 +3238,45 @@ def api_status_motor():
 
 @app.route("/api/noticias", methods=["GET"])
 def api_noticias_ao_vivo():
-    return jsonify({"noticias": live_engine.get_noticias(), "total": len(live_engine.get_noticias())})
+    noticias = live_engine.get_noticias()
+    return jsonify({"noticias": noticias, "total": len(noticias)})
+
+@app.route("/api/pesquisas", methods=["GET"])
+def api_pesquisas_ao_vivo():
+    return jsonify(live_engine.get_pesquisas())
+
+@app.route("/api/eventos_grandes", methods=["GET"])
+def api_eventos_grandes_ao_vivo():
+    eventos = live_engine.get_eventos()
+    return jsonify({"eventos": eventos, "total": len(eventos)})
 
 @app.route("/api/tendencias", methods=["GET"])
 def api_tendencias_ao_vivo():
-    return jsonify({"tendencias": live_engine.get_tendencias(), "total": len(live_engine.get_tendencias())})
+    tendencias = live_engine.get_tendencias()
+    detalhadas = live_engine.get_tendencias_detalhadas()
+    return jsonify({
+        "tendencias": tendencias,
+        "categorizadas": detalhadas,
+        "total": len(tendencias)
+    })
 
 @app.route("/api/forcar_atualizacao", methods=["POST", "GET"])
 def api_forcar_atualizacao():
     import threading
     threading.Thread(target=live_engine.atualizar_noticias, daemon=True).start()
+    threading.Thread(target=live_engine.atualizar_pesquisas_eleitorais, daemon=True).start()
     threading.Thread(target=live_engine.atualizar_tendencias, daemon=True).start()
+    threading.Thread(target=live_engine.atualizar_eventos_grandes, daemon=True).start()
     threading.Thread(target=live_engine.atualizar_yt_videos, daemon=True).start()
     threading.Thread(target=live_engine.atualizar_yt_canais, daemon=True).start()
+    try:
+        import intel_engine
+        threading.Thread(target=intel_engine.atualizar_intel_territorial, daemon=True).start()
+    except Exception:
+        pass
     return jsonify({
         "status": "sucesso",
-        "mensagem": "Ciclo completo de atualização autônoma disparado em background!",
+        "mensagem": "Ciclo militar completo de atualização disparado (Notícias, Pesquisas, Tendências, Eventos +500, YouTube, Intel)!",
         "timestamp": live_engine._agora_str()
     })
 
