@@ -393,11 +393,69 @@ HTML_CHAT_WIDGET = """
         .msg-row.user { justify-content: flex-end; }
         .msg-av { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #f59e0b; object-fit: cover; flex-shrink: 0; }
         .msg-bbl {
-            max-width: 80%; padding: 12px 16px; border-radius: 18px;
-            font-size: 14px; line-height: 1.6;
+            max-width: 88%; padding: 16px 20px; border-radius: 18px;
+            font-size: 15px; line-height: 1.75; letter-spacing: 0.01em;
+            word-break: break-word;
         }
-        .msg-bbl.bot { background: #0d1525; color: #e2e8f0; border: 1px solid #1e293b; border-bottom-left-radius: 4px; }
-        .msg-bbl.usr { background: linear-gradient(135deg, #059669, #10b981); color: #fff; border-bottom-right-radius: 4px; }
+        .msg-bbl.bot {
+            background: linear-gradient(135deg, #091322, #0d1a2d);
+            color: #f1f5f9; border: 1px solid rgba(0, 255, 136, 0.2);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+        }
+        .msg-bbl.usr {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff; font-weight: 600;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+        }
+
+        /* ── ELEMENTOS MODERNOS DA IA (FORMATO VISUAL PROFISSIONAL) ── */
+        .ai-title {
+            font-size: 16.5px; font-weight: 800; color: #00ff88;
+            margin: 14px 0 8px 0; display: flex; align-items: center; gap: 8px;
+            letter-spacing: 0.03em; border-bottom: 1px solid rgba(0,255,136,0.15);
+            padding-bottom: 4px;
+        }
+        .ai-title:first-child { margin-top: 0; }
+        .ai-p {
+            margin: 0 0 12px 0; color: #e2e8f0; font-size: 14.5px; line-height: 1.7;
+        }
+        .ai-p:last-child { margin-bottom: 0; }
+        .ai-list {
+            margin: 10px 0 14px 0; padding-left: 0; list-style: none;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .ai-list-item {
+            padding: 10px 14px; background: rgba(255, 255, 255, 0.035);
+            border-radius: 10px; border-left: 3px solid #38bdf8;
+            color: #f1f5f9; font-size: 14px; line-height: 1.6;
+        }
+        .ai-card {
+            background: rgba(15, 23, 42, 0.8);
+            border-left: 3px solid #00ff88; border-radius: 10px;
+            padding: 12px 16px; margin: 12px 0;
+            color: #e2e8f0; font-size: 14px; line-height: 1.65;
+        }
+        .ai-card.gold {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-left: 4px solid #f59e0b;
+        }
+        .ai-card.purple {
+            border-left-color: #a855f7;
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-left: 4px solid #a855f7;
+        }
+        .ai-highlight { color: #38bdf8; font-weight: 700; }
+        .ai-badge {
+            display: inline-block; background: rgba(0, 255, 136, 0.12);
+            color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 2px 8px; border-radius: 6px; font-size: 12px;
+            font-weight: 800; margin-right: 6px;
+        }
         .chat-input-row {
             position: sticky; bottom: 0;
             display: flex; gap: 8px; padding: 10px 12px 14px;
@@ -759,6 +817,71 @@ HTML_CHAT_WIDGET = """
             }
         }
 
+        // ── FORMATADOR MODERNO DE RESPOSTAS DA IA (PADRÃO CHATGPT / CLAUDE) ──
+        function formatarRespostaModernaIA(textoBruto) {
+            if (!textoBruto) return '';
+            let txt = String(textoBruto);
+
+            // 1. Quebra listas e tópicos inline que vieram sem quebra de linha
+            txt = txt.replace(/(\\s+\\*\\s+\\*{1,3})/g, '\\n- ');
+            txt = txt.replace(/(\\s+\\d+\\.\\s+\\*{0,3})/g, (match) => '\\n' + match.trim() + ' ');
+            txt = txt.replace(/(\\s+\\*{2}Recomendação Estratégica:?\\*{2})/gi, '\\n\\n### 💡 Recomendação Estratégica:\\n');
+            txt = txt.replace(/(\\s+\\*{2}Ação Prática:?\\*{2})/gi, '\\n\\n### 🚀 Ação Prática:\\n');
+
+            // 2. Converte negritos e itálicos
+            txt = txt.replace(/\\*\\*\\*(.*?)\\*\\*\\*/g, '<strong class="ai-highlight">$1</strong>');
+            txt = txt.replace(/\\*\\*(.*?)\\*\\*/g, '<strong class="ai-highlight">$1</strong>');
+
+            // 3. Processamento linha por linha
+            const linhas = txt.split('\\n');
+            let htmlFinal = '';
+            let emLista = false;
+
+            for (let i = 0; i < linhas.length; i++) {
+                let linha = linhas[i].trim();
+                if (!linha) {
+                    if (emLista) { htmlFinal += '</ul>'; emLista = false; }
+                    continue;
+                }
+
+                // Títulos e cabeçalhos de seção (###, ##, #)
+                if (linha.startsWith('### ') || linha.startsWith('## ') || linha.startsWith('# ')) {
+                    if (emLista) { htmlFinal += '</ul>'; emLista = false; }
+                    const titulo = linha.replace(/^#+\\s*/, '');
+                    htmlFinal += `<div class="ai-title">${titulo}</div>`;
+                    continue;
+                }
+
+                // Cartões de recomendação / destaque
+                if (linha.toLowerCase().includes('recomendação estratégica:') || linha.toLowerCase().includes('estratégia:') || linha.toLowerCase().includes('ação prática:')) {
+                    if (emLista) { htmlFinal += '</ul>'; emLista = false; }
+                    htmlFinal += `<div class="ai-card gold">${linha}</div>`;
+                    continue;
+                }
+
+                // Itens de lista (1., 2., -, *, •)
+                const matchLista = linha.match(/^(\\d+\\.|[-*•])\\s+(.*)/);
+                if (matchLista) {
+                    if (!emLista) { htmlFinal += '<ul class="ai-list">'; emLista = true; }
+                    const numBadge = /^\\d+\\./.test(matchLista[1]) ? `<span class="ai-badge">${matchLista[1]}</span>` : '<span style="color:#38bdf8;margin-right:6px;">▪</span>';
+                    htmlFinal += `<li class="ai-list-item">${numBadge}${matchLista[2]}</li>`;
+                    continue;
+                }
+
+                // Linha de texto comum
+                if (emLista) { htmlFinal += '</ul>'; emLista = false; }
+
+                if (linha.startsWith('👉') || linha.startsWith('📊') || linha.startsWith('🚀') || linha.startsWith('🎖️') || linha.startsWith('💡')) {
+                    htmlFinal += `<div class="ai-card">${linha}</div>`;
+                } else {
+                    htmlFinal += `<p class="ai-p">${linha}</p>`;
+                }
+            }
+
+            if (emLista) { htmlFinal += '</ul>'; }
+            return htmlFinal || txt;
+        }
+
         // ── Envio da mensagem
         async function enviar() {
             const input = document.getElementById('ciInput');
@@ -788,7 +911,7 @@ HTML_CHAT_WIDGET = """
                     body: JSON.stringify({ pergunta })
                 });
                 const data = await res.json();
-                botRow.querySelector('.msg-bbl.bot').innerHTML = data.resposta;
+                botRow.querySelector('.msg-bbl.bot').innerHTML = formatarRespostaModernaIA(data.resposta);
             } catch(e) {
                 botRow.querySelector('.msg-bbl.bot').innerHTML = '<strong>Erro na consulta com o QG Digital.</strong>';
             }
@@ -3412,11 +3535,13 @@ DIRETRIZES DO ALGORITMO DA META 2026 (PARA FURAR A BOLHA):
 • SINAL #3 (15% do peso): ASR (Reconhecimento de Áudio). A Meta escuta o áudio; fale palavras-chave da dor do povo ("fila do SUS", "primeiro emprego", "remédio em casa").
 • REGRA DE OURO: ZERO VÍCIO DE PALANQUE. Elimine jargões burocráticos ("aparato", "plano plurianual"). Wilder deve falar como Engenheiro prático e homem do Agro que constrói e resolve.
 
-REGRAS ABSOLUTAS DE RESPOSTA:
-- Seja ESTRITAMENTE ESTRATÉGICO, analítico, objetivo e consultivo.
-- Oriente com clareza como aplicar os dados e como estruturar vídeos/roteiros de alto engajamento.
-- NUNCA diga "não tenho acesso" ou "não posso verificar". Você tem domínio absoluto de todas as ferramentas e dados do sistema.
-- Responda em no máximo 3 a 4 parágrafos objetivos, usando formatação limpa com tópicos quando pertinente.
+FORMATO VISUAL OBRIGATÓRIO (MODERNO, SEPARADO E ELEGANTE):
+- NUNCA responda em um único bloco de texto corrido ou amontoado.
+- Use SEMPRE títulos de seção com marcadores (Ex: ### 📊 Análise do Cenário, ### 🔍 Perguntas Mais Frequentes, ### 💡 Recomendação Prática).
+- Separe CADA pergunta ou ponto em itens de lista destacados (1., 2., 3. ou - ).
+- Deixe linha em branco entre cada parágrafo e entre cada tópico.
+- Destaque termos-chave e nomes em **negrito**.
+- Seja direto, moderno e focado em tomada de decisão da campanha.
 
 ═══════════════════════════════════════════
 DADOS ELEITORAIS — Instituto Goiás Pesquisas (14/08/2026):
