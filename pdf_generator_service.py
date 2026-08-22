@@ -37,18 +37,8 @@ if is_supabase_configurado:
     except Exception as e:
         print(f"[AVISO] Não foi possível inicializar cliente Supabase: {e}")
 
-# AVATAR BASE64
-WILDER_AVATAR_B64 = ""
-b64_file_path = os.path.join(os.path.dirname(__file__), "avatar_b64.txt")
-if os.path.exists(b64_file_path):
-    try:
-        with open(b64_file_path, "r") as f:
-            WILDER_AVATAR_B64 = f.read().strip()
-    except Exception:
-        pass
-
-if not WILDER_AVATAR_B64:
-    WILDER_AVATAR_B64 = "/wilder_3d.jpg"
+# AVATAR WEB (URL ultraleve com cache do navegador)
+WILDER_AVATAR_B64 = "/wilder_3d.jpg"
 
 # BANCO COMPLETO DE 150 EVENTOS EM GOIÁS (AGOSTO, SETEMBRO, OUTUBRO 2026)
 EVENTOS_GOIAS_2026 = []
