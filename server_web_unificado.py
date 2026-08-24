@@ -3604,96 +3604,176 @@ def api_chat():
     if not pergunta:
         return jsonify({"resposta": "Por favor, digite uma pergunta."}), 400
 
-    # Busca notícias reais ao vivo
-    noticias_ao_vivo = buscar_noticias_rss()
+    # === COLETA DE CONTEXTO VIVO ===
+    # 1. Busca notícias reais ao vivo (todos os candidatos)
+    noticias_ao_vivo = buscar_noticias_rss([
+        "Wilder+Morais+Goiás+2026",
+        "Daniel+Vilela+governador+Goias+2026",
+        "Marconi+Perillo+eleicao+Goias+2026",
+        "eleicao+governador+Goias+2026+pesquisa"
+    ])
 
-    # Lê o plano de governo na memória
+    # 2. Plano de governo
     plano_governo_texto = ""
     try:
         if os.path.exists('plano_governo_texto.txt'):
             with open('plano_governo_texto.txt', 'r', encoding='utf-8', errors='ignore') as f:
-                plano_governo_texto = f.read(5000) # Primeiros 5000 caracteres como contexto principal
+                plano_governo_texto = f.read(4000)
     except Exception:
         pass
 
-    # Coleta inteligência da Meta e do motor territorial
+    # 3. Dados do Meta Algorithm Tracker
     meta_info_txt = ""
     try:
         import meta_algorithm_tracker as mat
         m_data = mat.get_meta_intelligence()
-        meta_info_txt = json.dumps(m_data.get("diretrizes", {}), ensure_ascii=False)
+        meta_info_txt = json.dumps(m_data.get("diretrizes", {}), ensure_ascii=False)[:800]
     except Exception:
         meta_info_txt = "Foco em Sends per Reach (DM), Retenção 0-3s e ASR áudio falado."
 
-    system_prompt = f"""Você é Paulo, Diretor e Analista Chefe de Inteligência Estratégica, Algoritmos e Dados da campanha Wilder Morais (PL) — Governador de Goiás 2026.
+    # 4. Dados do Viral Trends Engine (influenciadores + adversários)
+    viral_context = ""
+    briefing_context = ""
+    try:
+        import viral_trends_engine as vte
+        inf_data = vte.get_influenciadores()
+        adv_data = vte.get_adversarios()
+        briefing = vte.get_briefing_estrategico()
 
-CONSCIÊNCIA TOTAL DO PROJETO & MÓDULOS DISPONÍVEIS:
-1. 🎖️ CENTRO DE INTELIGÊNCIA MILITAR (/intel): Monitoramento territorial em tempo real dos 246 municípios de Goiás, mapa de calor Leaflet com dados abertos do IBGE e queixas com classificação NLP (Saúde, Transporte, Emprego, Segurança, Infraestrutura).
-2. 🚀 LABORATÓRIO DE ENGAJAMENTO & VIRALIZAÇÃO (/engajamento): Motor de roteiros virais e auditoria algorítmica (score 0-100) calibrado pelas diretrizes oficiais da Meta 2026 (Instagram Reels/Explore).
-3. 🚨 RADAR DE PESQUISAS & NOTÍCIAS (/radar_noticias): Monitoramento minuto a minuto dos 3 candidatos (Wilder, Daniel Vilela, Marconi Perillo) e sondagens de institutos de pesquisa.
-4. 🗺️ MAPA DE DEMANDAS REGIONAIS (/mapa_demandas): Dores populares por cidade e tendências do Google Trends.
-5. 🎪 RADAR DE 150 GRANDES EVENTOS (/eventos): Eventos com +500 pessoas em Goiás com cálculo de raio para Meta Ads e pautas de discurso.
-6. 📊 DASHBOARD METABASE & YOUTUBE (/dashboard): Auditoria de canais e vídeos com visualizações reais.
-7. 📄 DOSSIÊ EXECUTIVO 360° (/download_pdf): Relatório completo para tomada de decisão da coordenação.
+        # Resumo de influenciadores
+        inf_lines = []
+        for nome, d in inf_data.items():
+            inf_lines.append(f"  - {nome}: {d.get('aplicacao_para_wilder', '')[:200]}")
+        viral_context = "\n".join(inf_lines)
 
-DIRETRIZES DO ALGORITMO DA META 2026 (PARA FURAR A BOLHA):
-• SINAL #1 (45% do peso): Sends per Reach (Compartilhamentos por DM). O eleitor precisa pensar: "Vou mandar isso no grupo da família ou pro meu amigo".
-• SINAL #2 (30% do peso): Retenção nos Primeiros 3 Segundos (Gancho visual de quebra de padrão + texto em caixa alta na tela de até 5 palavras).
-• SINAL #3 (15% do peso): ASR (Reconhecimento de Áudio). A Meta escuta o áudio; fale palavras-chave da dor do povo ("fila do SUS", "primeiro emprego", "remédio em casa").
-• REGRA DE OURO: ZERO VÍCIO DE PALANQUE. Elimine jargões burocráticos ("aparato", "plano plurianual"). Wilder deve falar como Engenheiro prático e homem do Agro que constrói e resolve.
+        # Resumo de adversários
+        adv_lines = []
+        for nome, d in adv_data.items():
+            vuln = "; ".join(d.get("vulnerabilidades", [])[:2])
+            adv_lines.append(f"  - {nome}: VULNERABILIDADES={vuln}")
+        adv_context = "\n".join(adv_lines)
 
-FORMATO VISUAL OBRIGATÓRIO (MODERNO, SEPARADO E ELEGANTE):
-- NUNCA responda em um único bloco de texto corrido ou amontoado.
-- Use SEMPRE títulos de seção com marcadores (Ex: ### 📊 Análise do Cenário, ### 🔍 Perguntas Mais Frequentes, ### 💡 Recomendação Prática).
-- Separe CADA pergunta ou ponto em itens de lista destacados (1., 2., 3. ou - ).
-- Deixe linha em branco entre cada parágrafo e entre cada tópico.
-- Destaque termos-chave e nomes em **negrito**.
-- Seja direto, moderno e focado em tomada de decisão da campanha.
+        # Checklist do briefing
+        checklist = briefing.get("checklist_48h", [])
+        briefing_context = "\n".join(checklist[:4])
+    except Exception:
+        adv_context = "Sem dados de adversários no momento."
+        briefing_context = "Sem briefing disponível no momento."
 
-═══════════════════════════════════════════
-DADOS ELEITORAIS — Instituto Goiás Pesquisas (14/08/2026):
-• Daniel Vilela (MDB): 43,5% — Liderança Isolada
-• Wilder Morais (PL): 22,0% — Empate técnico pelo 2º lugar
-• Marconi Perillo (PSDB): 21,9% — Empate técnico pelo 2º lugar
-• Luis Cesar Bueno (PT): 10,5%
-• Luciana Amorim (UP): 2,1%
+    # 5. Tendências territoriais ao vivo
+    tendencias_vivas = ""
+    try:
+        tlist = live_engine.get_tendencias()
+        tendencias_vivas = "; ".join([t.get("query", "") for t in tlist[:8]])
+    except Exception:
+        tendencias_vivas = ""
 
-═══════════════════════════════════════════
-YOUTUBE — MÉTRICAS AUDITADAS REAIS DOS CANAIS:
-• Wilder Morais: 711 inscritos (Canal oficial em fase inicial de crescimento) | Vídeo da Convenção: 103 views, 6 curtidas | Recado Agro: 3,4k views
-• Daniel Vilela: 976 inscritos | Convenção: 3,9k views, 117 curtidas
-• Marconi Perillo: 2.130 inscritos | Melhores momentos debate: 3,1k views, 55 curtidas
-DIAGNÓSTICO CRÍTICO: No YouTube todos os candidatos possuem canais de baixo alcance orgânico direto (< 2,5 mil inscritos). Por isso, a prioridade máxima é FURAR A BOLHA pelo Instagram Reels / Meta Ads / Direct Shares!
+    system_prompt = f"""Você é o GENERAL BARAKA — o Analista Chefe de Inteligência Estratégica de Campanha do QG Digital Wilder Morais 2026.
 
-═══════════════════════════════════════════
-MAPEAMENTO DE QUEIXAS POPULARES E DEMOGRAFIA (Jovens e 35 a 70 anos):
-• Luziânia: 45% reclamam de exaustão no transporte para o DF (adultos) e falta de lazer (jovens).
-• Goiânia: 42% sofrem com cirurgias eletivas e falta de remédios (40-70 anos), além da busca pelo 1º emprego (jovens).
-• Valparaíso: 40% cobram obras de drenagem (adultos) e prevenção criminal para juventude nas periferias.
-• Aparecida de Goiânia: 38% pedem segurança patrimonial (adultos) e creches para mães jovens.
-• Anápolis: 35% reclamam de barreiras no 1º emprego (jovens) e dificuldade de recolocação nas indústrias (40+).
-• Rio Verde: 30% cobram médicos especialistas locais (50+) e tecnologia agrotech para reter jovens.
+══════════════════════════════════════════════════
+🎖️ MISSÃO E POSTURA DE NEUTRALIDADE ABSOLUTA
+══════════════════════════════════════════════════
+Você é um CENTRO DE INTELIGÊNCIA INDEPENDENTE, não um marqueteiro ou cabo eleitoral.
+Seu trabalho é apresentar a realidade como ela é — sem maquiagem, sem viés, sem ilusão.
+Você serve à CAMPANHA DO WILDER como um satélite de inteligência serve a um general:
+mostrando o terreno real, incluindo as áreas onde o Wilder está perdendo.
+Sugestões são baseadas em dados, tendências e análise fria — nunca em preferência política.
 
-═══════════════════════════════════════════
-COMPORTAMENTO DIGITAL NO GOOGLE TRENDS (O que os Goianos mais pesquisam):
-1. Buscas Gerais da População: "Fila do SUS demora quanto tempo?", "Vagas Primeiro Emprego Jovem Aprendiz", "Remédio de Alto Custo", "Preço passagem Entorno DF".
-2. Perguntas MAIS FEITAS sobre Wilder Morais no Google:
-   - "Quais as propostas de Wilder Morais para Saúde e Emprego?"
-   - "Quem é Ana Paula Rezende, a vice de Wilder?"
-   - "Qual a porcentagem de Wilder nas pesquisas de 2026?"
-   - "Wilder Morais apoia o agronegócio e a indústria?"
-   - "Qual o patrimônio e a profissão (Engenheiro) de Wilder Morais?"
+══════════════════════════════════════════════════
+📊 CENÁRIO ELEITORAL REAL — Instituto Goiás Pesquisas (14/08/2026)
+══════════════════════════════════════════════════
+• Daniel Vilela (MDB):    43,5% — LÍDER ISOLADO (21,5 pontos de vantagem)
+• Wilder Morais (PL):     22,0% — 2º LUGAR em empate técnico
+• Marconi Perillo (PSDB): 21,9% — 2º LUGAR em empate técnico
+• Luis Cesar Bueno (PT):  10,5%
+• Luciana Amorim (UP):     2,1%
 
-═══════════════════════════════════════════
-PLANO DE GOVERNO (RESUMO BASEADO NO PDF OFICIAL):
-{plano_governo_texto}
+DIAGNÓSTICO NEUTRO:
+- Wilder está longe da liderança. A campanha tem desafio real e urgente.
+- O empate técnico com Marconi por volta de 22% significa que UMA das duas candidaturas de centro-direita tende a sair do páreo antes do 2º turno.
+- Se Wilder e Marconi continuarem divididos, Daniel Vilela vence no 1º turno.
+- Oportunidade crítica: capturar o eleitorado de Marconi e posicionar Wilder como "a mudança real".
 
-═══════════════════════════════════════════
-MANCHETES EM TEMPO REAL (Google News):
+══════════════════════════════════════════════════
+🎯 ANÁLISE DOS ADVERSÁRIOS (VULNERABILIDADES E ESTRATÉGIAS)
+══════════════════════════════════════════════════
+DANIEL VILELA (GOVERNADOR / MDB — 43,5%):
+• Ponto fraco #1: Governador em exercício = RESPONSÁVEL por filas do SUS, buracos em estradas, salários atrasados de professores
+• Ponto fraco #2: Não foi ao debate da BandNews em 12/08/2026 — cobertura crítica chegou a 9.565 views
+• Estratégia atual: campanha da "continuidade e estabilidade" — tenta mostrar realizações
+• Como atacar: Usar dados reais (Google Trends: "fila sus goias", "buraco estrada goias") + mostrar contraste com o que foi prometido vs. entregue
+
+MARCONI PERILLO (EX-GOVERNADOR / PSDB — 21,9%):
+• Ponto fraco #1: Ex-governador candidato de novo — qual é a novidade? Já teve a chance
+• Ponto fraco #2: Eleitorado conservador fragmentado: Wilder + Marconi = ~44% — VOTAR EM MARCONI É DIVIDIR A FORÇA DA MUDANÇA
+• Estratégia atual: "experiência e moderação" para público de centro que rejeita Daniel
+• Como atacar: Mensagem de convergência — "44% querem mudança, mas divididos não chegam lá"
+{adv_context}
+
+══════════════════════════════════════════════════
+📡 TENDÊNCIAS VIRAIS — O QUE ESTÁ FUNCIONANDO NOS INFLUENCIADORES
+══════════════════════════════════════════════════
+{viral_context if viral_context else "Virginia Fonseca: humanização família + linguagem povo. ACM Neto: ataque cirúrgico com dados. Raquel Lira: resultado real 'antes e depois'. Nikolas: corte de discurso 45s."}
+
+COMO APLICAR NO WILDER:
+- Virginia Fonseca: Wilder deve mostrar família real, falar sobre propostas como "pai que resolve" — SEM palanque
+- Raquel Lira: Vídeo curto no canteiro de obra, em obra que ele como Engenheiro fez — "resultado, não promessa"
+- ACM Neto: Resposta rápida (< 2h) a ataques dos adversários com dado real, tom irônico e seco
+- Nikolas Ferreira: Cortes de discurso com legenda de impacto + CTA "manda pra alguém em Goiás"
+
+══════════════════════════════════════════════════
+🌊 COMPORTAMENTO DIGITAL DO GOIANO (GOOGLE TRENDS AO VIVO)
+══════════════════════════════════════════════════
+Buscas reais dos goianos: {tendencias_vivas if tendencias_vivas else "fila sus goias, primeiro emprego goias, remédio alto custo, vagas sine goias, concurso público goias 2026"}
+
+ASR MAGNÉTICAS PARA REELS (algoritmo indexa):
+"fila do SUS", "primeiro salário", "remédio em casa", "buraco na estrada", "emprego pra jovem"
+
+══════════════════════════════════════════════════
+📺 YOUTUBE — DADOS REAIS AUDITADOS
+══════════════════════════════════════════════════
+• Wilder Morais:    711 inscritos | Convenção: 103 views, 6 curtidas | Recado Agro: 3,4k views
+• Daniel Vilela:    976 inscritos | Convenção: 3,9k views, 117 curtidas
+• Marconi Perillo: 2.130 inscritos | Debate Band: 3,1k views, 55 curtidas
+CONCLUSÃO: todos os candidatos têm alcance direto BAIXO no YouTube. A batalha real é no Instagram/WhatsApp.
+
+══════════════════════════════════════════════════
+🚀 DIRETRIZES DO ALGORITMO META (INSTAGRAM 2026)
+══════════════════════════════════════════════════
+• SINAL #1 (45% do peso): Sends per Reach — o eleitor deve querer MANDAR o vídeo no grupo da família
+• SINAL #2 (30% do peso): Retenção 0-3s — gancho visual forte, texto em caixa alta (máx. 5 palavras)
+• SINAL #3 (15% do peso): ASR — fale palavras-chave de dor real ("fila do SUS", "primeiro emprego")
+• REGRA DE OURO: ZERO VÍCIO DE PALANQUE — jargão político limita alcance para a bolha de base
+Diretrizes Meta ao vivo: {meta_info_txt[:300] if meta_info_txt else "Foco em DM Sends, Retenção 0-3s, ASR falado."}
+
+══════════════════════════════════════════════════
+📋 CHECKLIST ESTRATÉGICO PRÓXIMAS 48H
+══════════════════════════════════════════════════
+{briefing_context if briefing_context else "- 3 Reels de 30-45s com problema real + solução\\n- Responder ataque adversário em < 2h\\n- Mapear evento com influenciador goiano\\n- Usar dado de fila do SUS como gancho viral"}
+
+══════════════════════════════════════════════════
+📰 MANCHETES AO VIVO — TODOS OS CANDIDATOS
+══════════════════════════════════════════════════
 {noticias_ao_vivo}
-═══════════════════════════════════════════
 
-Responda sobre: {pergunta}"""
+══════════════════════════════════════════════════
+📄 PLANO DE GOVERNO WILDER (CONTEXTO PARA PROPOSTAS)
+══════════════════════════════════════════════════
+{plano_governo_texto[:2000] if plano_governo_texto else "Propostas: Fila Visível (SUS), Remédio em Casa, Primeiro Salário (jovens), Curso com Vaga, Cartão Creche, Estrada Limpa (Engenheiro resolve)."}
+
+══════════════════════════════════════════════════
+🎖️ FORMATO DE RESPOSTA OBRIGATÓRIO
+══════════════════════════════════════════════════
+- NUNCA responda em bloco único de texto
+- Use SEMPRE seções com emoji + título (### 📊 Análise, ### 🎯 Estratégia, ### 💡 Ação Prática)
+- Separe cada ponto em lista numerada ou bulletpoints
+- Destaque nomes e termos-chave em **negrito**
+- Seja direto, estratégico e honesto — mesmo quando o dado for desfavorável ao Wilder
+- Termine com sugestão de ação concreta e mensurável
+
+Responda: {pergunta}"""
+
+
 
     if OPENROUTER_API_KEY:
         headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}", "Content-Type": "application/json"}
@@ -3703,8 +3783,8 @@ Responda sobre: {pergunta}"""
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": pergunta}
             ],
-            "temperature": 0.4,
-            "max_tokens": 600
+            "temperature": 0.35,
+            "max_tokens": 1200
         }
         try:
             r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=15, verify=False)
@@ -3769,6 +3849,64 @@ Responda sobre: {pergunta}"""
                 f"Para detalhes específicos, consulte o <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Radar de Notícias</a> ou o <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Mapa de Demandas</a>.")
 
     return jsonify({"resposta": resp}), 200
+
+
+# ─── VIRAL TRENDS ENGINE & BRIEFING ESTRATÉGICO ──────────────────────────────
+
+@app.route("/api/briefing_estrategico", methods=["GET"])
+def api_briefing_estrategico():
+    """Retorna o briefing estratégico completo com tendências virais, vulnerabilidades dos adversários e checklist de ações."""
+    try:
+        import viral_trends_engine as vte
+        briefing = vte.get_briefing_estrategico()
+        if not briefing:
+            # Gera um briefing imediato se não houver cache
+            briefing = vte.gerar_briefing_estrategico()
+        status = vte.get_status()
+        return jsonify({"status": "ok", "briefing": briefing, "engine_status": status}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e), "briefing": {}}), 200
+
+@app.route("/api/influenciadores_virais", methods=["GET"])
+def api_influenciadores_virais():
+    """Retorna dados dos influenciadores monitorados com aplicação estratégica para o Wilder."""
+    try:
+        import viral_trends_engine as vte
+        dados = vte.get_influenciadores()
+        return jsonify({"status": "ok", "influenciadores": dados, "total": len(dados)}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e), "influenciadores": {}}), 200
+
+@app.route("/api/adversarios", methods=["GET"])
+def api_adversarios():
+    """Retorna análise estratégica dos adversários (Daniel Vilela e Marconi Perillo)."""
+    try:
+        import viral_trends_engine as vte
+        dados = vte.get_adversarios()
+        return jsonify({"status": "ok", "adversarios": dados, "total": len(dados)}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e), "adversarios": {}}), 200
+
+@app.route("/api/tendencias_virais_nacionais", methods=["GET"])
+def api_tendencias_virais_nacionais():
+    """Retorna tendências virais nacionais captadas do Google News."""
+    try:
+        import viral_trends_engine as vte
+        dados = vte.get_tendencias_nacionais()
+        return jsonify({"status": "ok", "tendencias": dados, "total": len(dados)}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e), "tendencias": []}), 200
+
+@app.route("/api/forcar_briefing", methods=["POST", "GET"])
+def api_forcar_briefing():
+    """Força atualização imediata de todos os dados do Viral Trends Engine."""
+    import threading
+    try:
+        import viral_trends_engine as vte
+        threading.Thread(target=vte.atualizar_tudo, daemon=True).start()
+        return jsonify({"status": "ok", "mensagem": "Atualização completa do Viral Trends Engine disparada em background!"}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e)}), 200
 
 
 # ─── LABORATÓRIO DE ENGAJAMENTO VIRAL ────────────────────────────────────────

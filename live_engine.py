@@ -643,6 +643,20 @@ def iniciar_scheduler():
         except Exception as e_meta:
             print(f"[MOTOR] Aviso Rastreador Meta: {e_meta}")
 
+        # Integração do Motor de Tendências Virais & Estratégias dos Adversários
+        try:
+            import viral_trends_engine
+            scheduler.add_job(
+                viral_trends_engine.atualizar_tudo,
+                "interval", hours=4,
+                id="viral_trends",
+                name="Influenciadores Virais & Estratégias Adversários",
+                max_instances=1, coalesce=True
+            )
+            print("[MOTOR] 📡 Motor de Tendências Virais & Adversários integrado ao scheduler master.")
+        except Exception as e_viral:
+            print(f"[MOTOR] Aviso Viral Trends Engine: {e_viral}")
+
         scheduler.start()
         _scheduler_started = True
 
@@ -655,6 +669,7 @@ def iniciar_scheduler():
         print("  • Radar Algoritmo Meta 2026:        3 horas")
         print("  • YouTube Vídeos & Canais:          2h / 6h")
         print("  • Intel Territorial & IBGE:         2h / 24h")
+        print("  • Influenciadores Virais & Adversários: 4 horas")
         print("=" * 65)
 
         # Dispara coleta inicial imediata em threads assíncronas
@@ -665,6 +680,16 @@ def iniciar_scheduler():
         try:
             import meta_algorithm_tracker
             threading.Thread(target=meta_algorithm_tracker.atualizar_radar_meta, daemon=True, name="boot-meta").start()
+        except Exception:
+            pass
+
+        # Boot do viral trends engine com delay para não sobrecarregar na inicialização
+        try:
+            import viral_trends_engine as vte
+            def _boot_viral():
+                time.sleep(8)
+                vte.atualizar_tudo()
+            threading.Thread(target=_boot_viral, daemon=True, name="boot-viral").start()
         except Exception:
             pass
 
@@ -679,3 +704,4 @@ def iniciar_scheduler():
         print("[MOTOR] APScheduler/pytz não instalado. Executando em modo thread fallback.")
     except Exception as e:
         print(f"[MOTOR] Erro ao iniciar scheduler: {e}")
+
