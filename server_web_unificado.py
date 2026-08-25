@@ -3199,6 +3199,110 @@ HTML_ENGAJAMENTO_LAB = """
             </div>
         </div>
 
+        <!-- RADAR DE INSTAGRAM OSINT & CONSCIÊNCIA SOCIAL (PADRÃO VALE DO SILÍCIO) -->
+        <div style="background: linear-gradient(135deg, #091322 0%, #0d1b30 50%, #070d18 100%); border: 1px solid #38bdf8; border-radius: 18px; padding: 24px; margin-bottom: 28px; box-shadow: 0 0 30px rgba(56,189,248,0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:18px; border-bottom:1px solid rgba(56,189,248,0.2); padding-bottom:14px;">
+                <div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="display:inline-block; width:11px; height:11px; border-radius:50%; background:#00ff88; box-shadow:0 0 10px #00ff88; animation:blink 1s infinite;"></span>
+                        <h2 style="font-size: clamp(16px,2.5vw,21px); font-weight:900; color:#38bdf8; margin:0; letter-spacing:0.04em; display:flex; align-items:center; gap:8px;">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            RADAR INSTAGRAM OSINT &amp; CONSCIÊNCIA SOCIAL (VALE DO SILÍCIO)
+                        </h2>
+                    </div>
+                    <p style="font-size:12.5px; color:#94a3b8; margin:4px 0 0 21px;">
+                        Monitoramento público multi-vetor (@wildermorais, @danielvilela15, @marconiperillo, @virginia, @nikolasferreiradm) • Oportunidades, Ameaças e Apresentação do Wilder
+                    </p>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                    <span style="background:rgba(0,255,136,0.12); border:1px solid #00ff88; color:#00ff88; padding:5px 12px; border-radius:8px; font-size:11.5px; font-weight:800;">
+                        ● RADAR AO VIVO
+                    </span>
+                    <button onclick="forcarSincronizacaoInstagram(this)" style="background:linear-gradient(135deg,#0284c7,#0369a1); border:1px solid #38bdf8; color:#fff; padding:7px 16px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                        Sincronizar Instagram OSINT
+                    </button>
+                </div>
+            </div>
+
+            <!-- MÉTRICAS DO INSTAGRAM EM GOIÁS -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin-bottom:20px;">
+                <div style="background:#050d1a; border:1px solid rgba(56,189,248,0.25); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Alcance Estimado Semana</div>
+                    <div style="font-size:18px; font-weight:900; color:#38bdf8; margin-top:2px;" id="igMetAlcance">3.8M impressões</div>
+                    <div style="font-size:10.5px; color:#00ff88; margin-top:3px;">Goiás (246 municípios)</div>
+                </div>
+                <div style="background:#050d1a; border:1px solid rgba(0,255,136,0.25); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Sinais &amp; Comentários</div>
+                    <div style="font-size:18px; font-weight:900; color:#00ff88; margin-top:2px;" id="igMetSinais">84 captados</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Atualizado em tempo real</div>
+                </div>
+                <div style="background:#050d1a; border:1px solid rgba(239,68,68,0.25); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Pauta Mais Comentada</div>
+                    <div style="font-size:16px; font-weight:900; color:#f87171; margin-top:2px;" id="igMetPauta">Saúde &amp; Filas do SUS</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">65% queixas no interior</div>
+                </div>
+                <div style="background:#050d1a; border:1px solid rgba(245,158,11,0.25); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Engajamento Médio</div>
+                    <div style="font-size:18px; font-weight:900; color:#f59e0b; margin-top:2px;" id="igMetEngaj">4.3% (Wilder líder)</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">vs 1.7% Daniel Vilela</div>
+                </div>
+            </div>
+
+            <!-- GRID DOS PERFIS ESTRATÉGICOS MONITORADOS -->
+            <div style="font-size:13px; font-weight:800; color:#c4b5fd; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:6px;">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Perfis Monitorados &amp; Termômetro de Comentários
+            </div>
+            <div id="igPerfisGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin-bottom:24px;">
+                <div style="padding:15px; color:#64748b; font-size:12px;">Carregando perfis monitorados...</div>
+            </div>
+
+            <!-- ABAS TÁTICAS DE CONSCIÊNCIA SITUACIONAL -->
+            <div style="display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid rgba(56,189,248,0.25); padding-bottom:10px; margin-bottom:18px;">
+                <button class="ig-tab-btn active" onclick="trocarAbaInstagram('apresentacao', this)" style="background:linear-gradient(135deg,#059669,#10b981); color:#fff; border:none; border-radius:8px; padding:9px 16px; font-size:12.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                    🌟 Apresentando o Wilder (Conteúdo Positivo)
+                </button>
+                <button class="ig-tab-btn" onclick="trocarAbaInstagram('oportunidades', this)" style="background:#0b1424; color:#94a3b8; border:1px solid #1e293b; border-radius:8px; padding:9px 16px; font-size:12.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                    ⚡ Oportunidades Virais
+                </button>
+                <button class="ig-tab-btn" onclick="trocarAbaInstagram('ameacas', this)" style="background:#0b1424; color:#94a3b8; border:1px solid #1e293b; border-radius:8px; padding:9px 16px; font-size:12.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                    🛡️ Ameaças &amp; Adversários
+                </button>
+                <button class="ig-tab-btn" onclick="trocarAbaInstagram('comentarios', this)" style="background:#0b1424; color:#94a3b8; border:1px solid #1e293b; border-radius:8px; padding:9px 16px; font-size:12.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                    💬 Radar de Comentários ao Vivo
+                </button>
+            </div>
+
+            <!-- CONTEÚDO DAS ABAS -->
+            <div id="igTabApresentacao" class="ig-tab-pane">
+                <div style="font-size:13px; color:#94a3b8; margin-bottom:14px;">
+                    Roteiros estratégicos prontos para <strong>apresentar e humanizar Wilder Morais</strong>, destacando sua história de vida simples, formação em Engenharia, entregas no Senado e valores familiares:
+                </div>
+                <div id="igApresentacaoCards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px;">
+                    <div style="padding:15px; color:#64748b; font-size:12px;">Carregando ideias de apresentação...</div>
+                </div>
+            </div>
+
+            <div id="igTabOportunidades" class="ig-tab-pane" style="display:none;">
+                <div id="igOportunidadesCards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px;">
+                    <div style="padding:15px; color:#64748b; font-size:12px;">Carregando oportunidades virais...</div>
+                </div>
+            </div>
+
+            <div id="igTabAmeacas" class="ig-tab-pane" style="display:none;">
+                <div id="igAmeacasCards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px;">
+                    <div style="padding:15px; color:#64748b; font-size:12px;">Carregando ameaças mapeadas...</div>
+                </div>
+            </div>
+
+            <div id="igTabComentarios" class="ig-tab-pane" style="display:none;">
+                <div id="igComentariosCards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+                    <div style="padding:15px; color:#64748b; font-size:12px;">Carregando radar de comentários...</div>
+                </div>
+            </div>
+        </div>
+
         <!-- RADAR DE DIRETRIZES DA META AO VIVO -->
         <div style="background:linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));border:1px solid rgba(124,58,237,0.35);border-radius:16px;padding:20px;margin-bottom:24px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
@@ -3225,15 +3329,18 @@ HTML_ENGAJAMENTO_LAB = """
                 <div>
                     <div class="form-label">Tema / Pauta</div>
                     <select class="form-select" id="selTema">
-                        <option value="saúde e filas do SUS">💊 Saúde & Filas do SUS</option>
-                        <option value="jovem e primeiro emprego">🎓 Jovem & Primeiro Emprego</option>
-                        <option value="transporte e Entorno do DF">🚌 Transporte & Entorno do DF</option>
-                        <option value="agro e estradas do interior">🌾 Agro & Estradas do Interior</option>
+                        <option value="apresentação de história de vida do Wilder">🌟 Apresentação &amp; Origem de Wilder Morais</option>
+                        <option value="o engenheiro que constrói e resolve">🚜 O Engenheiro que Constrói na Prática</option>
+                        <option value="o senador que entregou 1 milhão de livros">📚 O Senador dos Livros nas Escolas</option>
+                        <option value="saúde e filas do SUS">💊 Saúde &amp; Filas do SUS</option>
+                        <option value="jovem e primeiro emprego">🎓 Jovem &amp; Primeiro Emprego</option>
+                        <option value="transporte e Entorno do DF">🚌 Transporte &amp; Entorno do DF</option>
+                        <option value="agro e estradas do interior">🌾 Agro &amp; Estradas do Interior</option>
                         <option value="contraste político e resultado real">⚡ Contraste Político (ACM Style)</option>
                         <option value="segurança pública">🔒 Segurança Pública</option>
-                        <option value="remédio em casa e idoso">👴 Idoso & Remédio em Casa</option>
                     </select>
                 </div>
+
                 <div>
                     <div class="form-label">Estímulo Algorítmico</div>
                     <select class="form-select" id="selEstimulo">
@@ -3598,6 +3705,192 @@ HTML_ENGAJAMENTO_LAB = """
         painel.scrollIntoView({behavior:'smooth', block:'start'});
     }
 
+    // ── Carregar Instagram Intel OSINT & Consciência Social
+    async function carregarInstagramIntel() {
+        try {
+            const r = await fetch('/api/instagram_intel');
+            const d = await r.json();
+            
+            // 1. Métricas Globais
+            const met = d.metricas_globais || {};
+            if (met.alcance_estimado_semana) document.getElementById('igMetAlcance').textContent = met.alcance_estimado_semana;
+            if (met.sinais_captados) document.getElementById('igMetSinais').textContent = met.sinais_captados + ' captados';
+            if (met.pauta_mais_comentada) document.getElementById('igMetPauta').textContent = met.pauta_mais_comentada;
+            if (met.engajamento_medio_goias) document.getElementById('igMetEngaj').textContent = met.engajamento_medio_goias + ' (Goiás)';
+
+            // 2. Perfis Monitorados
+            const perfis = d.perfis || {};
+            const pGrid = document.getElementById('igPerfisGrid');
+            if (pGrid) {
+                pGrid.innerHTML = Object.values(perfis).map(p => {
+                    const term = p.termometro_comentarios || {};
+                    const isWilder = p.handle === '@wildermorais';
+                    const borderCol = isWilder ? '#00ff88' : (p.handle.includes('daniel') ? '#f59e0b' : '#38bdf8');
+                    
+                    return `
+                    <div style="background:#050d1a; border:1px solid ${borderCol}55; border-radius:14px; padding:16px; box-shadow:0 4px 15px rgba(0,0,0,0.3);">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                            <div>
+                                <div style="font-size:14px; font-weight:900; color:#f8fafc;">${p.nome} <span style="font-size:12px; color:${borderCol};">${p.handle}</span></div>
+                                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${p.papel}</div>
+                            </div>
+                            <span style="background:${borderCol}22; border:1px solid ${borderCol}55; color:${borderCol}; padding:2px 8px; border-radius:6px; font-size:10.5px; font-weight:800;">
+                                ${p.engajamento_est || 'Engaj.'}
+                            </span>
+                        </div>
+                        <div style="display:flex; gap:12px; font-size:11px; margin-bottom:10px;">
+                            <span style="color:#64748b;">Seguidores: <strong style="color:#e2e8f0;">${p.seguidores_est ? p.seguidores_est.toLocaleString('pt-BR') : '—'}</strong></span>
+                        </div>
+                        
+                        ${term.apoio ? `
+                        <div style="margin-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; margin-bottom:3px;">
+                                <span style="color:#00ff88;">Apoio ${term.apoio}%</span>
+                                <span style="color:#f59e0b;">Demandas ${term.demandas || 0}%</span>
+                                <span style="color:#ef4444;">Críticas ${term.criticas || 0}%</span>
+                            </div>
+                            <div style="height:6px; background:#1e293b; border-radius:3px; overflow:hidden; display:flex;">
+                                <div style="width:${term.apoio}%; background:#00ff88;"></div>
+                                <div style="width:${term.demandas || 0}%; background:#f59e0b;"></div>
+                                <div style="width:${term.criticas || 0}%; background:#ef4444;"></div>
+                            </div>
+                        </div>` : ''}
+
+                        <div style="font-size:11px; color:#cbd5e1; line-height:1.4; background:rgba(255,255,255,0.03); border-radius:8px; padding:8px;">
+                            ${p.bio_resumo || p.licao_para_campanha || ''}
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // 3. Ideias de Apresentação Positiva do Wilder
+            const ideias = d.ideias_apresentacao_wilder || [];
+            const aprCont = document.getElementById('igApresentacaoCards');
+            if (aprCont) {
+                aprCont.innerHTML = ideias.map((ideia, idx) => `
+                <div style="background:#07111e; border:1px solid #00ff8844; border-radius:14px; padding:18px; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:10.5px; font-weight:800; background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid #00ff8844; padding:3px 8px; border-radius:6px;">
+                                ${ideia.pilar}
+                            </span>
+                            <span style="font-size:10.5px; color:#f59e0b; font-weight:700;">${ideia.impacto_estimado || 'Viral'}</span>
+                        </div>
+                        <h4 style="font-size:14px; font-weight:900; color:#f8fafc; margin:0 0 8px 0;">${ideia.titulo}</h4>
+                        <div style="background:#030811; border-left:3px solid #7c3aed; padding:8px 10px; border-radius:0 6px 6px 0; margin-bottom:10px; font-size:11.5px;">
+                            <strong style="color:#c4b5fd;">🎬 Gancho (0-3s):</strong> <span style="color:#e2e8f0;">${ideia.gancho_3s}</span>
+                        </div>
+                        <div style="font-size:12px; color:#94a3b8; line-height:1.5; margin-bottom:12px;">
+                            ${ideia.desenvolvimento}
+                        </div>
+                        <div style="font-size:11px; color:#fda4af; margin-bottom:12px; font-style:italic;">
+                            💬 CTA DM: ${ideia.cta_dm}
+                        </div>
+                    </div>
+                    <button onclick="copiarRoteiroCompleto('${ideia.titulo.replace(/'/g,"\\'")}', '${ideia.desenvolvimento.replace(/'/g,"\\'")} \\n\\nGancho: ${ideia.gancho_3s.replace(/'/g,"\\'")} \\n\\nCTA: ${ideia.cta_dm.replace(/'/g,"\\'")}', this)" style="background:rgba(0,255,136,0.12); border:1px solid #00ff88; color:#00ff88; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; width:100%; transition:all 0.2s;">
+                        📋 Copiar Roteiro de Apresentação
+                    </button>
+                </div>`).join('');
+            }
+
+            // 4. Oportunidades Virais
+            const oport = d.radar_oportunidades || [];
+            const opCont = document.getElementById('igOportunidadesCards');
+            if (opCont) {
+                opCont.innerHTML = oport.map(o => `
+                <div style="background:#07111e; border:1px solid #38bdf844; border-radius:14px; padding:16px;">
+                    <div style="font-size:14px; font-weight:900; color:#38bdf8; margin-bottom:6px;">${o.titulo}</div>
+                    <div style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">${o.descricao}</div>
+                    <div style="background:rgba(56,189,248,0.08); border-left:3px solid #38bdf8; padding:8px 10px; border-radius:0 6px 6px 0; font-size:11.5px; color:#bae6fd;">
+                        <strong>🎯 Ação para o Wilder:</strong> ${o.acao_wilder}
+                    </div>
+                </div>`).join('');
+            }
+
+            // 5. Ameaças & Adversários
+            const ameacas = d.radar_ameacas || [];
+            const amCont = document.getElementById('igAmeacasCards');
+            if (amCont) {
+                amCont.innerHTML = ameacas.map(a => `
+                <div style="background:#07111e; border:1px solid #ef444444; border-radius:14px; padding:16px;">
+                    <div style="font-size:13.5px; font-weight:900; color:#f87171; margin-bottom:4px;">🚨 ${a.alvo}</div>
+                    <div style="font-size:11.5px; color:#fca5a5; margin-bottom:8px;">⚠️ Risco: ${a.risco}</div>
+                    <div style="background:rgba(239,68,68,0.08); border-left:3px solid #ef4444; padding:8px 10px; border-radius:0 6px 6px 0; font-size:11.5px; color:#fecaca;">
+                        <strong>🛡️ Contramedida Tática:</strong> ${a.contramedida}
+                    </div>
+                </div>`).join('');
+            }
+
+            // 6. Comentários ao Vivo
+            const coms = d.comentarios_em_alta || [];
+            const comCont = document.getElementById('igComentariosCards');
+            if (comCont) {
+                comCont.innerHTML = coms.map(c => `
+                <div style="background:#07111e; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:14px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:11px;">
+                        <span style="font-weight:800; color:#38bdf8;">${c.usuario}</span>
+                        <span style="color:#64748b;">em ${c.perfil_alvo}</span>
+                    </div>
+                    <div style="font-size:12px; color:#e2e8f0; line-height:1.4;">"${c.texto}"</div>
+                    <div style="margin-top:6px; font-size:10px; font-weight:800; color:${c.tipo === 'apoio' ? '#00ff88' : '#f59e0b'};">
+                        ● Tipo: ${c.tipo.toUpperCase()}
+                    </div>
+                </div>`).join('');
+            }
+
+        } catch(e) {
+            console.error('Erro ao carregar Instagram Intel:', e);
+        }
+    }
+
+    function trocarAbaInstagram(aba, btn) {
+        document.querySelectorAll('.ig-tab-btn').forEach(b => {
+            b.style.background = '#0b1424';
+            b.style.color = '#94a3b8';
+            b.style.borderColor = '#1e293b';
+        });
+        btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+        btn.style.color = '#fff';
+        btn.style.border = 'none';
+
+        document.querySelectorAll('.ig-tab-pane').forEach(p => p.style.display = 'none');
+        if (aba === 'apresentacao') document.getElementById('igTabApresentacao').style.display = 'block';
+        else if (aba === 'oportunidades') document.getElementById('igTabOportunidades').style.display = 'block';
+        else if (aba === 'ameacas') document.getElementById('igTabAmeacas').style.display = 'block';
+        else if (aba === 'comentarios') document.getElementById('igTabComentarios').style.display = 'block';
+    }
+
+    async function forcarSincronizacaoInstagram(btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '⏳ Sincronizando...';
+        btn.disabled = true;
+        try {
+            await fetch('/api/instagram_forcar', { method: 'POST' });
+            await new Promise(r => setTimeout(r, 2000));
+            await carregarInstagramIntel();
+            showToast('Instagram OSINT Sincronizado com Sucesso!');
+        } finally {
+            btn.innerHTML = orig;
+            btn.disabled = false;
+        }
+    }
+
+    function copiarRoteiroCompleto(titulo, texto, btn) {
+        const full = `🎯 ${titulo}\n\n${texto}\n\nQG Digital Wilder Morais 2026`;
+        navigator.clipboard.writeText(full).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '✓ ROTEIRO COPIADO!';
+            btn.style.background = '#00ff88';
+            btn.style.color = '#000';
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.style.background = 'rgba(0,255,136,0.12)';
+                btn.style.color = '#00ff88';
+            }, 2200);
+            showToast('Roteiro copiado para a área de transferência!');
+        });
+    }
+
     // ── Toggle Menu Mobile
     function toggleMobileMenu() {
         const m = document.getElementById('navMenuWrapper');
@@ -3606,7 +3899,8 @@ HTML_ENGAJAMENTO_LAB = """
 
     // ── Init
     carregarMatriz();
-        carregarRadarMeta();
+    carregarRadarMeta();
+    carregarInstagramIntel();
 
     // Animação fadeInOut para toast
     const style = document.createElement('style');
@@ -3616,6 +3910,7 @@ HTML_ENGAJAMENTO_LAB = """
 </body>
 </html>
 """
+
 
 # ROUTE HTML: RADAR NOTÍCIAS & PESQUISAS
 HTML_RADAR_NOTICIAS = """
@@ -4914,6 +5209,49 @@ def api_palavras_magneticas():
     try:
         import engajamento_service as es
         return jsonify(es.PALAVRAS_MAGNETICAS_GOIAS), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+# ─── ROTAS DE INTELIGÊNCIA DO INSTAGRAM & CONSCIÊNCIA SOCIAL OSINT ────────────
+
+@app.route("/api/instagram_intel", methods=["GET"])
+def api_instagram_intel():
+    """Retorna dados completos do radar de Instagram OSINT."""
+    try:
+        import instagram_intel_engine as iie
+        return jsonify(iie.get_instagram_intel()), 200
+    except Exception as e:
+        return jsonify({"erro": str(e), "perfis": {}, "metricas_globais": {}}), 200
+
+@app.route("/api/instagram_consciencia", methods=["GET"])
+def api_instagram_consciencia():
+    """Retorna o diagnóstico vivo do Estado-Maior (Oportunidades, Ameaças, Ideias Positivas)."""
+    try:
+        import instagram_intel_engine as iie
+        return jsonify(iie.get_consciencia_situacional()), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 200
+
+@app.route("/api/instagram_forcar", methods=["POST", "GET"])
+def api_instagram_forcar():
+    """Dispara ciclo forçado de coleta de inteligência do Instagram."""
+    try:
+        import instagram_intel_engine as iie
+        import threading
+        threading.Thread(target=iie.atualizar_intel_instagram, daemon=True).start()
+        return jsonify({"status": "ok", "mensagem": "Coleta do Instagram OSINT disparada com sucesso!"}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+@app.route("/api/gerar_roteiro_apresentacao", methods=["POST", "GET"])
+def api_gerar_roteiro_apresentacao():
+    """Gera ou retorna roteiro de apresentação positiva do Wilder."""
+    try:
+        import instagram_intel_engine as iie
+        data = request.get_json(silent=True) or request.args or {}
+        tema = data.get("tema", "historia_origem")
+        resultado = iie.gerar_roteiro_apresentacao_wilder(tema)
+        return jsonify(resultado), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 

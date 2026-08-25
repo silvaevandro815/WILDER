@@ -518,10 +518,43 @@ def gerar_conteudo_do_dia():
         time.sleep(1)  # Delay entre chamadas à IA
 
     # Também gera um roteiro sobre a dor territorial mais urgente
-    dores = _get_dores_territoriais()
-    if dores:
-        roteiro_dor = gerar_roteiro_contextualizado(dores[0], "reel_dor_real", dores[0].split(":")[0])
-        roteiros.append(roteiro_dor)
+    # Adiciona roteiro de Apresentação Positiva & Humanização do Wilder (Instagram Intel)
+    try:
+        import instagram_intel_engine as iie
+        consciencia = iie.get_consciencia_situacional()
+        ideias_pos = consciencia.get("ideias_apresentacao_wilder", [])
+        if ideias_pos:
+            ideia_sel = ideias_pos[len(roteiros) % len(ideias_pos)]
+            roteiros.insert(0, {
+                "id": f"pos_{ideia_sel['id']}",
+                "tipo": "reel_apresentacao_positiva",
+                "tema": ideia_sel["pilar"],
+                "urgencia": "MÉDIA",
+                "pauta_base": "Construção de Imagem & Conexão Afetiva com o Povo Goiano",
+                "titulo_criativo": ideia_sel["titulo"],
+                "score_viral_previsto": 99,
+                "gancho_0_a_3s": {
+                    "visual": ideia_sel["gancho_3s"].split("Fala:")[0].replace("Visual:","").strip(),
+                    "texto_tela": "VOCÊ CONHECE O WILDER DE VERDADE?",
+                    "fala": ideia_sel["gancho_3s"].split("Fala:")[1].strip() if "Fala:" in ideia_sel["gancho_3s"] else ideia_sel["gancho_3s"]
+                },
+                "roteiro_completo": ideia_sel["desenvolvimento"],
+                "palavras_asr": ["Wilder Morais", "Goiás de verdade", "engenheiro", "trabalho duro", "família", "Taquaral"],
+                "cta_compartilhamento": ideia_sel["cta_dm"],
+                "direcao_producao": f"Luz natural, sem estúdio, roupa do dia a dia. Formato: {ideia_sel['formato']}",
+                "horario_ideal_postar": "12:30 ou 19:30 — momento de conexão e família",
+                "adaptacao_adversario": "Fortalece a figura humana e idônea do Wilder, criando blindagem natural contra ataques dos adversários.",
+                "formato_info": {
+                    "id": "reel_apresentacao_positiva",
+                    "nome": "🌟 Apresentação & Humanização do Wilder (45s)",
+                    "descricao": "Roteiro emotivo e inspirador que apresenta a trajetória, valores e realizações reais do candidato.",
+                    "estrutura": "Gancho pessoal (0-3s) + História/Realização (3-30s) + Visão de futuro (30-40s) + CTA no Direct",
+                    "score_algoritmo": 99
+                },
+                "gerado_em": _agora()
+            })
+    except Exception as e_pos:
+        print(f"[CONTEÚDO ENGINE] Aviso integração positiva Instagram: {e_pos}")
 
     ataques   = gerar_ataques_adversarios()
     trends    = adaptar_trends_virais()
@@ -541,7 +574,7 @@ def gerar_conteudo_do_dia():
         CONTEUDO_CACHE["briefing_social"]["data"]           = briefing
         CONTEUDO_CACHE["briefing_social"]["atualizado_em"]  = _agora()
 
-    print(f"[CONTEÚDO ENGINE] ✅ {len(roteiros)} roteiros | {len(ataques)} ataques | {len(trends)} trends adaptados.")
+    print(f"[CONTEÚDO ENGINE] ✅ {len(roteiros)} roteiros (incluindo Apresentação do Wilder) | {len(ataques)} ataques | {len(trends)} trends adaptados.")
 
 # ──────────────────────────────────────────────────────────────────────────────
 # INTERFACE PÚBLICA

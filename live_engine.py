@@ -657,6 +657,20 @@ def iniciar_scheduler():
         except Exception as e_viral:
             print(f"[MOTOR] Aviso Viral Trends Engine: {e_viral}")
 
+        # Job 9: Inteligência do Instagram & Consciência Social OSINT (3h)
+        try:
+            import instagram_intel_engine
+            scheduler.add_job(
+                instagram_intel_engine.atualizar_intel_instagram,
+                "interval", hours=3,
+                id="instagram_intel",
+                name="Radar Instagram & Consciência Social OSINT",
+                max_instances=1, coalesce=True
+            )
+            print("[MOTOR] 📸 Radar Instagram & Consciência Social OSINT integrado ao scheduler master.")
+        except Exception as e_ig:
+            print(f"[MOTOR] Aviso Instagram Intel Engine: {e_ig}")
+
         scheduler.start()
         _scheduler_started = True
 
@@ -691,6 +705,16 @@ def iniciar_scheduler():
                 time.sleep(8)
                 vte.atualizar_tudo()
             threading.Thread(target=_boot_viral, daemon=True, name="boot-viral").start()
+        except Exception:
+            pass
+
+        # Boot do Instagram Intel Engine
+        try:
+            import instagram_intel_engine as iie
+            def _boot_instagram():
+                time.sleep(12)
+                iie.atualizar_intel_instagram()
+            threading.Thread(target=_boot_instagram, daemon=True, name="boot-instagram").start()
         except Exception:
             pass
 
