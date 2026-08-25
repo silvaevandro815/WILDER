@@ -511,32 +511,35 @@ HTML_CHAT_WIDGET = """
             box-shadow: 0 4px 15px rgba(16,185,129,0.3);
         }
 
-        /* ── ELEMENTOS MODERNOS DA IA (FORMATO VISUAL PROFISSIONAL) ── */
+        /* ── ELEMENTOS MODERNOS DA IA (FORMATO MILITAR & INTELIGÊNCIA TÁTICA) ── */
         .ai-title {
-            font-size: 16.5px; font-weight: 800; color: #00ff88;
-            margin: 14px 0 8px 0; display: flex; align-items: center; gap: 8px;
-            letter-spacing: 0.03em; border-bottom: 1px solid rgba(0,255,136,0.15);
-            padding-bottom: 4px;
+            font-size: 14px; font-weight: 800; color: #10b981;
+            margin: 16px 0 10px 0; display: flex; align-items: center; gap: 8px;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            border-bottom: 1px solid rgba(16,185,129,0.2);
+            padding-bottom: 6px;
         }
         .ai-title:first-child { margin-top: 0; }
         .ai-p {
-            margin: 0 0 12px 0; color: #e2e8f0; font-size: 14.5px; line-height: 1.7;
+            margin: 0 0 12px 0; color: #e2e8f0; font-size: 13.5px; line-height: 1.7;
         }
         .ai-p:last-child { margin-bottom: 0; }
         .ai-list {
-            margin: 10px 0 14px 0; padding-left: 0; list-style: none;
+            margin: 8px 0 14px 0; padding-left: 0; list-style: none;
             display: flex; flex-direction: column; gap: 8px;
         }
         .ai-list-item {
-            padding: 10px 14px; background: rgba(255, 255, 255, 0.035);
-            border-radius: 10px; border-left: 3px solid #38bdf8;
-            color: #f1f5f9; font-size: 14px; line-height: 1.6;
+            padding: 10px 14px; background: rgba(15, 23, 42, 0.65);
+            border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.15);
+            border-left: 3px solid #38bdf8;
+            color: #f1f5f9; font-size: 13px; line-height: 1.6;
         }
         .ai-card {
-            background: rgba(15, 23, 42, 0.8);
-            border-left: 3px solid #00ff88; border-radius: 10px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-left: 4px solid #10b981; border-radius: 10px;
             padding: 12px 16px; margin: 12px 0;
-            color: #e2e8f0; font-size: 14px; line-height: 1.65;
+            color: #e2e8f0; font-size: 13px; line-height: 1.65;
         }
         .ai-card.gold {
             border-left-color: #f59e0b;
@@ -545,16 +548,16 @@ HTML_CHAT_WIDGET = """
             border-left: 4px solid #f59e0b;
         }
         .ai-card.purple {
-            border-left-color: #a855f7;
-            background: rgba(168, 85, 247, 0.08);
-            border: 1px solid rgba(168, 85, 247, 0.25);
-            border-left: 4px solid #a855f7;
+            border-left-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-left: 4px solid #8b5cf6;
         }
         .ai-highlight { color: #38bdf8; font-weight: 700; }
         .ai-badge {
-            display: inline-block; background: rgba(0, 255, 136, 0.12);
-            color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3);
-            padding: 2px 8px; border-radius: 6px; font-size: 12px;
+            display: inline-block; background: rgba(16, 185, 129, 0.15);
+            color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 2px 8px; border-radius: 6px; font-size: 11px;
             font-weight: 800; margin-right: 6px;
         }
         .chat-input-row {
@@ -687,69 +690,85 @@ HTML_CHAT_WIDGET = """
         <!-- CARD 0: STATUS DO MOTOR AO VIVO -->
         <div class="post-card" style="border: 1px solid rgba(16,185,129,0.35); background: linear-gradient(135deg, #0a1829, #0d1525);">
             <div class="post-header">
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">⚡</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
                 <div>
                     <div class="post-author" style="color:#10b981;">MOTOR AUTÔNOMO QG DIGITAL</div>
                     <div class="post-time">Auto-atualização ativa a cada 30 min • {{ status_motor.timestamp_servidor }}</div>
                 </div>
-                <span class="post-badge badge-new" style="background:#10b98125;color:#10b981;border-color:#10b98160;">🟢 100% ONLINE</span>
+                <span class="post-badge badge-new" style="background:#10b98125;color:#10b981;border-color:#10b98160;">100% ONLINE</span>
             </div>
             <div class="post-body">
                 <div class="post-text">
-                    📡 <strong style="color:#f8fafc;">Central de Inteligência Ativa:</strong> Robôs em background monitoram continuamente notícias da imprensa goiana, dados do YouTube e tendências do eleitorado sem necessidade de deploys manuais.
+                    <strong style="color:#f8fafc;">Central de Inteligência Operacional:</strong> Robôs em background monitoram continuamente notícias da imprensa goiana, métricas de redes sociais, pesquisas eleitorais e tendências do eleitorado sem necessidade de intervenção manual.
                 </div>
                 <div class="post-metric-row">
                     <div class="metric-pill"><span class="mp-val" style="color:#10b981;">{{ status_motor.fontes.noticias.total }}</span><span class="mp-lbl">Notícias RSS ({{ status_motor.fontes.noticias.atualizado }})</span></div>
                     <div class="metric-pill"><span class="mp-val" style="color:#ef4444;">{{ status_motor.fontes.yt_videos.total }}</span><span class="mp-lbl">Vídeos YT ({{ status_motor.fontes.yt_videos.atualizado }})</span></div>
                     <div class="metric-pill"><span class="mp-val" style="color:#f59e0b;">{{ status_motor.fontes.yt_canais.total }}</span><span class="mp-lbl">Canais ({{ status_motor.fontes.yt_canais.atualizado }})</span></div>
-                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6;">{{ status_motor.fontes.tendencias.total }}</span><span class="mp-lbl">Buscas ({{ status_motor.fontes.tendencias.atualizado }})</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6;">{{ status_motor.fontes.tendencias.total }}</span><span class="mp-lbl">Buscas Trends ({{ status_motor.fontes.tendencias.atualizado }})</span></div>
                 </div>
             </div>
             <div style="display:flex;gap:8px;padding:0 14px 14px;">
-                <a href="/radar_noticias" class="post-action-btn" style="flex:1;margin:0;">📰 Ver {{ status_motor.fontes.noticias.total }} Notícias ao Vivo →</a>
-                <a href="/api/status" target="_blank" class="post-action-btn" style="flex:0 0 auto;margin:0;background:#0b0f19;color:#94a3b8;border-color:#1e293b;">📊 API Status</a>
+                <a href="/radar_noticias" class="post-action-btn" style="flex:1;margin:0;">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>
+                    Ver {{ status_motor.fontes.noticias.total }} Notícias ao Vivo →
+                </a>
+                <a href="/api/status" target="_blank" class="post-action-btn" style="flex:0 0 auto;margin:0;background:#0b0f19;color:#94a3b8;border-color:#1e293b;">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    API Status
+                </a>
             </div>
         </div>
 
-        <div class="feed-section-title">📡 INTELIGÊNCIA EM TEMPO REAL</div>
+        <div class="feed-section-title">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+            RADAR OPERACIONAL EM TEMPO REAL
+        </div>
 
         <!-- Card 1: Pesquisa -->
         <div class="post-card">
             <div class="post-header">
                 <img src="{{ wilder_avatar }}" class="post-avatar">
                 <div>
-                    <div class="post-author">QG Digital · Pesquisa</div>
-                    <div class="post-time">Atualizado agora</div>
+                    <div class="post-author">Inteligência Eleitoral · Pesquisas 2026</div>
+                    <div class="post-time">Instituto Goiás Pesquisas / Mais Goiás</div>
                 </div>
-                <span class="post-badge badge-live">🔴 AO VIVO</span>
+                <span class="post-badge badge-live">AO VIVO</span>
             </div>
             <div class="post-body">
                 <div class="post-text">
-                    📊 <strong style="color:#f59e0b">Goiás Pesquisas / Mais Goiás:</strong> Daniel Vilela lidera com <strong style="color:#ef4444">37,2%</strong>. Wilder Morais e Marconi Perillo <strong style="color:#10b981">empatados em 2º lugar</strong> — janela real de crescimento para o segundo turno.
+                    <strong style="color:#f59e0b">Cenário Auditado:</strong> Daniel Vilela lidera com <strong style="color:#ef4444">43,5%</strong>. Wilder Morais (<strong style="color:#10b981">22,0%</strong>) e Marconi Perillo (<strong style="color:#38bdf8">21,9%</strong>) disputam em empate técnico a vaga para o 2º turno.
                 </div>
                 <div class="post-metric-row">
-                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">22%</span><span class="mp-lbl">Wilder Intenção</span></div>
-                    <div class="metric-pill"><span class="mp-val" style="color:#ef4444">37%</span><span class="mp-lbl">Vilela Liderança</span></div>
-                    <div class="metric-pill"><span class="mp-val" style="color:#f59e0b">+18K</span><span class="mp-lbl">Inscritos/mês YT</span></div>
-                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6">6.4%</span><span class="mp-lbl">Engajamento</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">22,0%</span><span class="mp-lbl">Wilder (PL)</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#ef4444">43,5%</span><span class="mp-lbl">Daniel (MDB)</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#38bdf8">21,9%</span><span class="mp-lbl">Marconi (PSDB)</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6">10,5%</span><span class="mp-lbl">Luis Cesar (PT)</span></div>
                 </div>
             </div>
-            <a href="/radar_noticias" class="post-action-btn">📊 Ver análise completa de pesquisas →</a>
+            <a href="/radar_noticias" class="post-action-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Ver Análise Completa de Pesquisas →
+            </a>
         </div>
 
         <!-- Card 2: Mapa de Dores -->
         <div class="post-card">
             <div class="post-header">
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#f97316);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🗺️</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#f97316);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                </div>
                 <div>
-                    <div class="post-author">Mapa de Demandas · 8 Cidades Polo</div>
+                    <div class="post-author">Mapa de Demandas Regionais</div>
                     <div class="post-time">246 municípios mapeados</div>
                 </div>
-                <span class="post-badge badge-hot">🔥 TOP</span>
+                <span class="post-badge badge-hot">DORES POPULARES</span>
             </div>
             <div class="post-body">
                 <div class="post-text">
-                    As <strong style="color:#f59e0b">8 cidades polo de Goiás</strong> estão mapeadas com suas dores principais: <strong style="color:#ef4444">Saúde &amp; Filas do SUS (42%)</strong>, <strong style="color:#f97316">Transporte &amp; Asfalto (28%)</strong>, Logística Agro e Emprego Jovem. Mapa interativo colorido por pauta.
+                    As principais cidades polo de Goiás estão mapeadas com suas queixas prioritárias: <strong style="color:#ef4444">Saúde &amp; Filas do SUS (42%)</strong>, <strong style="color:#f97316">Transporte &amp; Entorno DF (45%)</strong>, Emprego Jovem e Infraestrutura Viária.
                 </div>
                 <div class="post-metric-row">
                     <div class="metric-pill"><span class="mp-val">1.03M</span><span class="mp-lbl">Eleitores Goiânia</span></div>
@@ -757,45 +776,55 @@ HTML_CHAT_WIDGET = """
                     <div class="metric-pill"><span class="mp-val">290K</span><span class="mp-lbl">Eleitores Anápolis</span></div>
                 </div>
             </div>
-            <a href="/mapa_demandas" class="post-action-btn">🗺️ Abrir mapa interativo de Goiás →</a>
+            <a href="/mapa_demandas" class="post-action-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                Abrir Mapa Interativo de Goiás →
+            </a>
         </div>
 
         <!-- Card 3: YouTube -->
         <div class="post-card">
             <div class="post-header">
-                <div style="width:36px;height:36px;border-radius:50%;background:#dc2626;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">▶</div>
-                <div>
-                    <div class="post-author">Auditoria YouTube Real</div>
-                    <div class="post-time">Dados buscados ao vivo</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:#dc2626;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
                 </div>
-                <span class="post-badge badge-new">✨ REAL</span>
+                <div>
+                    <div class="post-author">Auditoria YouTube Auditada</div>
+                    <div class="post-time">Métricas reais dos 3 candidatos</div>
+                </div>
+                <span class="post-badge badge-new">AUDITADO</span>
             </div>
             <div class="post-body">
                 <div class="post-text">
-                    Canal <strong style="color:#10b981">@WilderMoraisGoias</strong> monitorado em tempo real. Vídeo em destaque: <em style="color:#f59e0b">"PL confirma Wilder Morais &amp; Ana Paula"</em> com alto engajamento positivo no setor Agro e Entorno DF.
+                    Auditoria nos canais oficiais: todos os candidatos possuem canais de baixo alcance direto (< 2.500 inscritos). Por isso, a prioridade máxima é a distribuição no <strong style="color:#10b981">Instagram Reels &amp; WhatsApp</strong>.
                 </div>
                 <div class="post-metric-row">
-                    <div class="metric-pill"><span class="mp-val" style="color:#dc2626">124K</span><span class="mp-lbl">Inscritos Canal</span></div>
-                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">+18K</span><span class="mp-lbl">Crescimento/mês</span></div>
-                    <div class="metric-pill"><span class="mp-val" style="color:#f59e0b">88K</span><span class="mp-lbl">Views Semanais</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#10b981">711</span><span class="mp-lbl">Inscritos Wilder</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#ef4444">976</span><span class="mp-lbl">Inscritos Daniel</span></div>
+                    <div class="metric-pill"><span class="mp-val" style="color:#38bdf8">2.130</span><span class="mp-lbl">Inscritos Marconi</span></div>
                 </div>
             </div>
-            <a href="/dashboard" class="post-action-btn">📺 Ver auditoria completa dos candidatos →</a>
+            <a href="/dashboard" class="post-action-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                Ver Auditoria Completa do YouTube →
+            </a>
         </div>
 
         <!-- Card 4: Eventos -->
         <div class="post-card">
             <div class="post-header">
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🎪</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
                 <div>
                     <div class="post-author">Radar de Eventos · Goiás 2026</div>
-                    <div class="post-time">150 eventos mapeados</div>
+                    <div class="post-time">150 eventos estratégicos</div>
                 </div>
-                <span class="post-badge badge-hot">🎯 ADS</span>
+                <span class="post-badge badge-hot">GEO-ADS</span>
             </div>
             <div class="post-body">
                 <div class="post-text">
-                    <strong style="color:#8b5cf6">150 eventos estratégicos</strong> em Goiás com raio de Meta Ads calculado. Feiras agro, festividades regionais e eventos religiosos — janelas de impacto máximo para tráfego pago.
+                    <strong style="color:#8b5cf6">150 grandes eventos</strong> em Goiás com raio de Meta Ads calculado: feiras agropecuárias, romarias, exposições e festividades regionais para direcionamento de tráfego pago geolocalizado.
                 </div>
                 <div class="post-metric-row">
                     <div class="metric-pill"><span class="mp-val" style="color:#8b5cf6">150</span><span class="mp-lbl">Eventos Mapeados</span></div>
@@ -803,48 +832,73 @@ HTML_CHAT_WIDGET = """
                     <div class="metric-pill"><span class="mp-val" style="color:#10b981">Meta Ads</span><span class="mp-lbl">Raio Calculado</span></div>
                 </div>
             </div>
-            <a href="/eventos" class="post-action-btn">🎪 Ver radar de 150 eventos →</a>
+            <a href="/eventos" class="post-action-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Ver Radar de 150 Eventos →
+            </a>
         </div>
 
         <!-- Card 5: Plano de Governo -->
         <div class="post-card">
             <div class="post-header">
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📋</div>
-                <div>
-                    <div class="post-author">Plano de Governo Wilder</div>
-                    <div class="post-time">Resumo Executivo 2026</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                 </div>
-                <span class="post-badge badge-new">📌 FIXADO</span>
+                <div>
+                    <div class="post-author">Plano de Governo Estruturado</div>
+                    <div class="post-time">Diretrizes Wilder Morais 2026</div>
+                </div>
+                <span class="post-badge badge-new">DIRETRIZES</span>
             </div>
             <div class="post-body">
                 <div class="post-text">
-                    As principais propostas do plano de governo: <strong style="color:#10b981">Saúde</strong> — Hospitais Regionais e UPAs 24h. <strong style="color:#3b82f6">Emprego</strong> — Primeiro Emprego Jovem e incentivo ao DAIA. <strong style="color:#f59e0b">Agro</strong> — Logística e desburocratização. Acesse o plano completo integrado com IA.
+                    Principais pilares de proposta: <strong style="color:#10b981">Saúde</strong> (Fila Visível e Remédio em Casa), <strong style="color:#3b82f6">Emprego</strong> (Primeiro Salário e Curso com Vaga), <strong style="color:#f59e0b">Família</strong> (Cartão Creche) e <strong style="color:#10b981">Infraestrutura</strong> (Estrada Limpa).
                 </div>
             </div>
-            <a href="/plano_governo" class="post-action-btn">📋 Consultar plano de governo com IA →</a>
+            <a href="/plano_governo" class="post-action-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Consultar Plano de Governo com IA →
+            </a>
         </div>
 
-        <div class="feed-section-title" style="margin-top:8px;">🤖 PERGUNTAS FREQUENTES AO QG</div>
+        <div class="feed-section-title" style="margin-top:8px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+            CENTRO DE COMANDO & CONSULTAS IA
+        </div>
 
         <!-- Card IA -->
         <div class="post-card" style="border-color:#10b98140;">
             <div class="post-header">
-                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤖</div>
-                <div>
-                    <div class="post-author">IA do QG Digital</div>
-                    <div class="post-time">Gemini Flash · Responde 24h</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
-                <span class="post-badge badge-live">● ONLINE</span>
+                <div>
+                    <div class="post-author">General Baraka · Inteligência IA</div>
+                    <div class="post-time">Analista Independente de Estado-Maior</div>
+                </div>
+                <span class="post-badge badge-live">ONLINE 24H</span>
             </div>
             <div class="post-body">
                 <div class="post-text" style="margin-bottom:12px;">
-                    Pergunte qualquer coisa sobre a campanha, dados de pesquisa, YouTube, mapa de dores ou Google Trends de Goiás. A IA tem acesso a <strong style="color:#10b981">todo o contexto estratégico do QG Digital</strong>.
+                    Consulte o analista tático sobre qualquer cenário da eleição, pesquisas eleitorais, pontos fracos dos adversários, dores por município ou tendências digitais.
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:7px;">
-                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Quais as propostas de Wilder para Saúde?')">💊 Propostas Saúde</span>
-                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('O que o goiano pesquisa sobre o Wilder no Google?')">🔍 Google Trends</span>
-                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Qual a situação nas pesquisas eleitorais de Goiás?')">📊 Pesquisas</span>
-                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Quais vídeos devemos gravar para o YouTube?')">🎬 Estratégia YT</span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Quais as propostas de Wilder para Saúde?')">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        Propostas Saúde
+                    </span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('O que o goiano pesquisa sobre o Wilder no Google?')">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Google Trends
+                    </span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Qual a situação nas pesquisas eleitorais de Goiás?')">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        Pesquisas
+                    </span>
+                    <span class="qa-chip" style="position:static;padding:7px 12px;font-size:11.5px;" onclick="abrirChatComPergunta('Quais as vulnerabilidades de Daniel Vilela e Marconi Perillo?')">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Adversários
+                    </span>
                 </div>
             </div>
         </div>
@@ -853,54 +907,79 @@ HTML_CHAT_WIDGET = """
 
     <!-- ── QUICK CHIPS BARRA FLUTUANTE ───────────────────────────────────── -->
     <div class="quick-ask-bar">
-        <span class="qa-chip" onclick="abrirChat()">💬 Consultar IA</span>
-        <span class="qa-chip" onclick="abrirChatComPergunta('Situação atual das pesquisas?')">📊 Pesquisas</span>
-        <span class="qa-chip" onclick="abrirChatComPergunta('Quais as principais dores do povo goiano?')">📍 Dores do Povo</span>
-        <span class="qa-chip" onclick="abrirChatComPergunta('O que o goiano pesquisa sobre o Wilder no Google?')">🔍 Google Trends</span>
-        <span class="qa-chip" onclick="abrirChatComPergunta('Quais eventos acontecem em Goiás nos próximos meses?')">🎪 Eventos</span>
+        <span class="qa-chip" onclick="abrirChat()">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Consultar IA
+        </span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('Situação atual das pesquisas?')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Pesquisas
+        </span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('Quais as principais dores do povo goiano?')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Dores do Povo
+        </span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('O que o goiano pesquisa sobre o Wilder no Google?')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Google Trends
+        </span>
+        <span class="qa-chip" onclick="abrirChatComPergunta('Quais eventos acontecem em Goiás nos próximos meses?')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Eventos
+        </span>
     </div>
 
     <!-- ── CHAT BAR FIXO NO RODAPÉ ───────────────────────────────────────── -->
     <div class="chat-bar-fixed">
-        <input class="chat-bar-input" id="chatBarInput" placeholder="Pergunte ao QG Digital..." onkeypress="if(event.key==='Enter') enviarRapido()" onclick="abrirChat()">
-        <button class="chat-bar-send" onclick="enviarRapido()">➤</button>
+        <input class="chat-bar-input" id="chatBarInput" placeholder="Pergunte ao General Baraka..." onkeypress="if(event.key==='Enter') enviarRapido()" onclick="abrirChat()">
+        <button class="chat-bar-send" onclick="enviarRapido()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
     </div>
 
     <!-- ── CHAT OVERLAY (abre ao clicar) ────────────────────────────────── -->
     <div class="chat-overlay" id="chatOverlay">
         <div class="chat-overlay-header">
-            <button class="chat-back-btn" onclick="fecharChat()">← Voltar</button>
+            <button class="chat-back-btn" onclick="fecharChat()">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Voltar
+            </button>
             <img src="{{ wilder_avatar }}" style="width:32px;height:32px;border-radius:50%;border:2px solid #f59e0b;object-fit:cover;">
-            <div class="chat-overlay-title">QG Digital IA · <span style="color:#10b981;">● Online</span></div>
+            <div class="chat-overlay-title">General Baraka · <span style="color:#10b981;">● Online</span></div>
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="msg-row">
                 <img src="{{ wilder_avatar }}" class="msg-av">
                 <div class="msg-bbl bot">
-                    <strong style="color:#10b981;">🔰 QG DIGITAL — INTELIGÊNCIA ELEITORAL</strong><br><br>
-                    Olá! Sou a IA do QG Digital Eleitoral de Wilder Morais. Tenho acesso completo a dados de YouTube, mapa de demandas populares, Google Trends de Goiás, pesquisas eleitorais e muito mais.<br><br>
-                    <strong>Como posso ajudar a campanha agora?</strong>
+                    <strong style="color:#10b981;">GENERAL BARAKA — CENTRO DE INTELIGÊNCIA MILITAR</strong><br><br>
+                    Analista tático e independente de estado-maior. Base de dados em tempo real com pesquisas de Goiás, dores populares dos 246 municípios, métricas de redes sociais e algoritmos da Meta.<br><br>
+                    <strong>Qual é a diretriz ou cenário que deseja analisar?</strong>
                 </div>
             </div>
         </div>
         <div class="chat-input-row">
-            <input class="ci-input" id="ciInput" placeholder="Digite sua pergunta..." onkeypress="if(event.key==='Enter') enviar()">
-            <button class="ci-send" onclick="enviar()">➤</button>
+            <input class="ci-input" id="ciInput" placeholder="Digite sua consulta estratégica..." onkeypress="if(event.key==='Enter') enviar()">
+            <button class="ci-send" onclick="enviar()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
         </div>
     </div>
 
     <!-- ── MOBILE DRAWER ─────────────────────────────────────────────────── -->
     <div class="mobile-drawer" id="mobileDrawer" onclick="if(event.target===this)fecharDrawer()">
         <div class="drawer-panel">
-            <button class="drawer-close" onclick="fecharDrawer()">✕</button>
-            <a href="/dashboard"      class="drawer-link">📊 Gestão YouTube Real</a>
-            <a href="/mapa_demandas"  class="drawer-link">🗺️ Mapa Colorido &amp; Gráficos</a>
-            <a href="/eventos"        class="drawer-link">🎪 Radar de 150 Eventos</a>
-            <a href="/radar_noticias" class="drawer-link">🚨 Pesquisas &amp; Notícias</a>
-            <a href="/plano_governo"  class="drawer-link">📋 Plano de Governo</a>
-            <a href="/engajamento"    class="drawer-link" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(219,39,119,0.1));border-color:#7c3aed;">🚀 Engajamento Viral Lab</a>
-            <a href="/intel"          class="drawer-link" style="background:linear-gradient(135deg,rgba(0,255,136,0.08),rgba(0,100,50,0.05));border-color:#00ff8840;color:#00ff88;">🎖️ Centro de Inteligência</a>
-            <a href="/download_pdf" target="_blank" class="drawer-link">📄 PDF 360° Completo</a>
+            <button class="drawer-close" onclick="fecharDrawer()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <a href="/conteudo"        class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span> Central de Conteúdo</a>
+            <a href="/dashboard"      class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></span> YouTube Auditado</a>
+            <a href="/mapa_demandas"  class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></span> Mapa Estratégico Goiás</a>
+            <a href="/eventos"        class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Radar de 150 Eventos</a>
+            <a href="/radar_noticias" class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span> Pesquisas &amp; Notícias</a>
+            <a href="/plano_governo"  class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Plano de Governo</a>
+            <a href="/engajamento"    class="drawer-link" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(219,39,119,0.1));border-color:#7c3aed;"><span class="lc"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span> Viral Lab &amp; Roteiros</a>
+            <a href="/intel"          class="drawer-link" style="background:linear-gradient(135deg,rgba(0,255,136,0.08),rgba(0,100,50,0.05));border-color:#00ff8840;color:#00ff88;"><span class="lc" style="color:#00ff88"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Centro de Inteligência 246</a>
+            <a href="/download_pdf" target="_blank" class="drawer-link"><span class="lc"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span> Dossiê Executivo 360°</a>
         </div>
     </div>
 
@@ -1096,10 +1175,11 @@ HTML_MAPA_DEMANDAS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
-            <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
-            <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
-            <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
+            <a href="/chat" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> QG Digital Chat</a>
+            <a href="/conteudo" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Conteúdo</a>
+            <a href="/dashboard" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg> YouTube Auditado</a>
+            <a href="/eventos" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Radar 150 Eventos</a>
+            <a href="/radar_noticias" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Pesquisas &amp; Notícias</a>
         </div>
     </div>
 
@@ -1424,10 +1504,11 @@ HTML_DASHBOARD_METABASE = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
-            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
-            <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
-            <a href="/radar_noticias" class="btn-nav-link">🚨 Pesquisas & Notícias</a>
+            <a href="/chat" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> QG Digital Chat</a>
+            <a href="/conteudo" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Conteúdo</a>
+            <a href="/mapa_demandas" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg> Mapa Estratégico</a>
+            <a href="/eventos" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Radar 150 Eventos</a>
+            <a href="/radar_noticias" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Pesquisas &amp; Notícias</a>
         </div>
     </div>
 
@@ -1443,20 +1524,22 @@ HTML_DASHBOARD_METABASE = """
             </div>
             <div style="display:flex;gap:8px;">
                 <button onclick="forcarAtualizacaoYT(this)" style="background:#dc2626;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:0.2s;">
-                    🔄 Auditar Agora
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    Auditar Agora
                 </button>
                 <a href="/api/status" target="_blank" style="background:#131b2e;color:#94a3b8;border:1px solid #1e293b;padding:8px 12px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-                    📊 Status JSON
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Status JSON
                 </a>
             </div>
         </div>
 
         <!-- FILTROS CANDIDATO -->
         <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos ({{ yt_videos|length }})</button>
-            <button class="btn-nav-link" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais (PL)</button>
-            <button class="btn-nav-link" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela (MDB)</button>
-            <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo (PSDB)</button>
+            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Todos os Candidatos ({{ yt_videos|length }})</button>
+            <button class="btn-nav-link" onclick="filtrarCandidato('Wilder Morais')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Wilder Morais (PL)</button>
+            <button class="btn-nav-link" onclick="filtrarCandidato('Daniel Vilela')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Daniel Vilela (MDB)</button>
+            <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Marconi Perillo (PSDB)</button>
         </div>
 
         <!-- CARDS MÉTRICAS AUDITADAS E NEUTRAS -->
@@ -1605,21 +1688,22 @@ HTML_RADAR_EVENTOS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/" class="btn-nav-link">🏠 Home QG</a>
-            <a href="/dashboard" class="btn-nav-link">📊 YouTube</a>
-            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Demandas</a>
-            <a href="/radar_noticias" class="btn-nav-link">🚨 Notícias</a>
-            <a href="/engajamento" class="btn-nav-link" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;">🚀 Viral Lab</a>
-            <a href="/intel" class="btn-nav-link" style="background:linear-gradient(135deg,#0f172a,#1e3a4a);border-color:#00ff88;color:#00ff88;">🎖️ Intel</a>
+            <a href="/" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> QG Digital</a>
+            <a href="/conteudo" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Conteúdo</a>
+            <a href="/dashboard" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg> YouTube</a>
+            <a href="/mapa_demandas" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg> Demandas</a>
+            <a href="/radar_noticias" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Notícias</a>
+            <a href="/engajamento" class="btn-nav-link" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg> Viral Lab</a>
+            <a href="/intel" class="btn-nav-link" style="background:linear-gradient(135deg,#0f172a,#1e3a4a);border-color:#00ff88;color:#00ff88;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Intel</a>
         </div>
     </div>
 
     <div class="main-container">
         <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-            <button class="btn-nav-link active" onclick="filtrarMes('todos')">🌐 Todos os Meses (150 Eventos)</button>
-            <button class="btn-nav-link" onclick="filtrarMes('Agosto/2026')">📅 Agosto / 2026</button>
-            <button class="btn-nav-link" onclick="filtrarMes('Setembro/2026')">📅 Setembro / 2026</button>
-            <button class="btn-nav-link" onclick="filtrarMes('Outubro/2026')">📅 Outubro / 2026</button>
+            <button class="btn-nav-link active" onclick="filtrarMes('todos')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Todos os Meses (150 Eventos)</button>
+            <button class="btn-nav-link" onclick="filtrarMes('Agosto/2026')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agosto / 2026</button>
+            <button class="btn-nav-link" onclick="filtrarMes('Setembro/2026')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Setembro / 2026</button>
+            <button class="btn-nav-link" onclick="filtrarMes('Outubro/2026')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Outubro / 2026</button>
         </div>
 
         <div class="card-panel">
@@ -2867,18 +2951,19 @@ HTML_ENGAJAMENTO_LAB = """
         <div class="brand-container">
             <img src="{{ wilder_avatar }}" alt="" class="brand-avatar">
             <div>
-                <h1 class="brand-title">🚀 VIRAL LAB — ENGAJAMENTO & ALGORITMO</h1>
+                <h1 class="brand-title">VIRAL LAB — ENGAJAMENTO &amp; ALGORITMO</h1>
                 <p class="brand-subtitle">● Motor de Roteiros Virais para a Meta · Furar a Bolha · Goiás 2026</p>
             </div>
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/"              class="btn-nav-link">🏠 Home QG</a>
-            <a href="/dashboard"     class="btn-nav-link">📊 YouTube</a>
-            <a href="/radar_noticias" class="btn-nav-link">🚨 Notícias</a>
-            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa</a>
-            <a href="/eventos"       class="btn-nav-link">🎪 Eventos</a>
-            <a href="/engajamento"   class="btn-nav-link active" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;">🚀 Viral Lab</a>
+            <a href="/"              class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> QG Digital</a>
+            <a href="/conteudo"      class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Conteúdo</a>
+            <a href="/dashboard"     class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg> YouTube</a>
+            <a href="/radar_noticias" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Notícias</a>
+            <a href="/mapa_demandas" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg> Mapa</a>
+            <a href="/eventos"       class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Eventos</a>
+            <a href="/engajamento"   class="btn-nav-link active" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg> Viral Lab</a>
         </div>
     </div>
 
@@ -3350,11 +3435,12 @@ HTML_RADAR_NOTICIAS = """
         </div>
         <button class="menu-toggle-btn" onclick="toggleMobileMenu()">☰ Menu</button>
         <div class="nav-links-wrapper" id="navMenuWrapper">
-            <a href="/chat" class="btn-nav-link">💬 QG Digital Chat</a>
-            <a href="/dashboard" class="btn-nav-link">📊 Gestão YouTube Real</a>
-            <a href="/mapa_demandas" class="btn-nav-link">🗺️ Mapa Colorido & 4 Gráficos</a>
-            <a href="/eventos" class="btn-nav-link">🎪 Radar de 150 Eventos</a>
-            <a href="/engajamento" class="btn-nav-link" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;">🚀 Viral Lab</a>
+            <a href="/chat" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> QG Digital Chat</a>
+            <a href="/conteudo" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Conteúdo</a>
+            <a href="/dashboard" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg> YouTube</a>
+            <a href="/mapa_demandas" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg> Mapa</a>
+            <a href="/eventos" class="btn-nav-link"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Eventos</a>
+            <a href="/engajamento" class="btn-nav-link" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg> Viral Lab</a>
         </div>
     </div>
 
@@ -3369,19 +3455,21 @@ HTML_RADAR_NOTICIAS = """
             </div>
             <div style="display:flex;gap:8px;">
                 <button onclick="forcarAtualizacaoNoticias(this)" style="background:#10b981;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:0.2s;">
-                    🔄 Atualizar Agora
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    Atualizar Agora
                 </button>
                 <a href="/api/status" target="_blank" style="background:#131b2e;color:#94a3b8;border:1px solid #1e293b;padding:8px 12px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-                    📊 Status JSON
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Status JSON
                 </a>
             </div>
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')">🌐 Todos os Candidatos ({{ noticias|length }})</button>
-            <button class="btn-nav-link" onclick="filtrarCandidato('Wilder Morais')">👤 Wilder Morais</button>
-            <button class="btn-nav-link" onclick="filtrarCandidato('Daniel Vilela')">👤 Daniel Vilela</button>
-            <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')">👤 Marconi Perillo</button>
+            <button class="btn-nav-link active" onclick="filtrarCandidato('todos')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Todos os Candidatos ({{ noticias|length }})</button>
+            <button class="btn-nav-link" onclick="filtrarCandidato('Wilder Morais')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Wilder Morais</button>
+            <button class="btn-nav-link" onclick="filtrarCandidato('Daniel Vilela')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Daniel Vilela</button>
+            <button class="btn-nav-link" onclick="filtrarCandidato('Marconi Perillo')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Marconi Perillo</button>
         </div>
 
         <div class="card-pesquisa-top">
@@ -3646,19 +3734,39 @@ HTML_CENTRAL_CONTEUDO = """
 
 <!-- HEADER -->
 <div class="cc-header">
-    <div>
-        <div class="cc-title">🎬 Central de Conteúdo</div>
-        <div class="cc-subtitle">SOCIAL MEDIA OPERACIONAL — QG WILDER MORAIS 2026</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+        <a href="/" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:#131b2e;border:1px solid #1e293b;color:#94a3b8;text-decoration:none;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </a>
+        <div>
+            <div class="cc-title" style="display:flex;align-items:center;gap:8px;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                Central de Conteúdo Tático
+            </div>
+            <div class="cc-subtitle">ESTRATÉGIA & PRODUÇÃO DIGITAL — QG WILDER MORAIS 2026</div>
+        </div>
     </div>
     <span class="cc-badge" id="totalRoteiros">Carregando...</span>
 </div>
 
 <!-- TABS -->
 <div class="cc-tabs">
-    <div class="cc-tab active" onclick="showTab('briefing')">📋 Briefing do Dia</div>
-    <div class="cc-tab" onclick="showTab('roteiros')">🎬 Roteiros Prontos</div>
-    <div class="cc-tab" onclick="showTab('ataques')">⚔️ Ataques/Contraste</div>
-    <div class="cc-tab" onclick="showTab('trends')">📡 Trends Adaptados</div>
+    <div class="cc-tab active" onclick="showTab('briefing')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        Briefing do Dia
+    </div>
+    <div class="cc-tab" onclick="showTab('roteiros')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        Roteiros Prontos
+    </div>
+    <div class="cc-tab" onclick="showTab('ataques')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Matriz de Contraste
+    </div>
+    <div class="cc-tab" onclick="showTab('trends')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        Trends Adaptados
+    </div>
 </div>
 
 <!-- BODY -->
@@ -3666,7 +3774,10 @@ HTML_CENTRAL_CONTEUDO = """
 
     <!-- ── TAB: BRIEFING DO DIA ── -->
     <div class="tab-content active" id="tab-briefing">
-        <button class="btn-gerar" onclick="atualizarTudo()">⚡ Atualizar Tudo Agora</button>
+        <button class="btn-gerar" onclick="atualizarTudo()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Sincronizar Inteligência & Gerar Briefing
+        </button>
         <div id="briefing-container">
             <div class="loading-state"><div class="spinner"></div>Carregando briefing do dia...</div>
         </div>
@@ -3674,7 +3785,10 @@ HTML_CENTRAL_CONTEUDO = """
 
     <!-- ── TAB: ROTEIROS PRONTOS ── -->
     <div class="tab-content" id="tab-roteiros">
-        <button class="btn-gerar" onclick="gerarNovoConteudo()">🔄 Gerar Novos Roteiros com Notícias de Agora</button>
+        <button class="btn-gerar" onclick="gerarNovoConteudo()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Gerar Novos Roteiros com Notícias de Agora
+        </button>
         <div id="roteiros-container">
             <div class="loading-state"><div class="spinner"></div>Carregando roteiros...</div>
         </div>
@@ -3683,20 +3797,18 @@ HTML_CENTRAL_CONTEUDO = """
     <!-- ── TAB: ATAQUES / CONTRASTE ── -->
     <div class="tab-content" id="tab-ataques">
         <div id="ataques-container">
-            <div class="loading-state"><div class="spinner"></div>Carregando ataques...</div>
+            <div class="loading-state"><div class="spinner"></div>Carregando análises de combate...</div>
         </div>
     </div>
 
     <!-- ── TAB: TRENDS ADAPTADOS ── -->
     <div class="tab-content" id="tab-trends">
         <div id="trends-container">
-            <div class="loading-state"><div class="spinner"></div>Carregando trends...</div>
+            <div class="loading-state"><div class="spinner"></div>Carregando tendências...</div>
         </div>
     </div>
 
 </div>
-
-""" + PREMIUM_THEME_CSS.replace('<style>', '').replace('</style>', '').replace('<script>', '').replace('</script>', '').replace('toggleMobileMenu()', 'void(0)') + """
 
 <script>
 function showTab(name) {
@@ -4282,16 +4394,25 @@ Diretrizes Meta ao vivo: {meta_info_txt[:300] if meta_info_txt else "Foco em DM 
 {plano_governo_texto[:2000] if plano_governo_texto else "Propostas: Fila Visível (SUS), Remédio em Casa, Primeiro Salário (jovens), Curso com Vaga, Cartão Creche, Estrada Limpa (Engenheiro resolve)."}
 
 ══════════════════════════════════════════════════
-🎖️ FORMATO DE RESPOSTA OBRIGATÓRIO
 ══════════════════════════════════════════════════
-- NUNCA responda em bloco único de texto
-- Use SEMPRE seções com emoji + título (### 📊 Análise, ### 🎯 Estratégia, ### 💡 Ação Prática)
-- Separe cada ponto em lista numerada ou bulletpoints
-- Destaque nomes e termos-chave em **negrito**
-- Seja direto, estratégico e honesto — mesmo quando o dado for desfavorável ao Wilder
-- Termine com sugestão de ação concreta e mensurável
+🎖️ FORMATO DE RESPOSTA MILITAR OBRIGATÓRIO (CIRÚRGICO & DIRETO)
+══════════════════════════════════════════════════
+- ESTILO: Alto Comando Militar / Inteligência Tática. Seja direto, conciso e de altíssimo nível.
+- TAMANHO OBRIGATÓRIO: Entre 120 e 220 palavras no total. PROIBIDO respostas gigantes ou confusas.
+- ESTRUTURA FIXA EM 3 BLOCOS CURTOS:
 
-Responda: {pergunta}"""
+### 🎯 Diagnóstico Tático
+(Síntese direta de 2 a 3 frases sobre a realidade nua e crua do cenário perguntado)
+
+### 📊 Dados & Fatos do Terreno
+- **[Fator 1]**: Dado real auditado e conciso
+- **[Fator 2]**: Dado real auditado e conciso
+- **[Fator 3]**: Vulnerabilidade ou oportunidade identificada
+
+### 💡 Decisão de Comando
+- **Diretriz Prática**: Ação imediata e mensurável a ser executada pela campanha do Wilder
+
+Responda sobre: {pergunta}"""
 
 
 
@@ -4303,8 +4424,8 @@ Responda: {pergunta}"""
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": pergunta}
             ],
-            "temperature": 0.35,
-            "max_tokens": 1200
+            "temperature": 0.28,
+            "max_tokens": 600
         }
         try:
             r = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=15, verify=False)
@@ -4313,60 +4434,85 @@ Responda: {pergunta}"""
         except Exception as e:
             print(f"[ERRO CHAT OPENROUTER]: {e}")
 
-    # FALLBACK LOCAL COM DADOS REAIS
+    # FALLBACK LOCAL COM DADOS REAIS ESTRUTURADOS
     p_lower = pergunta.lower()
     if any(k in p_lower for k in ["pesquisa", "porcentagem", "votos", "eleição", "eleições", "sondagem", "resultado", "pesquisas"]):
-        resp = ("📊 <strong>Cenário Eleitoral — 14/08/2026:</strong><br><br>"
-                "Daniel Vilela lidera isolado com 43,5%. Wilder Morais (22,0%) e Marconi Perillo (21,9%) estão em empate técnico "
-                "disputando a vaga para o 2º turno. O cenário mostra forte competição no eleitorado de centro-direita.<br><br>"
-                "👉 <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Ver análise completa no Radar de Notícias</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "Daniel Vilela lidera isolado com 43,5%. Wilder Morais (22,0%) e Marconi Perillo (21,9%) estão em empate técnico disputando a vaga para o 2º turno.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Daniel Vilela (MDB)**: 43,5% — Vantagem de 21,5 pontos sobre o 2º colocado.\n"
+                "- **Wilder Morais (PL)**: 22,0% — Empate técnico com Marconi, forte adesão no Agro e Entorno DF.\n"
+                "- **Marconi Perillo (PSDB)**: 21,9% — Divide os votos de centro-direita.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Concentrar narrativa em absorver os 21,9% de Marconi, consolidando o voto anti-Daniel para forçar o 2º turno.")
     elif any(k in p_lower for k in ["youtube", "vídeo", "video", "engajamento", "canal", "inscritos"]):
-        resp = ("📺 <strong>Métricas Reais Auditadas do YouTube (Goiás 2026):</strong><br><br>"
-                "• <strong>Wilder Morais (PL):</strong> 711 inscritos no canal oficial. Vídeo da Convenção Estadual com 103 visualizações e 6 curtidas. Recado ao Agro com 3.464 visualizações.<br>"
-                "• <strong>Daniel Vilela (MDB):</strong> 976 inscritos. Convenção com 3.906 visualizações e 117 curtidas.<br>"
-                "• <strong>Marconi Perillo (PSDB):</strong> 2.130 inscritos. Debate Band com 3.132 visualizações e 55 curtidas.<br><br>"
-                "💡 <em>Diagnóstico Estratégico:</em> O alcance direto no YouTube é restrito para todos os candidatos. A estratégia mestra para furar a bolha é a distribuição no Instagram/Meta Ads.<br><br>"
-                "👉 <a href='/dashboard' style='color:#10b981;font-weight:800;'>Ver auditoria completa do YouTube</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "Todos os canais oficiais no YouTube têm alcance direto restrito (< 2.500 inscritos). A distribuição real de massa ocorre no Instagram Reels e WhatsApp.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Wilder Morais**: 711 inscritos | Vídeo Convenção: 103 views | Recado Agro: 3,4k views.\n"
+                "- **Daniel Vilela**: 976 inscritos | Vídeo Convenção: 3,9k views.\n"
+                "- **Marconi Perillo**: 2.130 inscritos | Debate Band: 3,1k views.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Priorizar cortes verticais de 30s focados em retenção de 3 segundos e compartilhamento por DM (Sends per Reach).")
     elif any(k in p_lower for k in ["google", "trends", "perguntas", "internet", "goiano", "pesquisam"]):
-        resp = ("🔍 <strong>Comportamento no Google Trends:</strong><br><br>"
-                "As perguntas mais frequentes no Google sobre o candidato são:<br>"
-                "1. Quais as propostas de Wilder para Saúde e Emprego?<br>"
-                "2. Quem é Ana Paula Rezende (vice)?<br>"
-                "3. Qual a porcentagem de Wilder nas pesquisas?<br>"
-                "4. Relação com o Agro e Profissão (Engenheiro).<br><br>"
-                "Já nas buscas gerais, os goianos procuram massivamente por 'Fila do SUS', '1º Emprego Jovem' e 'Remédio de Alto Custo'.")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "O eleitor goiano pesquisa massivamente por soluções imediatas de saúde e primeiro emprego, além de buscar a biografia e propostas de Wilder.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Dores Populares**: 'Fila do SUS demora quanto tempo?', 'Primeiro Emprego Jovem Aprendiz', 'Remédio de Alto Custo'.\n"
+                "- **Buscas sobre Wilder**: Propostas para saúde, relação com o Agro e histórico profissional como Engenheiro.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Gravar conteúdos curtos respondendo diretamente às 3 perguntas mais frequentes do Google com linguagem simples e sem palanque.")
     elif any(k in p_lower for k in ["mapa", "cidade", "queixa", "saúde", "sus", "transporte", "jovem", "emprego", "velho", "idoso", "remédio", "segurança", "idade"]):
-        resp = ("🗺️ <strong>Dores Populares (Jovens e 35-70 anos):</strong><br><br>"
-                "Luziânia (45%): exaustão no trânsito p/ Brasília. Goiânia (42%): cirurgias eletivas, remédios de alto custo e busca por 1º emprego. "
-                "Aparecida (38%): vagas em creches e segurança pública. Anápolis (35%): moradia e barreiras de recolocação para 40+.<br><br>"
-                "👉 <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Ver mapa interativo completo</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "As dores da população variam por região: o Entorno sofre com transporte, a capital com saúde e o interior com especialistas e estradas.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Luziânia / Entorno (45%)**: Esgotamento com transporte público para Brasília.\n"
+                "- **Goiânia (42%)**: Espera por cirurgias eletivas e falta de remédios.\n"
+                "- **Anápolis (35%)**: Dificuldade de recolocação para trabalhadores acima de 40 anos e 1º emprego para jovens.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Segmentar anúncios de Meta Ads por município abordando a queixa específica de cada localidade.")
     elif any(k in p_lower for k in ["evento", "festa", "agro", "romaria", "cavalgada", "exposição"]):
-        resp = ("🎪 <strong>150 eventos mapeados em Goiás (Ago-Out 2026):</strong><br><br>"
-                "O sistema identifica eventos agro, religiosos, culturais e políticos com público estimado e raio de tráfego pago no Meta Ads. "
-                "É possível filtrar por mês e visualizar no mapa interativo.<br><br>"
-                "👉 <a href='/eventos' style='color:#10b981;font-weight:800;'>Abrir Radar de 150 Eventos</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "O sistema mapeia 150 grandes eventos em Goiás entre agosto e outubro de 2026 para ações de presença física e campanhas de geolocalização no Meta Ads.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Eventos Mapeados**: 150 festividades agropecuárias, romarias religiosas e feiras de negócios.\n"
+                "- **Municípios Cobertos**: 246 municípios do estado com raio de alcance calculado.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Ativar tráfego pago geolocalizado com raio de 15km no local do evento 48h antes do início.")
     elif any(k in p_lower for k in ["algoritmo", "meta", "instagram", "reels", "viral", "engajamento", "furar a bolha", "sinal", "sinais", "dm"]):
-        resp = ("🚀 <strong>Diretrizes do Algoritmo da Meta (Instagram 2026):</strong><br><br>"
-                "• <strong>Sinal #1 (45% do peso):</strong> <em>Sends per Reach</em> (Compartilhamentos por DM). Crie vídeos que façam o eleitor encaminhar no grupo da família.<br>"
-                "• <strong>Sinal #2 (30% do peso):</strong> <em>Retenção 0-3 segundos</em>. O gancho visual e o texto em caixa alta na tela travam o scroll.<br>"
-                "• <strong>Sinal #3 (15% do peso):</strong> <em>ASR (Áudio Falado)</em>. O algoritmo indexa palavras magnéticas de dor real.<br>"
-                "• <strong>Zero Vício de Palanque:</strong> Discursos de político tradicional limitam o alcance aos mesmos seguidores de sempre.<br><br>"
-                "👉 <a href='/engajamento' style='color:#7c3aed;font-weight:800;'>Acessar o Laboratório de Engajamento &amp; Roteiros Virais</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "O algoritmo da Meta em 2026 prioriza conexões humanas e retenção imediata em vez de discursos burocráticos de palanque.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Sinal #1 (45% do peso)**: Sends por DM — vídeos que o cidadão envia no grupo da família.\n"
+                "- **Sinal #2 (30% do peso)**: Retenção nos primeiros 3 segundos com gancho visual cortante.\n"
+                "- **Sinal #3 (15% do peso)**: ASR (áudio falado) com palavras magnéticas de dor concreta.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Eliminar qualquer jargão burocrático e gravar conteúdos no formato 'problema real + solução de engenheiro'.")
     elif any(k in p_lower for k in ["intel", "militar", "territorial", "calor", "ibge", "municípios", "municipio", "segurança", "comando"]):
-        resp = ("🎖️ <strong>Centro de Inteligência Territorial Militar:</strong><br><br>"
-                "O sistema monitora em tempo real os 246 municípios de Goiás através de mapa de calor Leaflet com dados do IBGE, "
-                "classificando queixas populares em 6 categorias de alarme (Saúde, Transporte, Emprego, Segurança, Infraestrutura e Educação).<br><br>"
-                "👉 <a href='/intel' style='color:#00ff88;font-weight:800;'>Abrir o Centro de Comando Militar (/intel)</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "O Centro de Inteligência Territorial Militar cruza dados demográficos do IBGE com queixas reais em tempo real nos 246 municípios goianos.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Cobertura**: 246 municípios divididos em 8 polos regionais estratégicos.\n"
+                "- **Categorias Monitoradas**: Saúde, Transporte, Emprego, Segurança, Infraestrutura e Educação.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Acessar a central /intel para calibrar discursos e rotas de viagens do candidato com base nas demandas de cada cidade.")
     elif any(k in p_lower for k in ["plano", "governo", "proposta", "propostas"]):
-        resp = ("📄 <strong>Plano de Governo:</strong><br><br>"
-                "As propostas abrangem: 'Fila Visível' e 'Remédio em Casa' (foco em adultos e idosos), 'Primeiro Salário' e 'Curso com Vaga' (jovens), "
-                "e 'Cartão Creche' para mães. O foco é resolver problemas reais de todas as idades.<br><br>"
-                "👉 <a href='/plano_governo' style='color:#10b981;font-weight:800;'>Acessar base de dados</a>")
+        resp = ("### 🎯 Diagnóstico Tático\n"
+                "O plano de governo de Wilder Morais foca em soluções práticas de engenharia e gestão para resolver gargalos históricos do estado.\n\n"
+                "### 📊 Dados & Fatos do Terreno\n"
+                "- **Saúde**: Fila Visível do SUS e entrega de Remédio em Casa.\n"
+                "- **Emprego**: Primeiro Salário garantido e qualificação técnica integrada ao DAIA.\n"
+                "- **Infraestrutura**: Programa Estrada Limpa e pontes definitivas para o escoamento agro.\n\n"
+                "### 💡 Decisão de Comando\n"
+                "- **Diretriz**: Comunicar propostas mostrando cases reais já construídos por Wilder na iniciativa privada.")
     else:
-        resp = (f"🔰 <strong>Análise Estratégica: \"{pergunta}\"</strong><br><br>"
-                f"Daniel Vilela lidera as pesquisas (43,5%), enquanto Wilder Morais (22%) e Marconi Perillo (21,9%) disputam o 2º turno. "
-                f"O desafio central é unificar a mensagem de geração de 1º emprego (jovens) com a resolução de saúde e segurança (público 35 a 70 anos).<br><br>"
-                f"Para detalhes específicos, consulte o <a href='/radar_noticias' style='color:#10b981;font-weight:800;'>Radar de Notícias</a> ou o <a href='/mapa_demandas' style='color:#10b981;font-weight:800;'>Mapa de Demandas</a>.")
+        resp = (f"### 🎯 Diagnóstico Tático\n"
+                f"Análise de inteligência sobre \"{pergunta}\": a campanha exige alinhamento com a realidade eleitoral auditada de Goiás.\n\n"
+                f"### 📊 Dados & Fatos do Terreno\n"
+                f"- **Quadro Geral**: Daniel Vilela lidera com 43,5%; Wilder (22,0%) e Marconi (21,9%) travam disputa acirrada.\n"
+                f"- **Prioridade do Eleitor**: Saúde (filas do SUS), Emprego e Infraestrutura Viária.\n\n"
+                f"### 💡 Decisão de Comando\n"
+                f"- **Diretriz**: Focar nas propostas práticas do plano de governo e intensificar a presença nas cidades polo.")
 
     return jsonify({"resposta": resp}), 200
 
