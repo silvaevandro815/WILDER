@@ -262,6 +262,10 @@ PREMIUM_THEME_CSS = """
         <span class="icon">💬</span>
         <span>QG Chat</span>
     </a>
+    <a href="/conteudo" class="mobile-bottom-link">
+        <span class="icon">🎬</span>
+        <span>Conteúdo</span>
+    </a>
     <a href="/intel" class="mobile-bottom-link">
         <span class="icon">🎖️</span>
         <span>Intel 246</span>
@@ -273,10 +277,6 @@ PREMIUM_THEME_CSS = """
     <a href="/radar_noticias" class="mobile-bottom-link">
         <span class="icon">🚨</span>
         <span>Notícias</span>
-    </a>
-    <a href="/mapa_demandas" class="mobile-bottom-link">
-        <span class="icon">🗺️</span>
-        <span>Demandas</span>
     </a>
 </div>
 """
@@ -3457,6 +3457,417 @@ HTML_RADAR_NOTICIAS = """
 
 # ROUTING DAS TELAS DA QG DIGITAL MILITAR
 
+# ─── CENTRAL DE CONTEÚDO — HTML ──────────────────────────────────────────────
+HTML_CENTRAL_CONTEUDO = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎬 Central de Conteúdo — QG Digital Wilder Morais 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    """ + PREMIUM_THEME_CSS + """
+    <style>
+        body { background: #060c18; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .cc-header {
+            background: linear-gradient(135deg, #0d1527, #1a1040);
+            border-bottom: 2px solid rgba(139,92,246,0.4);
+            padding: 14px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 99;
+        }
+        .cc-title { font-size: 16px; font-weight: 900; color: #fff; }
+        .cc-subtitle { font-size: 11px; color: #8b5cf6; font-weight: 700; }
+        .cc-badge { background: #8b5cf6; color: #fff; border-radius: 20px; padding: 4px 10px; font-size: 10px; font-weight: 800; }
+        .cc-tabs {
+            display: flex; gap: 0; overflow-x: auto; background: #0d1527;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+            scrollbar-width: none;
+        }
+        .cc-tabs::-webkit-scrollbar { display: none; }
+        .cc-tab {
+            padding: 12px 18px; font-size: 12px; font-weight: 800;
+            color: #64748b; cursor: pointer; border-bottom: 3px solid transparent;
+            white-space: nowrap; transition: all .2s; flex-shrink: 0;
+        }
+        .cc-tab.active { color: #8b5cf6; border-bottom-color: #8b5cf6; }
+        .cc-tab:hover { color: #a78bfa; }
+        .cc-body { padding: 16px; max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+
+        /* Cards de Roteiro */
+        .roteiro-card {
+            background: #131b2e;
+            border: 1px solid rgba(139,92,246,0.25);
+            border-radius: 16px; padding: 18px; margin-bottom: 16px;
+            position: relative; overflow: hidden;
+        }
+        .roteiro-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #10b981);
+        }
+        .roteiro-tag {
+            display: inline-block; background: rgba(139,92,246,0.15);
+            color: #8b5cf6; border: 1px solid rgba(139,92,246,0.3);
+            border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 800; margin-bottom: 10px;
+        }
+        .roteiro-urgencia-alta { background: rgba(239,68,68,0.15); color: #ef4444; border-color: rgba(239,68,68,0.3); }
+        .roteiro-urgencia-media { background: rgba(245,158,11,0.15); color: #f59e0b; border-color: rgba(245,158,11,0.3); }
+        .roteiro-titulo { font-size: 15px; font-weight: 900; color: #f8fafc; margin-bottom: 6px; }
+        .roteiro-pauta { font-size: 11px; color: #64748b; margin-bottom: 12px; line-height: 1.5; }
+        .gancho-box {
+            background: rgba(16,185,129,0.08);
+            border: 1px solid rgba(16,185,129,0.2);
+            border-radius: 10px; padding: 12px; margin-bottom: 12px;
+        }
+        .gancho-label { font-size: 9px; font-weight: 900; color: #10b981; letter-spacing: 1px; margin-bottom: 6px; }
+        .gancho-texto-tela {
+            font-size: 15px; font-weight: 900; color: #fff; letter-spacing: .5px;
+            background: #000; padding: 6px 10px; border-radius: 6px; display: inline-block; margin: 4px 0;
+        }
+        .gancho-fala { font-size: 12px; color: #e2e8f0; font-style: italic; margin-top: 6px; }
+        .roteiro-completo {
+            background: #0d1527; border-radius: 10px; padding: 12px;
+            font-size: 11.5px; color: #94a3b8; line-height: 1.8;
+            white-space: pre-wrap; margin-bottom: 12px;
+        }
+        .asr-palavras { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+        .asr-chip {
+            background: rgba(56,189,248,0.1); color: #38bdf8;
+            border: 1px solid rgba(56,189,248,0.2);
+            border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700;
+        }
+        .cta-box {
+            background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 10px; padding: 10px 12px;
+            font-size: 12px; color: #f59e0b; font-weight: 700; margin-bottom: 12px;
+        }
+        .direcao-box {
+            font-size: 11px; color: #64748b; line-height: 1.6;
+            border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 4px;
+        }
+        .btn-copiar {
+            width: 100%; padding: 12px; border-radius: 10px; border: none;
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: #fff; font-size: 13px; font-weight: 800; cursor: pointer;
+            transition: all .2s; margin-top: 10px;
+        }
+        .btn-copiar:hover { opacity: .85; transform: translateY(-1px); }
+        .btn-copiar:active { transform: translateY(0); }
+        .score-bar {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+        }
+        .score-num { font-size: 22px; font-weight: 900; color: #10b981; }
+        .score-label { font-size: 10px; color: #64748b; }
+        .score-progress { flex: 1; height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; }
+        .score-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #10b981); border-radius: 3px; }
+
+        /* Cards de Ataque */
+        .ataque-card {
+            background: #1a0f1f; border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 16px; padding: 16px; margin-bottom: 14px;
+        }
+        .ataque-alvo { font-size: 10px; font-weight: 900; color: #ef4444; letter-spacing: 1px; margin-bottom: 8px; }
+        .ataque-titulo { font-size: 14px; font-weight: 900; color: #f8fafc; margin-bottom: 12px; }
+        .slides-preview { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .slide-item {
+            background: #0d1527; border-radius: 8px; padding: 8px 12px;
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .slide-num { font-size: 10px; font-weight: 900; color: #8b5cf6; min-width: 20px; }
+        .slide-texto { font-size: 12px; font-weight: 800; color: #f8fafc; }
+        .slide-sub { font-size: 11px; color: #64748b; }
+
+        /* Briefing */
+        .briefing-card {
+            background: #0f1a0f; border: 1px solid rgba(16,185,129,0.3);
+            border-radius: 16px; padding: 16px; margin-bottom: 14px;
+        }
+        .briefing-titulo { font-size: 14px; font-weight: 900; color: #10b981; margin-bottom: 12px; }
+        .pauta-item {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            gap: 10px;
+        }
+        .pauta-texto { font-size: 12px; color: #e2e8f0; flex: 1; line-height: 1.4; }
+        .urgencia-badge {
+            font-size: 9px; font-weight: 900; padding: 3px 8px; border-radius: 20px; flex-shrink: 0;
+        }
+        .urgencia-alta { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .urgencia-media { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .palavras-grid { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+        .palavra-ok { background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); border-radius: 20px; padding: 4px 10px; font-size: 10px; font-weight: 700; }
+        .palavra-proib { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 20px; padding: 4px 10px; font-size: 10px; font-weight: 700; text-decoration: line-through; }
+        .meta-hoje { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0; }
+        .meta-item { background: #0d1527; border-radius: 10px; padding: 10px; text-align: center; }
+        .meta-num { font-size: 22px; font-weight: 900; color: #8b5cf6; }
+        .meta-label { font-size: 10px; color: #64748b; }
+        .dica-hora { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #f59e0b; font-weight: 700; margin: 10px 0; }
+        .acao-imediata { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); border-radius: 10px; padding: 12px; font-size: 12px; color: #a78bfa; font-weight: 700; margin: 10px 0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Trends */
+        .trend-card { background: #0d1527; border: 1px solid rgba(56,189,248,0.2); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+        .trend-nome { font-size: 13px; font-weight: 900; color: #38bdf8; margin-bottom: 6px; }
+        .trend-desc { font-size: 11px; color: #94a3b8; line-height: 1.5; margin-bottom: 8px; }
+        .trend-como { font-size: 11.5px; color: #e2e8f0; background: rgba(56,189,248,0.06); border-radius: 8px; padding: 8px; margin-bottom: 6px; }
+        .trend-exemplo { font-size: 11px; color: #f59e0b; font-style: italic; margin-bottom: 6px; }
+        .trend-formato { font-size: 10px; color: #64748b; }
+
+        /* Loading */
+        .loading-state {
+            text-align: center; padding: 40px 20px; color: #64748b; font-size: 14px;
+        }
+        .spinner { width: 36px; height: 36px; border: 3px solid #1e293b; border-top-color: #8b5cf6; border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn-gerar { background: linear-gradient(135deg, #8b5cf6, #10b981); border: none; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; width: 100%; margin-bottom: 16px; }
+        .btn-atualizar { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); color: #8b5cf6; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .horario-ideal { font-size: 11px; color: #10b981; font-weight: 700; margin-top: 8px; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="cc-header">
+    <div>
+        <div class="cc-title">🎬 Central de Conteúdo</div>
+        <div class="cc-subtitle">SOCIAL MEDIA OPERACIONAL — QG WILDER MORAIS 2026</div>
+    </div>
+    <span class="cc-badge" id="totalRoteiros">Carregando...</span>
+</div>
+
+<!-- TABS -->
+<div class="cc-tabs">
+    <div class="cc-tab active" onclick="showTab('briefing')">📋 Briefing do Dia</div>
+    <div class="cc-tab" onclick="showTab('roteiros')">🎬 Roteiros Prontos</div>
+    <div class="cc-tab" onclick="showTab('ataques')">⚔️ Ataques/Contraste</div>
+    <div class="cc-tab" onclick="showTab('trends')">📡 Trends Adaptados</div>
+</div>
+
+<!-- BODY -->
+<div class="cc-body">
+
+    <!-- ── TAB: BRIEFING DO DIA ── -->
+    <div class="tab-content active" id="tab-briefing">
+        <button class="btn-gerar" onclick="atualizarTudo()">⚡ Atualizar Tudo Agora</button>
+        <div id="briefing-container">
+            <div class="loading-state"><div class="spinner"></div>Carregando briefing do dia...</div>
+        </div>
+    </div>
+
+    <!-- ── TAB: ROTEIROS PRONTOS ── -->
+    <div class="tab-content" id="tab-roteiros">
+        <button class="btn-gerar" onclick="gerarNovoConteudo()">🔄 Gerar Novos Roteiros com Notícias de Agora</button>
+        <div id="roteiros-container">
+            <div class="loading-state"><div class="spinner"></div>Carregando roteiros...</div>
+        </div>
+    </div>
+
+    <!-- ── TAB: ATAQUES / CONTRASTE ── -->
+    <div class="tab-content" id="tab-ataques">
+        <div id="ataques-container">
+            <div class="loading-state"><div class="spinner"></div>Carregando ataques...</div>
+        </div>
+    </div>
+
+    <!-- ── TAB: TRENDS ADAPTADOS ── -->
+    <div class="tab-content" id="tab-trends">
+        <div id="trends-container">
+            <div class="loading-state"><div class="spinner"></div>Carregando trends...</div>
+        </div>
+    </div>
+
+</div>
+
+""" + PREMIUM_THEME_CSS.replace('<style>', '').replace('</style>', '').replace('<script>', '').replace('</script>', '').replace('toggleMobileMenu()', 'void(0)') + """
+
+<script>
+function showTab(name) {
+    document.querySelectorAll('.cc-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+}
+
+function copiarRoteiro(texto, btn) {
+    navigator.clipboard.writeText(texto).then(() => {
+        btn.textContent = '✅ Copiado!';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        setTimeout(() => {
+            btn.textContent = '📋 Copiar Roteiro para o Produtor';
+            btn.style.background = '';
+        }, 2000);
+    }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = texto;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✅ Copiado!';
+        setTimeout(() => { btn.textContent = '📋 Copiar Roteiro para o Produtor'; }, 2000);
+    });
+}
+
+function renderBriefing(b) {
+    if (!b || !b.data_hoje) {
+        document.getElementById('briefing-container').innerHTML = '<div class="loading-state">Aguardando geração do briefing... Clique em "Atualizar Tudo Agora".</div>';
+        return;
+    }
+    let html = `
+    <div class="briefing-card">
+        <div class="briefing-titulo">📋 Briefing — ${b.data_hoje}</div>
+        <div class="dica-hora">⏰ ${b.dica_horario || ''}</div>
+        <div class="acao-imediata">🎯 AÇÃO IMEDIATA: ${b.acao_imediata || ''}</div>
+        <div class="meta-hoje">
+            <div class="meta-item"><div class="meta-num">${(b.meta_de_conteudo_hoje||{}).reels||2}</div><div class="meta-label">Reels</div></div>
+            <div class="meta-item"><div class="meta-num">${(b.meta_de_conteudo_hoje||{}).carrossel||1}</div><div class="meta-label">Carrosséis</div></div>
+            <div class="meta-item"><div class="meta-num">${(b.meta_de_conteudo_hoje||{}).stories||4}</div><div class="meta-label">Stories</div></div>
+        </div>
+        <div style="font-size:12px;font-weight:900;color:#f59e0b;margin-bottom:8px;">📰 TOP PAUTAS DO DIA</div>`;
+    (b.pautas_urgentes_do_dia||[]).forEach(p => {
+        html += `<div class="pauta-item"><span class="pauta-texto">${p.pauta||p}</span><span class="urgencia-badge urgencia-${(p.urgencia||'MÉDIA').toLowerCase().replace('é','e')}">${p.urgencia||'MÉDIA'}</span></div>`;
+    });
+    html += `<div style="font-size:12px;font-weight:900;color:#10b981;margin:12px 0 8px;">✅ PALAVRAS MAGNÉTICAS (USE HOJE)</div><div class="palavras-grid">`;
+    (b.palavras_magneticas_hoje||[]).forEach(p => { html += `<span class="palavra-ok">${p}</span>`; });
+    html += `</div><div style="font-size:12px;font-weight:900;color:#ef4444;margin:8px 0;">❌ PALAVRAS PROIBIDAS (EVITE)</div><div class="palavras-grid">`;
+    (b.palavras_proibidas_hoje||[]).forEach(p => { html += `<span class="palavra-proib">${p}</span>`; });
+    html += `</div><div style="font-size:11px;color:#64748b;margin-top:10px;">⚡ ${b.regra_do_dia||''}</div></div>`;
+    html += `<div style="font-size:10px;color:#334155;text-align:center;margin-top:8px;">Atualizado: ${b.gerado_em||''}</div>`;
+    document.getElementById('briefing-container').innerHTML = html;
+}
+
+function renderRoteiros(roteiros) {
+    if (!roteiros || roteiros.length === 0) {
+        document.getElementById('roteiros-container').innerHTML = '<div class="loading-state">Clique em "Gerar Novos Roteiros" para criar conteúdo contextualizado com as notícias de agora.</div>';
+        return;
+    }
+    document.getElementById('totalRoteiros').textContent = roteiros.length + ' Roteiros';
+    let html = '';
+    roteiros.forEach((r, idx) => {
+        const gancho = r.gancho_0_a_3s || {};
+        const score = r.score_viral_previsto || 90;
+        const urgClass = (r.urgencia || 'MÉDIA') === 'ALTA' ? 'roteiro-urgencia-alta' : 'roteiro-urgencia-media';
+        const textoParaCopiar = `ROTEIRO: ${r.titulo_criativo||''}\\n\\nTEMA: ${r.tema||''}\\n\\nGANCHO (0-3s):\\nVisual: ${gancho.visual||''}\\nTEXTO NA TELA: ${gancho.texto_tela||''}\\nFala: ${gancho.fala||''}\\n\\nROTEIRO COMPLETO:\\n${r.roteiro_completo||''}\\n\\nASR PALAVRAS-CHAVE: ${(r.palavras_asr||[]).join(', ')}\\n\\nCTA: ${r.cta_compartilhamento||''}\\n\\nDIREÇÃO DE PRODUÇÃO: ${r.direcao_producao||''}\\n\\nHORÁRIO IDEAL: ${r.horario_ideal_postar||''}`.replace(/\\\\n/g, '\\n');
+        html += `
+        <div class="roteiro-card">
+            <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+                <span class="roteiro-tag ${urgClass}">${r.urgencia||'MÉDIA'}</span>
+                <span class="roteiro-tag">${r.tipo||'reel'}</span>
+            </div>
+            <div class="score-bar">
+                <div class="score-num">${score}</div>
+                <div>
+                    <div class="score-label">SCORE VIRAL</div>
+                    <div class="score-progress"><div class="score-fill" style="width:${score}%"></div></div>
+                </div>
+            </div>
+            <div class="roteiro-titulo">${r.titulo_criativo||r.titulo||'Roteiro #'+(idx+1)}</div>
+            <div class="roteiro-pauta">📰 Pauta: ${(r.pauta_base||'').substring(0,120)}</div>
+            <div class="gancho-box">
+                <div class="gancho-label">🎬 GANCHO 0–3 SEGUNDOS (PARA O SCROLL)</div>
+                <div style="font-size:11px;color:#94a3b8;margin-bottom:4px;"><strong style="color:#10b981">📷 Visual:</strong> ${gancho.visual||''}</div>
+                <div class="gancho-texto-tela">${gancho.texto_tela||''}</div>
+                <div class="gancho-fala">🎤 "${gancho.fala||''}"</div>
+            </div>
+            <div class="roteiro-completo">${(r.roteiro_completo||'').substring(0,600)}${(r.roteiro_completo||'').length>600?'...':''}</div>
+            <div class="gancho-label" style="margin-bottom:6px;">🔊 PALAVRAS ASR (FALAR EM VOZ ALTA)</div>
+            <div class="asr-palavras">${(r.palavras_asr||[]).map(p=>`<span class="asr-chip">${p}</span>`).join('')}</div>
+            <div class="cta-box">📤 CTA: ${r.cta_compartilhamento||''}</div>
+            <div class="direcao-box">🎥 <strong>Direção de Produção:</strong> ${r.direcao_producao||''}</div>
+            ${r.horario_ideal_postar ? `<div class="horario-ideal">⏰ Horário Ideal: ${r.horario_ideal_postar}</div>` : ''}
+            <button class="btn-copiar" onclick="copiarRoteiro(\`${textoParaCopiar.replace(/`/g,"'")}\`, this)">📋 Copiar Roteiro para o Produtor</button>
+        </div>`;
+    });
+    document.getElementById('roteiros-container').innerHTML = html;
+}
+
+function renderAtaques(ataques) {
+    if (!ataques || ataques.length === 0) {
+        document.getElementById('ataques-container').innerHTML = '<div class="loading-state">Carregando ataques...</div>';
+        return;
+    }
+    let html = '';
+    ataques.forEach(a => {
+        html += `<div class="ataque-card">
+            <div class="ataque-alvo">⚔️ ALVO: ${a.alvo||''}</div>
+            <div class="ataque-titulo">${a.titulo||''}</div>
+            <div class="slides-preview">`;
+        (a.slides||[]).forEach(s => {
+            html += `<div class="slide-item"><div class="slide-num">${s.slide}</div><div><div class="slide-texto">${s.texto}</div><div class="slide-sub">${s.subtexto}</div></div></div>`;
+        });
+        html += `</div><div class="cta-box">📤 ${a.cta||''}</div>
+        <div class="horario-ideal">⏰ Horário ideal: ${a.horario_ideal||'19:00'}</div></div>`;
+    });
+    document.getElementById('ataques-container').innerHTML = html;
+}
+
+function renderTrends(trends) {
+    if (!trends || trends.length === 0) {
+        document.getElementById('trends-container').innerHTML = '<div class="loading-state">Carregando trends...</div>';
+        return;
+    }
+    let html = '';
+    trends.forEach(t => {
+        html += `<div class="trend-card">
+            <div class="trend-nome">${t.trend||t.titulo||''}</div>
+            <div class="trend-desc">${t.descricao||''}</div>
+            <div class="trend-como">💡 Como usar: ${t.como_usar||''}</div>
+            ${t.exemplo_gancho ? `<div class="trend-exemplo">🎬 Exemplo: "${t.exemplo_gancho}"</div>` : ''}
+            <div class="trend-formato">📱 ${t.formato||''}</div>
+        </div>`;
+    });
+    document.getElementById('trends-container').innerHTML = html;
+}
+
+async function carregarTudo() {
+    try {
+        const [rData, bData, aData, tData] = await Promise.all([
+            fetch('/api/conteudo_do_dia').then(r=>r.json()),
+            fetch('/api/briefing_social_media').then(r=>r.json()),
+            fetch('/api/ataques_adversarios').then(r=>r.json()),
+            fetch('/api/trends_campanha').then(r=>r.json()),
+        ]);
+        renderBriefing(bData.briefing||bData);
+        renderRoteiros(rData.roteiros||[]);
+        renderAtaques(aData.ataques||[]);
+        renderTrends(tData.trends||[]);
+        const total = (rData.roteiros||[]).length;
+        document.getElementById('totalRoteiros').textContent = total + ' Roteiros';
+    } catch(e) {
+        console.error('Erro ao carregar conteúdo:', e);
+    }
+}
+
+async function gerarNovoConteudo() {
+    document.getElementById('roteiros-container').innerHTML = '<div class="loading-state"><div class="spinner"></div>Gerando roteiros com as notícias de agora... (30s)</div>';
+    try {
+        await fetch('/api/forcar_conteudo', {method:'POST'});
+        await new Promise(r => setTimeout(r, 5000));
+        const rData = await fetch('/api/conteudo_do_dia').then(r=>r.json());
+        renderRoteiros(rData.roteiros||[]);
+    } catch(e) {
+        document.getElementById('roteiros-container').innerHTML = '<div class="loading-state">Erro ao gerar. Tente novamente.</div>';
+    }
+}
+
+async function atualizarTudo() {
+    document.getElementById('briefing-container').innerHTML = '<div class="loading-state"><div class="spinner"></div>Atualizando... aguarde.</div>';
+    try {
+        await fetch('/api/forcar_conteudo', {method:'POST'});
+        await new Promise(r => setTimeout(r, 6000));
+        carregarTudo();
+    } catch(e) {}
+}
+
+// Carrega tudo ao abrir a página
+carregarTudo();
+</script>
+</body>
+</html>
+"""
+
 @app.route("/", methods=["GET"])
 @app.route("/chat", methods=["GET"])
 def chat_home():
@@ -3468,6 +3879,99 @@ def chat_home():
         status_motor=status_motor,
         noticias_vivas=noticias_vivas
     )
+
+# ─── CENTRAL DE CONTEÚDO — ROTA E APIs ────────────────────────────────────────
+
+@app.route("/conteudo", methods=["GET"])
+@app.route("/social", methods=["GET"])
+def central_conteudo_page():
+    """Central de Conteúdo do Social Media — roteiros, ataques, trends e briefing diário."""
+    return render_template_string(HTML_CENTRAL_CONTEUDO, wilder_avatar=WILDER_AVATAR_B64)
+
+@app.route("/api/conteudo_do_dia", methods=["GET"])
+def api_conteudo_do_dia():
+    """Retorna os roteiros prontos gerados para o dia."""
+    try:
+        import conteudo_autonomo_engine as cae
+        roteiros = cae.get_roteiros_do_dia()
+        status   = cae.get_status()
+        return jsonify({"status": "ok", "roteiros": roteiros, "engine_status": status}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "roteiros": [], "mensagem": str(e)}), 200
+
+@app.route("/api/briefing_social_media", methods=["GET"])
+def api_briefing_social_media():
+    """Retorna o briefing diário do social media."""
+    try:
+        import conteudo_autonomo_engine as cae
+        briefing = cae.get_briefing_social()
+        if not briefing or not briefing.get("data_hoje"):
+            # Gera imediatamente se cache vazio
+            briefing = cae.gerar_briefing_social_media()
+        return jsonify({"status": "ok", "briefing": briefing}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "briefing": {}, "mensagem": str(e)}), 200
+
+@app.route("/api/ataques_adversarios", methods=["GET"])
+def api_ataques_adversarios():
+    """Retorna os carrosséis de contraste/ataque prontos."""
+    try:
+        import conteudo_autonomo_engine as cae
+        ataques = cae.get_ataques_prontos()
+        if not ataques:
+            ataques = cae.gerar_ataques_adversarios()
+        return jsonify({"status": "ok", "ataques": ataques, "total": len(ataques)}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "ataques": [], "mensagem": str(e)}), 200
+
+@app.route("/api/trends_campanha", methods=["GET"])
+def api_trends_campanha():
+    """Retorna as trends nacionais adaptadas para a campanha do Wilder."""
+    try:
+        import conteudo_autonomo_engine as cae
+        trends = cae.get_trends_adaptados()
+        if not trends:
+            trends = cae.adaptar_trends_virais()
+        return jsonify({"status": "ok", "trends": trends, "total": len(trends)}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "trends": [], "mensagem": str(e)}), 200
+
+@app.route("/api/forcar_conteudo", methods=["POST", "GET"])
+def api_forcar_conteudo():
+    """Força geração imediata de novos roteiros com as notícias do momento."""
+    import threading
+    try:
+        import conteudo_autonomo_engine as cae
+        threading.Thread(target=cae.gerar_conteudo_do_dia, daemon=True).start()
+        return jsonify({"status": "ok", "mensagem": "Geração de conteúdo autônomo disparada! Aguarde ~30s e recarregue."}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e)}), 200
+
+@app.route("/api/gerar_roteiro_contextualizado", methods=["POST"])
+def api_gerar_roteiro_contextualizado():
+    """Gera um roteiro pontual baseado em uma pauta/notícia específica."""
+    try:
+        import conteudo_autonomo_engine as cae
+        data     = request.json or {}
+        pauta    = (data.get("pauta") or data.get("noticia") or "").strip()
+        formato  = data.get("formato", "reel_dor_real")
+        cidade   = data.get("cidade", "Goiás")
+        if not pauta:
+            return jsonify({"erro": "Envie o campo 'pauta' com a notícia ou tema."}), 400
+        roteiro = cae.gerar_roteiro_contextualizado(pauta, formato, cidade)
+        return jsonify({"status": "ok", "roteiro": roteiro}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e)}), 500
+
+@app.route("/api/formatos_virais", methods=["GET"])
+def api_formatos_virais():
+    """Lista todos os formatos virais disponíveis em 2026."""
+    try:
+        import conteudo_autonomo_engine as cae
+        return jsonify({"status": "ok", "formatos": cae.get_formatos_disponveis()}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "mensagem": str(e)}), 500
+
 
 @app.route("/eventos", methods=["GET"])
 def eventos_radar_page():

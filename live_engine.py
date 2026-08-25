@@ -670,6 +670,7 @@ def iniciar_scheduler():
         print("  • YouTube Vídeos & Canais:          2h / 6h")
         print("  • Intel Territorial & IBGE:         2h / 24h")
         print("  • Influenciadores Virais & Adversários: 4 horas")
+        print("  • 🎬 Gerador Autônomo de Roteiros & Briefing: 6 horas")
         print("=" * 65)
 
         # Dispara coleta inicial imediata em threads assíncronas
@@ -692,6 +693,26 @@ def iniciar_scheduler():
             threading.Thread(target=_boot_viral, daemon=True, name="boot-viral").start()
         except Exception:
             pass
+
+        # Integração do Motor Autônomo de Criação de Conteúdo
+        try:
+            import conteudo_autonomo_engine as cae
+            scheduler.add_job(
+                cae.gerar_conteudo_do_dia,
+                "interval", hours=6,
+                id="conteudo_autonomo",
+                name="Gerador Autônomo de Roteiros & Briefing",
+                max_instances=1, coalesce=True
+            )
+            print("[MOTOR] 🎬 Motor Autônomo de Conteúdo integrado ao scheduler (6h).")
+
+            # Boot do conteudo engine com delay
+            def _boot_conteudo():
+                time.sleep(15)
+                cae.gerar_conteudo_do_dia()
+            threading.Thread(target=_boot_conteudo, daemon=True, name="boot-conteudo").start()
+        except Exception as e_cae:
+            print(f"[MOTOR] Aviso Conteúdo Engine: {e_cae}")
 
         def _boot_yt():
             time.sleep(4)
