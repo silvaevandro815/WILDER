@@ -259,23 +259,23 @@ PREMIUM_THEME_CSS = """
 <!-- ── BARRA DE NAVEGAÇÃO INFERIOR PARA SMARTPHONES ANDROID / TABLETS ── -->
 <div class="mobile-bottom-nav">
     <a href="/" class="mobile-bottom-link">
-        <span class="icon">💬</span>
+        <span class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
         <span>QG Chat</span>
     </a>
     <a href="/conteudo" class="mobile-bottom-link">
-        <span class="icon">🎬</span>
+        <span class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
         <span>Conteúdo</span>
     </a>
     <a href="/intel" class="mobile-bottom-link">
-        <span class="icon">🎖️</span>
+        <span class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
         <span>Intel 246</span>
     </a>
     <a href="/engajamento" class="mobile-bottom-link">
-        <span class="icon">🚀</span>
+        <span class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
         <span>Viral Lab</span>
     </a>
     <a href="/radar_noticias" class="mobile-bottom-link">
-        <span class="icon">🚨</span>
+        <span class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span>
         <span>Notícias</span>
     </a>
 </div>
@@ -618,49 +618,65 @@ HTML_CHAT_WIDGET = """
             </div>
         </div>
         <nav class="top-bar-nav">
-            <a href="/dashboard"    class="nav-icon-btn">📊 YouTube</a>
-            <a href="/mapa_demandas" class="nav-icon-btn">🗺️ Mapa</a>
-            <a href="/eventos"      class="nav-icon-btn">🎪 Eventos</a>
-            <a href="/radar_noticias" class="nav-icon-btn">🚨 Notícias</a>
-            <a href="/engajamento"  class="nav-icon-btn" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;">🚀 Engajamento</a>
-            <a href="/intel"      class="nav-icon-btn" style="background:linear-gradient(135deg,#0f172a,#1e3a4a);border:1px solid #00ff88;color:#00ff88;">🏖️ Intel</a>
-            <a href="/download_pdf" target="_blank" class="nav-icon-btn">📄 PDF 360°</a>
+            <a href="/dashboard"    class="nav-icon-btn"><span class="lc"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></span> YouTube</a>
+            <a href="/mapa_demandas" class="nav-icon-btn"><span class="lc"><svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></span> Mapa</a>
+            <a href="/eventos"      class="nav-icon-btn"><span class="lc"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Eventos</a>
+            <a href="/radar_noticias" class="nav-icon-btn"><span class="lc"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span> Notícias</a>
+            <a href="/conteudo"     class="nav-icon-btn"><span class="lc"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span> Conteúdo</a>
+            <a href="/engajamento"  class="nav-icon-btn" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent"><span class="lc"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span> Viral Lab</a>
+            <a href="/intel"      class="nav-icon-btn" style="background:linear-gradient(135deg,#0f172a,#1e3a4a);border:1px solid #00ff88;color:#00ff88;"><span class="lc"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Intel</a>
+            <a href="/download_pdf" target="_blank" class="nav-icon-btn"><span class="lc"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span> PDF 360°</a>
         </nav>
-        <button class="hamburger" onclick="toggleDrawer()">☰</button>
+        <button class="hamburger" onclick="toggleDrawer()"><span class="lc"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></span></button>
     </div>
 
     <!-- ── STORIES (módulos como Instagram) ─────────────────────────────── -->
+    <style>
+    /* ── LUCIDE SVG ICON STYLES ──────────────────────────────────────────── */
+    .lc { display:inline-block; line-height:0; }
+    .lc svg { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .story-ring-inner .lc svg { width: 24px; height: 24px; }
+    .nav-icon-btn .lc svg { width: 13px; height: 13px; margin-right: 4px; vertical-align: -1px; }
+    .drawer-link .lc svg { width: 16px; height: 16px; }
+    .mobile-bottom-link .lc svg { width: 20px; height: 20px; display:block; margin: 0 auto 2px; stroke: currentColor; }
+    .hamburger .lc svg { width: 18px; height: 18px; }
+    .ci-send .lc svg { width: 18px; height: 18px; stroke: #fff; }
+    </style>
     <div class="stories-bar">
         <a href="/dashboard" class="story-item">
-            <div class="story-ring"><div class="story-ring-inner">📊</div></div>
+            <div class="story-ring"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></span></div></div>
             <span class="story-label">YouTube</span>
         </a>
         <a href="/mapa_demandas" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#ef4444,#f97316)"><div class="story-ring-inner">🗺️</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#ef4444,#f97316)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></span></div></div>
             <span class="story-label">Mapa Goiás</span>
         </a>
         <a href="/eventos" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)"><div class="story-ring-inner">🎪</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg></span></div></div>
             <span class="story-label">150 Eventos</span>
         </a>
         <a href="/radar_noticias" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#ef4444,#8b5cf6)"><div class="story-ring-inner">🚨</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#ef4444,#8b5cf6)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span></div></div>
             <span class="story-label">Notícias</span>
         </a>
+        <a href="/conteudo" class="story-item">
+            <div class="story-ring" style="background:linear-gradient(135deg,#8b5cf6,#10b981)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span></div></div>
+            <span class="story-label">Conteúdo</span>
+        </a>
         <a href="/plano_governo" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#10b981,#06b6d4)"><div class="story-ring-inner">📋</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#10b981,#06b6d4)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span></div></div>
             <span class="story-label">Plano Gov.</span>
         </a>
         <a href="/download_pdf" target="_blank" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><div class="story-ring-inner">📄</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span></div></div>
             <span class="story-label">PDF 360°</span>
         </a>
         <a href="/engajamento" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#7c3aed,#db2777)"><div class="story-ring-inner">🚀</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#7c3aed,#db2777)"><div class="story-ring-inner"><span class="lc"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span></div></div>
             <span class="story-label">Viral Lab</span>
         </a>
         <a href="/intel" class="story-item">
-            <div class="story-ring" style="background:linear-gradient(135deg,#001a0a,#004d2a);border:2px solid #00ff88;box-shadow:0 0 12px #00ff8840;"><div class="story-ring-inner">🎖️</div></div>
+            <div class="story-ring" style="background:linear-gradient(135deg,#001a0a,#004d2a);border:2px solid #00ff88;box-shadow:0 0 12px #00ff8840;"><div class="story-ring-inner"><span class="lc" style="color:#00ff88"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span></div></div>
             <span class="story-label">Intel</span>
         </a>
     </div>
