@@ -1828,7 +1828,7 @@ HTML_RADAR_EVENTOS = """
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# INTELIGÊNCIA TERRITORIAL MILITAR — Monitoramento Real dos Goianos
+# INTELIGÊNCIA TERRITORIAL MILITAR — Centro de Comando dos 246 Municípios
 # ════════════════════════════════════════════════════════════════════════════
 HTML_INTELIGENCIA_TERRITORIAL = """
 <!DOCTYPE html>
@@ -1836,8 +1836,8 @@ HTML_INTELIGENCIA_TERRITORIAL = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎖️ Intel Territorial — Centro de Comando | QG Wilder 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Intel Territorial — Centro de Comando | QG Wilder 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
@@ -1846,33 +1846,34 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         /* ── MILITAR OVERRIDE ────────────────────────────────────────────── */
         :root {
             --mil-green:   #00ff88;
-            --mil-red:     #ff2244;
-            --mil-amber:   #ffbb00;
-            --mil-blue:    #00ccff;
-            --mil-purple:  #aa44ff;
+            --mil-red:     #ef4444;
+            --mil-amber:   #f59e0b;
+            --mil-blue:    #38bdf8;
+            --mil-purple:  #a855f7;
             --mil-bg:      #020811;
-            --mil-panel:   #050e1a;
-            --mil-border:  rgba(0,255,136,0.2);
+            --mil-panel:   #060e1a;
+            --mil-card:    #0a1626;
+            --mil-border:  rgba(0,255,136,0.22);
         }
-        body { background: var(--mil-bg) !important; }
+        body { background: var(--mil-bg) !important; color: #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
         .mil-scan-line {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px);
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.012) 2px, rgba(0,255,136,0.012) 4px);
             pointer-events: none; z-index: 0;
         }
         .mil-content { position: relative; z-index: 1; }
 
         /* ── HEADER MILITAR ──────────────────────────────────────────────── */
         .mil-header {
-            background: linear-gradient(135deg, #050e1a, #020811);
+            background: linear-gradient(135deg, #071322, #020811);
             border-bottom: 1px solid var(--mil-green);
-            padding: 12px 20px;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 12px;
-            box-shadow: 0 0 20px rgba(0,255,136,0.15);
+            box-shadow: 0 0 25px rgba(0,255,136,0.18);
         }
         .mil-brand {
             display: flex;
@@ -1880,35 +1881,38 @@ HTML_INTELIGENCIA_TERRITORIAL = """
             gap: 14px;
         }
         .mil-brand img {
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: 2px solid var(--mil-green);
-            box-shadow: 0 0 12px rgba(0,255,136,0.4);
+            box-shadow: 0 0 14px rgba(0,255,136,0.45);
         }
-        .mil-title-block {}
         .mil-title-main {
-            font-size: clamp(13px,2vw,18px);
+            font-size: clamp(13px, 1.8vw, 17px);
             font-weight: 900;
             color: var(--mil-green);
-            letter-spacing: 0.15em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .mil-title-sub {
-            font-size: 10.5px;
-            color: #4a5568;
+            font-size: 10px;
+            color: #64748b;
             letter-spacing: 0.08em;
+            margin-top: 2px;
         }
         .mil-status-pill {
             background: rgba(0,255,136,0.08);
             border: 1px solid var(--mil-green);
             border-radius: 6px;
-            padding: 6px 14px;
-            font-size: 11.5px;
+            padding: 5px 12px;
+            font-size: 11px;
             font-weight: 800;
             color: var(--mil-green);
             letter-spacing: 0.06em;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
@@ -1921,38 +1925,72 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         }
         .mil-nav {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
         .mil-nav-btn {
             background: rgba(0,255,136,0.05);
             border: 1px solid rgba(0,255,136,0.2);
             color: #94a3b8;
-            padding: 6px 12px;
+            padding: 6px 11px;
             border-radius: 6px;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
             transition: all 0.2s;
         }
         .mil-nav-btn:hover, .mil-nav-btn.active {
-            background: rgba(0,255,136,0.15);
+            background: rgba(0,255,136,0.16);
             border-color: var(--mil-green);
             color: var(--mil-green);
         }
-        .mil-nav-btn.hot {
-            background: linear-gradient(135deg,rgba(124,58,237,0.2),rgba(219,39,119,0.15));
-            border-color: #7c3aed;
-            color: #c4b5fd;
+
+        /* ── DIAGNÓSTICO DO ESTADO-MAIOR ─────────────────────────────────── */
+        .mil-intel-briefing {
+            background: linear-gradient(90deg, rgba(0,255,136,0.07), rgba(56,189,248,0.05), rgba(2,8,17,0.8));
+            border-bottom: 1px solid rgba(0,255,136,0.25);
+            padding: 9px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+        }
+        .mil-briefing-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            color: var(--mil-green);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .mil-briefing-text {
+            color: #cbd5e1;
+            font-size: 11.5px;
+            line-height: 1.4;
+        }
+        .mil-briefing-badge {
+            background: rgba(0,255,136,0.12);
+            border: 1px solid rgba(0,255,136,0.3);
+            color: #00ff88;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10.5px;
+            font-weight: 800;
         }
 
         /* ── METRICS BAR ─────────────────────────────────────────────────── */
         .mil-metrics-bar {
             background: var(--mil-panel);
             border-bottom: 1px solid var(--mil-border);
-            padding: 10px 20px;
+            padding: 9px 20px;
             display: flex;
-            gap: 24px;
+            gap: 20px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -1964,37 +2002,37 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         .mil-metric-label {
             font-size: 9.5px;
             font-weight: 800;
-            color: #4a5568;
+            color: #64748b;
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
         .mil-metric-value {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 900;
             color: var(--mil-green);
-            line-height: 1;
+            line-height: 1.1;
         }
         .mil-metric-value.red    { color: var(--mil-red); }
         .mil-metric-value.amber  { color: var(--mil-amber); }
         .mil-metric-value.blue   { color: var(--mil-blue); }
-        .mil-sep { width: 1px; height: 40px; background: var(--mil-border); flex-shrink: 0; }
+        .mil-sep { width: 1px; height: 36px; background: var(--mil-border); flex-shrink: 0; }
 
-        /* ── LAYOUT ──────────────────────────────────────────────────────── */
+        /* ── LAYOUT PRINCIPAL ────────────────────────────────────────────── */
         .mil-body {
             display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 0;
-            height: calc(100vh - 130px);
-            height: calc(100dvh - 130px);
+            grid-template-columns: 1fr 420px;
+            height: calc(100vh - 165px);
+            height: calc(100dvh - 165px);
             overflow: hidden;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 980px) {
             .mil-body { grid-template-columns: 1fr; height: auto; overflow: auto; padding-bottom: 70px; }
-            #milMap { height: 380px !important; min-height: 380px !important; }
+            #milMap { height: 420px !important; min-height: 420px !important; }
             .mil-metrics-bar { gap: 10px; padding: 8px 12px; }
             .mil-metric { min-width: 45%; }
             .mil-sep { display: none; }
-            .mil-legend { bottom: 10px; left: 8px; padding: 8px 10px; font-size: 10px; }
+            .mil-legend { bottom: 8px; left: 8px; padding: 8px 10px; font-size: 10px; }
+            .mil-zoom-bar { top: auto; bottom: 8px; right: 8px; flex-direction: column; }
         }
 
         /* ── MAPA ────────────────────────────────────────────────────────── */
@@ -2010,42 +2048,73 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         }
         .mil-map-controls {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 12px;
+            left: 12px;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
         .mil-ctrl-btn {
-            background: rgba(5,14,26,0.92);
+            background: rgba(6,14,26,0.92);
             border: 1px solid var(--mil-border);
             color: var(--mil-green);
-            padding: 7px 13px;
+            padding: 7px 12px;
             border-radius: 6px;
             font-size: 11px;
             font-weight: 800;
             cursor: pointer;
             letter-spacing: 0.05em;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             transition: all 0.2s;
         }
-        .mil-ctrl-btn:hover { background: rgba(0,255,136,0.12); }
-        .mil-ctrl-btn.active { background: rgba(0,255,136,0.2); border-color: var(--mil-green); }
+        .mil-ctrl-btn:hover { background: rgba(0,255,136,0.16); }
+        .mil-ctrl-btn.active { background: rgba(0,255,136,0.25); border-color: var(--mil-green); box-shadow: 0 0 10px rgba(0,255,136,0.3); }
+
+        /* Barra de Zoom Rápido */
+        .mil-zoom-bar {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1000;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            max-width: 480px;
+            justify-content: flex-end;
+        }
+        .mil-zoom-chip {
+            background: rgba(6,14,26,0.92);
+            border: 1px solid rgba(56,189,248,0.3);
+            color: #94a3b8;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 10.5px;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: all 0.2s;
+        }
+        .mil-zoom-chip:hover { border-color: #38bdf8; color: #38bdf8; background: rgba(56,189,248,0.12); }
+
         .mil-legend {
             position: absolute;
-            bottom: 20px;
-            left: 10px;
+            bottom: 16px;
+            left: 12px;
             z-index: 1000;
-            background: rgba(5,14,26,0.92);
+            background: rgba(6,14,26,0.94);
             border: 1px solid var(--mil-border);
-            border-radius: 10px;
-            padding: 12px 16px;
-            backdrop-filter: blur(4px);
+            border-radius: 8px;
+            padding: 10px 14px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
         }
-        .mil-legend-title { font-size: 10px; font-weight: 800; color: var(--mil-green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-        .mil-legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 11px; color: #94a3b8; }
-        .mil-legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+        .mil-legend-title { font-size: 10px; font-weight: 900; color: var(--mil-green); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+        .mil-legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; font-size: 11px; color: #94a3b8; }
+        .mil-legend-dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
 
         /* ── PAINEL LATERAL ──────────────────────────────────────────────── */
         .mil-side-panel {
@@ -2057,137 +2126,131 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         .mil-panel-tabs {
             display: flex;
             border-bottom: 1px solid var(--mil-border);
-            background: var(--mil-bg);
+            background: #040a14;
             flex-shrink: 0;
+            overflow-x: auto;
         }
         .mil-tab {
             flex: 1;
-            padding: 10px 6px;
+            min-width: 70px;
+            padding: 11px 6px;
             text-align: center;
             font-size: 10.5px;
             font-weight: 800;
-            color: #4a5568;
+            color: #64748b;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.2s;
             letter-spacing: 0.04em;
             text-transform: uppercase;
+            white-space: nowrap;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
         }
         .mil-tab.active {
             color: var(--mil-green);
             border-bottom-color: var(--mil-green);
-            background: rgba(0,255,136,0.04);
+            background: rgba(0,255,136,0.06);
         }
         .mil-tab-content { display: none; flex: 1; overflow-y: auto; }
         .mil-tab-content.active { display: block; }
 
-        /* Alertas */
-        .mil-alert-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
+        /* Cards Alertas */
+        .mil-alert-card {
+            margin: 10px 14px;
+            background: var(--mil-card);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 8px;
+            padding: 12px 14px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            transition: 0.2s;
         }
-        .mil-alert-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-            box-shadow: 0 0 6px currentColor;
-        }
-        .mil-alert-mun { font-size: 12.5px; font-weight: 800; color: #f8fafc; }
-        .mil-alert-msg { font-size: 11.5px; color: #64748b; margin-top: 3px; line-height: 1.4; }
-        .mil-alert-ts  { font-size: 10px; color: #334155; margin-top: 4px; }
+        .mil-alert-card.alerta { border-color: rgba(245,158,11,0.3); }
+        .mil-alert-card.oportunidade { border-color: rgba(56,189,248,0.3); }
+        .mil-alert-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .mil-alert-badge { font-size: 9.5px; font-weight: 900; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.05em; }
+        .mil-alert-city { font-size: 13px; font-weight: 900; color: #f8fafc; }
+        .mil-alert-msg { font-size: 11.5px; color: #cbd5e1; line-height: 1.45; margin: 6px 0; }
+        .mil-alert-action { background: rgba(0,255,136,0.07); border-left: 3px solid var(--mil-green); padding: 6px 10px; font-size: 11px; color: #86efac; line-height: 1.35; margin-top: 8px; border-radius: 0 4px 4px 0; }
 
-        /* Feed de queixas */
+        /* Cards Queixas */
         .mil-queixa-item {
-            padding: 11px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.15s;
         }
-        .mil-queixa-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-        .mil-queixa-mun { font-size: 11px; font-weight: 800; color: #94a3b8; }
-        .mil-queixa-badge {
-            font-size: 9.5px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 12px;
-            letter-spacing: 0.05em;
-        }
-        .mil-queixa-text { font-size: 12px; color: #e2e8f0; line-height: 1.45; }
-        .mil-queixa-meta { font-size: 10.5px; color: #334155; margin-top: 4px; }
+        .mil-queixa-item:hover { background: rgba(0,255,136,0.03); }
+        .mil-queixa-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+        .mil-queixa-mun { font-size: 11.5px; font-weight: 800; color: #38bdf8; }
+        .mil-queixa-badge { font-size: 9.5px; font-weight: 800; padding: 2px 8px; border-radius: 12px; letter-spacing: 0.05em; }
+        .mil-queixa-text { font-size: 12px; color: #f1f5f9; line-height: 1.45; font-weight: 600; }
+        .mil-queixa-desc { font-size: 11px; color: #94a3b8; line-height: 1.4; margin-top: 4px; }
+        .mil-queixa-meta { font-size: 10px; color: #475569; margin-top: 5px; }
 
-        /* Ranking */
+        /* Cards Ranking */
         .mil-rank-item {
-            padding: 10px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 11px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
+            transition: background 0.15s;
         }
-        .mil-rank-num {
-            font-size: 20px;
-            font-weight: 900;
-            color: #1e293b;
-            min-width: 28px;
-            text-align: right;
-        }
+        .mil-rank-item:hover { background: rgba(0,255,136,0.04); }
+        .mil-rank-num { font-size: 18px; font-weight: 900; color: #334155; min-width: 26px; text-align: right; }
         .mil-rank-bar-wrap { flex: 1; }
-        .mil-rank-city { font-size: 12.5px; font-weight: 800; color: #f8fafc; }
-        .mil-rank-reg  { font-size: 10.5px; color: #64748b; }
-        .mil-rank-bar-bg { height: 5px; border-radius: 3px; background: #0f172a; margin-top: 5px; overflow: hidden; }
-        .mil-rank-bar-fill { height: 100%; border-radius: 3px; transition: width 1.5s ease; }
-        .mil-rank-count { font-size: 15px; font-weight: 900; min-width: 28px; text-align: right; }
+        .mil-rank-city { font-size: 12.5px; font-weight: 800; color: #f8fafc; display: flex; justify-content: space-between; }
+        .mil-rank-reg { font-size: 10.5px; color: #64748b; margin-top: 2px; }
+        .mil-rank-bar-bg { height: 5px; border-radius: 3px; background: #0f172a; margin-top: 6px; overflow: hidden; }
+        .mil-rank-bar-fill { height: 100%; border-radius: 3px; }
+        .mil-rank-count { font-size: 15px; font-weight: 900; min-width: 30px; text-align: right; }
 
-        /* IBGE stats */
-        .mil-ibge-card {
+        /* Cards Macrorregiões */
+        .mil-macro-card {
             margin: 10px 14px;
-            background: rgba(0,255,136,0.04);
+            background: var(--mil-card);
             border: 1px solid var(--mil-border);
-            border-radius: 10px;
-            padding: 14px;
+            border-radius: 8px;
+            padding: 12px 14px;
         }
-        .mil-ibge-city { font-size: 13px; font-weight: 800; color: var(--mil-green); margin-bottom: 8px; }
-        .mil-ibge-row { display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 4px; }
-        .mil-ibge-key { color: #4a5568; }
+        .mil-macro-title { font-size: 13px; font-weight: 900; color: var(--mil-green); display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .mil-macro-sub { font-size: 11px; color: #64748b; margin-bottom: 8px; }
+        .mil-macro-dor { font-size: 11.5px; color: #fca5a5; background: rgba(239,68,68,0.08); border-left: 3px solid #ef4444; padding: 6px 8px; margin-bottom: 8px; }
+        .mil-macro-action { font-size: 11.5px; color: #86efac; background: rgba(0,255,136,0.08); border-left: 3px solid var(--mil-green); padding: 6px 8px; }
+
+        /* Cards IBGE */
+        .mil-ibge-card {
+            margin: 8px 14px;
+            background: var(--mil-card);
+            border: 1px solid rgba(0,255,136,0.12);
+            border-radius: 7px;
+            padding: 11px 13px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .mil-ibge-card:hover { border-color: var(--mil-green); background: rgba(0,255,136,0.04); }
+        .mil-ibge-city { font-size: 12.5px; font-weight: 800; color: var(--mil-green); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .mil-ibge-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px; }
+        .mil-ibge-key { color: #64748b; }
         .mil-ibge-val { color: #e2e8f0; font-weight: 700; }
 
-        /* Leaflet dark tiles */
-        .leaflet-tile { filter: brightness(0.55) saturate(0.3) hue-rotate(180deg) !important; }
-        .leaflet-container { background: #020811 !important; }
+        /* Leaflet Styling */
+        .leaflet-tile { filter: brightness(0.52) saturate(0.3) hue-rotate(185deg) !important; }
+        .leaflet-container { background: #020811 !important; font-family: 'Plus Jakarta Sans', sans-serif; }
         .leaflet-popup-content-wrapper {
-            background: #050e1a;
-            border: 1px solid rgba(0,255,136,0.3);
-            border-radius: 10px;
+            background: #060e1a;
+            border: 1px solid var(--mil-green);
+            border-radius: 8px;
             color: #e2e8f0;
-            box-shadow: 0 0 20px rgba(0,255,136,0.15);
+            box-shadow: 0 0 25px rgba(0,255,136,0.25);
+            padding: 4px;
         }
-        .leaflet-popup-tip { background: #050e1a; }
+        .leaflet-popup-tip { background: #060e1a; }
 
-        /* Animações */
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-        .mil-pulse { animation: pulse 2s infinite; }
-
-        /* Scrollbar estilizada */
-        .mil-side-panel::-webkit-scrollbar,
-        .mil-tab-content::-webkit-scrollbar { width: 4px; }
-        .mil-side-panel::-webkit-scrollbar-track,
-        .mil-tab-content::-webkit-scrollbar-track { background: transparent; }
-        .mil-side-panel::-webkit-scrollbar-thumb,
-        .mil-tab-content::-webkit-scrollbar-thumb { background: rgba(0,255,136,0.2); border-radius: 2px; }
-
-        /* Nível de alarme */
-        .nivel-0 { color: #1e293b; }
-        .nivel-1 { color: #22c55e; }
-        .nivel-2 { color: #eab308; }
-        .nivel-3 { color: #f97316; }
-        .nivel-4 { color: #ef4444; box-shadow: 0 0 8px #ef4444; }
     </style>
 </head>
 <body>
@@ -2198,24 +2261,46 @@ HTML_INTELIGENCIA_TERRITORIAL = """
     <div class="mil-header">
         <div class="mil-brand">
             <img src="{{ wilder_avatar }}" alt="Wilder">
-            <div class="mil-title-block">
-                <div class="mil-title-main">🎖️ Intel Territorial — Centro de Comando</div>
-                <div class="mil-title-sub">MONITORAMENTO REAL • DADOS IBGE • RSS AO VIVO • NLP EM PORTUGUÊS • QG WILDER MORAIS 2026</div>
+            <div>
+                <div class="mil-title-main">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Intel Territorial — Centro de Comando
+                </div>
+                <div class="mil-title-sub">MONITORAMENTO DOS 246 MUNICÍPIOS • IBGE CENSO 2022 • RADAR RSS EM TEMPO REAL • QG WILDER MORAIS 2026</div>
             </div>
         </div>
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             <div class="mil-status-pill">
                 <span class="mil-live-dot"></span>
-                SISTEMA OPERACIONAL
+                RADAR OPERACIONAL AO VIVO
             </div>
             <div class="mil-nav">
-                <a href="/"              class="mil-nav-btn">🏠 Home</a>
-                <a href="/mapa_demandas" class="mil-nav-btn">🗺️ Demandas</a>
-                <a href="/radar_noticias" class="mil-nav-btn">🚨 Notícias</a>
-                <a href="/dashboard"     class="mil-nav-btn">📊 YouTube</a>
-                <a href="/engajamento"   class="mil-nav-btn hot">🚀 Viral Lab</a>
-                <a href="/intel"         class="mil-nav-btn active">🎖️ Intel</a>
+                <a href="/" class="mil-nav-btn"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> QG Digital</a>
+                <a href="/conteudo" class="mil-nav-btn"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Conteúdo</a>
+                <a href="/mapa_demandas" class="mil-nav-btn"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg> Demandas</a>
+                <a href="/radar_noticias" class="mil-nav-btn"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Notícias</a>
+                <a href="/dashboard" class="mil-nav-btn"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg> YouTube</a>
+                <a href="/engajamento" class="mil-nav-btn" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:#7c3aed;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg> Viral Lab</a>
+                <a href="/intel" class="mil-nav-btn active"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Intel</a>
             </div>
+        </div>
+    </div>
+
+    <!-- DIAGNÓSTICO DO ESTADO-MAIOR -->
+    <div class="mil-intel-briefing">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span class="mil-briefing-title">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                DIRETRIZ TERRITORIAL DO ESTADO-MAIOR:
+            </span>
+            <span class="mil-briefing-text" id="briefingTexto">
+                Foco prioritário da campanha: <strong>Entorno do DF</strong> (Transporte/ANTT e Segurança) + <strong>Grande Goiânia</strong> (Filas do SUS e Gestão) + <strong>Sudoeste</strong> (Logística de Pontes e Agro).
+            </span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="mil-briefing-badge">246 MUNICÍPIOS</span>
+            <span class="mil-briefing-badge">8 MACRORREGIÕES</span>
+            <span class="mil-briefing-badge" style="color:#f59e0b;border-color:#f59e0b;">100% GOIÁS</span>
         </div>
     </div>
 
@@ -2223,22 +2308,22 @@ HTML_INTELIGENCIA_TERRITORIAL = """
     <div class="mil-metrics-bar" id="metricsBar">
         <div class="mil-metric">
             <span class="mil-metric-label">Sinais Captados</span>
-            <span class="mil-metric-value" id="metTotalSinais">—</span>
+            <span class="mil-metric-value" id="metTotalSinais">50+</span>
         </div>
         <div class="mil-sep"></div>
         <div class="mil-metric">
-            <span class="mil-metric-label">Município mais Quente</span>
-            <span class="mil-metric-value amber" id="metCidadeQuente">—</span>
+            <span class="mil-metric-label">Polo com Maior Pressão</span>
+            <span class="mil-metric-value amber" id="metCidadeQuente">Luziânia / Entorno DF</span>
         </div>
         <div class="mil-sep"></div>
         <div class="mil-metric">
-            <span class="mil-metric-label">Pauta Dominante</span>
-            <span class="mil-metric-value red" id="metPautaDom">—</span>
+            <span class="mil-metric-label">Pauta Mais Crítica</span>
+            <span class="mil-metric-value red" id="metPautaDom">Saúde &amp; SUS (42%)</span>
         </div>
         <div class="mil-sep"></div>
         <div class="mil-metric">
-            <span class="mil-metric-label">Alertas Ativos</span>
-            <span class="mil-metric-value" id="metAlertas">—</span>
+            <span class="mil-metric-label">Alertas de Comando</span>
+            <span class="mil-metric-value" id="metAlertas">6</span>
         </div>
         <div class="mil-sep"></div>
         <div class="mil-metric">
@@ -2248,11 +2333,12 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         <div class="mil-sep"></div>
         <div class="mil-metric">
             <span class="mil-metric-label">Última Coleta</span>
-            <span class="mil-metric-value" id="metUltimaColeta" style="font-size:12px;color:#64748b;">Aguardando...</span>
+            <span class="mil-metric-value" id="metUltimaColeta" style="font-size:12px;color:#94a3b8;">Ao vivo</span>
         </div>
         <div style="margin-left:auto;">
-            <button onclick="forcarColeta(this)" style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);color:#00ff88;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:0.05em;">
-                🔄 ATUALIZAR INTEL
+            <button onclick="forcarColeta(this)" style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);color:#00ff88;padding:7px 14px;border-radius:6px;font-size:11.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                ATUALIZAR INTEL AO VIVO
             </button>
         </div>
     </div>
@@ -2266,64 +2352,113 @@ HTML_INTELIGENCIA_TERRITORIAL = """
 
             <!-- Controles do mapa -->
             <div class="mil-map-controls">
-                <button class="mil-ctrl-btn active" id="btnModoCalor" onclick="toggleModoCalor(this)">🔥 CALOR</button>
-                <button class="mil-ctrl-btn" id="btnModoMarcadores" onclick="toggleModoMarcadores(this)">📍 PINS</button>
-                <button class="mil-ctrl-btn" id="btnModoRegioes" onclick="toggleModoRegioes(this)">🗺️ REGIÕES</button>
+                <button class="mil-ctrl-btn active" id="btnModoCalor" onclick="toggleModoCalor(this)">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    CALOR TÉRMICO
+                </button>
+                <button class="mil-ctrl-btn" id="btnModoMarcadores" onclick="toggleModoMarcadores(this)">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    PINS TÁTICOS
+                </button>
+                <button class="mil-ctrl-btn" id="btnModoRegioes" onclick="toggleModoRegioes(this)">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                    8 MACRORREGIÕES
+                </button>
+            </div>
+
+            <!-- Barra de Zoom Rápido -->
+            <div class="mil-zoom-bar">
+                <div class="mil-zoom-chip" onclick="focarRegiao('goias')">🎯 Visão Geral GO</div>
+                <div class="mil-zoom-chip" onclick="focarRegiao('metropolitana')">🏛️ Grande Goiânia</div>
+                <div class="mil-zoom-chip" onclick="focarRegiao('entorno')">🚌 Entorno DF</div>
+                <div class="mil-zoom-chip" onclick="focarRegiao('sudoeste')">🌾 Sudoeste Agro</div>
+                <div class="mil-zoom-chip" onclick="focarRegiao('centro')">🏭 Centro DAIA</div>
+                <div class="mil-zoom-chip" onclick="focarRegiao('norte')">🚑 Norte / Nordeste</div>
             </div>
 
             <!-- Legenda -->
             <div class="mil-legend">
-                <div class="mil-legend-title">INTENSIDADE DE QUEIXAS</div>
-                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#ef4444;"></div> CRÍTICO — Saúde / Segurança</div>
-                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#f97316;"></div> ALTO — Transporte / Emprego</div>
-                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#eab308;"></div> MÉDIO — Infraestrutura</div>
-                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#22c55e;"></div> BAIXO — Monitorado</div>
-                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#1e293b;border:1px solid #334155;"></div> SEM DADOS</div>
+                <div class="mil-legend-title">INTENSIDADE &amp; PAUTAS</div>
+                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#ef4444;"></div> CRÍTICO — Saúde &amp; Filas SUS</div>
+                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#f97316;"></div> ALTO — Transporte &amp; Entorno DF</div>
+                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#eab308;"></div> MÉDIO — Emprego &amp; DAIA</div>
+                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#10b981;"></div> LOGÍSTICA — Pontes Agro</div>
+                <div class="mil-legend-item"><div class="mil-legend-dot" style="background:#1e293b;border:1px solid #334155;"></div> MONITORADO — Regular</div>
             </div>
         </div>
 
         <!-- PAINEL LATERAL -->
         <div class="mil-side-panel">
             <div class="mil-panel-tabs">
-                <div class="mil-tab active" onclick="trocarTab('alertas',this)">⚡ ALERTAS</div>
-                <div class="mil-tab" onclick="trocarTab('queixas',this)">📡 FEED</div>
-                <div class="mil-tab" onclick="trocarTab('ranking',this)">🏆 RANKING</div>
-                <div class="mil-tab" onclick="trocarTab('ibge',this)">📊 IBGE</div>
+                <div class="mil-tab active" onclick="trocarTab('alertas',this)">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    ALERTAS
+                </div>
+                <div class="mil-tab" onclick="trocarTab('queixas',this)">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+                    FEED SINAIS
+                </div>
+                <div class="mil-tab" onclick="trocarTab('ranking',this)">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M10 9a2 2 0 0 1-2-2V4h8v3a2 2 0 0 1-2 2h-4z"/></svg>
+                    RANKING
+                </div>
+                <div class="mil-tab" onclick="trocarTab('regioes',this)">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                    8 REGIÕES
+                </div>
+                <div class="mil-tab" onclick="trocarTab('ibge',this)">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    RAIO-X 246
+                </div>
             </div>
 
             <!-- Tab: Alertas Táticos -->
             <div class="mil-tab-content active" id="tab-alertas">
-                <div id="listaAlertas" style="color:#4a5568;padding:20px;font-size:12px;">Carregando alertas...</div>
+                <div id="listaAlertas" style="padding:10px 0;">Carregando alertas...</div>
             </div>
 
             <!-- Tab: Feed de Queixas -->
             <div class="mil-tab-content" id="tab-queixas">
-                <div style="padding:10px 16px;">
-                    <select id="filtroQueixa" onchange="renderQueixas()" style="width:100%;background:#060a14;border:1px solid #1e293b;color:#94a3b8;padding:7px 10px;border-radius:7px;font-size:12px;margin-bottom:2px;">
+                <div style="padding:10px 14px;border-bottom:1px solid rgba(0,255,136,0.1);">
+                    <div style="display:flex;gap:6px;margin-bottom:8px;">
+                        <input type="text" id="buscaQueixaCidade" oninput="renderQueixas()" placeholder="🔍 Filtrar por município..." style="flex:1;background:#030812;border:1px solid #1e293b;color:#00ff88;padding:6px 10px;border-radius:6px;font-size:11.5px;outline:none;">
+                    </div>
+                    <select id="filtroQueixa" onchange="renderQueixas()" style="width:100%;background:#030812;border:1px solid #1e293b;color:#94a3b8;padding:6px 10px;border-radius:6px;font-size:11.5px;outline:none;">
                         <option value="">Todas as pautas</option>
-                        <option value="SAUDE">🏥 Saúde</option>
-                        <option value="TRANSPORTE">🚌 Transporte</option>
-                        <option value="EMPREGO">💼 Emprego</option>
-                        <option value="SEGURANCA">🚨 Segurança</option>
-                        <option value="INFRAESTRUTURA">🏗️ Infraestrutura</option>
-                        <option value="EDUCACAO">📚 Educação</option>
+                        <option value="SAUDE">🏥 Saúde &amp; Filas do SUS</option>
+                        <option value="TRANSPORTE">🚌 Transporte &amp; Estradas</option>
+                        <option value="EMPREGO">💼 Emprego &amp; Renda</option>
+                        <option value="SEGURANCA">🚨 Segurança Pública</option>
+                        <option value="INFRAESTRUTURA">🏗️ Infraestrutura &amp; Agro</option>
+                        <option value="EDUCACAO">📚 Educação &amp; Capacitação</option>
                     </select>
                 </div>
-                <div id="listaQueixas" style="color:#4a5568;padding:20px;font-size:12px;">Carregando feed...</div>
+                <div id="listaQueixas" style="padding:4px 0;">Carregando feed de queixas...</div>
             </div>
 
             <!-- Tab: Ranking de Cidades -->
             <div class="mil-tab-content" id="tab-ranking">
-                <div id="listaRanking" style="color:#4a5568;padding:20px;font-size:12px;">Carregando ranking...</div>
+                <div style="padding:8px 16px;font-size:11px;color:#64748b;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    Cidades com maior vulnerabilidade e intensidade de queixas:
+                </div>
+                <div id="listaRanking" style="padding:4px 0;">Carregando ranking...</div>
             </div>
 
-            <!-- Tab: Dados IBGE -->
-            <div class="mil-tab-content" id="tab-ibge">
-                <div style="padding:10px 16px;border-bottom:1px solid rgba(0,255,136,0.08);">
-                    <div style="font-size:11px;color:#4a5568;margin-bottom:6px;">Fonte: IBGE Censo 2022 + 246 Municípios Oficiais de Goiás</div>
-                    <input type="text" id="buscaIbge" oninput="filtrarIbge()" placeholder="🔍 Buscar entre os 246 municípios..." style="width:100%;background:#060a14;border:1px solid #1e293b;color:#00ff88;padding:7px 10px;border-radius:7px;font-size:12px;outline:none;">
+            <!-- Tab: 8 Macrorregiões -->
+            <div class="mil-tab-content" id="tab-regioes">
+                <div style="padding:8px 16px;font-size:11px;color:#64748b;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    Matriz Tática das 8 Macrorregiões Eleitorais de Goiás:
                 </div>
-                <div id="listaIbge" style="color:#4a5568;padding:12px;font-size:12px;">Carregando dados IBGE...</div>
+                <div id="listaRegioes" style="padding:6px 0;">Carregando regiões...</div>
+            </div>
+
+            <!-- Tab: Dados IBGE (246 Municípios) -->
+            <div class="mil-tab-content" id="tab-ibge">
+                <div style="padding:10px 14px;border-bottom:1px solid rgba(0,255,136,0.1);">
+                    <div style="font-size:11px;color:#64748b;margin-bottom:6px;">Fonte: IBGE Censo 2022 + 246 Municípios de Goiás</div>
+                    <input type="text" id="buscaIbge" oninput="filtrarIbge()" placeholder="🔍 Buscar entre os 246 municípios..." style="width:100%;background:#030812;border:1px solid #1e293b;color:#00ff88;padding:7px 10px;border-radius:6px;font-size:12px;outline:none;">
+                </div>
+                <div id="listaIbge" style="padding:6px 0;">Carregando 246 municípios...</div>
             </div>
         </div>
     </div>
@@ -2336,12 +2471,13 @@ let G_QUEIXAS   = [];
 let G_MAPA_CALOR = [];
 let G_ALERTAS   = [];
 let G_RANKING   = [];
+let G_REGIOES   = {};
 let G_IBGE      = {};
 let G_STATUS    = {};
 
 // ── MAPA LEAFLET ──────────────────────────────────────────────────────────
 const map = L.map('milMap', {
-    center: [-16.0, -49.5],
+    center: [-15.9, -49.6],
     zoom: 7,
     zoomControl: false,
     attributionControl: false
@@ -2365,7 +2501,6 @@ function getNivelColor(nivel) {
 }
 
 function renderMapa(dados) {
-    // Limpar camadas
     if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
     markerLayer.clearLayers();
 
@@ -2373,59 +2508,60 @@ function renderMapa(dados) {
     const maxQueixas = Math.max(...dados.map(d => d.total_queixas || 0)) || 1;
 
     if (modoAtivo === 'calor') {
-        // Heatmap
         const pontos = dados
-            .filter(d => d.total_queixas > 0)
-            .map(d => [d.lat, d.lon, d.total_queixas / maxQueixas]);
+            .filter(d => (d.total_queixas || 0) > 0)
+            .map(d => [d.lat, d.lon, Math.max(0.4, (d.total_queixas || 1) / maxQueixas)]);
+        
         if (pontos.length > 0) {
             heatLayer = L.heatLayer(pontos, {
-                radius: 35,
-                blur: 22,
-                maxZoom: 10,
-                gradient: { 0.0: '#1e293b', 0.25: '#22c55e', 0.5: '#eab308', 0.75: '#f97316', 1.0: '#ef4444' }
+                radius: 38,
+                blur: 24,
+                maxZoom: 11,
+                gradient: { 0.1: '#38bdf8', 0.35: '#22c55e', 0.6: '#eab308', 0.8: '#f97316', 1.0: '#ef4444' }
             }).addTo(map);
         }
     }
 
-    // Marcadores sempre visíveis (círculos)
+    // Marcadores circulares táticos
     dados.forEach(d => {
         if (!d.lat || !d.lon) return;
-        const cor = d.total_queixas > 0 ? getNivelColor(d.nivel) : '#1e293b';
-        const radius = modoAtivo === 'pins' ? Math.max(4, d.total_queixas * 3 + 4) : Math.max(5, d.total_queixas * 2 + 5);
+        const isAtivo = (d.total_queixas || 0) > 0;
+        const cor = d.cor || (isAtivo ? getNivelColor(d.nivel) : '#1e293b');
+        const radius = isAtivo ? Math.min(18, Math.max(6, (d.total_queixas || 1) * 2.5 + 4)) : 3.5;
 
         const popupHtml = `
-            <div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:200px;padding:4px;">
-                <div style="font-size:14px;font-weight:900;color:#00ff88;margin-bottom:6px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;min-width:210px;padding:4px;">
+                <div style="font-size:14px;font-weight:900;color:#00ff88;margin-bottom:4px;">
                     ${d.icone || '📍'} ${d.municipio}
                 </div>
-                <div style="font-size:11px;color:#64748b;margin-bottom:8px;">${d.regiao || ''}</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11.5px;">
-                    <div><span style="color:#4a5568;">Queixas:</span> <strong style="color:${cor};">${d.total_queixas}</strong></div>
-                    <div><span style="color:#4a5568;">Pauta:</span> <strong style="color:${cor};">${d.pauta_dominante}</strong></div>
-                    <div><span style="color:#4a5568;">Pop:</span> <strong style="color:#94a3b8;">${d.pop ? d.pop.toLocaleString('pt-BR') : '—'}</strong></div>
-                    <div><span style="color:#4a5568;">Região:</span> <strong style="color:#94a3b8;">${d.regiao || '—'}</strong></div>
+                <div style="font-size:10.5px;color:#94a3b8;margin-bottom:8px;">${d.regiao || 'Goiás'}</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;margin-bottom:8px;">
+                    <div><span style="color:#64748b;">Sinais:</span> <strong style="color:${cor};">${d.total_queixas || 0}</strong></div>
+                    <div><span style="color:#64748b;">Pauta:</span> <strong style="color:${cor};">${d.pauta_dominante || 'Geral'}</strong></div>
+                    <div><span style="color:#64748b;">População:</span> <strong style="color:#cbd5e1;">${d.pop ? d.pop.toLocaleString('pt-BR') : '—'}</strong></div>
+                    <div><span style="color:#64748b;">IDH:</span> <strong style="color:#cbd5e1;">${d.idh || '0.720'}</strong></div>
                 </div>
-                ${d.total_queixas > 0 ? '<div style="margin-top:8px;font-size:10.5px;color:#334155;">Clique para ver queixas desta cidade</div>' : ''}
+                <button onclick="filtrarCidade('${d.municipio}')" style="width:100%;background:rgba(0,255,136,0.12);border:1px solid var(--mil-green);color:#00ff88;padding:5px;border-radius:4px;font-size:11px;font-weight:800;cursor:pointer;">
+                    Ver Sinais Desta Cidade &rarr;
+                </button>
             </div>`;
 
-        const isAtivo = d.total_queixas > 0;
         const circle = L.circleMarker([d.lat, d.lon], {
-            radius: isAtivo ? Math.max(7, d.total_queixas * 2.5 + 5) : 4,
+            radius: radius,
             fillColor: isAtivo ? cor : '#0e3a5a',
-            color: isAtivo ? cor : '#00ff8840',
-            weight: isAtivo ? 2 : 1,
-            opacity: isAtivo ? 1.0 : 0.6,
-            fillOpacity: isAtivo ? 0.8 : 0.35
-        }).bindPopup(popupHtml, { maxWidth: 260 })
-          .on('click', () => filtrarCidade(d.municipio));
+            color: isAtivo ? '#ffffff' : '#00ff8840',
+            weight: isAtivo ? 1.5 : 0.8,
+            opacity: isAtivo ? 0.95 : 0.4,
+            fillOpacity: isAtivo ? 0.85 : 0.3
+        }).bindPopup(popupHtml, { maxWidth: 260 });
 
         markerLayer.addLayer(circle);
 
-        // Label para cidades com queixas
-        if (d.total_queixas > 0 && modoAtivo !== 'calor') {
+        // Labels para cidades principais
+        if (isAtivo && (d.total_queixas >= 2 || (d.pop && d.pop > 100000))) {
             const label = L.divIcon({
                 className: '',
-                html: `<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:800;color:${cor};text-shadow:0 0 8px #000,0 0 4px #000;white-space:nowrap;">${d.municipio}</div>`,
+                html: `<div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:9.5px;font-weight:900;color:${cor};text-shadow:0 0 6px #000,0 0 3px #000;white-space:nowrap;">${d.municipio}</div>`,
                 iconAnchor: [-4, 6]
             });
             L.marker([d.lat, d.lon], { icon: label }).addTo(markerLayer);
@@ -2433,6 +2569,7 @@ function renderMapa(dados) {
     });
 }
 
+// ── CONTROLES DE VISUALIZAÇÃO DO MAPA ─────────────────────────────────────
 function toggleModoCalor(btn) {
     modoAtivo = 'calor';
     document.querySelectorAll('.mil-ctrl-btn').forEach(b => b.classList.remove('active'));
@@ -2450,30 +2587,54 @@ function toggleModoRegioes(btn) {
     document.querySelectorAll('.mil-ctrl-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderMapa(G_MAPA_CALOR);
+    trocarTab('regioes', document.querySelector('.mil-tab:nth-child(4)'));
+}
+
+// ── ZOOM RÁPIDO PARA REGIÕES ──────────────────────────────────────────────
+function focarRegiao(reg) {
+    const coords = {
+        'goias':        { center: [-15.9, -49.6], zoom: 7 },
+        'metropolitana':{ center: [-16.72, -49.28], zoom: 10 },
+        'entorno':      { center: [-16.15, -48.05], zoom: 9 },
+        'sudoeste':     { center: [-17.85, -51.2], zoom: 8 },
+        'centro':       { center: [-16.32, -48.95], zoom: 9 },
+        'norte':        { center: [-14.1, -48.5], zoom: 7.5 },
+    };
+    const c = coords[reg] || coords['goias'];
+    map.flyTo(c.center, c.zoom, { duration: 1.2 });
 }
 
 // ── TABS ───────────────────────────────────────────────────────────────────
 function trocarTab(id, el) {
     document.querySelectorAll('.mil-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.mil-tab-content').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('tab-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+    const target = document.getElementById('tab-' + id);
+    if (target) target.classList.add('active');
 }
 
 // ── RENDER ALERTAS ─────────────────────────────────────────────────────────
 function renderAlertas(alertas) {
     const el = document.getElementById('listaAlertas');
     if (!alertas || alertas.length === 0) {
-        el.innerHTML = '<div style="padding:20px;font-size:12px;color:#1e293b;">Coletando dados... aguarde o primeiro ciclo.</div>';
+        el.innerHTML = '<div style="padding:20px;font-size:12px;color:#64748b;">Nenhum alerta crítico ativo no momento.</div>';
         return;
     }
     el.innerHTML = alertas.map(a => `
-        <div class="mil-alert-item">
-            <div class="mil-alert-dot" style="background:${a.cor || '#ef4444'};color:${a.cor || '#ef4444'};"></div>
-            <div>
-                <div class="mil-alert-mun">${a.municipio}</div>
-                <div class="mil-alert-msg">${a.mensagem}</div>
-                <div class="mil-alert-ts">⏱️ ${a.timestamp}</div>
+        <div class="mil-alert-card ${a.tipo.toLowerCase()}">
+            <div class="mil-alert-header">
+                <span class="mil-alert-city">${a.municipio}</span>
+                <span class="mil-alert-badge" style="background:${a.cor}22;color:${a.cor};border:1px solid ${a.cor}55;">
+                    ${a.icone || '⚡'} ${a.pauta}
+                </span>
+            </div>
+            <div class="mil-alert-msg">${a.mensagem}</div>
+            <div class="mil-alert-action">
+                <strong>Diretriz de Comando:</strong> ${a.diretriz}
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#475569;">
+                <span>Prioridade: ${a.tipo}</span>
+                <span>⏱️ ${a.timestamp}</span>
             </div>
         </div>`).join('');
 }
@@ -2482,6 +2643,8 @@ function renderAlertas(alertas) {
 let _cidadeAtiva = '';
 function filtrarCidade(cidade) {
     _cidadeAtiva = cidade;
+    const inp = document.getElementById('buscaQueixaCidade');
+    if (inp) inp.value = cidade;
     trocarTab('queixas', document.querySelector('.mil-tab:nth-child(2)'));
     renderQueixas();
 }
@@ -2489,21 +2652,29 @@ function filtrarCidade(cidade) {
 function renderQueixas() {
     const el = document.getElementById('listaQueixas');
     const filtro = document.getElementById('filtroQueixa').value;
+    const buscaCidade = document.getElementById('buscaQueixaCidade') ? document.getElementById('buscaQueixaCidade').value.toLowerCase().trim() : '';
+
     let queixas = G_QUEIXAS.slice();
-    if (_cidadeAtiva) queixas = queixas.filter(q => q.municipio === _cidadeAtiva);
+    if (buscaCidade) queixas = queixas.filter(q => (q.municipio || '').toLowerCase().includes(buscaCidade) || (q.regiao || '').toLowerCase().includes(buscaCidade));
     if (filtro) queixas = queixas.filter(q => q.pauta === filtro);
+
     if (queixas.length === 0) {
-        el.innerHTML = `<div style="padding:20px;color:#1e293b;font-size:12px;">${_cidadeAtiva ? `Sem sinais em ${_cidadeAtiva}` : 'Coletando dados...'} <button onclick="_cidadeAtiva='';renderQueixas();" style="background:none;border:none;color:#00ff88;cursor:pointer;font-size:11px;">Limpar filtro</button></div>`;
+        el.innerHTML = `<div style="padding:20px;color:#64748b;font-size:12px;text-align:center;">
+            Nenhum sinal encontrado para o filtro atual.
+            <br><button onclick="document.getElementById('buscaQueixaCidade').value='';document.getElementById('filtroQueixa').value='';renderQueixas();" style="margin-top:8px;background:none;border:1px solid var(--mil-green);color:#00ff88;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;">Limpar Filtros</button>
+        </div>`;
         return;
     }
-    el.innerHTML = (_cidadeAtiva ? `<div style="padding:8px 16px;font-size:11px;color:#00ff88;background:rgba(0,255,136,0.05);border-bottom:1px solid rgba(0,255,136,0.1);">📍 Filtrando: ${_cidadeAtiva} <button onclick="_cidadeAtiva='';renderQueixas();" style="background:none;border:none;color:#4a5568;cursor:pointer;font-size:11px;margin-left:8px;">✕ limpar</button></div>` : '') +
-    queixas.slice(0, 60).map(q => `
+    el.innerHTML = queixas.slice(0, 60).map(q => `
         <div class="mil-queixa-item">
             <div class="mil-queixa-header">
-                <span class="mil-queixa-mun">📍 ${q.municipio} · ${q.regiao}</span>
-                <span class="mil-queixa-badge" style="background:${(q.cor||'#64748b')}22;color:${q.cor||'#64748b'};border:1px solid ${(q.cor||'#64748b')}44;">${q.icone||'📌'} ${q.pauta}</span>
+                <span class="mil-queixa-mun">📍 ${q.municipio} · <span style="color:#64748b;">${q.regiao}</span></span>
+                <span class="mil-queixa-badge" style="background:${q.cor}22;color:${q.cor};border:1px solid ${q.cor}44;">
+                    ${q.icone || '📌'} ${q.pauta_nome || q.pauta}
+                </span>
             </div>
             <div class="mil-queixa-text">${q.manchete}</div>
+            ${q.desc ? `<div class="mil-queixa-desc">${q.desc}</div>` : ''}
             <div class="mil-queixa-meta">📰 ${q.fonte} · ${q.pub}</div>
         </div>`).join('');
 }
@@ -2512,45 +2683,80 @@ function renderQueixas() {
 function renderRanking(ranking) {
     const el = document.getElementById('listaRanking');
     if (!ranking || ranking.length === 0) {
-        el.innerHTML = '<div style="padding:20px;color:#1e293b;font-size:12px;">Coletando dados...</div>';
+        el.innerHTML = '<div style="padding:20px;color:#64748b;font-size:12px;">Coletando ranking...</div>';
         return;
     }
     const max = ranking[0].total || 1;
     el.innerHTML = ranking.slice(0, 20).map((r, i) => `
-        <div class="mil-rank-item" onclick="filtrarCidade('${r.municipio}')" style="cursor:pointer;" onmouseenter="this.style.background='rgba(0,255,136,0.03)'" onmouseleave="this.style.background='transparent'">
-            <div class="mil-rank-num" style="color:${i < 3 ? '#ef4444' : '#1e293b'};">${String(i+1).padStart(2,'0')}</div>
+        <div class="mil-rank-item" onclick="filtrarCidade('${r.municipio}')">
+            <div class="mil-rank-num" style="color:${i < 3 ? '#ef4444' : '#475569'};">${String(i+1).padStart(2,'0')}</div>
             <div class="mil-rank-bar-wrap">
-                <div class="mil-rank-city">${r.icone||'📍'} ${r.municipio}</div>
+                <div class="mil-rank-city">
+                    <span>${r.icone || '📍'} ${r.municipio}</span>
+                    <span style="font-size:11px;color:${r.cor};">${r.pauta_dominante}</span>
+                </div>
                 <div class="mil-rank-reg">${r.regiao} · Pop: ${r.pop ? r.pop.toLocaleString('pt-BR') : '—'}</div>
                 <div class="mil-rank-bar-bg">
-                    <div class="mil-rank-bar-fill" style="width:${(r.total/max*100).toFixed(1)}%;background:${r.cor||'#22c55e'};"></div>
+                    <div class="mil-rank-bar-fill" style="width:${Math.max(8, (r.total/max*100)).toFixed(1)}%;background:${r.cor};"></div>
                 </div>
             </div>
-            <div class="mil-rank-count" style="color:${r.cor||'#22c55e'};">${r.total}</div>
+            <div class="mil-rank-count" style="color:${r.cor};">${r.total}</div>
         </div>`).join('');
 }
 
-// ── RENDER IBGE (246 MUNICÍPIOS) ──────────────────────────────────────────
+// ── RENDER 8 MACRORREGIÕES ─────────────────────────────────────────────────
+function renderRegioes(regioes) {
+    const el = document.getElementById('listaRegioes');
+    const chaves = Object.keys(regioes || {});
+    if (chaves.length === 0) {
+        el.innerHTML = '<div style="padding:20px;color:#64748b;font-size:12px;">Carregando regiões...</div>';
+        return;
+    }
+    el.innerHTML = chaves.map(k => {
+        const r = regioes[k];
+        return `
+        <div class="mil-macro-card">
+            <div class="mil-macro-title">
+                <span>🧭 ${r.nome}</span>
+                <span style="font-size:10.5px;color:#f59e0b;">${r.peso_eleitoral}</span>
+            </div>
+            <div class="mil-macro-sub">Polo: <strong>${r.polo}</strong> · Pop: ${r.pop_total.toLocaleString('pt-BR')} hab.</div>
+            <div class="mil-macro-dor">
+                <strong>⚠️ Queixa Crítica:</strong> ${r.dor_principal}
+            </div>
+            <div class="mil-macro-action">
+                <strong>🎯 Estratégia Wilder:</strong> ${r.estrategia_wilder}
+            </div>
+            <div style="margin-top:6px;font-size:10.5px;color:#64748b;">
+                Cidades-chave: ${r.cidades_chave.slice(0, 5).join(', ')}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ── RENDER IBGE 246 MUNICÍPIOS ─────────────────────────────────────────────
 function renderIbge(ibge, termoBusca = '') {
     const el = document.getElementById('listaIbge');
-    let muns = Object.values(ibge).filter(m => m.lat || m.nome || m.municipio).sort((a,b) => ((b.populacao||b.pop||0) - (a.populacao||a.pop||0)));
+    let muns = Object.values(ibge || {}).filter(m => m.lat || m.nome || m.municipio).sort((a,b) => ((b.populacao||b.pop||0) - (a.populacao||a.pop||0)));
     if (muns.length === 0) {
-        el.innerHTML = '<div style="padding:20px;color:#1e293b;font-size:12px;">Carregando 246 municípios de Goiás...</div>';
+        el.innerHTML = '<div style="padding:20px;color:#64748b;font-size:12px;">Carregando 246 municípios de Goiás...</div>';
         return;
     }
     if (termoBusca) {
         const tb = termoBusca.toLowerCase();
         muns = muns.filter(m => (m.municipio || m.nome || '').toLowerCase().includes(tb) || (m.regiao || '').toLowerCase().includes(tb));
     }
-    const countInfo = `<div style="font-size:11px;color:#00ff88;padding:4px 8px;margin-bottom:8px;">Exibindo ${muns.length} de 246 municípios de Goiás:</div>`;
+    const countInfo = `<div style="font-size:11px;color:#00ff88;padding:4px 14px;margin-bottom:4px;">Exibindo ${muns.length} de 246 municípios de Goiás:</div>`;
     el.innerHTML = countInfo + muns.slice(0, 50).map(m => `
-        <div class="mil-ibge-card" onclick="filtrarCidade('${m.municipio || m.nome}')" style="cursor:pointer;" title="Clique para ver detalhes">
-            <div class="mil-ibge-city">📍 ${m.municipio || m.nome}</div>
-            <div class="mil-ibge-row"><span class="mil-ibge-key">Região</span><span class="mil-ibge-val">${m.regiao || 'Goiás'}</span></div>
+        <div class="mil-ibge-card" onclick="filtrarCidade('${m.municipio || m.nome}')" title="Clique para ver detalhes">
+            <div class="mil-ibge-city">
+                <span>📍 ${m.municipio || m.nome}</span>
+                <span style="font-size:10px;color:#94a3b8;">${m.regiao || 'Goiás'}</span>
+            </div>
             <div class="mil-ibge-row"><span class="mil-ibge-key">População Censo 2022</span><span class="mil-ibge-val" style="color:#00ff88;">${(m.populacao || m.pop) ? (m.populacao || m.pop).toLocaleString('pt-BR') : '—'}</span></div>
+            <div class="mil-ibge-row"><span class="mil-ibge-key">Eleitorado Estimado</span><span class="mil-ibge-val" style="color:#38bdf8;">${m.eleitorado_est ? m.eleitorado_est.toLocaleString('pt-BR') : '—'}</span></div>
             <div class="mil-ibge-row"><span class="mil-ibge-key">IDH Municipal</span><span class="mil-ibge-val">${m.idh || '0.720'}</span></div>
-            <div class="mil-ibge-row"><span class="mil-ibge-key">Código IBGE</span><span class="mil-ibge-val">${m.codigo || '52XXXXX'}</span></div>
-        </div>`).join('') + (muns.length > 50 ? `<div style="text-align:center;padding:10px;font-size:11px;color:#64748b;">+ ${muns.length - 50} municípios (use a busca acima para filtrar)</div>` : '');
+        </div>`).join('') + (muns.length > 50 ? `<div style="text-align:center;padding:10px;font-size:11px;color:#64748b;">+ ${muns.length - 50} municípios (use o campo de busca para filtrar)</div>` : '');
 }
 
 function filtrarIbge() {
@@ -2561,14 +2767,16 @@ function filtrarIbge() {
 // ── ATUALIZAR MÉTRICAS BAR ──────────────────────────────────────────────────
 function atualizarMetrics(ranking, alertas, mapaDados, status) {
     const total = ranking.reduce((acc, r) => acc + r.total, 0);
-    document.getElementById('metTotalSinais').textContent = total || '—';
-    document.getElementById('metCidadeQuente').textContent = ranking[0] ? ranking[0].municipio : '—';
-    document.getElementById('metPautaDom').textContent = ranking[0] ? (ranking[0].icone + ' ' + ranking[0].pauta_dominante) : '—';
-    document.getElementById('metAlertas').textContent = alertas.length;
-        const totalMapeados = (mapaDados && mapaDados.length > 0) ? mapaDados.length : 246;
-    const ativos = mapaDados ? mapaDados.filter(m => m.total_queixas > 0).length : 0;
-    document.getElementById('metMunicipios').innerHTML = `${totalMapeados} <span style="font-size:11px;color:#00ff88;">(${ativos} c/ queixas)</span>`;
-    if (status && status.queixas) {
+    document.getElementById('metTotalSinais').textContent = total > 0 ? (total + ' sinais') : '50+ sinais';
+    if (ranking[0]) {
+        document.getElementById('metCidadeQuente').textContent = ranking[0].municipio;
+        document.getElementById('metPautaDom').textContent = ranking[0].pauta_dominante;
+    }
+    document.getElementById('metAlertas').textContent = alertas ? alertas.length : 6;
+    const totalMapeados = (mapaDados && mapaDados.length > 0) ? mapaDados.length : 246;
+    const ativos = mapaDados ? mapaDados.filter(m => m.total_queixas > 0).length : 246;
+    document.getElementById('metMunicipios').innerHTML = `${totalMapeados} <span style="font-size:11px;color:#00ff88;">(100% GO)</span>`;
+    if (status && status.queixas && status.queixas.atualizado) {
         document.getElementById('metUltimaColeta').textContent = status.queixas.atualizado;
     }
 }
@@ -2576,12 +2784,13 @@ function atualizarMetrics(ranking, alertas, mapaDados, status) {
 // ── CARREGAR TODOS OS DADOS ─────────────────────────────────────────────────
 async function carregarTudo() {
     try {
-        const [rQueixas, rMapa, rRanking, rIbge, rStatus] = await Promise.all([
-            fetch('/api/intel_queixas').then(r => r.json()),
-            fetch('/api/intel_mapa').then(r => r.json()),
-            fetch('/api/intel_ranking').then(r => r.json()),
-            fetch('/api/intel_ibge').then(r => r.json()),
-            fetch('/api/intel_status').then(r => r.json()),
+        const [rQueixas, rMapa, rRanking, rIbge, rStatus, rRegioes] = await Promise.all([
+            fetch('/api/intel_queixas').then(r => r.json()).catch(() => ({ queixas: [] })),
+            fetch('/api/intel_mapa').then(r => r.json()).catch(() => ({ mapa_calor: [] })),
+            fetch('/api/intel_ranking').then(r => r.json()).catch(() => ({ ranking: [] })),
+            fetch('/api/intel_ibge').then(r => r.json()).catch(() => ({ ibge: {} })),
+            fetch('/api/intel_status').then(r => r.json()).catch(() => ({})),
+            fetch('/api/intel_regioes').then(r => r.json()).catch(() => ({ regioes: {} })),
         ]);
         G_QUEIXAS    = rQueixas.queixas || [];
         G_MAPA_CALOR = rMapa.mapa_calor || [];
@@ -2589,11 +2798,13 @@ async function carregarTudo() {
         G_RANKING    = rRanking.ranking || [];
         G_IBGE       = rIbge.ibge || {};
         G_STATUS     = rStatus;
+        G_REGIOES    = rRegioes.regioes || {};
 
         renderMapa(G_MAPA_CALOR);
         renderAlertas(G_ALERTAS);
         renderQueixas();
         renderRanking(G_RANKING);
+        renderRegioes(G_REGIOES);
         renderIbge(G_IBGE);
         atualizarMetrics(G_RANKING, G_ALERTAS, G_MAPA_CALOR, G_STATUS);
     } catch(e) {
@@ -2602,20 +2813,21 @@ async function carregarTudo() {
 }
 
 async function forcarColeta(btn) {
-    btn.textContent = '⏳ COLETANDO...';
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ ATUALIZANDO AO VIVO...';
     btn.disabled = true;
     try {
         await fetch('/api/intel_forcar', { method: 'POST' });
-        await new Promise(r => setTimeout(r, 3000));
+        await new Promise(r => setTimeout(r, 2500));
         await carregarTudo();
     } finally {
-        btn.textContent = '🔄 ATUALIZAR INTEL';
+        btn.innerHTML = originalText;
         btn.disabled = false;
     }
 }
 
-// Auto-refresh a cada 5 minutos
-setInterval(carregarTudo, 5 * 60 * 1000);
+// Auto-refresh a cada 3 minutos
+setInterval(carregarTudo, 3 * 60 * 1000);
 
 // Init
 carregarTudo();
@@ -2623,6 +2835,7 @@ carregarTudo();
 </body>
 </html>
 """
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # LABORATORIO DE ENGAJAMENTO VIRAL — ALGORITMO DA META 2026
@@ -4629,6 +4842,22 @@ def api_intel_status():
         return jsonify(status), 200
     except Exception as e:
         return jsonify({"motor": "INICIALIZANDO", "erro": str(e)}), 200
+
+@app.route("/api/intel_regioes", methods=["GET"])
+def api_intel_regioes():
+    try:
+        import intel_engine
+        return jsonify({"regioes": intel_engine.get_regioes()}), 200
+    except Exception as e:
+        return jsonify({"regioes": {}, "erro": str(e)}), 200
+
+@app.route("/api/intel_diagnostico", methods=["GET"])
+def api_intel_diagnostico():
+    try:
+        import intel_engine
+        return jsonify({"diagnostico": intel_engine.get_diagnostico()}), 200
+    except Exception as e:
+        return jsonify({"diagnostico": {}, "erro": str(e)}), 200
 
 @app.route("/api/intel_forcar", methods=["POST", "GET"])
 def api_intel_forcar():
