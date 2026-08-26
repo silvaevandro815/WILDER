@@ -671,6 +671,20 @@ def iniciar_scheduler():
         except Exception as e_ig:
             print(f"[MOTOR] Aviso Instagram Intel Engine: {e_ig}")
 
+        # Job 10: Radar de Datas Comemorativas & Alertas por E-mail (4h)
+        try:
+            import datas_comemorativas_engine as dce
+            scheduler.add_job(
+                dce.verificar_e_alertar_datas_automatico,
+                "interval", hours=4,
+                id="datas_comemorativas",
+                name="Radar de Datas Comemorativas & Alertas por E-mail",
+                max_instances=1, coalesce=True
+            )
+            print("[MOTOR] 📅 Radar de Datas Comemorativas (26/08 a 20/10) integrado ao scheduler master.")
+        except Exception as e_dce:
+            print(f"[MOTOR] Aviso Datas Comemorativas Engine: {e_dce}")
+
         scheduler.start()
         _scheduler_started = True
 
@@ -715,6 +729,16 @@ def iniciar_scheduler():
                 time.sleep(12)
                 iie.atualizar_intel_instagram()
             threading.Thread(target=_boot_instagram, daemon=True, name="boot-instagram").start()
+        except Exception:
+            pass
+
+        # Boot do Calendário de Datas Comemorativas (26/08 a 20/10)
+        try:
+            import datas_comemorativas_engine as dce
+            def _boot_datas():
+                time.sleep(18)
+                dce.verificar_e_alertar_datas_automatico()
+            threading.Thread(target=_boot_datas, daemon=True, name="boot-datas").start()
         except Exception:
             pass
 

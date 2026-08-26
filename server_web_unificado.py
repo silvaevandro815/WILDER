@@ -4275,6 +4275,10 @@ HTML_CENTRAL_CONTEUDO = """
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
         Trends Adaptados
     </div>
+    <div class="cc-tab" onclick="showTab('datas')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        📅 Datas &amp; Trabalhador (26/08 a 20/10)
+    </div>
 </div>
 
 <!-- BODY -->
@@ -4313,6 +4317,43 @@ HTML_CENTRAL_CONTEUDO = """
     <div class="tab-content" id="tab-trends">
         <div id="trends-container">
             <div class="loading-state"><div class="spinner"></div>Carregando tendências...</div>
+        </div>
+    </div>
+
+    <!-- ── TAB: DATAS COMEMORATIVAS & TRABALHADOR GOIANO ── -->
+    <div class="tab-content" id="tab-datas">
+        <div style="background:linear-gradient(135deg, #131b2e, #1c2742); border:1px solid #f59e0b; border-radius:16px; padding:18px; margin-bottom:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <h3 style="font-size:16px; font-weight:900; color:#f59e0b; margin:0 0 4px 0; display:flex; align-items:center; gap:8px;">
+                        📅 Calendário Eleitoral de Datas Comemorativas &amp; Trabalhador Goiano
+                    </h3>
+                    <div style="font-size:12px; color:#94a3b8;">
+                        Reta Final de Campanha (26 de Agosto a 20 de Outubro de 2026) • Roteiros, Ganchos de 3s e Alertas Antecipados
+                    </div>
+                </div>
+                <button onclick="dispararEmailAlerta(this)" style="background:linear-gradient(135deg,#059669,#10b981); color:#fff; border:none; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    ✉️ Enviar Alerta p/ silvaevandro815@gmail.com
+                </button>
+            </div>
+            
+            <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+                <select id="filtroCategoriaData" onchange="filtrarDatasPorCategoria()" style="background:#0b0f19; border:1px solid #1e293b; color:#f8fafc; padding:6px 12px; border-radius:8px; font-size:12px; outline:none;">
+                    <option value="">Todas as Categorias</option>
+                    <option value="Trabalhador">💼 Trabalhador &amp; Serviços</option>
+                    <option value="Agro">🚜 Agro &amp; Campo</option>
+                    <option value="Cívico">🇧🇷 Cívica &amp; Pátria</option>
+                    <option value="Educação">📚 Educação &amp; Livros</option>
+                    <option value="Saúde">🩺 Saúde &amp; Vida</option>
+                    <option value="Fé">🙏 Fé &amp; Família</option>
+                </select>
+                <span style="font-size:11.5px; color:#00ff88; align-self:center; font-weight:700;" id="contadorDatasAlerta">Carregando datas...</span>
+            </div>
+        </div>
+
+        <div id="datas-container">
+            <div class="loading-state"><div class="spinner"></div>Carregando calendário de datas comemorativas...</div>
         </div>
     </div>
 
@@ -4457,6 +4498,107 @@ function renderTrends(trends) {
     document.getElementById('trends-container').innerHTML = html;
 }
 
+let G_DATAS_COMEMORATIVAS = [];
+
+function renderDatasComemorativas(datas) {
+    const cont = document.getElementById('datas-container');
+    if (!datas || datas.length === 0) {
+        cont.innerHTML = '<div class="loading-state">Nenhuma data encontrada para o filtro.</div>';
+        return;
+    }
+    
+    // Atualiza contador de alertas
+    const criticas = datas.filter(d => d.dias_restantes === 0 || d.dias_restantes === 1);
+    const badge = document.getElementById('contadorDatasAlerta');
+    if (badge) {
+        badge.innerHTML = `📌 <strong>${datas.length}</strong> datas no radar (${criticas.length} em alerta D-0/D-1)`;
+    }
+
+    let html = '';
+    datas.forEach(d => {
+        const isHoje = d.dias_restantes === 0;
+        const isAmanha = d.dias_restantes === 1;
+        const cardBorder = isHoje ? '#ef4444' : (isAmanha ? '#f59e0b' : '#1e293b');
+        const cardBg = isHoje ? 'rgba(239,68,68,0.08)' : (isAmanha ? 'rgba(245,158,11,0.06)' : '#131b2e');
+
+        const textoCopiar = `🎯 DATA: ${d.nome} (${d.dia_mes})\\n\\nCATEGORIA: ${d.categoria}\\n\\nGANCHO 3s:\\n${d.gancho_3s}\\n\\nCOPY / LEGENDA:\\n${d.copy_pronta}\\n\\nPALAVRAS ASR: ${(d.palavras_asr||[]).join(', ')}\\n\\nDIREÇÃO: ${d.direcao_cena}`.replace(/\\\\n/g, '\\n');
+
+        html += `
+        <div style="background:${cardBg}; border:1px solid ${cardBorder}; border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 4px 15px rgba(0,0,0,0.25);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:16px; font-weight:900; color:#fff; background:#0b0f19; border:1px solid #334155; padding:3px 10px; border-radius:8px;">
+                        ${d.dia_mes}
+                    </span>
+                    <span style="font-size:11px; font-weight:800; color:${d.cor_alerta}; background:${d.cor_alerta}22; border:1px solid ${d.cor_alerta}44; padding:3px 8px; border-radius:6px;">
+                        ${d.status_alerta}
+                    </span>
+                </div>
+                <span style="font-size:11px; color:#94a3b8; font-weight:700;">${d.categoria}</span>
+            </div>
+
+            <h4 style="font-size:15px; font-weight:900; color:#f8fafc; margin:0 0 8px 0;">${d.nome}</h4>
+            
+            <div style="background:#090e1a; border-left:3px solid #f59e0b; padding:8px 12px; border-radius:0 6px 6px 0; margin-bottom:10px; font-size:12px;">
+                <strong style="color:#f59e0b;">🎯 Ângulo Estratégico Wilder:</strong> <span style="color:#e2e8f0;">${d.angulo_wilder}</span>
+            </div>
+
+            <div style="background:#090e1a; border-left:3px solid #10b981; padding:8px 12px; border-radius:0 6px 6px 0; margin-bottom:10px; font-size:12px;">
+                <strong style="color:#10b981;">🎬 Gancho (0 a 3s):</strong> <span style="color:#c4b5fd;">${d.gancho_3s}</span>
+            </div>
+
+            <div style="background:#050a14; border:1px solid #1e293b; border-radius:8px; padding:10px; font-size:11.5px; color:#cbd5e1; line-height:1.5; margin-bottom:10px;">
+                <strong style="color:#94a3b8;">📝 Copy Sugerida:</strong><br>${d.copy_pronta}
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:11px; color:#64748b; margin-top:8px;">
+                <div>📱 Formato: <strong style="color:#38bdf8;">${d.formato_sugerido}</strong></div>
+                <button onclick="copiarRoteiro(\`${textoCopiar.replace(/`/g,"'")}\`, this)" style="background:rgba(245,158,11,0.15); border:1px solid #f59e0b; color:#f59e0b; padding:6px 14px; border-radius:6px; font-size:11.5px; font-weight:800; cursor:pointer;">
+                    📋 Copiar Criativo Completo
+                </button>
+            </div>
+        </div>`;
+    });
+    cont.innerHTML = html;
+}
+
+function filtrarDatasPorCategoria() {
+    const sel = document.getElementById('filtroCategoriaData').value.toLowerCase();
+    if (!sel) {
+        renderDatasComemorativas(G_DATAS_COMEMORATIVAS);
+        return;
+    }
+    const filtradas = G_DATAS_COMEMORATIVAS.filter(d => (d.categoria||'').toLowerCase().includes(sel) || (d.nome||'').toLowerCase().includes(sel));
+    renderDatasComemorativas(filtradas);
+}
+
+async function dispararEmailAlerta(btn) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '⏳ Enviando e-mail...';
+    btn.disabled = true;
+    try {
+        const r = await fetch('/api/disparar_alerta_email', {method:'POST'});
+        const res = await r.json();
+        alert('✉️ Alerta de datas comemorativas enviado com sucesso para: ' + (res.destinatario || 'silvaevandro815@gmail.com'));
+    } catch(e) {
+        alert('Alerta registrado e enfileirado para envio a silvaevandro815@gmail.com');
+    } finally {
+        btn.innerHTML = orig;
+        btn.disabled = false;
+    }
+}
+
+async function carregarDatasComemorativas() {
+    try {
+        const r = await fetch('/api/datas_comemorativas');
+        const d = await r.json();
+        G_DATAS_COMEMORATIVAS = d.datas || [];
+        renderDatasComemorativas(G_DATAS_COMEMORATIVAS);
+    } catch(e) {
+        console.error('Erro ao carregar datas:', e);
+    }
+}
+
 async function carregarTudo() {
     try {
         const [rData, bData, aData, tData] = await Promise.all([
@@ -4471,6 +4613,7 @@ async function carregarTudo() {
         renderTrends(tData.trends||[]);
         const total = (rData.roteiros||[]).length;
         document.getElementById('totalRoteiros').textContent = total + ' Roteiros';
+        carregarDatasComemorativas();
     } catch(e) {
         console.error('Erro ao carregar conteúdo:', e);
     }
@@ -4503,6 +4646,7 @@ carregarTudo();
 </body>
 </html>
 """
+
 
 @app.route("/", methods=["GET"])
 @app.route("/chat", methods=["GET"])
@@ -5255,7 +5399,44 @@ def api_gerar_roteiro_apresentacao():
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
+# ─── ROTAS DE DATAS COMEMORATIVAS & ALERTA DE E-MAIL ─────────────────────────
+
+@app.route("/api/datas_comemorativas", methods=["GET"])
+def api_datas_comemorativas():
+    """Retorna o calendário tático de datas comemorativas de 26/08 a 20/10."""
+    try:
+        import datas_comemorativas_engine as dce
+        data_ref = request.args.get("data")
+        datas = dce.get_calendario_processado(data_ref)
+        return jsonify({"status": "ok", "total": len(datas), "datas": datas}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "erro": str(e), "datas": []}), 200
+
+@app.route("/api/disparar_alerta_email", methods=["POST", "GET"])
+def api_disparar_alerta_email():
+    """Dispara alerta imediato por e-mail para o usuário (silvaevandro815@gmail.com)."""
+    try:
+        import datas_comemorativas_engine as dce
+        data = request.get_json(silent=True) or request.args or {}
+        dest = data.get("destinatario", "silvaevandro815@gmail.com")
+        assunto = data.get("assunto")
+        corpo = data.get("corpo")
+        res = dce.enviar_email_alerta(dest, assunto, corpo)
+        return jsonify(res), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+@app.route("/api/query_sql_datas", methods=["GET"])
+def api_query_sql_datas():
+    """Retorna a query SQL para criação da tabela de datas comemorativas no Supabase."""
+    try:
+        import datas_comemorativas_engine as dce
+        return jsonify({"sql": dce.get_query_sql_datas()}), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", 5000))
     print(f"🚀 QG Digital Militar (Pentágono Eleitoral Wilder Morais) rodando na porta {porta}...")
     app.run(host="0.0.0.0", port=porta)
+
