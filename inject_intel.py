@@ -526,12 +526,16 @@ const map = L.map('milMap', {
 });
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-// Tile layer escuro (CartoDB Dark)
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CartoDB',
-    subdomains: 'abcd',
-    maxZoom: 19
-}).addTo(map);
+// Tile layer escuro (Esri Dark Gray - Sem API Key)
+const layerTaticoBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Esri, HERE &copy; OpenStreetMap',
+    maxZoom: 16
+});
+const layerTaticoLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
+    opacity: 0.95
+});
+L.layerGroup([layerTaticoBase, layerTaticoLabels]).addTo(map);
 
 let heatLayer = null;
 let markerLayer = L.layerGroup().addTo(map);

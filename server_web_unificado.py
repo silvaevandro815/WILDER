@@ -2237,9 +2237,8 @@ HTML_INTELIGENCIA_TERRITORIAL = """
         .mil-ibge-key { color: #64748b; }
         .mil-ibge-val { color: #e2e8f0; font-weight: 700; }
 
-        /* Leaflet Styling */
-        .leaflet-tile { filter: brightness(0.52) saturate(0.3) hue-rotate(185deg) !important; }
-        .leaflet-container { background: #020811 !important; font-family: 'Plus Jakarta Sans', sans-serif; }
+        /* Leaflet Styling — Contraste Tático Nítido & Sem Distorção */
+        .leaflet-container { background: #070e1a !important; font-family: 'Plus Jakarta Sans', sans-serif; }
         .leaflet-popup-content-wrapper {
             background: #060e1a;
             border: 1px solid var(--mil-green);
@@ -2352,6 +2351,20 @@ HTML_INTELIGENCIA_TERRITORIAL = """
 
             <!-- Controles do mapa -->
             <div class="mil-map-controls">
+                <div style="font-size:9px;font-weight:900;color:#64748b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px;">CAMADA BASE:</div>
+                <div style="display:flex;gap:4px;margin-bottom:6px;">
+                    <button class="mil-ctrl-btn active" id="btnBaseTatico" onclick="trocarCamadaBase('tatico', this)" style="padding:5px 8px;font-size:10px;" title="Esri Dark Gray - Padrão Militar sem API">
+                        🎯 TÁTICO
+                    </button>
+                    <button class="mil-ctrl-btn" id="btnBaseSatelite" onclick="trocarCamadaBase('satelite', this)" style="padding:5px 8px;font-size:10px;" title="Satélite HD de Goiás">
+                        🛰️ SATÉLITE
+                    </button>
+                    <button class="mil-ctrl-btn" id="btnBaseRuas" onclick="trocarCamadaBase('ruas', this)" style="padding:5px 8px;font-size:10px;" title="OpenStreetMap Cartografia">
+                        🗺️ RUAS
+                    </button>
+                </div>
+
+                <div style="font-size:9px;font-weight:900;color:#64748b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px;">VISUALIZAÇÃO:</div>
                 <button class="mil-ctrl-btn active" id="btnModoCalor" onclick="toggleModoCalor(this)">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     CALOR TÉRMICO
@@ -2484,16 +2497,53 @@ const map = L.map('milMap', {
 });
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-// Tile layer escuro (CartoDB Dark)
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CartoDB',
-    subdomains: 'abcd',
+// ── CAMADAS BASE TÁTICAS (100% Gratuitas, sem watermark, sem API Key) ──
+const layerTaticoBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Esri, HERE &copy; OpenStreetMap',
+    maxZoom: 16
+});
+const layerTaticoLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
+    opacity: 0.95
+});
+const layerTatico = L.layerGroup([layerTaticoBase, layerTaticoLabels]).addTo(map);
+
+const layerSatelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Esri, Maxar, Earthstar Geographics',
+    maxZoom: 18
+});
+
+const layerRuas = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
     maxZoom: 19
-}).addTo(map);
+});
+
+let camadaBaseAtiva = 'tatico';
+
+function trocarCamadaBase(tipo, btn) {
+    document.querySelectorAll('#btnBaseTatico, #btnBaseSatelite, #btnBaseRuas').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    map.removeLayer(layerTatico);
+    map.removeLayer(layerSatelite);
+    map.removeLayer(layerRuas);
+
+    if (tipo === 'satelite') {
+        layerSatelite.addTo(map);
+        camadaBaseAtiva = 'satelite';
+    } else if (tipo === 'ruas') {
+        layerRuas.addTo(map);
+        camadaBaseAtiva = 'ruas';
+    } else {
+        layerTatico.addTo(map);
+        camadaBaseAtiva = 'tatico';
+    }
+}
 
 let heatLayer = null;
 let markerLayer = L.layerGroup().addTo(map);
 let modoAtivo = 'calor';
+
 
 function getNivelColor(nivel) {
     const cores = { 0:'#1e293b', 1:'#22c55e', 2:'#eab308', 3:'#f97316', 4:'#ef4444' };
