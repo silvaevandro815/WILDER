@@ -3275,38 +3275,39 @@ HTML_ENGAJAMENTO_LAB = """
                 </div>
             </div>
 
-            <!-- MÉTRICAS DO INSTAGRAM EM GOIÁS -->
+            <!-- PILARES ESTRATÉGICOS QUALITATIVOS (100% CONFORMIDADE META) -->
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin-bottom:20px;">
-                <div style="background:#050d1a; border:1px solid rgba(56,189,248,0.25); border-radius:12px; padding:14px;">
-                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Alcance Estimado Semana</div>
-                    <div style="font-size:18px; font-weight:900; color:#38bdf8; margin-top:2px;" id="igMetAlcance">3.8M impressões</div>
-                    <div style="font-size:10.5px; color:#00ff88; margin-top:3px;">Goiás (246 municípios)</div>
+                <div style="background:#050d1a; border:1px solid rgba(0,255,136,0.3); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Posicionamento Central</div>
+                    <div style="font-size:15px; font-weight:900; color:#00ff88; margin-top:2px;" id="igMetPosicionamento">Engenheiro &amp; Livros</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Autoridade técnica e legado</div>
                 </div>
-                <div style="background:#050d1a; border:1px solid rgba(0,255,136,0.25); border-radius:12px; padding:14px;">
-                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Sinais &amp; Comentários</div>
-                    <div style="font-size:18px; font-weight:900; color:#00ff88; margin-top:2px;" id="igMetSinais">84 captados</div>
-                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Atualizado em tempo real</div>
+                <div style="background:#050d1a; border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Pauta Mais Cobrada em GO</div>
+                    <div style="font-size:15px; font-weight:900; color:#f87171; margin-top:2px;" id="igMetPauta">Saúde &amp; Filas do SUS</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Foco em hospitais regionais</div>
                 </div>
-                <div style="background:#050d1a; border:1px solid rgba(239,68,68,0.25); border-radius:12px; padding:14px;">
-                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Pauta Mais Comentada</div>
-                    <div style="font-size:16px; font-weight:900; color:#f87171; margin-top:2px;" id="igMetPauta">Saúde &amp; Filas do SUS</div>
-                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">65% queixas no interior</div>
+                <div style="background:#050d1a; border:1px solid rgba(56,189,248,0.3); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Diretriz do Algoritmo Meta</div>
+                    <div style="font-size:15px; font-weight:900; color:#38bdf8; margin-top:2px;" id="igMetAlgoritmo">Ganchos 0–3s &amp; DM</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">Sends per reach &amp; ASR</div>
                 </div>
-                <div style="background:#050d1a; border:1px solid rgba(245,158,11,0.25); border-radius:12px; padding:14px;">
-                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Engajamento Médio</div>
-                    <div style="font-size:18px; font-weight:900; color:#f59e0b; margin-top:2px;" id="igMetEngaj">4.3% (Wilder líder)</div>
-                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">vs 1.7% Daniel Vilela</div>
+                <div style="background:#050d1a; border:1px solid rgba(245,158,11,0.3); border-radius:12px; padding:14px;">
+                    <div style="font-size:10px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.06em;">Metodologia de Dados</div>
+                    <div style="font-size:15px; font-weight:900; color:#f59e0b; margin-top:2px;" id="igMetStatus">Análise Qualitativa</div>
+                    <div style="font-size:10.5px; color:#94a3b8; margin-top:3px;">100% conformidade Meta</div>
                 </div>
             </div>
 
             <!-- GRID DOS PERFIS ESTRATÉGICOS MONITORADOS -->
             <div style="font-size:13px; font-weight:800; color:#c4b5fd; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em; display:flex; align-items:center; gap:6px;">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                Perfis Monitorados &amp; Termômetro de Comentários
+                Dossiê Estratégico de Perfis &amp; Linhas Editoriais
             </div>
             <div id="igPerfisGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin-bottom:24px;">
-                <div style="padding:15px; color:#64748b; font-size:12px;">Carregando perfis monitorados...</div>
+                <div style="padding:15px; color:#64748b; font-size:12px;">Carregando dossiês estratégicos...</div>
             </div>
+
 
             <!-- ABAS TÁTICAS DE CONSCIÊNCIA SITUACIONAL -->
             <div style="display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid rgba(56,189,248,0.25); padding-bottom:10px; margin-bottom:18px;">
@@ -3761,57 +3762,47 @@ HTML_ENGAJAMENTO_LAB = """
             const r = await fetch('/api/instagram_intel');
             const d = await r.json();
             
-            // 1. Métricas Globais
+            // 1. Indicadores Estratégicos Qualitativos
             const met = d.metricas_globais || {};
-            if (met.alcance_estimado_semana) document.getElementById('igMetAlcance').textContent = met.alcance_estimado_semana;
-            if (met.sinais_captados) document.getElementById('igMetSinais').textContent = met.sinais_captados + ' captados';
-            if (met.pauta_mais_comentada) document.getElementById('igMetPauta').textContent = met.pauta_mais_comentada;
-            if (met.engajamento_medio_goias) document.getElementById('igMetEngaj').textContent = met.engajamento_medio_goias + ' (Goiás)';
+            if (met.posicionamento_central) document.getElementById('igMetPosicionamento').textContent = met.posicionamento_central;
+            if (met.pauta_dominante) document.getElementById('igMetPauta').textContent = met.pauta_dominante;
+            if (met.foco_algoritmo_meta) document.getElementById('igMetAlgoritmo').textContent = met.foco_algoritmo_meta;
+            if (met.status_radar) document.getElementById('igMetStatus').textContent = met.status_radar;
 
-            // 2. Perfis Monitorados
+            // 2. Dossiês Estratégicos dos Perfis (sem dados numéricos fictícios)
             const perfis = d.perfis || {};
             const pGrid = document.getElementById('igPerfisGrid');
             if (pGrid) {
                 pGrid.innerHTML = Object.values(perfis).map(p => {
-                    const term = p.termometro_comentarios || {};
                     const isWilder = p.handle === '@wildermorais';
-                    const borderCol = isWilder ? '#00ff88' : (p.handle.includes('daniel') ? '#f59e0b' : '#38bdf8');
+                    const borderCol = isWilder ? '#00ff88' : (p.handle.includes('daniel') ? '#f59e0b' : (p.handle.includes('marconi') ? '#ef4444' : '#38bdf8'));
                     
                     return `
-                    <div style="background:#050d1a; border:1px solid ${borderCol}55; border-radius:14px; padding:16px; box-shadow:0 4px 15px rgba(0,0,0,0.3);">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                            <div>
-                                <div style="font-size:14px; font-weight:900; color:#f8fafc;">${p.nome} <span style="font-size:12px; color:${borderCol};">${p.handle}</span></div>
-                                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${p.papel}</div>
+                    <div style="background:#050d1a; border:1px solid ${borderCol}55; border-radius:14px; padding:16px; box-shadow:0 4px 15px rgba(0,0,0,0.3); display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; gap:8px;">
+                                <div>
+                                    <div style="font-size:14px; font-weight:900; color:#f8fafc;">${p.nome} <span style="font-size:12px; color:${borderCol};">${p.handle}</span></div>
+                                    <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${p.papel}</div>
+                                </div>
+                                <span style="background:${borderCol}22; border:1px solid ${borderCol}55; color:${borderCol}; padding:3px 8px; border-radius:6px; font-size:9.5px; font-weight:800; text-align:right; white-space:nowrap;">
+                                    ${p.tag_categoria || 'PERFIL'}
+                                </span>
                             </div>
-                            <span style="background:${borderCol}22; border:1px solid ${borderCol}55; color:${borderCol}; padding:2px 8px; border-radius:6px; font-size:10.5px; font-weight:800;">
-                                ${p.engajamento_est || 'Engaj.'}
-                            </span>
-                        </div>
-                        <div style="display:flex; gap:12px; font-size:11px; margin-bottom:10px;">
-                            <span style="color:#64748b;">Seguidores: <strong style="color:#e2e8f0;">${p.seguidores_est ? p.seguidores_est.toLocaleString('pt-BR') : '—'}</strong></span>
-                        </div>
-                        
-                        ${term.apoio ? `
-                        <div style="margin-bottom:8px;">
-                            <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:800; margin-bottom:3px;">
-                                <span style="color:#00ff88;">Apoio ${term.apoio}%</span>
-                                <span style="color:#f59e0b;">Demandas ${term.demandas || 0}%</span>
-                                <span style="color:#ef4444;">Críticas ${term.criticas || 0}%</span>
-                            </div>
-                            <div style="height:6px; background:#1e293b; border-radius:3px; overflow:hidden; display:flex;">
-                                <div style="width:${term.apoio}%; background:#00ff88;"></div>
-                                <div style="width:${term.demandas || 0}%; background:#f59e0b;"></div>
-                                <div style="width:${term.criticas || 0}%; background:#ef4444;"></div>
-                            </div>
-                        </div>` : ''}
 
-                        <div style="font-size:11px; color:#cbd5e1; line-height:1.4; background:rgba(255,255,255,0.03); border-radius:8px; padding:8px;">
-                            ${p.bio_resumo || p.licao_para_campanha || ''}
+                            <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:8px 10px; margin-bottom:10px; font-size:11.5px; color:#cbd5e1; line-height:1.4;">
+                                <strong style="color:${borderCol};">📱 Formato / Estilo:</strong> ${p.formato_dominante || '—'}
+                            </div>
+
+                            <div style="font-size:11.5px; color:#cbd5e1; line-height:1.45; background:#081120; border-left:3px solid ${borderCol}; padding:8px 10px; border-radius:0 6px 6px 0;">
+                                <strong style="color:#94a3b8;">🎯 Diretriz Tática:</strong><br>
+                                ${p.diretriz_conteudo || p.diretriz_para_wilder || p.licao_para_campanha || p.posicionamento_estrategico || p.bio_resumo || ''}
+                            </div>
                         </div>
                     </div>`;
                 }).join('');
             }
+
 
             // 3. Ideias de Apresentação Positiva do Wilder
             const ideias = d.ideias_apresentacao_wilder || [];

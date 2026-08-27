@@ -55,95 +55,73 @@ def _agora_str():
     return datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 1. PERFIS MONITORADOS & BASELINE ESTRATÉGICO
+# 1. PERFIS MONITORADOS & DOSSIÊS ESTRATÉGICOS QUALITATIVOS
+# (Em conformidade estrita com as políticas da Meta — sem métricas fictícias)
 # ─────────────────────────────────────────────────────────────────────────────
 PERFIS_MONITORADOS = {
     "wildermorais": {
         "handle": "@wildermorais",
         "nome": "Wilder Morais",
         "papel": "Candidato ao Governo / Senador da República (PL)",
-        "seguidores_est": 218500,
-        "engajamento_est": "4.3%",
+        "tag_categoria": "CANDIDATO DA MUDANÇA (PL)",
         "bio_resumo": "Senador da República por Goiás. Engenheiro Civil, Empreendedor, Cristão, Pai de Família.",
-        "formato_dominante": "Reels de Discurso no Senado + Visitas a Obras e Cidades do Interior + Encontros Agro",
+        "formato_dominante": "Reels no chão/bota explicando obras + Visitas aos 246 municípios + Encontros com o Agro + Vídeos em família",
+        "posicionamento_estrategico": "O Engenheiro que sabe fazer, sem discurso de político tradicional; o Senador que entregou mais de 1 milhão de livros nas escolas.",
         "pontos_fortes": [
-            "Autoridade como Engenheiro Civil e gestor prático que construiu grandes obras",
-            "Bandeira da Educação: distribuiu mais de 1 milhão de livros em escolas públicas",
-            "Forte apoio no agronegócio e na base conservadora de Goiás",
-            "Perfil simples, acessível e sem linguagem empolada de político tradicional"
+            "Autoridade técnica como Engenheiro Civil e histórico de grandes realizações",
+            "Legado social incontestável com a doação de 1 milhão de livros em Goiás",
+            "Forte apoio no agronegócio, na indústria e na base conservadora",
+            "Comunicação simples, direta, transparente e humanizada"
         ],
-        "oportunidades_de_apresentacao": [
-            "Humanização da Origem: Contar a história de superação (nascido em Taquaral de Goiás de família humilde)",
-            "Engenheiro que Resolve: Gravar vídeos na bota e no chão explicando tecnicamente como desatar obras travadas",
-            "Família e Valores: Mostrar momentos autênticos de fé, família e cotidiano no campo",
-            "Senador dos Livros: Depoimentos de professores e crianças que receberam os livros do projeto educacional"
-        ],
-        "termometro_comentarios": {
-            "apoio": 74,
-            "demandas": 18,
-            "criticas": 8,
-            "principais_temas": ["Bora mudar Goiás", "Melhor Senador", "Arruma a saúde de Luziânia", "Obras travadas"]
-        }
+        "diretriz_conteudo": "Focar na história de superação (Taquaral de Goiás), no pragmatismo de engenheiro para destravar o estado e na conexão com as famílias goianas."
     },
     "danielvilela15": {
         "handle": "@danielvilela15",
         "nome": "Daniel Vilela",
         "papel": "Vice-Governador / Candidato da Situação (MDB)",
-        "seguidores_est": 134200,
-        "engajamento_est": "1.7%",
+        "tag_categoria": "SITUAÇÃO / GOVERNO (MDB)",
         "bio_resumo": "Vice-Governador de Goiás. Presidente Estadual do MDB Goiás.",
-        "formato_dominante": "Reels de Agenda Oficial + Eventos com Governador Caiado + Discursos Institucionais",
+        "formato_dominante": "Reels institucionais de palanque + Inaugurações oficiais com governador + Discursos formais",
+        "posicionamento_estrategico": "Candidato da continuidade; tenta se associar 100% às entregas de segurança do governo estadual.",
         "vulnerabilidades_mapeadas": [
-            "Comunicação excessivamente institucional e engessada (vídeos de palanque)",
-            "Comentários frequentemente cobram filas do SUS/Ipasgo e estradas esburacadas",
-            "Dependência total da imagem do Caiado — pouca identidade própria como realizador"
+            "Comunicação excessivamente formal e engessada de gabinete",
+            "Grande desgaste nas redes pelas filas de cirurgias e exames do SUS e Ipasgo",
+            "Falta de marca própria de realizador — visto como herdeiro político tradicional"
         ],
-        "termometro_comentarios": {
-            "apoio": 38,
-            "demandas": 36,
-            "criticas": 26,
-            "principais_temas": ["E o Ipasgo?", "Fila de cirurgia demorando", "Asfalto no Entorno", "Parabéns governador"]
-        }
+        "diretriz_para_wilder": "Não confrontar a segurança pública (que tem boa aprovação), mas demonstrar que a saúde, os hospitais regionais e a infraestrutura exigem um Engenheiro gestor e não um político de gabinete."
     },
     "marconiperillo": {
         "handle": "@marconiperillo",
         "nome": "Marconi Perillo",
         "papel": "Ex-Governador / Presidente Nacional do PSDB",
-        "seguidores_est": 186000,
-        "engajamento_est": "1.3%",
+        "tag_categoria": "EX-GOVERNADOR (PSDB)",
         "bio_resumo": "Presidente Nacional do PSDB. Ex-Governador de Goiás por 4 mandatos.",
-        "formato_dominante": "Reels Nostálgicos de Obras Passadas + Entrevistas em Podcasts + Críticas à Situação",
+        "formato_dominante": "Reels de recordação ('no meu tempo fizemos...') + Podcasts e entrevistas no interior",
+        "posicionamento_estrategico": "Tenta capitalizar a memória afetiva de programas sociais de gestões passadas.",
         "vulnerabilidades_mapeadas": [
-            "Discurso preso ao passado ('no meu tempo fizemos...')",
-            "Alta rejeição acumulada em centros urbanos como Goiânia e Anápolis",
-            "Divisão de votos da oposição que pode enfraquecer a mudança real"
+            "Fadiga de imagem e alta rejeição histórica nos maiores colégios eleitorais",
+            "Discurso excessivamente voltado para o retrovisor, sem visão de futuro",
+            "Risco de dividir a oposição sem capacidade real de vitória"
         ],
-        "termometro_comentarios": {
-            "apoio": 44,
-            "demandas": 16,
-            "criticas": 40,
-            "principais_temas": ["Saudade do seu tempo", "Já teve 16 anos", "Queremos renovação", "Programas sociais"]
-        }
+        "diretriz_para_wilder": "Apresentar Wilder como o único candidato capaz de unir as forças de oposição e liderar um Goiás moderno, sem voltar ao passado e sem manter as filas do presente."
     },
     "virginia": {
         "handle": "@virginia",
         "nome": "Virginia Fonseca",
-        "papel": "Influenciadora Nacional / Referência de Viralização em Goiânia",
-        "seguidores_est": 48500000,
-        "engajamento_est": "5.8%",
+        "papel": "Referência de Retenção & Viralização em Goiânia",
+        "tag_categoria": "BENCHMARK DE RETENÇÃO & ROTINA",
         "bio_resumo": "Apresentadora e Criadora de Conteúdo em Goiânia/Brasil.",
-        "formato_dominante": "Stories em tempo real + Reels de 7 a 15s com micro-ganchos + Enquetes e DMs massivas",
-        "licao_para_campanha": "Humanização total: o público se conecta com a imperfeição, com a rotina e com o humor. O candidato deve falar como se estivesse conversando no almoço de domingo."
+        "formato_dominante": "Stories cotidianos sem filtro + Vídeos curtos com ganchos nos primeiros 2 segundos + Linguagem espontânea",
+        "licao_para_campanha": "Humanização autêntica: vídeos que mostram a rotina de verdade (café da manhã, estrada, bastidores de gravação) conectam 10x mais que vídeos produzidos em estúdio com teleprompter."
     },
     "nikolasferreiradm": {
         "handle": "@nikolasferreiradm",
         "nome": "Nikolas Ferreira",
-        "papel": "Deputado Federal / Fenômeno de Engajamento Jovem Conservador",
-        "seguidores_est": 11200000,
-        "engajamento_est": "6.5%",
+        "papel": "Fenômeno de Engajamento Jovem & Redes Conservadoras",
+        "tag_categoria": "BENCHMARK DE RESPOSTA RÁPIDA",
         "bio_resumo": "Deputado Federal mais votado do Brasil.",
-        "formato_dominante": "Cortes cirúrgicos de 30-45s com legenda dinâmica + Respostas irônicas e dados inquestionáveis",
-        "licao_para_campanha": "Velocidade de resposta: quando o adversário ataca ou fala uma contradição, a resposta deve sair em menos de 2 horas em formato de corte vertical."
+        "formato_dominante": "Cortes verticais rápidos de 30-45s + Legendas dinâmicas com palavras-chave ASR + Respostas imediatas a temas do dia",
+        "licao_para_campanha": "Agilidade no timing: quando surgir uma notícia ou distorção dos adversários, a equipe de Wilder deve lançar o corte de posicionamento em menos de 2 horas."
     }
 }
 
@@ -158,15 +136,15 @@ INSTAGRAM_CACHE = {
     "ideias_apresentacao_wilder": [],
     "comentarios_em_alta": [],
     "metricas_globais": {
-        "alcance_estimado_semana": "3.8M impressões em Goiás",
-        "sinais_captados": 84,
-        "pauta_mais_comentada": "Saúde & Filas de Espera nos Hospitais",
-        "engajamento_medio_goias": "3.1%",
-        "status_radar": "OPERACIONAL AO VIVO"
+        "posicionamento_central": "Engenheiro Civil & Senador dos Livros",
+        "pauta_dominante": "Saúde & Filas do SUS no Interior",
+        "foco_algoritmo_meta": "Ganchos 0-3s, ASR e Compartilhamento DM",
+        "status_radar": "100% CONFORMIDADE META & ANÁLISE QUALITATIVA"
     },
     "atualizado_em": None,
     "ciclos": 0
 }
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. EXTRAÇÃO MULTI-VETOR DE SINAIS SOCIAIS DO INSTAGRAM & NOTÍCIAS
@@ -333,11 +311,13 @@ def atualizar_intel_instagram():
         INSTAGRAM_CACHE["radar_oportunidades"] = oport
         INSTAGRAM_CACHE["radar_ameacas"] = ameacas
         INSTAGRAM_CACHE["comentarios_em_alta"] = comentarios
-        INSTAGRAM_CACHE["metricas_globais"]["sinais_captados"] = len(sinais_coletados) + len(comentarios) + 45
+        INSTAGRAM_CACHE["metricas_globais"]["total_sinais_imprensa"] = len(sinais_coletados)
+        INSTAGRAM_CACHE["metricas_globais"]["total_ideias_ativas"] = len(ideias_pos)
         INSTAGRAM_CACHE["atualizado_em"] = _agora_str()
         INSTAGRAM_CACHE["ciclos"] += 1
 
-    print(f"[INSTAGRAM INTEL] ✅ Radar Instagram OSINT atualizado: {len(sinais_coletados)} sinais captados e {len(ideias_pos)} ideias de apresentação geradas.")
+    print(f"[INSTAGRAM INTEL] ✅ Radar Instagram OSINT atualizado: {len(sinais_coletados)} menções da imprensa captadas e {len(ideias_pos)} ideias de apresentação geradas.")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. GERADOR DE ROTEIRO POSITIVO COM IA (OU ANALÍTICO)
