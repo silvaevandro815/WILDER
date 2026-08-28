@@ -3,14 +3,21 @@ version: '3.8'
 services:
   wilder-app:
     build: .
-    restart: always
+    restart: unless-stopped
     ports:
       - "5000:5000"
     expose:
       - "5000"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://127.0.0.1:5000/ || exit 1"]
-      interval: 15s
+      interval: 20s
       timeout: 10s
       retries: 3
-      start_period: 25s
+      start_period: 30s
+
